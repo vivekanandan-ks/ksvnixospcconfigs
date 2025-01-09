@@ -105,14 +105,22 @@
     description = "ksvnixpc";
     extraGroups = [ "networkmanager" "wheel" ];
     shell = pkgs.fish; 
-    packages = with pkgs; [
+    packages = (with pkgs; [
+      #stable
+      
+    ]) 
+    
+    ++
+    
+    (with pkgs-unstable;[
+      #unstable
       kdePackages.kate
       obs-studio
       waveterm
       warp-terminal
       tor-browser
-
-    ];
+      
+    ]);
   };
 
   # Enable automatic login for the user.
@@ -131,7 +139,6 @@
       vim
       nano
       wget
-
 
     ]) 
     
@@ -154,8 +161,7 @@
       kitty
       android-tools
 
-
-    ]) 
+    ]); 
       
   # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   # Some programs need SUID wrappers, can be configured further or are
