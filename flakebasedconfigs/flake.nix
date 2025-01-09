@@ -19,7 +19,6 @@
           };
           modules = [
             ./configuration.nix
-            { nixpkgs-unstable.allowUnfree = true; }
           ];
 
         };

@@ -139,6 +139,7 @@
       vim
       nano
       wget
+      google-chrome
 
     ]) 
     
@@ -152,7 +153,6 @@
       bat
       vlc
       telegram-desktop
-      google-chrome
       devbox
       collector
       localsend
