@@ -139,7 +139,6 @@
       vim
       nano
       wget
-      google-chrome
 
     ]) 
     
@@ -157,9 +156,10 @@
       collector
       localsend
       spacedrive
-      vscode
       kitty
       android-tools
+      google-chrome
+      vscode
 
     ]); 
       
