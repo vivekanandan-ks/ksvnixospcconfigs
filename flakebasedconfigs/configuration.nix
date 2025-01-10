@@ -114,6 +114,7 @@
     shell = pkgs.fish; 
     packages = (with pkgs; [
       #stable
+      kdePackages.kate
       
     ]) 
     
@@ -121,11 +122,11 @@
     
     (with pkgs-unstable;[
       #unstable
-      kdePackages.kate
       obs-studio
       waveterm
       warp-terminal
       tor-browser
+      ghostty
       
     ]);
   };
