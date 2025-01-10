@@ -8,8 +8,11 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-    ];
+  ];
 
+  #download buffer size; default size is 16mb (16*1024*1024)
+  nix.settings.download-buffer-size = 67108864;
+  
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
