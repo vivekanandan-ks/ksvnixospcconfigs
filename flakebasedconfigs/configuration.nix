@@ -34,10 +34,6 @@
 
   #enable unfree services
   nixpkgs.config.allowUnfree = true;
-  /*pkgs-unstable = import nixpkgs-unstable {
-    inherit system;
-    config.allowUnfree = true;
-  };*/
 
   #enable fish shell
   programs.fish.enable = true;
@@ -126,7 +122,6 @@
       waveterm
       warp-terminal
       tor-browser
-      ghostty
       
     ]);
   };
