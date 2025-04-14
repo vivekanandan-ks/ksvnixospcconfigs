@@ -10,10 +10,25 @@
       ./hardware-configuration.nix
   ];
 
+  #if u are changing the config from root to rootless mode,
+  #follow this: https://discourse.nixos.org/t/docker-rootless-containers-are-running-but-not-showing-in-docker-ps/47717 
+  #Enabling docker in rootless mode. 
+  #Don't forget to include the below commented commands to start the docker daemon service, 
+  #coz just enabling doesn't start the daemon
+  virtualisation.docker.rootless = {
+    enable = true;
+    setSocketVariable = true;
+  };
+    #systemctl --user enable --now docker
+    #systemctl --user start docker
+    #systemctl --user status docker # to check the status
+
+
   #download buffer size; default size is 16mb (16*1024*1024)
   nix.settings.download-buffer-size = 67108864;
   
   # Bootloader.
+  # systemd-boot
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
@@ -111,6 +126,7 @@
     packages = (with pkgs; [
       #stable
       kdePackages.kate
+      python3
       
     ]) 
     
@@ -127,8 +143,8 @@
   };
 
   # Enable automatic login for the user.
-  services.xserver.displayManager.autoLogin.enable = true;
-  services.xserver.displayManager.autoLogin.user = "ksvnixpc";
+  services.displayManager.autoLogin.enable = true;
+  services.displayManager.autoLogin.user = "ksvnixpc";
 
   # Install firefox.
   programs.firefox.enable = true;
@@ -163,6 +179,11 @@
       android-tools
       google-chrome
       vscode
+      tldr
+      lsd
+      rip2
+      nh
+      brave
 
     ]); 
       
