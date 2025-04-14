@@ -58,7 +58,7 @@
       ksvnixconfigbackup = ''mkdir "$(date +'%Y-%m-%d_%H-%M')_backup" && \
                             cp configuration.nix flake.lock flake.nix hardware-configuration.nix \
                             "$(date +'%Y-%m-%d_%H-%M')_backup/"'' ;
-      ksvsavetogithub = ''eval (ssh-agent -c) && git add .  && \
+      ksvsavetogithub = ''eval (ssh-agent -c) && ssh-add ~/.ssh/ghnixospcconfig && git add .  && \
                           git commit && git-town ship main'' ;
       ksvnixosproperfullupgrade-boot = ''ksvcdtoflake && ksvnixconfigbackup && \
                                         ksvsavetogithub && nh os boot -ua .'' ;
