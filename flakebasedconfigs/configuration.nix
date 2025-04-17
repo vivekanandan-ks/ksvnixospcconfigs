@@ -131,11 +131,13 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
+  users.users.root.hashedPassword = "$6$/Yo/IR.A6rGbFVr6$a6c7yhjPYGuJOBBkcPXl/SjZ531tEUHtkY3tX3np2dcX6JpZg.Myrwdnz.fhqci0Sg83vU8lDYmdpSAQqD.OF0"
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.ksvnixpc = {
+  users.users.ksvnixospc = {
     isNormalUser = true;
-    description = "ksvnixpc";
+    description = "ksvnixospc";
     extraGroups = [ "networkmanager" "wheel" ];
+    hashedPassword = "$6$DmrUUL7YWFMar6aA$sAoRlSbFH/GYETfXGTGa6GSTEsBEP1lQ6oRdXlQUsqhRB7OTI2vTmVlx64B2ihcez8B0q0l8/Vx1pO8c82bxm0"
     shell = pkgs.fish; 
     packages = (with pkgs; [
       #stable
