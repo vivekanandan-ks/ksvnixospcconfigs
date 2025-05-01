@@ -10,23 +10,36 @@
       ./hardware-configuration.nix
   ];
 
+  #Docker
   #if u are changing the config from root to rootless mode,
-  #follow this: https://discourse.nixos.org/t/docker-rootless-containers-are-running-but-not-showing-in-docker-ps/47717 
-  #Enabling docker in rootless mode. 
-  #Don't forget to include the below commented commands to start the docker daemon service, 
+  #follow this: https://discourse.nixos.org/t/docker-rootless-containers-are-running-but-not-showing-in-docker-ps/47717
+  #Enabling docker in rootless mode.
+  #Don't forget to include the below commented commands to start the docker daemon service,
   #coz just enabling doesn't start the daemon
-  virtualisation.docker.rootless = {
-    enable = true;
-    setSocketVariable = true;
-  };
+  #virtualisation.docker.rootless = {
+  #  enable = true;
+  #  setSocketVariable = true;
+  #};
     #systemctl --user enable --now docker
     #systemctl --user start docker
     #systemctl --user status docker # to check the status
 
+  #podman
+  # Enable common container config files in /etc/containers
+  virtualisation.containers.enable = true;
+  virtualisation = {
+    podman = {
+      enable = true;
+      # Create a `docker` alias for podman, to use it as a drop-in replacement
+      #dockerCompat = true;
+      # Required for containers under podman-compose to be able to talk to each other.
+      defaultNetwork.settings.dns_enabled = true;
+    };
+  };
 
   #download buffer size; default size is 16mb (16*1024*1024)
   nix.settings.download-buffer-size = 67108864;
-  
+
   # Bootloader.
   # systemd-boot
   boot.loader.systemd-boot.enable = true;
@@ -39,7 +52,7 @@
   hardware.bluetooth.enable = true;
 
   # enable Hyprland
-  programs.hyprland.enable = true;
+  #programs.hyprland.enable = true;
 
   #Enable flakes
   nix.settings.experimental-features = ["nix-command" "flakes"];
@@ -131,43 +144,45 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
-  users.users.root.hashedPassword = "$6$/Yo/IR.A6rGbFVr6$a6c7yhjPYGuJOBBkcPXl/SjZ531tEUHtkY3tX3np2dcX6JpZg.Myrwdnz.fhqci0Sg83vU8lDYmdpSAQqD.OF0"
-  # Define a user account. Don't forget to set a password with ‘passwd’.
+  users.mutableUsers = false; #this will make all user management only via nixos and
+  #imperative user creations or anything in kde or commands won't persist the nixos-rebuild command.
+
+
+  #root password
+  users.users.root.hashedPassword = "$6$/Yo/IR.A6rGbFVr6$a6c7yhjPYGuJOBBkcPXl/SjZ531tEUHtkY3tX3np2dcX6JpZg.Myrwdnz.fhqci0Sg83vU8lDYmdpSAQqD.OF0" ;
+  # Define a user account
   users.users.ksvnixospc = {
     isNormalUser = true;
     description = "ksvnixospc";
-    extraGroups = [ "networkmanager" "wheel" ];
-    hashedPassword = "$6$DmrUUL7YWFMar6aA$sAoRlSbFH/GYETfXGTGa6GSTEsBEP1lQ6oRdXlQUsqhRB7OTI2vTmVlx64B2ihcez8B0q0l8/Vx1pO8c82bxm0"
-    shell = pkgs.fish; 
+    extraGroups = [ "networkmanager" "wheel" "podman" ];
+    hashedPassword = "$6$DmrUUL7YWFMar6aA$sAoRlSbFH/GYETfXGTGa6GSTEsBEP1lQ6oRdXlQUsqhRB7OTI2vTmVlx64B2ihcez8B0q0l8/Vx1pO8c82bxm0" ;
+    shell = pkgs.fish;
     packages = (with pkgs; [
       #stable
       kdePackages.kate
       python3
-      
-    ]) 
-    
+
+    ])
+
     ++
-    
+
     (with pkgs-unstable;[
       #unstable
-      obs-studio
-      waveterm
-      warp-terminal
-      tor-browser
-      
+
+
     ]);
   };
 
   # Enable automatic login for the user.
   services.displayManager.autoLogin.enable = true;
-  services.displayManager.autoLogin.user = "ksvnixpc";
+  services.displayManager.autoLogin.user = "ksvnixospc";
 
   # Install firefox.
   programs.firefox.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = 
+  environment.systemPackages =
     (with pkgs; [
       #stable
       git
@@ -175,13 +190,14 @@
       nano
       wget
 
-    ]) 
-    
+    ])
+
     ++
-    
+
     (with pkgs-unstable;[
       #unstable
       git-town
+      gh
       btop
       fish
       fastfetch
@@ -201,9 +217,17 @@
       rip2
       nh
       brave
+      obs-studio
+      waveterm
+      warp-terminal
+      tor-browser
+      soundwireserver
+      signal-desktop
+      podman-desktop
+      code-cursor
 
-    ]); 
-      
+    ]);
+
   # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
