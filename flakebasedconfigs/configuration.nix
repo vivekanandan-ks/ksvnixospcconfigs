@@ -67,6 +67,7 @@
   programs.fish ={
     enable = true;
     shellAliases = {
+      rm = "echo Use 'rip' instead of rm." ;
       ksvcdtoflake = "cd ~/Documents/ksvnixospcconfigs/flakebasedconfigs/" ;
       ksvnixconfigbackup = ''mkdir "$(date +'%Y-%m-%d_%H-%M')_backup" && \
                             cp configuration.nix flake.lock flake.nix hardware-configuration.nix \
@@ -185,9 +186,7 @@
   environment.systemPackages =
     (with pkgs; [
       #stable
-      git
       vim
-      nano
       wget
 
     ])
@@ -196,6 +195,8 @@
 
     (with pkgs-unstable;[
       #unstable
+      nano
+      git
       git-town
       gh
       btop
@@ -208,8 +209,6 @@
       collector
       localsend
       spacedrive
-      kitty
-      android-tools
       google-chrome
       vscode
       tldr
