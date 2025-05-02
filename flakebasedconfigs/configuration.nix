@@ -68,6 +68,7 @@
     enable = true;
     shellAliases = {
       rm = "echo Use 'rip' instead of rm." ;
+      rip = "rip --graveyard ~/.local/share/Trash" ;
       ksvcdtoflake = "cd ~/Documents/ksvnixospcconfigs/flakebasedconfigs/" ;
       ksvnixconfigbackup = ''mkdir "$(date +'%Y-%m-%d_%H-%M')_backup" && \
                             cp configuration.nix flake.lock flake.nix hardware-configuration.nix \
