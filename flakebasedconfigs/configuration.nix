@@ -24,16 +24,36 @@
     #systemctl --user start docker
     #systemctl --user status docker # to check the status
 
-  #podman
+  # Podman
   # Enable common container config files in /etc/containers
   virtualisation.containers.enable = true;
   virtualisation = {
     podman = {
       enable = true;
-      # Create a `docker` alias for podman, to use it as a drop-in replacement
-      #dockerCompat = true;
-      # Required for containers under podman-compose to be able to talk to each other.
-      defaultNetwork.settings.dns_enabled = true;
+      dockerCompat = true;  # Enables the Docker compatibility socket #also creates wrapper alias for docker commands
+      dockerSocket.enable = true;  # Creates a Docker-compatible socket
+      
+      # Auto-pruning
+      #autoPrune = {
+      #  enable = true;
+      #  dates = "weekly";  # When to run: "daily", "weekly", etc.
+      #  flags = [ "--all" "--volumes" ];  # Additional flags
+      #};
+    
+      # Container settings
+      #settings = {
+      #  engine = {
+      #    cgroup_manager = "systemd";  # Use systemd for cgroup management
+      #    events_logger = "journald";  # Log to journald
+      #    runtime = "crun";  # Default runtime
+      #    volume_path = "$HOME/.local/share/containers/storage/volumes";  # Custom volume path
+      #  };
+
+      # Default network settings
+      defaultNetwork.settings = {
+      dns_enabled = true;  # Enable DNS server for containers
+      #network_interface = "podman0";  # Default network interface name
+    };
     };
   };
 
@@ -60,6 +80,10 @@
   #enable flatpak
   services.flatpak.enable = true;
 
+  # enable appimage support
+  programs.appimage.enable = true;
+  programs.appimage.binfmt = true;
+
   #enable unfree services
   nixpkgs.config.allowUnfree = true;
 
@@ -67,6 +91,7 @@
   programs.fish ={
     enable = true;
     shellAliases = {
+      #k0s = "nix run github:vivekanandan-ks/ksv-k0s --" ;
       rm = "echo Use 'rip' instead of rm." ;
       rip = "rip --graveyard ~/.local/share/Trash" ;
       ksvcdtoflake = "cd ~/Documents/ksvnixospcconfigs/flakebasedconfigs/" ;
@@ -225,6 +250,8 @@
       signal-desktop
       podman-desktop
       code-cursor
+      act
+      discord
 
     ]);
 
