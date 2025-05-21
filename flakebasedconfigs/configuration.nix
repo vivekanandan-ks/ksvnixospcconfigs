@@ -230,11 +230,11 @@
       fastfetch
       bat
       vlc
+      mpv
+      haruna
       telegram-desktop
-      devbox
       collector
       localsend
-      spacedrive
       google-chrome
       vscode
       tldr
@@ -242,7 +242,6 @@
       rip2
       nh
       brave
-      obs-studio
       waveterm
       warp-terminal
       tor-browser
@@ -250,7 +249,6 @@
       signal-desktop
       podman-desktop
       code-cursor
-      act
       discord
 
     ]);
