@@ -116,6 +116,7 @@
   #enable fish shell
   programs.fish ={
     enable = true;
+    package = pkgs-unstable.fish ;
     shellAliases = {
       rm = "echo Use 'rip' instead of rm." ;
       rip = "rip --graveyard ~/.local/share/Trash" ;
@@ -264,7 +265,6 @@
       git-town
       gh
       btop
-      fish
       fastfetch
       bat
       vlc
@@ -285,7 +285,6 @@
       soundwireserver
       signal-desktop
       podman-desktop
-      code-cursor
       discord
       onlyoffice-desktopeditors
       freetube
