@@ -290,6 +290,7 @@
       freetube
       virtualbox
       cheese
+      zoom-us
 
     ]);
 
