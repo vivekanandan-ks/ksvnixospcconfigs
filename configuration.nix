@@ -301,7 +301,7 @@
       warp-terminal
       tor-browser
       soundwireserver
-      signal-desktop
+      signal-desktop-bin
       podman-desktop
       discord
       onlyoffice-desktopeditors
