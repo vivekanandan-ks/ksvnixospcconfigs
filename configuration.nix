@@ -8,10 +8,9 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      inputs.xremap-flake.nixosModules.default
   ];
 
-  #xremap
+  /*#xremap
   #nixos specific xremap options
   hardware.uinput.enable = true;
   users.groups = {
@@ -25,7 +24,7 @@
     yamlConfig = ''
 
     '' ;
-  };
+  };*/
 
 
 
