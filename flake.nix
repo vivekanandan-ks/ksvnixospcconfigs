@@ -4,6 +4,10 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-25.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    xremap-flake ={ 
+      url = "github:xremap/nix-flake";
+      inputs.nixpkgs.follows = "nixpkgs" ; 
+    };
   };
 
   outputs = { self, nixpkgs, nixpkgs-unstable, ... } @ inputs : 
@@ -20,6 +24,7 @@
       nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit pkgs-unstable;
+            inherit inputs;
           };
           modules = [
             ./configuration.nix

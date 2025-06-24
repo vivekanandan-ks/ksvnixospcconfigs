@@ -2,13 +2,32 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, pkgs-unstable, lib, forceblur, ... }:
+{ config, pkgs, pkgs-unstable, lib, forceblur, inputs, ... }:
 
 {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      inputs.xremap-flake.nixosModules.default
   ];
+
+  #xremap
+  #nixos specific xremap options
+  hardware.uinput.enable = true;
+  users.groups = {
+    uinput.members = ["ksvnixospc"];
+    input.members = ["ksvnixospc"];
+  };
+  #xremap-config
+  services.xremap = {
+    userName = "ksvnixospc" ;
+    withKDE = true;
+    yamlConfig = ''
+
+    '' ;
+  };
+
+
 
   #Docker
   #if u are changing the config from root to rootless mode,
@@ -72,11 +91,11 @@
       enable = true;
       style.wallpapers = lib.filesystem.listFilesRecursive ./limine-images; #list of wallpaper paths
       #style.wallpaperStyle = "centered";
-      extraEntries = ''
+      /*extraEntries = ''
         /Windows
           protocol: efi
           path: uuid(1c135138-506a-45ed-8352-6455f45e9fea):/EFI/Microsoft/Boot/bootmgfw.efi
-      '';
+      '';*/
       extraConfig = ''
         remember_last_entry: yes
       '';
