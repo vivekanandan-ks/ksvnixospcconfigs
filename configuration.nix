@@ -283,7 +283,7 @@
       warp-terminal
       tor-browser
       soundwireserver
-      signal-desktop
+      #signal-desktop
       podman-desktop
       discord
       onlyoffice-desktopeditors
