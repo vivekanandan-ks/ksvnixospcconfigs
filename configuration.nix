@@ -233,8 +233,6 @@
     shell = pkgs.fish;
     packages = (with pkgs; [
       #stable
-      kdePackages.kate
-      python3
 
     ])
 
@@ -242,7 +240,7 @@
 
     (with pkgs-unstable;[
       #unstable
-
+      kdePackages.kate
 
     ]);
   };
@@ -279,7 +277,6 @@
       wget
       nano
       micro
-      #git
       git-town
       gh
       btop
