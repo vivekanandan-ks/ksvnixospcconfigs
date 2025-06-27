@@ -13,14 +13,14 @@
     pkgs = import nixpkgs {
       inherit system;
       config.allowUnfree = true;
-     overlays = [
+      /*overlays = [
         (final: prev: {
           pkgs-unstable = import nixpkgs-unstable {
             inherit system ;
             config.allowUnfree = true;
           };
         })
-      ];
+      ];*/
     };
 
     #pkgs-unstable = nixpkgs-unstable.legacyPackages."${system}";
@@ -32,8 +32,8 @@
   in {
       nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
           specialArgs = {
-            inherit pkgs-unstable;
-            inherit pkgs;
+            inherit pkgs pkgs-unstable;
+            #inherit pkgs;
           };
           modules = [
             ./configuration.nix

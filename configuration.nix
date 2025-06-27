@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, pkgs-unstable, lib, forceblur, inputs, ... }:
+{ config, pkgs, pkgs-unstable, lib, inputs, ... }:
 
 {
   imports =
@@ -129,7 +129,7 @@
   programs.appimage.binfmt = true;
 
   #enable unfree services
-  nixpkgs.config.allowUnfree = true;
+  #nixpkgs.config.allowUnfree = true; #already mentioned in the flake so no need here
 
   #enable fish shell
   programs.fish ={
@@ -230,7 +230,7 @@
     description = "ksvnixospc";
     extraGroups = [ "networkmanager" "wheel" "podman" ];
     hashedPassword = "$6$DmrUUL7YWFMar6aA$sAoRlSbFH/GYETfXGTGa6GSTEsBEP1lQ6oRdXlQUsqhRB7OTI2vTmVlx64B2ihcez8B0q0l8/Vx1pO8c82bxm0" ;
-    shell = pkgs.fish;
+    shell = pkgs-unstable.fish;
     packages = (with pkgs; [
       #stable
 
@@ -265,7 +265,6 @@
   environment.systemPackages =
     (with pkgs; [
       #stable
-      vim
       kdePackages.partitionmanager
 
     ])
@@ -274,6 +273,7 @@
 
     (with pkgs-unstable;[
       #unstable
+      vim
       wget
       nano
       micro
