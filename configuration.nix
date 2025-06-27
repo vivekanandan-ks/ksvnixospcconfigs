@@ -306,6 +306,7 @@
       virtualbox
       cheese
       zoom-us
+      nushell
 
     ]);
 
