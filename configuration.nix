@@ -296,17 +296,18 @@
       brave
       waveterm
       warp-terminal
-      tor-browser
+      #tor-browser
       soundwireserver
       signal-desktop
-      podman-desktop
+      #podman-desktop
       discord
       onlyoffice-desktopeditors
       freetube
-      virtualbox
+      #virtualbox
       cheese
-      zoom-us
+      #zoom-us
       nushell
+      jujutsu gg-jj
 
     ]);
 
