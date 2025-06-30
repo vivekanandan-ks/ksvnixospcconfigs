@@ -266,6 +266,7 @@
     (with pkgs; [
       #stable
       kdePackages.partitionmanager
+      warp-terminal
 
     ])
 
@@ -295,7 +296,6 @@
       nh
       brave
       waveterm
-      warp-terminal
       #tor-browser
       soundwireserver
       signal-desktop
