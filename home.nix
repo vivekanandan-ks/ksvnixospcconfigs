@@ -1,0 +1,199 @@
+{ config, pkgs, pkgs-unstable, ... }:
+
+{
+  # Home Manager needs a bit of information about you and the paths it should
+  # manage.
+  home.username = "ksvnixospc";
+  home.homeDirectory = "/home/ksvnixospc";
+
+  # The home.packages option allows you to install Nix packages into your
+  # environment.
+  home.packages = (with pkgs; [
+      #stable
+      kdePackages.partitionmanager
+      warp-terminal
+
+    ])
+
+    ++
+
+    (with pkgs-unstable;[
+      #unstable
+      vim
+      wget
+      nano
+      micro
+      git-town
+      gh
+      btop
+      fastfetch
+      bat
+      vlc
+      haruna
+      collector
+      localsend
+      tldr
+      lsd
+      rip2
+      nh
+      brave
+      waveterm
+      #tor-browser
+      #soundwireserver
+      signal-desktop
+      #podman-desktop
+      discord
+      onlyoffice-desktopeditors
+      freetube
+      #virtualbox
+      cheese
+      #zoom-us
+      telegram-desktop
+      #nushell
+      jujutsu gg-jj
+      google-chrome
+      vscode
+      kdePackages.kate
+      
+
+    ]);
+
+  programs = {
+
+    #bash
+    bash = {
+      enable = true ;
+    };
+
+    #fish
+    fish = {
+      enable = true ;
+      package = pkgs-unstable.fish ;
+      shellAliases = {
+        rm = "echo Use 'rip' instead of rm." ;
+        rip = "rip --graveyard ~/.local/share/Trash" ;
+      };
+    };
+
+    /*#git
+    git = {
+      enable = true ;
+      package = pkgs-unstable.git;
+      extraConfig = {
+        user.name = "vivekanandan-ks";
+        user.email = "ksvdevksv@gmail.com";
+        init.defaultBranch = "main";
+        core.editor = "micro";
+      };
+    };*/
+
+    /*#firefox
+    firefox = {
+      enable = true ;
+      package = pkgs-unstable.firefox;
+      policies ={
+        DisableTelemetry = true;
+        #Homepage.StartPage = "https://google.com";
+      };
+    };*/
+    
+    /*#github
+    gh = {
+      enable = true ;
+      package = pkgs-unstable.gh;
+      gitCredentialHelper = {
+        enable = true ;
+        #hosts = [];  
+      };
+    };*/
+
+    #nushell
+    nushell = {
+      enable = true ;
+      package = pkgs-unstable.nushell;
+      plugins = with pkgs-unstable; [
+        nushellPlugins.highlight
+        nushellPlugins.gstat
+      ];
+      settings = {
+        #show_banner = false;
+        line_editor.completion.quick_menu = true;
+        highlight_resolved_externals = true;
+        completions.external = {
+          enable = true;
+          max_results = 200;
+        };
+        history = {
+          format = "sqlite";
+          max_size = 10000;
+        };
+      };
+      /*color_config = {
+        line_editor = {
+          default = "light_gray";
+          completion_menu = {
+            selected_text = "ansi_cyan_bold";
+            text = "ansi_green";
+            description_text = "ansi_yellow";
+          };
+        };
+        syntax_highlighting = {
+          command = "ansi_blue";
+          string = "ansi_green";
+          variable = "ansi_yellow";
+        };
+      };*/
+    };
+    
+
+
+
+  };
+
+  # Home Manager is pretty good at managing dotfiles. The primary way to manage
+  # plain files is through 'home.file'.
+  home.file = {
+    # # Building this configuration will create a copy of 'dotfiles/screenrc' in
+    # # the Nix store. Activating the configuration will then make '~/.screenrc' a
+    # # symlink to the Nix store copy.
+    # ".screenrc".source = dotfiles/screenrc;
+
+    # # You can also set the file content immediately.
+    # ".gradle/gradle.properties".text = ''
+    #   org.gradle.console=verbose
+    #   org.gradle.daemon.idletimeout=3600000
+    # '';
+  };
+
+  # Home Manager can also manage your environment variables through
+  # 'home.sessionVariables'. These will be explicitly sourced when using a
+  # shell provided by Home Manager. If you don't want to manage your shell
+  # through Home Manager then you have to manually source 'hm-session-vars.sh'
+  # located at either
+  #
+  #  ~/.nix-profile/etc/profile.d/hm-session-vars.sh
+  #
+  # or
+  #
+  #  ~/.local/state/nix/profiles/profile/etc/profile.d/hm-session-vars.sh
+  #
+  # or
+  #
+  #  /etc/profiles/per-user/ksvnixospc/etc/profile.d/hm-session-vars.sh
+  #
+  home.sessionVariables = {
+    # EDITOR = "micro";
+  };
+
+  # This value determines the Home Manager release that your configuration is
+  # compatible with. This helps avoid breakage when a new Home Manager release
+  # introduces backwards incompatible changes.
+  #
+  # You should not change this value, even if you update Home Manager. If you do
+  # want to update the value, then make sure to first check the Home Manager
+  # release notes.
+  home.stateVersion = "24.11"; # Please read the comment before changing.
+
+  # Let Home Manager install and manage itself.
+  programs.home-manager.enable = true;
+}

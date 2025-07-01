@@ -2,31 +2,26 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, pkgs-unstable, lib, inputs, ... }:
+{ inputs, config, pkgs, pkgs-unstable, lib, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+  imports = [ 
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    inputs.home-manager.nixosModules.home-manager
   ];
 
-  /*#xremap
-  #nixos specific xremap options
-  hardware.uinput.enable = true;
-  users.groups = {
-    uinput.members = ["ksvnixospc"];
-    input.members = ["ksvnixospc"];
+  home-manager = {
+    extraSpecialArgs = { inherit inputs pkgs pkgs-unstable ; };
+    users = {
+      ksvnixospc = import ./home.nix;
+    };
   };
-  #xremap-config
-  services.xremap = {
-    userName = "ksvnixospc" ;
-    withKDE = true;
-    yamlConfig = ''
 
-    '' ;
-  };*/
-
-
+  #SWAP
+  swapDevices = lib.mkForce [ ];
+  # If you also want to disable zram (compressed swap in RAM):
+  #zramSwap.enable = false;
 
   #Docker
   #if u are changing the config from root to rootless mode,
@@ -131,7 +126,7 @@
   #enable unfree services
   #nixpkgs.config.allowUnfree = true; #already mentioned in the flake so no need here
 
-  #enable fish shell
+  /*#enable fish shell
   programs.fish ={
     enable = true;
     package = pkgs-unstable.fish ;
@@ -139,7 +134,7 @@
       rm = "echo Use 'rip' instead of rm." ;
       rip = "rip --graveyard ~/.local/share/Trash" ;
     };
-  };
+  };*/
 
   #enable git
   programs.git = {
@@ -153,6 +148,15 @@
     };
   };
 
+  # Install firefox.
+  programs.firefox = {
+    enable = true;
+    package = pkgs-unstable.firefox;
+    policies ={
+      DisableTelemetry = true;
+      #Homepage.StartPage = "https://google.com";
+    };
+  };
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -240,33 +244,19 @@
 
     (with pkgs-unstable;[
       #unstable
-      kdePackages.kate
 
     ]);
   };
 
   # Enable automatic login for the user.
   services.displayManager.autoLogin.enable = true;
-  services.displayManager.autoLogin.user = "ksvnixospc";
-
-  # Install firefox.
-  programs.firefox = {
-    enable = true;
-    package = pkgs-unstable.firefox;
-    policies ={
-      DisableTelemetry = true;
-      #Homepage.StartPage = "https://google.com";
-    };
-  };
-  
+  services.displayManager.autoLogin.user = "ksvnixospc";  
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages =
     (with pkgs; [
       #stable
-      kdePackages.partitionmanager
-      warp-terminal
 
     ])
 
@@ -274,40 +264,6 @@
 
     (with pkgs-unstable;[
       #unstable
-      vim
-      wget
-      nano
-      micro
-      git-town
-      gh
-      btop
-      fastfetch
-      bat
-      vlc
-      haruna
-      telegram-desktop
-      collector
-      localsend
-      google-chrome
-      vscode
-      tldr
-      lsd
-      rip2
-      nh
-      brave
-      waveterm
-      #tor-browser
-      soundwireserver
-      signal-desktop
-      #podman-desktop
-      discord
-      onlyoffice-desktopeditors
-      freetube
-      #virtualbox
-      cheese
-      #zoom-us
-      nushell
-      jujutsu gg-jj
 
     ]);
 
