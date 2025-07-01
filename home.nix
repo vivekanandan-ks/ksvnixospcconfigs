@@ -24,7 +24,7 @@
       nano
       micro
       git-town
-      gh
+      #gh
       btop
       fastfetch
       bat
@@ -75,7 +75,7 @@
       };
     };
 
-    /*#git
+    #git
     git = {
       enable = true ;
       package = pkgs-unstable.git;
@@ -85,9 +85,9 @@
         init.defaultBranch = "main";
         core.editor = "micro";
       };
-    };*/
+    };
 
-    /*#firefox
+    #firefox
     firefox = {
       enable = true ;
       package = pkgs-unstable.firefox;
@@ -95,9 +95,9 @@
         DisableTelemetry = true;
         #Homepage.StartPage = "https://google.com";
       };
-    };*/
+    };
     
-    /*#github
+    #github
     gh = {
       enable = true ;
       package = pkgs-unstable.gh;
@@ -105,7 +105,7 @@
         enable = true ;
         #hosts = [];  
       };
-    };*/
+    };
 
     #nushell
     nushell = {

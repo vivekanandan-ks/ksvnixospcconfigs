@@ -3,6 +3,7 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { inputs, config, pkgs, pkgs-unstable, lib, ... }:
+{ inputs, config, pkgs, pkgs-unstable, lib, ... }:
 
 {
   imports = [ 
@@ -16,6 +17,7 @@
     users = {
       ksvnixospc = import ./home.nix;
     };
+    backupFileExtension = "backup";
   };
 
   #SWAP
@@ -127,6 +129,7 @@
   #nixpkgs.config.allowUnfree = true; #already mentioned in the flake so no need here
 
   /*#enable fish shell
+  /*#enable fish shell
   programs.fish ={
     enable = true;
     package = pkgs-unstable.fish ;
@@ -135,8 +138,9 @@
       rip = "rip --graveyard ~/.local/share/Trash" ;
     };
   };*/
+  };*/
 
-  #enable git
+  /*#enable git
   programs.git = {
     enable = true;
     package = pkgs-unstable.git;
@@ -146,9 +150,9 @@
       init.defaultBranch = "main";
       core.editor = "micro";
     };
-  };
+  };*/
 
-  # Install firefox.
+  /*# Install firefox.
   programs.firefox = {
     enable = true;
     package = pkgs-unstable.firefox;
@@ -156,7 +160,7 @@
       DisableTelemetry = true;
       #Homepage.StartPage = "https://google.com";
     };
-  };
+  };*/
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -250,6 +254,7 @@
 
   # Enable automatic login for the user.
   services.displayManager.autoLogin.enable = true;
+  services.displayManager.autoLogin.user = "ksvnixospc";  
   services.displayManager.autoLogin.user = "ksvnixospc";  
 
   # List packages installed in system profile. To search, run:
