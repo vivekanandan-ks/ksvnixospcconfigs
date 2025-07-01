@@ -252,8 +252,7 @@
 
   # Enable automatic login for the user.
   services.displayManager.autoLogin.enable = true;
-  services.displayManager.autoLogin.user = "ksvnixospc";  
-  services.displayManager.autoLogin.user = "ksvnixospc";  
+  services.displayManager.autoLogin.user = "ksvnixospc"; 
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
