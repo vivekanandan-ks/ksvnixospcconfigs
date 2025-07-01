@@ -23,7 +23,6 @@
       wget
       nano
       micro
-      git-town
       btop
       fastfetch
       bat
