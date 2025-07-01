@@ -247,7 +247,6 @@
     (with pkgs-unstable;[
       #unstable
       gh
-      git-town
 
     ]);
   };
