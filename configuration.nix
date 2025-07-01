@@ -3,7 +3,6 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { inputs, config, pkgs, pkgs-unstable, lib, ... }:
-{ inputs, config, pkgs, pkgs-unstable, lib, ... }:
 
 {
   imports = [ 
@@ -137,7 +136,6 @@
       rm = "echo Use 'rip' instead of rm." ;
       rip = "rip --graveyard ~/.local/share/Trash" ;
     };
-  };*/
   };*/
 
   /*#enable git
