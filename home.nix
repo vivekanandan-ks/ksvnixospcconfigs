@@ -24,7 +24,6 @@
       nano
       micro
       git-town
-      gh
       btop
       fastfetch
       bat

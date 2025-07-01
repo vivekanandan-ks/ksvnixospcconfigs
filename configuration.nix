@@ -246,6 +246,7 @@
 
     (with pkgs-unstable;[
       #unstable
+      gh
 
     ]);
   };
