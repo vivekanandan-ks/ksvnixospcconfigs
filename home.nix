@@ -24,7 +24,7 @@
       nano
       micro
       git-town
-      #gh
+      gh
       btop
       fastfetch
       bat
@@ -97,15 +97,15 @@
       };
     };
     
-    #github
+    /*#github
     gh = {
       enable = true ;
       package = pkgs-unstable.gh;
-      gitCredentialHelper = {
-        enable = true ;
+      #gitCredentialHelper = {
+        #enable = true ;
         #hosts = [];  
-      };
-    };
+      #};
+    };*/
 
     #nushell
     nushell = {
