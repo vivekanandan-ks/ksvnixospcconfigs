@@ -115,7 +115,7 @@
         nushellPlugins.gstat
       ];
       settings = {
-        #show_banner = false;
+        show_banner = false;
         highlight_resolved_externals = true;
         completions.external = {
           enable = true;
