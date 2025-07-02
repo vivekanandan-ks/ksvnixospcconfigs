@@ -131,6 +131,55 @@
           max_size = 10000;
         };
       };
+      
+      extraConfig = ''
+        # --- Git Branch Function ---
+        def get-git-branch [] {
+            let git_status = (git status --porcelain -b --ignore-submodules 2>/dev/null | lines)
+
+            if ($git_status | is-empty) {
+                return ""
+            }
+
+            let branch_line = ($git_status | item 0)
+            let branch_name = ($branch_line | split row " " | item 1 | str replace "..." "")
+
+            let cleaned_branch = ($branch_name | str replace --regex "^\S+/" "")
+
+            if ($cleaned_branch | is-empty) { # Check if cleaned_branch is empty
+                let commit_hash = (git rev-parse --short HEAD 2>/dev/null | trim)
+                return $"($"HEAD" ($commit_hash)")"
+            } else {
+                return $"($"(" ($cleaned_branch)")")"
+            }
+        }
+
+        # --- Prompt Configuration ---
+        $env.PROMPT_COMMAND = {||
+            let cwd = (pwd | path basename)
+            let branch = (get-git-branch)
+            let user = ($env.USER)
+            let hostname = ($env.HOSTNAME)
+
+            # Using different colors for better readability
+            # You can adjust these colors
+            let user_host_part = $"($user | ansi blue)@($hostname | ansi blue)"
+            let path_part = $" (~/($cwd) | ansi green)"
+            let branch_part = (if ($branch | is-empty) { "" } { $"($branch | ansi yellow)" }) # Only show if branch exists
+            let prompt_end = "> " # Always end with a prompt symbol
+
+            # Combine all parts
+            $"($user_host_part)($path_part)($branch_part)($prompt_end)"
+        }
+
+        $env.PROMPT_COMMAND_RIGHT = {||
+            "" # No right prompt
+        }
+
+        # You might also want to set your LS_COLORS for better file highlighting
+        # $env.LS_COLORS = (ls-colors)
+      '';
+
     };
     
 
