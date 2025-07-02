@@ -125,16 +125,59 @@
       enableFishIntegration = true;
       enableBashIntegration = true;
       settings = {
+
         add_newline = false;
+
         format = ''
-          $cmd_duration$directory $git_branch
+          [$shell][$nix_shell] $directory $git_branch $cmd_duration
           $character
         '';
-        scan_timeout = 10;
+
         character = {
+          success_symbol = "[>](bold fg:green) ";
+          error_symbol = "[>](bold fg:red) ";
+        };
+
+        package = {
+          disabled = false;
+        };
+
+        git_branch = {
+          style = "bg: green";
+          symbol = "󰘬";
+          truncation_length = 4;
+          truncation_symbol = "";
+          format = "• [](bold fg:green)[$symbol $branch(:$remote_branch)](fg:black bg:green)[ ](bold fg:green)";
+        };
+    
+        git_commit = {
+          commit_hash_length = 4;
+          tag_symbol = " ";
+        };
+    
+        git_state = {
+          format = ''[\($state( $progress_current of $progress_total)\)]($style) '';
+          cherry_pick = "[🍒 PICKING](bold red)";
+        };
+    
+        git_status = {
+          conflicted = " 🏳 ";
+          ahead = " 🏎💨 ";
+          behind = " 😰 ";
+          diverged = " 😵 ";
+          untracked = " 🤷 ‍";
+          stashed = " 📦 ";
+          modified = " 📝 ";
+          staged = "[++($count)](green)";
+          renamed = " ✍️ ";
+          deleted = " 🗑 ";
+        };
+
+        scan_timeout = 10;
+        /*character = {
           success_symbol = "➜";
           error_symbol = "➜";
-        };
+        };*/
       };
     };
 
