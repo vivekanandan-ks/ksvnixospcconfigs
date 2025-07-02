@@ -148,9 +148,11 @@
 
             if ($cleaned_branch | is-empty) { # Check if cleaned_branch is empty
                 let commit_hash = (git rev-parse --short HEAD 2>/dev/null | trim)
-                return $"($"HEAD" ($commit_hash)")"
+                # Corrected: Simpler interpolation
+                return $"HEAD ($commit_hash)"
             } else {
-                return $"($"(" ($cleaned_branch)")")"
+                # Corrected: Simpler interpolation
+                return $"($" ($cleaned_branch)")"
             }
         }
 
