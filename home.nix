@@ -118,8 +118,7 @@
       enable = true ;
       package = pkgs-unstable.nushell;
       plugins = with pkgs-unstable; [
-        nushellPlugins.highlight
-        nushellPlugins.gstat
+        #nushellPlugins.gstat
       ];
       settings = {
         #show_banner = false;
@@ -132,7 +131,7 @@
           max_size = 10000;
         };
       };
-      /*color_config = {
+      color_config = {
         line_editor = {
           default = "light_gray";
           completion_menu = {
@@ -146,7 +145,7 @@
           string = "ansi_green";
           variable = "ansi_yellow";
         };
-      };*/
+      };
     };
     
 
