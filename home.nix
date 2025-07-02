@@ -126,12 +126,10 @@
       enableBashIntegration = true;
       settings = {
         add_newline = false;
-        format = lib.concatStrings [
-          "$line_break"
-          "$package"
-          "$line_break"
-          "$character"
-        ];
+        format = ''
+          $cmd_duration$directory $git_branch
+          $character
+        '';
         scan_timeout = 10;
         character = {
           success_symbol = "➜";
