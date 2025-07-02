@@ -123,7 +123,7 @@
           max_results = 200;
         };
         history = {
-          format = "sqlite";
+          #format = "sqlite";
           max_size = 10000;
         };
       };
