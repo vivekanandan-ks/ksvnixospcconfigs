@@ -116,14 +116,12 @@
       ];
       settings = {
         #show_banner = false;
-        line_editor.completion.quick_menu = true;
         highlight_resolved_externals = true;
         completions.external = {
           enable = true;
           max_results = 200;
         };
         history = {
-          #format = "sqlite";
           max_size = 10000;
         };
       };
