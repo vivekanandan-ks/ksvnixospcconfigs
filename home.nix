@@ -129,7 +129,7 @@
         add_newline = false;
 
         format = ''
-          [$shell][$nix_shell] $directory $git_branch $cmd_duration
+          $shell $nix_shell $directory $git_branch $cmd_duration
           $character
         '';
 
