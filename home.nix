@@ -74,7 +74,7 @@
       };
     };
 
-    /*#git
+    #git
     git = {
       enable = true ;
       package = pkgs-unstable.git;
@@ -84,7 +84,7 @@
         init.defaultBranch = "main";
         core.editor = "micro";
       };
-    };*/
+    };
 
     #firefox
     firefox = {

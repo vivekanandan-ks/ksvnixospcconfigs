@@ -138,7 +138,7 @@
     };
   };*/
 
-  #enable git
+  /*#enable git
   programs.git = {
     enable = true;
     package = pkgs-unstable.git;
@@ -148,7 +148,7 @@
       init.defaultBranch = "main";
       core.editor = "micro";
     };
-  };
+  };*/
 
   /*# Install firefox.
   programs.firefox = {
