@@ -131,21 +131,6 @@
           max_size = 10000;
         };
       };
-      color_config = {
-        line_editor = {
-          default = "light_gray";
-          completion_menu = {
-            selected_text = "ansi_cyan_bold";
-            text = "ansi_green";
-            description_text = "ansi_yellow";
-          };
-        };
-        syntax_highlighting = {
-          command = "ansi_blue";
-          string = "ansi_green";
-          variable = "ansi_yellow";
-        };
-      };
     };
     
 
