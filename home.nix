@@ -106,6 +106,13 @@
       #};
     };*/
 
+    #carapace
+    carapace = {
+      enable = true ;
+      package = pkgs-unstable.carapace ;
+      enableNushellIntegration = true ;
+    };
+
     #nushell
     nushell = {
       enable = true ;
