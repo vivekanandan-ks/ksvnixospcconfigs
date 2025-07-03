@@ -96,7 +96,7 @@
           name = "vivekanandan-ks";
         };
         #ui.editor = "micro";
-        snapshot.max-new-file-size = "10MiB" #https://github.com/jj-vcs/jj/blob/main/docs/config.md#maximum-size-for-new-files
+        snapshot.max-new-file-size = "10MiB"; #https://github.com/jj-vcs/jj/blob/main/docs/config.md#maximum-size-for-new-files
       };
     };
 
