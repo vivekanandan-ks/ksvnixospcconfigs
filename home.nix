@@ -129,7 +129,7 @@
         add_newline = false;
 
         format = ''
-          $directory$git_branch$cmd_duration
+          $shell $nix_shell $directory $git_branch $git_status $git_state $cmd_duration
           $character
         '';
 
@@ -148,7 +148,7 @@
           truncation_length = 4;
           truncation_symbol = "";
           format = "• [](bold fg:green)[$symbol $branch(:$remote_branch)](fg:black bg:green)[](bold fg:green)";
-        };*/
+        };
     
         git_commit = {
           #commit_hash_length = 4;
@@ -171,7 +171,7 @@
           staged = "[++($count)](green)";
           renamed = " ✍️ ";
           deleted = " 🗑 ";
-        };
+        };*/
 
         scan_timeout = 10;
   
