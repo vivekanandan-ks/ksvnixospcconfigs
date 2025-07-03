@@ -142,17 +142,17 @@
           disabled = false;
         };
 
-        git_branch = {
-          style = "bg: green";
-          symbol = "󰘬";
+        /*git_branch = {
+          #style = "bg: green";
+          symbol = "⤴️";
           truncation_length = 4;
           truncation_symbol = "";
-          format = "• [](bold fg:green)[$symbol $branch(:$remote_branch)](fg:black bg:green)[ ](bold fg:green)";
-        };
+          format = "• [](bold fg:green)[$symbol $branch(:$remote_branch)](fg:black bg:green)[](bold fg:green)";
+        };*/
     
         git_commit = {
-          commit_hash_length = 4;
-          tag_symbol = " ";
+          #commit_hash_length = 4;
+          tag_symbol = "✅";
         };
     
         git_state = {
@@ -174,10 +174,7 @@
         };
 
         scan_timeout = 10;
-        /*character = {
-          success_symbol = "➜";
-          error_symbol = "➜";
-        };*/
+  
       };
     };
 
