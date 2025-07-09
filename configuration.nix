@@ -76,12 +76,13 @@
   nix.settings.download-buffer-size = 67108864;
 
   #GC
+  nix.settings.auto-optimise-store = true;
   nix.gc = {
     automatic = true;
     #persistent = false;
     dates = "daily";
     options = "--delete-older-than 7d";
-    randomizedDelaySec = "30min";
+    #randomizedDelaySec = "30min";
   };
 
   # Bootloader.
