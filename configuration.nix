@@ -30,10 +30,10 @@
   #Enabling docker in rootless mode.
   #Don't forget to include the below commented commands to start the docker daemon service,
   #coz just enabling doesn't start the daemon
-  #virtualisation.docker.rootless = {
-  #  enable = true;
-  #  setSocketVariable = true;
-  #};
+  /*virtualisation.docker.rootless = {
+    enable = true;
+    setSocketVariable = true;
+  };*/
     #systemctl --user enable --now docker
     #systemctl --user start docker
     #systemctl --user status docker # to check the status
@@ -48,21 +48,21 @@
       dockerCompat = true;  # Enables the Docker compatibility socket #also creates wrapper alias for docker commands
       dockerSocket.enable = true;  # Creates a Docker-compatible socket
       
-      # Auto-pruning
-      #autoPrune = {
-      #  enable = true;
-      #  dates = "weekly";  # When to run: "daily", "weekly", etc.
-      #  flags = [ "--all" "--volumes" ];  # Additional flags
-      #};
+      /*#Auto-pruning
+      autoPrune = {
+        enable = true;
+        dates = "weekly";  # When to run: "daily", "weekly", etc.
+        flags = [ "--all" "--volumes" ];  # Additional flags
+      };
     
-      # Container settings
-      #settings = {
-      #  engine = {
-      #    cgroup_manager = "systemd";  # Use systemd for cgroup management
-      #    events_logger = "journald";  # Log to journald
-      #    runtime = "crun";  # Default runtime
-      #    volume_path = "$HOME/.local/share/containers/storage/volumes";  # Custom volume path
-      #  };
+      #Container settings
+      settings = {
+        engine = {
+          cgroup_manager = "systemd";  # Use systemd for cgroup management
+          events_logger = "journald";  # Log to journald
+          runtime = "crun";  # Default runtime
+          volume_path = "$HOME/.local/share/containers/storage/volumes";  # Custom volume path
+        };*/
 
       # Default network settings
       defaultNetwork.settings = {
@@ -86,11 +86,11 @@
       enable = true;
       style.wallpapers = lib.filesystem.listFilesRecursive ./limine-images; #list of wallpaper paths
       #style.wallpaperStyle = "centered";
-      /*extraEntries = ''
+      extraEntries = ''
         /Windows
           protocol: efi
           path: uuid(1c135138-506a-45ed-8352-6455f45e9fea):/EFI/Microsoft/Boot/bootmgfw.efi
-      '';*/
+      '';
       extraConfig = ''
         remember_last_entry: yes
       '';
@@ -267,6 +267,8 @@
 
     (with pkgs-unstable;[
       #unstable
+      #inputs.kwin-effects-forceblur.packages.${pkgs-unstable.system}.default # Wayland
+      #inputs.kwin-effects-forceblur.packages.${pkgs.system}.x11 # X11
 
     ]);
 
