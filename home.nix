@@ -209,6 +209,10 @@
         history = {
           max_size = 10000;
         };
+        color_config = {
+          shape_external = "red"; # color of unresolved externals (see 'ansi --list')
+          shape_external_resolved = "white"; # color of resolved externals 
+        };
       };
 
       extraConfig = ''
@@ -220,6 +224,16 @@
     };    
 
 
+
+  };
+
+  services = {
+    
+    kdeconnect = {
+      enable = true;
+      indicator = true;
+      package = pkgs-unstable.kdePackages.kdeconnect-kde ; 
+    };
 
   };
 
