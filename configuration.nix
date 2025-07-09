@@ -108,11 +108,11 @@
   };
 
 
-  /*#kde-connect
+  #kde-connect
   programs.kdeconnect = lib.mkForce {
     enable = true;
     package = pkgs-unstable.kdePackages.kdeconnect-kde;
-  };*/
+  };
 
   #Enable bluetooth
   hardware.bluetooth.enable = true;
