@@ -75,6 +75,14 @@
   #download buffer size; default size is 16mb (16*1024*1024)
   nix.settings.download-buffer-size = 67108864;
 
+  #GC
+  nix.gc = {
+    automatic = true;
+    #persistent = false;
+    dates = "daily";
+    options = "--delete-older-than 7d";
+  };
+
   # Bootloader.
   # systemd-boot
   #boot.loader.systemd-boot.enable = true;
