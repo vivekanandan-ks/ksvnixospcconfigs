@@ -19,6 +19,14 @@
 
     (with pkgs-unstable;[
       #unstable
+
+      #kde packages
+      kdePackages.withPackages (kde: with kde; [
+        kate
+        filelight
+      ])
+      
+      /*terminal apps*/
       vim
       wget
       nano
@@ -27,33 +35,35 @@
       btop
       fastfetch
       bat
-      vlc
-      haruna
-      collector
-      localsend
       tldr
       lsd
       rip2
       nh
-      brave
-      waveterm
-      #tor-browser
-      #soundwireserver
-      signal-desktop
-      #podman-desktop
-      discord
-      onlyoffice-desktopeditors
-      freetube
-      #virtualbox
-      cheese
-      #zoom-us
-      telegram-desktop
-      #nushell
       gg-jj
-      google-chrome
-      vscode
-      kdePackages.kate
+
+      /*desktop apps*/
+      vlc
+      haruna
+      freetube
+      collector
+      localsend
       
+      brave
+      google-chrome
+      #tor-browser
+
+      #soundwireserver
+      #podman-desktop
+      onlyoffice-desktopeditors
+      virtualbox
+      waveterm
+      cheese #camera app
+      #zoom-us
+      vscode
+      
+      telegram-desktop
+      signal-desktop
+      discord
 
     ]);
 
@@ -68,10 +78,10 @@
     fish = {
       enable = true ;
       package = pkgs-unstable.fish ;
-      shellAliases = {
+      /*shellAliases = {
         rm = "echo Use 'rip' instead of rm." ;
         rip = "rip --graveyard ~/.local/share/Trash" ;
-      };
+      };*/
     };
 
     #git
@@ -235,6 +245,11 @@
       package = pkgs-unstable.kdePackages.kdeconnect-kde ; 
     };*/
 
+  };
+
+  home.shellAliases = {
+    rm = "echo Use 'rip' instead of rm." ;
+    rip = "rip --graveyard ~/.local/share/Trash" ;
   };
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
