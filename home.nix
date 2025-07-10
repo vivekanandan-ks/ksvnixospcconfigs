@@ -21,10 +21,8 @@
       #unstable
 
       #kde packages
-      kdePackages.withPackages (kde: with kde; [
-        kate
-        filelight
-      ])
+      kdePackages.kate
+      kdePackages.filelight
       
       /*terminal apps*/
       vim
