@@ -235,12 +235,12 @@
       enable = true;
       package = pkgs-unstable.atuin;
       enableNushellIntegration = true;
-      #enableFishIntegration = true;
-      #enableBashIntegration = true;
-      /*flags = [
-        "--disable-up-arrow"
+      enableFishIntegration = true;
+      enableBashIntegration = true;
+      flags = [
+        #"--disable-up-arrow"
         "--disable-ctrl-r"
-      ];*/
+      ];
     };
 
 
