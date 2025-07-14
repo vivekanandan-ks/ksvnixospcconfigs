@@ -54,7 +54,7 @@
       #podman-desktop
       onlyoffice-desktopeditors
       virtualbox
-      #waveterm
+      waveterm
       cheese #camera app
       #zoom-us
       vscode
@@ -67,7 +67,7 @@
 
   programs = {
 
-    #waveterm - terminal emulator
+    /*#waveterm - terminal emulator
     waveterm = {
       enable = true;
       package = pkgs-unstable.waveterm;
@@ -80,10 +80,10 @@
       };
 
       settings = {
-        "window:blur" = true;
-        "window:opacity" = 0.5;
+        #"window:blur" = true;
+        #"window:opacity" = 0.5;
       };
-    };
+    };*/
 
     #micro - editor
     micro = {
