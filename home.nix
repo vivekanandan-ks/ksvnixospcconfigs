@@ -67,7 +67,7 @@
 
   programs = {
 
-    /*#waveterm - terminal emulator
+    /*#waveterm - modern terminal app
     waveterm = {
       enable = true;
       package = pkgs-unstable.waveterm;
@@ -117,7 +117,7 @@
         user.name = "vivekanandan-ks";
         user.email = "ksvdevksv@gmail.com";
         init.defaultBranch = "main";
-        core.editor = "micro";
+        core.editor = "nano";
       };
     };
 
