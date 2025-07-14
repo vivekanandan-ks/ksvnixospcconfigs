@@ -231,6 +231,7 @@
 
     };
 
+    #atuin - shell history and sync e2ee to my atuin account
     atuin = {
       enable = true;
       package = pkgs-unstable.atuin;
