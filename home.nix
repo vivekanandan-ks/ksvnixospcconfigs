@@ -28,7 +28,7 @@
       vim
       wget
       nano
-      micro
+      #micro
       git-town
       btop
       fastfetch
@@ -54,7 +54,7 @@
       #podman-desktop
       onlyoffice-desktopeditors
       virtualbox
-      waveterm
+      #waveterm
       cheese #camera app
       #zoom-us
       vscode
@@ -66,6 +66,33 @@
     ]);
 
   programs = {
+
+    #waveterm - terminal emulator
+    waveterm = {
+      enable = true;
+      package = pkgs-unstable.waveterm;
+      
+      bookmarks = {
+        "bookmark@google" = {
+          title = "Google";
+          url = "https://www.google.com";
+        };
+      };
+
+      settings = {
+        "window:blur" = true;
+        "window:opacity" = 0.5;
+      };
+    };
+
+    #micro - editor
+    micro = {
+      enable = true;
+      package = pkgs-unstable.micro;
+      settings = {
+
+      };
+    };
 
     #bash
     bash = {
