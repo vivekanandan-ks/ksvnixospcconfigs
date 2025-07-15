@@ -117,7 +117,7 @@
         user.name = "vivekanandan-ks";
         user.email = "ksvdevksv@gmail.com";
         init.defaultBranch = "main";
-        core.editor = "nano";
+        #core.editor = "nano";
       };
     };
 
@@ -322,7 +322,7 @@
   #  /etc/profiles/per-user/ksvnixospc/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
-    # EDITOR = "micro";
+    EDITOR = "micro";
   };
 
   # This value determines the Home Manager release that your configuration is
