@@ -8,10 +8,10 @@
       url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    kwin-effects-forceblur = {
+    /*kwin-effects-forceblur = {
       url = "github:taj-ny/kwin-effects-forceblur";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
+    };*/
   };
 
   outputs = { self, nixpkgs, nixpkgs-unstable, ... } @ inputs : 
