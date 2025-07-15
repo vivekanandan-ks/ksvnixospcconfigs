@@ -266,8 +266,8 @@
       enableFishIntegration = true;
       enableBashIntegration = true;
       flags = [
-        #"--disable-up-arrow"
-        "--disable-ctrl-r"
+        "--disable-up-arrow"
+        #"--disable-ctrl-r"
       ];
     };
 
