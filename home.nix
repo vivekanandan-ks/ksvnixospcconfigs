@@ -53,7 +53,7 @@
       #soundwireserver
       #podman-desktop
       onlyoffice-desktopeditors
-      virtualbox
+      #virtualbox
       waveterm
       cheese #camera app
       #zoom-us
