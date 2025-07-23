@@ -28,22 +28,21 @@
       vim
       wget
       nano
-      #micro
       git-town
       btop
       fastfetch
-      bat
-      tldr
+      bat # cat modern alternative
+      tldr #alt for man
       lsd
       rip2
-      nh
+      #nh
       gg-jj
 
       /*desktop apps*/
       vlc
       haruna
       freetube
-      collector
+      collector #drag and drop tool
       localsend
       
       brave
@@ -54,7 +53,7 @@
       #podman-desktop
       onlyoffice-desktopeditors
       #virtualbox
-      waveterm
+      waveterm # modern terminal app
       cheese #camera app
       #zoom-us
       vscode
@@ -83,6 +82,27 @@
         #"window:blur" = true;
         #"window:opacity" = 0.5;
       };
+    };*/
+
+    #nix helper
+    nh = {
+      enable = true;
+      package = pkgs-unstable.nh;
+      clean = {
+        enable = true;
+        dates = "daily";
+        extraArgs = "--keep-since 7d";
+      };
+    };
+
+    #nix garbage collection
+    #nix.settings.auto-optimise-store = true; # if set to false(default) then run " nix-store --optimise " periodically to get rid of duplicate files.
+    /*nix.gc = {
+      automatic = true;
+      frequency = "daily";
+      options = "--delete-older-than 7d";
+      #persistent = false;
+      #randomizedDelaySec = "30min";
     };*/
 
     #micro - editor

@@ -75,15 +75,15 @@
   #download buffer size; default size is 16mb (16*1024*1024)
   nix.settings.download-buffer-size = 67108864;
 
-  #GC
-  nix.settings.auto-optimise-store = true;
-  nix.gc = {
+  #Nix GC
+  nix.settings.auto-optimise-store = true; #if set to false(default) then run " nix-store --optimise " periodically to get rid of duplicate files.
+  /*nix.gc = {
     automatic = true;
     #persistent = false;
     dates = "daily";
     options = "--delete-older-than 7d";
     #randomizedDelaySec = "30min";
-  };
+  };*/
 
   # Bootloader.
   # systemd-boot
