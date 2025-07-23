@@ -91,12 +91,11 @@
       clean = {
         enable = true;
         dates = "daily";
-        extraArgs = "--keep-since 7d";
+        extraArgs = "--keep 5 --keep-since 5d";
       };
     };
 
     #nix garbage collection
-    #nix.settings.auto-optimise-store = true; # if set to false(default) then run " nix-store --optimise " periodically to get rid of duplicate files.
     /*nix.gc = {
       automatic = true;
       frequency = "daily";

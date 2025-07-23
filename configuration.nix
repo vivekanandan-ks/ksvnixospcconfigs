@@ -75,8 +75,9 @@
   #download buffer size; default size is 16mb (16*1024*1024)
   nix.settings.download-buffer-size = 67108864;
 
-  #Nix GC
+ 
   nix.settings.auto-optimise-store = true; #if set to false(default) then run " nix-store --optimise " periodically to get rid of duplicate files.
+   #Nix GC
   /*nix.gc = {
     automatic = true;
     #persistent = false;
