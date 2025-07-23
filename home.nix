@@ -44,6 +44,7 @@
       freetube
       collector #drag and drop tool
       localsend
+      qbittorrent
       
       brave
       google-chrome
