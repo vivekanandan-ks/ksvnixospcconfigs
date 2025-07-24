@@ -217,7 +217,7 @@
   # You can disable this if you're only using the Wayland session.
   services.xserver.enable = true;
 
-  specialisation = {
+  /*specialisation = {
     kdeunstable.configuration = {
       #pkgs = pkgs-unstable;
       nixpkgs.pkgs = pkgs-unstable;
@@ -225,7 +225,7 @@
 
 
     };
-  };
+  };*/
 
   # Enable the KDE Plasma Desktop Environment.
   services.displayManager.sddm.enable = true;
