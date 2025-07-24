@@ -45,6 +45,7 @@
     package = pkgs-unstable.libvirt;
   };
   #virtualisation.spiceUSBRedirection.enable = true;
+  #Also I have added libvirtd to extraGroups in users
   
   #virt-manager - this requires the above declared libvirt
   programs.virt-manager = {
