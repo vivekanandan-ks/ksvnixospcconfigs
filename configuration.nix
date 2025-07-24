@@ -219,10 +219,8 @@
 
   specialisation = {
     kdeunstable.configuration = {
-      pkgs = pkgs-unstable;
-      # Enable the KDE Plasma Desktop Environment.
-      services.displayManager.sddm.enable = true;
-      services.desktopManager.plasma6.enable = true;
+      #pkgs = pkgs-unstable;
+      nixpkgs.pkgs = pkgs-unstable;
 
     };
   };
