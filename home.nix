@@ -41,6 +41,7 @@
       /*desktop apps*/
       vlc
       haruna
+      euphonica
       freetube
       collector #drag and drop tool
       localsend
