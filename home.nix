@@ -3,17 +3,7 @@
 let
   globalShellInit = 
     let
-      /*figlet-font.bloody = pkgs.fetchFromGitHub {
-          owner = "xero";
-          repo = "figlet-fonts";
-          rev = "8fc6db5e9e980153505c89edc9d7246633a26985";
-          hash = "sha256-/Qj8CWqn7w1R83enixxgC5ijUrHvqN3C7ZvRCs/AzBI=";
-        };*/
-
-        figlet-font.bloody = pkgs.fetchurl {
-          url = "https://github.com/xero/figlet-fonts/blob/master/Bloody.flf";
-          sha256 = "0g24s1gsgxmpqm1nzrfbwlw15dh34wg68nfx19xbr78786mbf0rv";
-        };
+      figlet-font.bloody = ./resources/figlet-font-Bloody.flf;
     in
   ''
     ${pkgs.figlet}/bin/figlet -f ${figlet-font.bloody} "hello KSV" | ${pkgs.lolcat}/bin/lolcat

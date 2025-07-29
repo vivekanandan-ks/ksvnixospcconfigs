@@ -110,7 +110,7 @@
   boot.loader = {
     limine = {
       enable = true;
-      style.wallpapers = lib.filesystem.listFilesRecursive ./limine-images; #list of wallpaper paths
+      style.wallpapers = lib.filesystem.listFilesRecursive ./resources/limine-images; #list of wallpaper paths
       #style.wallpaperStyle = "centered";
       extraEntries = ''
         /Windows
