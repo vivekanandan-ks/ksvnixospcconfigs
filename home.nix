@@ -1,5 +1,20 @@
 { config, lib, pkgs, pkgs-unstable, ... }:
 
+let
+  globalShellInit = 
+    let
+      figlet-font.bloody = pkgs.fetchFromGitHub {
+          owner = "xero";
+          repo = "figlet-fonts";
+          rev = "8fc6db5e9e980153505c89edc9d7246633a26985";
+          hash = "sha256-/Qj8CWqn7w1R83enixxgC5ijUrHvqN3C7ZvRCs/AzBI=";
+        };
+    in
+  ''
+    ${pkgs.figlet}/bin/figlet -f ${figlet-font.bloody} "hello KSV" | ${pkgs.lolcat}/bin/lolcat
+  '';
+
+in
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -118,6 +133,9 @@
     #bash
     bash = {
       enable = true ;
+      initExtra = ''
+        ${globalShellInit}
+      '';
     };
 
     #fish
@@ -129,6 +147,9 @@
         rip = "rip --graveyard ~/.local/share/Trash" ;
       };*/
       interactiveShellInit = ''
+        ${globalShellInit}
+      '';
+      /*interactiveShellInit = ''
         echo "       
           ██░ ██ ▓█████  ██▓     ██▓     ▒█████      ██ ▄█▀  ██████ ██▒   █▓
           ▓██░ ██▒▓█   ▀ ▓██▒    ▓██▒    ▒██▒  ██▒    ██▄█▒ ▒██    ▒▓██░   █▒
@@ -141,7 +162,7 @@
           ░  ░  ░   ░  ░    ░  ░    ░  ░    ░ ░     ░  ░         ░       ░  
                                                                         ░   
         " | ${pkgs.lolcat}/bin/lolcat
-      '';
+      '';*/
 
     };
 
@@ -227,37 +248,6 @@
           disabled = false;
         };
 
-        /*git_branch = {
-          #style = "bg: green";
-          symbol = "⤴️";
-          truncation_length = 4;
-          truncation_symbol = "";
-          format = "• [](bold fg:green)[$symbol $branch(:$remote_branch)](fg:black bg:green)[](bold fg:green)";
-        };
-    
-        git_commit = {
-          #commit_hash_length = 4;
-          tag_symbol = "✅";
-        };
-    
-        git_state = {
-          format = ''[\($state( $progress_current of $progress_total)\)]($style) '';
-          cherry_pick = "[🍒 PICKING](bold red)";
-        };
-    
-        git_status = {
-          conflicted = " 🏳 ";
-          ahead = " 🏎💨 ";
-          behind = " 😰 ";
-          diverged = " 😵 ";
-          untracked = " 🤷 ‍";
-          stashed = " 📦 ";
-          modified = " 📝 ";
-          staged = "[++($count)](green)";
-          renamed = " ✍️ ";
-          deleted = " 🗑 ";
-        };*/
-
         scan_timeout = 10;
   
       };
@@ -289,6 +279,13 @@
       extraConfig = ''
         $env.config.hooks.command_not_found = [
           {|cmd| ^command-not-found $cmd | print }  
+        ]
+
+        # Add your shell init command here
+        $env.config.hooks.pre_prompt = [
+          {||
+            ${globalShellInit}
+          }
         ]
       '';
 
