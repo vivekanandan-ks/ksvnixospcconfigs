@@ -297,6 +297,20 @@ in
         "--disable-up-arrow"
         #"--disable-ctrl-r"
       ];
+      #check this out for settings options: https://docs.atuin.sh/configuration/config/
+      settings = {
+        auto_sync = true;
+        sync_frequency = "1m";
+        sync.records = true;
+        search_mode = "prefix";
+        style = "auto";
+        inline_height = 20;
+        show_preview = true;
+        theme = {
+          name = "marine";
+          debug = true;
+        };
+      };
     };
 
 
