@@ -298,10 +298,10 @@ in
         sync.records = true;
         search_mode = "prefix";
         style = "auto";
-        inline_height = 30;
+        inline_height = 40; # default 40
         show_preview = true;
         theme = {
-          name = ""; # options are ""(default) or "autumn" or "marine"(good out of the three)
+          name = "marine"; # options are ""(default) or "autumn" or "marine"(good out of the three)
           debug = true;
         };
       };
