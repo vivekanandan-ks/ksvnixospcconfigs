@@ -6,7 +6,9 @@ let
       figlet-font.bloody = ./resources/figlet-font-Bloody.flf;
     in
   ''
-    ${pkgs.figlet}/bin/figlet -f ${figlet-font.bloody} "hello KSV" | ${pkgs.lolcat}/bin/lolcat
+    #${pkgs.figlet}/bin/figlet -f ${figlet-font.bloody} "hello ksv" | ${pkgs.lolcat}/bin/lolcat
+    ${pkgs.figlet}/bin/figlet -f ${figlet-font.bloody} "hello ksv" | sed 's/^/\x1b[38;2;144;202;249m/' | sed 's/$/\x1b[0m/'
+    fastfetch
   '';
 
 in
@@ -40,7 +42,7 @@ in
       nano
       git-town
       btop
-      fastfetch
+      #fastfetch
       bat # cat modern alternative
       tldr #alt for man
       lsd
@@ -107,6 +109,13 @@ in
       };
     };
 
+    #fastfetch
+    fastfetch = {
+      enable = true;
+      package = pkgs-unstable.fastfetch;
+      settings = builtins.fromJSON (builtins.readFile ./resources/fastfetch-settings.json);
+    };
+
     #nix garbage collection
     /*nix.gc = {
       automatic = true;
@@ -144,21 +153,6 @@ in
       interactiveShellInit = ''
         ${globalShellInit}
       '';
-      /*interactiveShellInit = ''
-        echo "       
-          ██░ ██ ▓█████  ██▓     ██▓     ▒█████      ██ ▄█▀  ██████ ██▒   █▓
-          ▓██░ ██▒▓█   ▀ ▓██▒    ▓██▒    ▒██▒  ██▒    ██▄█▒ ▒██    ▒▓██░   █▒
-          ▒██▀▀██░▒███   ▒██░    ▒██░    ▒██░  ██▒   ▓███▄░ ░ ▓██▄   ▓██  █▒░
-          ░▓█ ░██ ▒▓█  ▄ ▒██░    ▒██░    ▒██   ██░   ▓██ █▄   ▒   ██▒ ▒██ █░░
-          ░▓█▒░██▓░▒████▒░██████▒░██████▒░ ████▓▒░   ▒██▒ █▄▒██████▒▒  ▒▀█░  
-          ▒ ░░▒░▒░░ ▒░ ░░ ▒░▓  ░░ ▒░▓  ░░ ▒░▒░▒░    ▒ ▒▒ ▓▒▒ ▒▓▒ ▒ ░  ░ ▐░  
-          ▒ ░▒░ ░ ░ ░  ░░ ░ ▒  ░░ ░ ▒  ░  ░ ▒ ▒░    ░ ░▒ ▒░░ ░▒  ░ ░  ░ ░░  
-          ░  ░░ ░   ░     ░ ░     ░ ░   ░ ░ ░ ▒     ░ ░░ ░ ░  ░  ░      ░░  
-          ░  ░  ░   ░  ░    ░  ░    ░  ░    ░ ░     ░  ░         ░       ░  
-                                                                        ░   
-        " | ${pkgs.lolcat}/bin/lolcat
-      '';*/
-
     };
 
     #git
@@ -294,7 +288,7 @@ in
       enableFishIntegration = true;
       enableBashIntegration = true;
       flags = [
-        #"--disable-up-arrow"
+        "--disable-up-arrow"
         #"--disable-ctrl-r"
       ];
       #check this out for settings options: https://docs.atuin.sh/configuration/config/
