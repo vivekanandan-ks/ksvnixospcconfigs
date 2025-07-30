@@ -157,7 +157,12 @@
   programs.appimage.binfmt = true;
 
   #enable unfree services
-  nixpkgs.config.allowUnfree = true; #need to mention here to use unfree packages in cli
+  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "n8n"
+    "warp-terminal"
+  ];
+
 
   /*#enable fish shell
   /*#enable fish shell
