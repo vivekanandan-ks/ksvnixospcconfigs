@@ -19,6 +19,12 @@
     backupFileExtension = "backup";
   };
 
+  #fonts
+  fonts.packages = with pkgs;[
+    nerd-fonts.monofur
+    
+  ];
+
   #SWAP
   swapDevices = lib.mkForce [ ];
   # If you also want to disable zram (compressed swap in RAM):
