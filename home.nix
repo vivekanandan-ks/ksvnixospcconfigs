@@ -294,7 +294,7 @@ in
       enableFishIntegration = true;
       enableBashIntegration = true;
       flags = [
-        "--disable-up-arrow"
+        #"--disable-up-arrow"
         #"--disable-ctrl-r"
       ];
       #check this out for settings options: https://docs.atuin.sh/configuration/config/
@@ -307,7 +307,7 @@ in
         inline_height = 30;
         show_preview = true;
         theme = {
-          name = "autumn";
+          name = ""; # options are ""(default) or "autumn" or "marine"(good out of the three)
           debug = true;
         };
       };
