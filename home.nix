@@ -219,7 +219,7 @@ in
       enableNushellIntegration = true;
       enableFishIntegration = true;
       enableBashIntegration = true;
-      settings = builtins.fromTOML (builtins.readFile ./resources/starship-themes/tokyo-night.toml);
+      settings = builtins.fromTOML (builtins.readFile ./resources/starship-themes/pastel-powerline.toml);
     };
 
     #nushell
@@ -253,7 +253,7 @@ in
         # Add your shell init command here
         $env.config.hooks.pre_prompt = [
           {||
-            ${globalShellInit}
+            #${globalShellInit}
           }
         ]
       '';
