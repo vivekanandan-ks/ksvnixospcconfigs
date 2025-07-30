@@ -20,7 +20,7 @@
     #pkgs = nixpkgs.legacyPackages."${system}";
     pkgs = import nixpkgs {
       inherit system;
-      #config.allowUnfree = true;
+      config.allowUnfree = true;
     };
 
     #pkgs-unstable = nixpkgs-unstable.legacyPackages."${system}";

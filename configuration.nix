@@ -158,9 +158,9 @@
 
   #enable unfree services
   #nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+  /*nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "warp-terminal"
-  ];
+  ];*/
 
 
   /*#enable fish shell
