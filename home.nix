@@ -220,8 +220,8 @@ in
       enableFishIntegration = true;
       enableBashIntegration = true;
       #uncomment only on eof the following settings
-      #settings = builtins.fromTOML (builtins.readFile ./resources/starship-themes/pastel-powerline.toml);
-      settings = builtins.fromTOML (builtins.readFile ./resources/starship-themes/catppuccin_macchiato.toml);
+      settings = builtins.fromTOML (builtins.readFile ./resources/starship-themes/pastel-powerline.toml);
+      #settings = builtins.fromTOML (builtins.readFile ./resources/starship-themes/catppuccin_macchiato.toml);
       #settings = builtins.fromTOML (builtins.readFile ./resources/starship-themes/catppuccin_frappe.toml);
       #settings = builtins.fromTOML (builtins.readFile ./resources/starship-themes/catppuccin_mocha);
       #settings = builtins.fromTOML (builtins.readFile ./resources/starship-themes/catppuccin_latte.toml);
