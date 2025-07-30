@@ -304,10 +304,10 @@ in
         sync.records = true;
         search_mode = "prefix";
         style = "auto";
-        inline_height = 20;
+        inline_height = 30;
         show_preview = true;
         theme = {
-          name = "marine";
+          name = "autumn";
           debug = true;
         };
       };
