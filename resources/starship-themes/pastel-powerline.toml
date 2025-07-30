@@ -23,9 +23,8 @@ $scala\
 [](fg:#86BBD8 bg:#06969A)\
 $docker_context\
 [](fg:#06969A bg:#33658A)\
-$time\
+$cmd_duration\
 [ ](fg:#33658A)\
-$cmd_duration
 """
 
 # Disable the blank line at the start of the prompt

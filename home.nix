@@ -219,7 +219,16 @@ in
       enableNushellIntegration = true;
       enableFishIntegration = true;
       enableBashIntegration = true;
-      settings = builtins.fromTOML (builtins.readFile ./resources/starship-themes/pastel-powerline.toml);
+      #uncomment only on eof the following settings
+      #settings = builtins.fromTOML (builtins.readFile ./resources/starship-themes/pastel-powerline.toml);
+      settings = builtins.fromTOML (builtins.readFile ./resources/starship-themes/catppuccin_macchiato.toml);
+      #settings = builtins.fromTOML (builtins.readFile ./resources/starship-themes/catppuccin_frappe.toml);
+      #settings = builtins.fromTOML (builtins.readFile ./resources/starship-themes/catppuccin_mocha);
+      #settings = builtins.fromTOML (builtins.readFile ./resources/starship-themes/catppuccin_latte.toml);
+      #settings = builtins.fromTOML (builtins.readFile ./resources/starship-themes/gruvbox-rainbow.toml);
+      #settings = builtins.fromTOML (builtins.readFile ./resources/starship-themes/tokyo-night.toml);
+      #settings = builtins.fromTOML (builtins.readFile ./resources/starship-themes/nerd-font-symbols.toml);
+
     };
 
     #nushell
