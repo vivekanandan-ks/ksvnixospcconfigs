@@ -151,7 +151,7 @@
   programs.appimage.binfmt = true;
 
   #enable unfree services
-  #nixpkgs.config.allowUnfree = true; #already mentioned in the flake so no need here
+  nixpkgs.config.allowUnfree = true; #need to mention here to use unfree packages in cli
 
   /*#enable fish shell
   /*#enable fish shell
