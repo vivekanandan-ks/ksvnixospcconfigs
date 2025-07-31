@@ -296,6 +296,22 @@ in
       };
     };
 
+    #obs-studio
+    obs-studio = {
+      enable = true;
+      package = pkgs-unstable.obs-studio;
+      plugins = with pkgs.obs-studio-plugins;[
+        obs-composite-blur
+        obs-backgroundremoval
+        obs-pipewire-audio-capture
+        droidcam-obs
+        obs-advanced-masks
+        obs-move-transition
+        obs-multi-rtmp
+
+      ];
+    };
+
 
 
   };
