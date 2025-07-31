@@ -308,6 +308,7 @@ in
         obs-advanced-masks
         obs-move-transition
         obs-multi-rtmp
+        input-overlay
 
       ];
     };
