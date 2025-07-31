@@ -300,7 +300,7 @@ in
     obs-studio = {
       enable = true;
       package = pkgs-unstable.obs-studio;
-      plugins = with pkgs.obs-studio-plugins;[
+      plugins = with pkgs-unstable.obs-studio-plugins;[
         obs-composite-blur
         obs-backgroundremoval
         obs-pipewire-audio-capture
