@@ -45,13 +45,21 @@
     #systemctl --user status docker # to check the status
 
 
-  #libvirt
+  #libvirt https://wiki.nixos.org/wiki/Libvirt
   virtualisation.libvirtd = {
     enable = true;
     package = pkgs-unstable.libvirt;
   };
   #virtualisation.spiceUSBRedirection.enable = true;
   #Also I have added libvirtd to extraGroups in users
+  
+  #check out this issue: https://github.com/NixOS/nixpkgs/issues/223594
+  #solutions for theissue are as below
+  #networking.firewall.trustedInterfaces = [ "virbr0" "wlp2s0" ]; #try this only if the below methods doesn't work
+  #also sometimes u need to run one or more of the following commands for the network to work (see the wiki link above)
+  # sudo virsh net-autostart default # auto setup on all launch
+  # sudo virsh net-start default #manual each time
+  #chck this: https://blog.programster.org/kvm-missing-default-network
   
   #virt-manager - this requires the above declared libvirt
   programs.virt-manager = {
