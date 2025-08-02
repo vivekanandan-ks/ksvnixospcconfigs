@@ -309,7 +309,15 @@ in
       enableBashIntegration = true;
       enableFishIntegration = true;
       enableNushellIntegration = true;
+    };
 
+    # nix-index
+    nix-index = {
+      enable = true;
+      package = pkgs-unstable.nix-index;
+      enableBashIntegration = true;
+      enableFishIntegration = true;
+      #nushell integration doesn't exist yet
     };
 
     #obs-studio
