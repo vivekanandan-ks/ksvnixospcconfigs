@@ -334,8 +334,8 @@ in
   home.shellAliases = {
     rm = "echo Use 'rip' instead of rm." ;
     rip = "rip --graveyard ~/.local/share/Trash" ;
-    df = "echo running 'duf' instead coz it's nice :-) && ${pkgs-unstable.duf}/bin/duf";
-    grep = "echo try ripgrep or ripgrep-all (rg or rga is the command)";
+    df = "echo try duf instead";
+    grep = "echo 'try ripgrep or ripgrep-all and rg or rga is the command'";
 
   };
 
