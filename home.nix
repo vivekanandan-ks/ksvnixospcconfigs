@@ -258,11 +258,13 @@ in
         $env.config.hooks.command_not_found = [
           {|cmd| ^command-not-found $cmd | print }  
         ]
-        '';
+
+        ${globalShellInit}     
+      '';
         /*# Add your shell init command here
         $env.config.hooks.pre_prompt = [
           {||
-            ${globalShellInit}
+            #some commanda here
           }
         ]
       '';*/
