@@ -47,6 +47,8 @@ in
       tldr #alt for man
       lsd
       rip2
+      duf
+      ripgrep #grep alternative #rg is the command
       #nh
       gg-jj
 
@@ -332,6 +334,9 @@ in
   home.shellAliases = {
     rm = "echo Use 'rip' instead of rm." ;
     rip = "rip --graveyard ~/.local/share/Trash" ;
+    df = "echo running 'duf' instead coz it's nice :-) && ${pkgs-unstable.duf}/bin/duf";
+    grep = "echo try ripgrep or ripgrep-all (rg or rga is the command)";
+
   };
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
