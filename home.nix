@@ -305,10 +305,14 @@ in
     pay-respects = {
       enable = true;
       package = pkgs-unstable.pay-respects;
-      #options = [ "--alias" "f" ];
       enableBashIntegration = true;
       enableFishIntegration = true;
       enableNushellIntegration = true;
+      options = [ 
+        "--alias" "f"
+        #"--install-method" "Shell"
+      ];
+      #added a home.file below
     };
 
     # nix-index
@@ -372,6 +376,16 @@ in
     #   org.gradle.console=verbose
     #   org.gradle.daemon.idletimeout=3600000
     # '';
+
+    #pay-respects config
+    ".config/pay-respects/config.toml" = {
+      # The `text` attribute provides the content for the file.
+      # The '' (two single quotes) is a Nix multi-line string.
+      text = ''
+        package_manager.install_method = "Shell"
+      '';
+    };
+
   };
 
   # Home Manager can also manage your environment variables through
