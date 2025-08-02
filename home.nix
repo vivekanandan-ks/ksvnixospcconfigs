@@ -254,12 +254,12 @@ in
         };
       };
 
-      /*extraConfig = ''
+      extraConfig = ''
         $env.config.hooks.command_not_found = [
           {|cmd| ^command-not-found $cmd | print }  
         ]
-
-        # Add your shell init command here
+        '';
+        /*# Add your shell init command here
         $env.config.hooks.pre_prompt = [
           {||
             ${globalShellInit}
