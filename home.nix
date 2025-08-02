@@ -8,7 +8,7 @@ let
   ''
     #${pkgs.figlet}/bin/figlet -f ${figlet-font.bloody} "hello ksv" | ${pkgs.lolcat}/bin/lolcat
     #${pkgs.figlet}/bin/figlet -f ${figlet-font.bloody} "hello ksv" | sed 's/^/\x1b[38;2;144;202;249m/' | sed 's/$/\x1b[0m/'
-    ${pkgs-unstable.fastfetch}/bin/fastfetch
+    #${pkgs-unstable.fastfetch}/bin/fastfetch
   '';
 
 in
@@ -299,6 +299,17 @@ in
           debug = true;
         };
       };
+    };
+
+    #pay-respects
+    pay-respects = {
+      enable = true;
+      package = pkgs-unstable.pay-respects;
+      #options = [ "--alias" "f" ];
+      enableBashIntegration = true;
+      enableFishIntegration = true;
+      enableNushellIntegration = true;
+
     };
 
     #obs-studio
