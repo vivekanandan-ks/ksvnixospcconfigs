@@ -301,20 +301,6 @@ in
       };
     };
 
-    #pay-respects
-    pay-respects = {
-      enable = true;
-      package = pkgs-unstable.pay-respects;
-      enableBashIntegration = true;
-      enableFishIntegration = true;
-      enableNushellIntegration = true;
-      options = [ 
-        "--alias" "f"
-        #"--install-method" "Shell"
-      ];
-      #added a home.file below
-    };
-
     # nix-index
     nix-index = {
       enable = true;
@@ -363,6 +349,25 @@ in
 
   };
 
+  #pay-respects
+  programs.pay-respects = {
+    enable = true;
+    package = pkgs-unstable.pay-respects;
+    enableBashIntegration = true;
+    enableFishIntegration = true;
+    enableNushellIntegration = true;
+    options = [ 
+      "--alias" "f"
+    ];
+    #added a home.file below
+  };
+  #pay-respects config file
+  home.file.".config/pay-respects/config.toml" = {
+      text = ''
+        package_manager.install_method = "Shell"
+      '';
+  };
+
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
   home.file = {
@@ -376,15 +381,6 @@ in
     #   org.gradle.console=verbose
     #   org.gradle.daemon.idletimeout=3600000
     # '';
-
-    #pay-respects config
-    ".config/pay-respects/config.toml" = {
-      # The `text` attribute provides the content for the file.
-      # The '' (two single quotes) is a Nix multi-line string.
-      text = ''
-        package_manager.install_method = "Shell"
-      '';
-    };
 
   };
 
