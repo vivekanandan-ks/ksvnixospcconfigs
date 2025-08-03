@@ -301,6 +301,17 @@ in
       };
     };
 
+    #zoxide
+    zoxide = {
+      enable = true;
+      package = pkgs-unstable.zoxide;
+      enableBashIntegration = true;
+      enableFishIntegration = true;
+      enableNushellIntegration = true;
+      #options = [];
+
+    };
+
     # nix-index
     nix-index = {
       enable = true;
