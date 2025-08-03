@@ -386,9 +386,9 @@ in
   programs.pay-respects = {
     enable = true;
     package = pkgs-unstable.pay-respects;
-    enableBashIntegration = true;
-    enableFishIntegration = true;
-    enableNushellIntegration = true;
+    #enableBashIntegration = true;
+    #enableFishIntegration = true;
+    #enableNushellIntegration = true;
     options = [ 
       "--alias" "f"
     ];
