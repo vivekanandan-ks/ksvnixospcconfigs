@@ -44,7 +44,7 @@ in
       btop
       #fastfetch
       bat # cat modern alternative
-      #tldr #alt for man
+      tldr #tldr-update is added in services
       lsd
       rip2
       duf
@@ -376,6 +376,8 @@ in
     };
 
     #tldr-update
+    #tldr package actually declared above
+    #this particular below package is for running the update
     tldr-update = {
       enable = true;
       package = pkgs-unstable.tldr;
