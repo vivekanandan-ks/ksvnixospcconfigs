@@ -44,7 +44,7 @@ in
       btop
       #fastfetch
       bat # cat modern alternative
-      tldr #alt for man
+      #tldr #alt for man
       lsd
       rip2
       duf
@@ -365,6 +365,21 @@ in
   };
 
   services = {
+
+    #home manager auto expire of the generations
+    home-manager.autoExpire = {
+      enable = true;
+      frequency = "daily";
+      timestamp = "-3 days";
+
+    };
+
+    #tldr-update
+    tldr-update = {
+      enable = true;
+      package = pkgs-unstable.tldr;
+      period = "weekly"; # default is weekly
+    };
     
     /*kdeconnect = {
       enable = true;
