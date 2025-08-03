@@ -395,11 +395,11 @@ in
     #added a home.file below
   };
   #pay-respects config file
-  home.file.".config/pay-respects/config.toml" = {
+  /*home.file.".config/pay-respects/config.toml" = {
       text = ''
         package_manager.install_method = "Shell"
       '';
-  };
+  };*/
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
