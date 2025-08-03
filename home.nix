@@ -52,6 +52,7 @@ in
       ripgrep-all # same as ripgrep but for many file types like video, PDFs, etc etc
       #nh
       gg-jj
+      pay-respects
 
       /*desktop apps*/
       vlc
@@ -398,7 +399,7 @@ in
   };
 
   #pay-respects
-  programs.pay-respects = {
+  /*programs.pay-respects = {
     enable = true;
     package = pkgs-unstable.pay-respects;
     #enableBashIntegration = true;
@@ -410,7 +411,7 @@ in
     #added a home.file below
   };
   #pay-respects config file
-  /*home.file.".config/pay-respects/config.toml" = {
+  home.file.".config/pay-respects/config.toml" = {
       text = ''
         package_manager.install_method = "Shell"
       '';
