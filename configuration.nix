@@ -57,7 +57,7 @@
     package = pkgs-unstable.libvirt;
     onShutdown = "shutdown"; 
   };
-  #virtualisation.spiceUSBRedirection.enable = true;
+  virtualisation.spiceUSBRedirection.enable = true;
   users.groups.libvirtd.members = ["ksvnixospc"]; # or u have to add this :  users.users.<myuser>.extraGroups = [ "libvirtd" ];
   networking.firewall.trustedInterfaces = [ "virbr0" ];
   systemd.services.libvirt-default-network = {
@@ -86,34 +86,32 @@
   # Podman
   # Enable common container config files in /etc/containers
   virtualisation.containers.enable = true;
-  virtualisation = {
+  users.groups.podman.members = [ "ksvnixospc" ];
+  virtualisation.podman = {
+    enable = true;
+    dockerCompat = true;  # Enables the Docker compatibility socket #also creates wrapper alias for docker commands
+    dockerSocket.enable = true;  # Creates a Docker-compatible socket
     
-    podman = {
+    /*#Auto-pruning
+    autoPrune = {
       enable = true;
-      dockerCompat = true;  # Enables the Docker compatibility socket #also creates wrapper alias for docker commands
-      dockerSocket.enable = true;  # Creates a Docker-compatible socket
-      
-      /*#Auto-pruning
-      autoPrune = {
-        enable = true;
-        dates = "weekly";  # When to run: "daily", "weekly", etc.
-        flags = [ "--all" "--volumes" ];  # Additional flags
-      };
-    
-      #Container settings
-      settings = {
-        engine = {
-          cgroup_manager = "systemd";  # Use systemd for cgroup management
-          events_logger = "journald";  # Log to journald
-          runtime = "crun";  # Default runtime
-          volume_path = "$HOME/.local/share/containers/storage/volumes";  # Custom volume path
-        };*/
+      dates = "weekly";  # When to run: "daily", "weekly", etc.
+      flags = [ "--all" "--volumes" ];  # Additional flags
+    };
+  
+    #Container settings
+    settings = {
+      engine = {
+        cgroup_manager = "systemd";  # Use systemd for cgroup management
+        events_logger = "journald";  # Log to journald
+        runtime = "crun";  # Default runtime
+        volume_path = "$HOME/.local/share/containers/storage/volumes";  # Custom volume path
+      };*/
 
-      # Default network settings
-      defaultNetwork.settings = {
+    # Default network settings
+    defaultNetwork.settings = {
       dns_enabled = true;  # Enable DNS server for containers
       #network_interface = "podman0";  # Default network interface name
-    };
     };
   };
 
@@ -314,7 +312,7 @@
   users.users.ksvnixospc = {
     isNormalUser = true;
     description = "ksvnixospc";
-    extraGroups = [ "networkmanager" "wheel" "podman" ];
+    extraGroups = [ "networkmanager" "wheel" ];
     hashedPassword = "$6$DmrUUL7YWFMar6aA$sAoRlSbFH/GYETfXGTGa6GSTEsBEP1lQ6oRdXlQUsqhRB7OTI2vTmVlx64B2ihcez8B0q0l8/Vx1pO8c82bxm0" ;
     shell = pkgs-unstable.fish;
     packages = (with pkgs; [
