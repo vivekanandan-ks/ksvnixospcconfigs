@@ -343,13 +343,13 @@ in
     };
 
     # nix-index
-    /*nix-index = {
+    nix-index = {
       enable = true;
       package = pkgs-unstable.nix-index;
       #enableBashIntegration = true;
       #enableFishIntegration = true;
       #nushell integration doesn't exist yet
-    };*/
+    };
 
     #obs-studio
     obs-studio = {
