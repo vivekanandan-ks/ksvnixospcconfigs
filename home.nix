@@ -53,6 +53,7 @@ in
       #nh
       gg-jj
       #pay-respects
+      nix-index
 
       /*desktop apps*/
       vlc
@@ -342,16 +343,6 @@ in
 
     };
 
-    # nix-index
-    /*nix-index = {
-      enable = true;
-      package = pkgs-unstable.nix-index;
-      enableBashIntegration = true;
-      enableFishIntegration = true;
-      #nushell integration doesn't exist yet
-    };*/
-    #command-not-found.enable = false;
-
     #obs-studio
     obs-studio = {
       enable = true;
@@ -368,7 +359,6 @@ in
 
       ];
     };
-
 
 
   };
@@ -408,6 +398,16 @@ in
 
   };
 
+  # nix-index
+  /*programs.nix-index = {
+    enable = true;
+    package = pkgs-unstable.nix-index;
+    enableBashIntegration = true;
+    enableFishIntegration = true;
+    #nushell integration doesn't exist yet
+  };*/
+  #command-not-found.enable = false;
+
   #pay-respects
   programs.pay-respects = {
     enable = true;
@@ -415,7 +415,7 @@ in
     enableBashIntegration = true;
     enableFishIntegration = true;
     enableNushellIntegration = true;
-    options = [ "--alias" "f" ]; # by default alias is f in new versions so no need for this option
+    #options = [ "--alias" "f" ]; # by default alias is f in new versions so no need for this option
     #added a home.file below
   };
   #pay-respects config file
