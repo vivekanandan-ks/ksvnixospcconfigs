@@ -318,6 +318,7 @@ in
       enableFishIntegration = true;
       enableNushellIntegration = true;
       #options = [];
+      #added an environment variable below in home.sessionVariables
 
     };
 
@@ -459,6 +460,7 @@ in
   #
   home.sessionVariables = {
     EDITOR = "micro";
+    _ZO_ECHO = 1; #zoxide show resolved directory
   };
 
   # This value determines the Home Manager release that your configuration is
