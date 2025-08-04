@@ -346,11 +346,11 @@ in
     nix-index = {
       enable = true;
       package = pkgs-unstable.nix-index;
-      #enableBashIntegration = true;
-      #enableFishIntegration = true;
+      enableBashIntegration = true;
+      enableFishIntegration = true;
       #nushell integration doesn't exist yet
     };
-    command-not-found.enable = false;
+    #command-not-found.enable = false;
 
     #obs-studio
     obs-studio = {
