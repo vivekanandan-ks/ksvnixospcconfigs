@@ -142,7 +142,9 @@ in
     bash = {
       enable = true ;
       initExtra = ''
+        eval "$(pay-respects bash)"
         ${globalShellInit}
+        
       '';
     };
 
@@ -156,6 +158,10 @@ in
       };*/
       interactiveShellInit = ''
         ${globalShellInit}
+      '';
+      #try shellInit if below option isn't your preference
+      shellInitLast = ''
+        pay-respects fish | source
       '';
     };
 
@@ -263,6 +269,7 @@ in
           {|cmd| ^command-not-found $cmd | print }  
         ]
 
+        pay-respects nushell
         ${globalShellInit}     
       '';
         /*# Add your shell init command here
