@@ -52,7 +52,7 @@ in
       ripgrep-all # same as ripgrep but for many file types like video, PDFs, etc etc
       #nh
       gg-jj
-      pay-respects
+      #pay-respects
 
       /*desktop apps*/
       vlc
@@ -142,7 +142,7 @@ in
     bash = {
       enable = true ;
       initExtra = ''
-        eval "$(pay-respects bash)"
+        #eval "$(pay-respects bash)"
         ${globalShellInit}
         
       '';
@@ -161,7 +161,7 @@ in
       '';
       #try shellInit if below option isn't your preference
       shellInitLast = ''
-        pay-respects fish | source
+        #pay-respects fish | source
       '';
     };
 
@@ -269,7 +269,7 @@ in
           {|cmd| ^command-not-found $cmd | print }  
         ]
 
-        pay-respects nushell
+        #pay-respects nushell
         ${globalShellInit}     
       '';
         /*# Add your shell init command here
@@ -408,15 +408,13 @@ in
   };
 
   #pay-respects
-  /*programs.pay-respects = {
+  programs.pay-respects = {
     enable = true;
     package = pkgs-unstable.pay-respects;
     #enableBashIntegration = true;
     #enableFishIntegration = true;
     #enableNushellIntegration = true;
-    options = [ 
-      "--alias" "f"
-    ];
+    #options = [ "--alias" "f" ]; # by default alias is f in new versions so no need for this option
     #added a home.file below
   };
   #pay-respects config file
@@ -424,7 +422,7 @@ in
       text = ''
         package_manager.install_method = "Shell"
       '';
-  };*/
+  };
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
