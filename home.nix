@@ -350,6 +350,7 @@ in
       #enableFishIntegration = true;
       #nushell integration doesn't exist yet
     };
+    programs.command-not-found.enable = false;
 
     #obs-studio
     obs-studio = {
