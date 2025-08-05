@@ -129,11 +129,11 @@
     #randomizedDelaySec = "30min";
   };*/
 
-  nix.settings.substituters = [
+  /*nix.settings.substituters = [
     "https://cache.nixos.org/"
     "https://nix-community.cachix.org"
     
-  ];
+  ];*/
 
   # Bootloader.
   # systemd-boot
