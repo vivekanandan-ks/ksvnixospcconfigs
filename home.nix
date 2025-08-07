@@ -185,9 +185,9 @@ in
             };
           };
         };
-        /*"[nix]" = {
+        "[nix]" = {
           "editor.defaultFormatter" = "jnoortheen.nix-ide";
-        };*/
+        };
 
       };
     };
