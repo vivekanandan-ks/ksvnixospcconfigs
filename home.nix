@@ -1,43 +1,52 @@
-{ inputs, config, lib, pkgs, pkgs-unstable, ... }:
+{
+  inputs,
+  config,
+  lib,
+  pkgs,
+  pkgs-unstable,
+  ...
+}:
 
 let
-  globalShellInit = 
+  globalShellInit =
     let
       figlet-font.bloody = ./resources/figlet-font-Bloody.flf;
     in
-  ''
-    #${pkgs.figlet}/bin/figlet -f ${figlet-font.bloody} "hello ksv" | ${pkgs.lolcat}/bin/lolcat
-    #${pkgs.figlet}/bin/figlet -f ${figlet-font.bloody} "hello ksv" | sed 's/^/\x1b[38;2;144;202;249m/' | sed 's/$/\x1b[0m/'
-    #${pkgs-unstable.fastfetch}/bin/fastfetch
-  '';
+    ''
+      #${pkgs.figlet}/bin/figlet -f ${figlet-font.bloody} "hello ksv" | ${pkgs.lolcat}/bin/lolcat
+      #${pkgs.figlet}/bin/figlet -f ${figlet-font.bloody} "hello ksv" | sed 's/^/\x1b[38;2;144;202;249m/' | sed 's/$/\x1b[0m/'
+      #${pkgs-unstable.fastfetch}/bin/fastfetch
+    '';
 
   vscode-package = pkgs-unstable.vscode-fhs;
-  vscode-extnsns = (with pkgs-unstable.vscode-extensions; [
-    # nix
-    jnoortheen.nix-ide # Nix IDE
-    brettm12345.nixfmt-vscode# nixfmt
+  vscode-extnsns =
+    (with pkgs-unstable.vscode-extensions; [
+      # nix
+      jnoortheen.nix-ide # Nix IDE
+      #brettm12345.nixfmt-vscode # nixfmt (not needed since we use nix IDE for formatting too)
 
-    tamasfe.even-better-toml # Even Better TOML
-    mads-hartmann.bash-ide-vscode # Bash IDE
-    redhat.vscode-yaml # YAML
+      tamasfe.even-better-toml # Even Better TOML
+      mads-hartmann.bash-ide-vscode # Bash IDE
+      redhat.vscode-yaml # YAML
 
-    # Python
-    ms-python.python # Python
-    ms-python.debugpy # Python Debugger
+      # Python
+      ms-python.python # Python
+      ms-python.debugpy # Python Debugger
 
-    thenuprojectcontributors.vscode-nushell-lang # vscode-nushell-lang
-    eamodio.gitlens # GitLens
+      thenuprojectcontributors.vscode-nushell-lang # vscode-nushell-lang
+      eamodio.gitlens # GitLens
 
-
-  ]) ++ 
-  (with pkgs-unstable.vscode-utils.extensionsFromVscodeMarketplace; [
-    /*{
-      name = "remote-ssh-edit";
-      publisher = "ms-vscode-remote";
-      version = "0.47.2";
-      sha256 = "1hp6gjh4xp2m1xlm1jsdzxw9d8frkiidhph6nvl24d0h8z34w49g";
-    }*/
-  ]);
+    ])
+    ++ (with pkgs-unstable.vscode-utils.extensionsFromVscodeMarketplace; [
+      /*
+        {
+          name = "remote-ssh-edit";
+          publisher = "ms-vscode-remote";
+          version = "0.47.2";
+          sha256 = "1hp6gjh4xp2m1xlm1jsdzxw9d8frkiidhph6nvl24d0h8z34w49g";
+        }
+      */
+    ]);
 
 in
 {
@@ -50,7 +59,8 @@ in
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = (with pkgs; [
+  home.packages =
+    (with pkgs; [
       #stable packages
       kdePackages.partitionmanager
       #warp-terminal
@@ -59,75 +69,75 @@ in
 
     ++
 
-    (with pkgs-unstable;[
-      #unstable packages
+      (with pkgs-unstable; [
+        #unstable packages
 
-      #kde packages
-      kdePackages.kate
-      kdePackages.filelight
-      
-      #nixd #nix lsp for code editors
+        #kde packages
+        kdePackages.kate
+        kdePackages.filelight
 
-      /*terminal apps*/
-      vim
-      wget
-      nano
-      git-town
-      btop
-      #fastfetch
-      bat # cat modern alternative
-      tldr #tldr-update is added in services
-      lsd
-      rip2
-      duf
-      ripgrep #grep alternative #rg is the command
-      ripgrep-all # same as ripgrep but for many file types like video, PDFs, etc etc
-      #nh
-      gg-jj
-      #pay-respects
-      #nix-index
+        #nixd #nix lsp for code editors
 
-      /*desktop apps*/
-      vlc
-      haruna
-      euphonica
-      freetube
-      collector #drag and drop tool
-      localsend
-      qbittorrent
-      
-      brave
-      google-chrome
-      #tor-browser
+        # terminal apps
+        vim
+        wget
+        nano
+        git-town
+        btop
+        #fastfetch
+        bat # cat modern alternative
+        tldr # tldr-update is added in services
+        lsd
+        rip2
+        duf
+        ripgrep # grep alternative #rg is the command
+        ripgrep-all # same as ripgrep but for many file types like video, PDFs, etc etc
+        #nh
+        gg-jj
+        #pay-respects
+        #nix-index
 
-      #soundwireserver
-      #podman-desktop
-      onlyoffice-desktopeditors
-      #virtualbox
-      waveterm # modern terminal app
-      warp-terminal
-      cheese #camera app
-      #zoom-us
-      
-      telegram-desktop
-      signal-desktop
-      discord
+        # desktop apps
+        vlc
+        haruna
+        euphonica
+        freetube
+        collector # drag and drop tool
+        localsend
+        qbittorrent
 
-      nixfmt
-      nixd
-      #nil
+        brave
+        google-chrome
+        #tor-browser
 
+        #soundwireserver
+        #podman-desktop
+        onlyoffice-desktopeditors
+        #virtualbox
+        waveterm # modern terminal app
+        warp-terminal
+        cheese # camera app
+        #zoom-us
 
+        telegram-desktop
+        signal-desktop
+        discord
 
-      #vscode
-      /*(vscode-with-extensions.override {
+        nixfmt
+        nixd
+        #nil
 
-        vscode = vscode-package;
+        #vscode
+        /*
+          (vscode-with-extensions.override {
 
-        vscodeExtensions = vscode-extnsns;
-      })*/
+            vscode = vscode-package;
 
-    ]);
+            vscodeExtensions = vscode-extnsns;
+          })
+        */
+
+      ]);
 
   programs = {
 
@@ -139,17 +149,16 @@ in
       package = vscode-package;
       mutableExtensionsDir = false;
       enableExtensionUpdateCheck = false;
-      enableUpdateCheck =  false;
-      
+      enableUpdateCheck = false;
+
       extensions = vscode-extnsns;
 
-      
       userSettings = {
         ##### VsCode Settings #####
         ## Commonly Used
         "files.autoSave" = "afterDelay";
         "git.openRepositoryInParentFolders" = "always";
-        
+
         #### NixIDE
         "nix.enableLanguageServer" = true;
         "nix.formatterPath" = "nixfmt";
@@ -176,27 +185,32 @@ in
             };
           };
         };
+        /*"[nix]" = {
+          "editor.defaultFormatter" = "jnoortheen.nix-ide";
+        };*/
 
       };
     };
 
-    /*#waveterm - modern terminal app
-    waveterm = {
-      enable = true;
-      package = pkgs-unstable.waveterm;
-      
-      bookmarks = {
-        "bookmark@google" = {
-          title = "Google";
-          url = "https://www.google.com";
+    /*
+      #waveterm - modern terminal app
+      waveterm = {
+        enable = true;
+        package = pkgs-unstable.waveterm;
+
+        bookmarks = {
+          "bookmark@google" = {
+            title = "Google";
+            url = "https://www.google.com";
+          };
+        };
+
+        settings = {
+          #"window:blur" = true;
+          #"window:opacity" = 0.5;
         };
       };
-
-      settings = {
-        #"window:blur" = true;
-        #"window:opacity" = 0.5;
-      };
-    };*/
+    */
 
     #nix helper
     nh = {
@@ -217,13 +231,15 @@ in
     };
 
     #nix garbage collection
-    /*nix.gc = {
-      automatic = true;
-      frequency = "daily";
-      options = "--delete-older-than 7d";
-      #persistent = false;
-      #randomizedDelaySec = "30min";
-    };*/
+    /*
+      nix.gc = {
+        automatic = true;
+        frequency = "daily";
+        options = "--delete-older-than 7d";
+        #persistent = false;
+        #randomizedDelaySec = "30min";
+      };
+    */
 
     #micro - editor
     micro = {
@@ -236,22 +252,24 @@ in
 
     #bash
     bash = {
-      enable = true ;
+      enable = true;
       initExtra = ''
         #eval "$(pay-respects bash)"
         ${globalShellInit}
-        
+
       '';
     };
 
     #fish
     fish = {
-      enable = true ;
-      package = pkgs-unstable.fish ;
-      /*shellAliases = {
-        rm = "echo Use 'rip' instead of rm." ;
-        rip = "rip --graveyard ~/.local/share/Trash" ;
-      };*/
+      enable = true;
+      package = pkgs-unstable.fish;
+      /*
+        shellAliases = {
+          rm = "echo Use 'rip' instead of rm." ;
+          rip = "rip --graveyard ~/.local/share/Trash" ;
+        };
+      */
       interactiveShellInit = ''
         ${globalShellInit}
       '';
@@ -263,7 +281,7 @@ in
 
     #git
     git = {
-      enable = true ;
+      enable = true;
       package = pkgs-unstable.git;
       extraConfig = {
         user.name = "vivekanandan-ks";
@@ -283,29 +301,31 @@ in
           name = "vivekanandan-ks";
         };
         #ui.editor = "micro";
-        snapshot.max-new-file-size = "10MiB"; #https://github.com/jj-vcs/jj/blob/main/docs/config.md#maximum-size-for-new-files
+        snapshot.max-new-file-size = "10MiB"; # https://github.com/jj-vcs/jj/blob/main/docs/config.md#maximum-size-for-new-files
       };
     };
 
     #firefox
     firefox = {
-      enable = true ;
+      enable = true;
       package = pkgs-unstable.firefox;
-      policies ={
+      policies = {
         DisableTelemetry = true;
         #Homepage.StartPage = "https://google.com";
       };
     };
-    
-    /*#github
-    gh = {
-      enable = true ;
-      package = pkgs-unstable.gh;
-      #gitCredentialHelper = {
-        #enable = true ;
-        #hosts = [];  
-      #};
-    };*/
+
+    /*
+      #github
+      gh = {
+        enable = true ;
+        package = pkgs-unstable.gh;
+        #gitCredentialHelper = {
+          #enable = true ;
+          #hosts = [];
+        #};
+      };
+    */
 
     #carapace
     carapace = {
@@ -313,7 +333,7 @@ in
       package = pkgs-unstable.carapace;
       enableNushellIntegration = true;
       enableBashIntegration = true;
-      # enableFishIntegration = true; 
+      # enableFishIntegration = true;
       #fish already have it's own features so commenting this for now
     };
 
@@ -339,7 +359,7 @@ in
 
     #nushell
     nushell = {
-      enable = true ;
+      enable = true;
       package = pkgs-unstable.nushell;
       plugins = with pkgs-unstable; [
         #nushellPlugins.gstat
@@ -356,7 +376,7 @@ in
         };
         color_config = {
           shape_external = "red"; # color of unresolved externals (see 'ansi --list')
-          shape_external_resolved = "white"; # color of resolved externals 
+          shape_external_resolved = "white"; # color of resolved externals
         };
       };
 
@@ -368,13 +388,15 @@ in
         #pay-respects nushell
         ${globalShellInit}     
       '';
-        /*# Add your shell init command here
-        $env.config.hooks.pre_prompt = [
-          {||
-            #some commanda here
-          }
-        ]
-      '';*/
+      /*
+        # Add your shell init command here
+          $env.config.hooks.pre_prompt = [
+            {||
+              #some commanda here
+            }
+          ]
+        '';
+      */
 
     };
 
@@ -422,7 +444,7 @@ in
       enable = true;
       package = pkgs-unstable.kitty;
       extraConfig = ''
-        
+
         # cursor
         #cursor_shape  block
         cursor_trail  3
@@ -443,7 +465,7 @@ in
     obs-studio = {
       enable = true;
       package = pkgs-unstable.obs-studio;
-      plugins = with pkgs-unstable.obs-studio-plugins;[
+      plugins = with pkgs-unstable.obs-studio-plugins; [
         obs-composite-blur
         obs-backgroundremoval
         obs-pipewire-audio-capture
@@ -455,7 +477,6 @@ in
 
       ];
     };
-
 
   };
 
@@ -477,18 +498,20 @@ in
       package = pkgs-unstable.tldr;
       period = "weekly"; # default is weekly
     };
-    
-    /*kdeconnect = {
-      enable = true;
-      indicator = true;
-      package = pkgs-unstable.kdePackages.kdeconnect-kde ; 
-    };*/
+
+    /*
+      kdeconnect = {
+        enable = true;
+        indicator = true;
+        package = pkgs-unstable.kdePackages.kdeconnect-kde ;
+      };
+    */
 
   };
 
   home.shellAliases = {
-    rm = "echo Use 'rip' instead of rm." ;
-    rip = "rip --graveyard ~/.local/share/Trash" ;
+    rm = "echo Use 'rip' instead of rm.";
+    rip = "rip --graveyard ~/.local/share/Trash";
     df = "echo try duf instead";
     grep = "echo 'try ripgrep or ripgrep-all and rg or rga is the command'";
 
@@ -516,9 +539,9 @@ in
   };
   #pay-respects config file
   home.file.".config/pay-respects/config.toml" = {
-      text = ''
-        package_manager.install_method = "Shell"
-      '';
+    text = ''
+      package_manager.install_method = "Shell"
+    '';
   };
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -555,7 +578,7 @@ in
   #
   home.sessionVariables = {
     EDITOR = "micro";
-    _ZO_ECHO = 1; #zoxide show resolved directory
+    _ZO_ECHO = 1; # zoxide show resolved directory
   };
 
   # This value determines the Home Manager release that your configuration is
