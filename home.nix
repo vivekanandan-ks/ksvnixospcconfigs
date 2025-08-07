@@ -92,7 +92,7 @@ in
       #vscode
       (vscode-with-extensions.override {
 
-        vscode = vscodium;
+        vscode = pkgs-unstable.vscode-fhs;
 
         vscodeExtensions = (with pkgs-unstable.vscode-extensions; [
           # nix
