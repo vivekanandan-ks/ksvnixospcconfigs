@@ -93,6 +93,7 @@ in
       (vscode-with-extensions.override {
 
         #vscode = vscodium;
+        
         vscodeExtensions = (with pkgs-unstable.vscode-extensions; [
           # nix
           jnoortheen.nix-ide # Nix IDE
