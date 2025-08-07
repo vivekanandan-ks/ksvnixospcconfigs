@@ -1,4 +1,4 @@
-{ config, lib, pkgs, pkgs-unstable, ... }:
+{ inputs, config, lib, pkgs, pkgs-unstable, ... }:
 
 let
   globalShellInit = 
@@ -18,10 +18,12 @@ in
   home.username = "ksvnixospc";
   home.homeDirectory = "/home/ksvnixospc";
 
+  #nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
+
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = (with pkgs; [
-      #stable
+      #stable packages
       kdePackages.partitionmanager
       warp-terminal
 
@@ -30,12 +32,14 @@ in
     ++
 
     (with pkgs-unstable;[
-      #unstable
+      #unstable packages
 
       #kde packages
       kdePackages.kate
       kdePackages.filelight
       
+      #nixd #nix lsp for code editors
+
       /*terminal apps*/
       vim
       wget
@@ -84,6 +88,51 @@ in
     ]);
 
   programs = {
+
+    #vscode
+    # https://unix.stackexchange.com/questions/768678/configure-vscode-in-nixos
+    /*vscode = {
+      enable = true;
+      package = pkgs-unstable.vscode;
+      mutableExtensionsDir = false;
+      enableExtensionUpdateCheck = false;
+      enableUpdateCheck =  false;
+      extensions = [
+
+      ];
+      userSettings = {
+        ##### VsCode Settings #####
+        ## Commonly Used
+        #"files.autoSave" = "onFocusChange";
+        
+        #### NixIDE
+        "nix.enableLanguageServer" = true;
+        "nix.formatterPath" = "nixpkgs-fmt";
+        "nix.serverPath" = "nixd";
+        "nix.serverSettings" = {
+          "nixd" = {
+            "eval" = { };
+            "formatting" = {
+              "command" = "nixpkgs-fmt";
+              #nicd and nixpkgs-fmt to be added as packages
+            };
+            "options" = {
+              "enable" = true;
+              "target" = {
+                "args" = [ ];
+                ## NixOS options
+                # "installable" = "<flakeref>#nixosConfigurations.<name>.options";
+                ## Flake-parts options
+                # "installable" = "<flakeref>#debug.options";
+                ## Home-manager options
+                "installable" = "~/Documents/ksvnixospcconfigs/home.nix#homeConfigurations.ksvnixospc.options";
+              };
+            };
+          };
+        };
+
+      };
+    };*/
 
     /*#waveterm - modern terminal app
     waveterm = {
