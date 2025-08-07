@@ -11,6 +11,34 @@ let
     #${pkgs-unstable.fastfetch}/bin/fastfetch
   '';
 
+  vscode-package = pkgs-unstable.vscode-fhs;
+  vscode-extnsns = (with pkgs-unstable.vscode-extensions; [
+    # nix
+    jnoortheen.nix-ide # Nix IDE
+    brettm12345.nixfmt-vscode# nixfmt
+
+    tamasfe.even-better-toml # Even Better TOML
+    mads-hartmann.bash-ide-vscode # Bash IDE
+    redhat.vscode-yaml # YAML
+
+    # Python
+    ms-python.python # Python
+    ms-python.debugpy # Python Debugger
+
+    thenuprojectcontributors.vscode-nushell-lang # vscode-nushell-lang
+    eamodio.gitlens # GitLens
+
+
+  ]) ++ 
+  (with pkgs-unstable.vscode-utils.extensionsFromVscodeMarketplace; [
+    /*{
+      name = "remote-ssh-edit";
+      publisher = "ms-vscode-remote";
+      version = "0.47.2";
+      sha256 = "1hp6gjh4xp2m1xlm1jsdzxw9d8frkiidhph6nvl24d0h8z34w49g";
+    }*/
+  ]);
+
 in
 {
   # Home Manager needs a bit of information about you and the paths it should
@@ -18,7 +46,7 @@ in
   home.username = "ksvnixospc";
   home.homeDirectory = "/home/ksvnixospc";
 
-  #nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
+  nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
@@ -86,40 +114,16 @@ in
 
       nixfmt
       nixd
+      #nil
 
 
 
       #vscode
       (vscode-with-extensions.override {
 
-        vscode = pkgs-unstable.vscode-fhs;
+        vscode = vscode-package;
 
-        vscodeExtensions = (with pkgs-unstable.vscode-extensions; [
-          # nix
-          jnoortheen.nix-ide # Nix IDE
-          brettm12345.nixfmt-vscode# nixfmt
-
-          tamasfe.even-better-toml # Even Better TOML
-          mads-hartmann.bash-ide-vscode # Bash IDE
-          redhat.vscode-yaml # YAML
-
-          # Python
-          ms-python.python # Python
-          ms-python.debugpy # Python Debugger
-
-          thenuprojectcontributors.vscode-nushell-lang # vscode-nushell-lang
-          eamodio.gitlens # GitLens
-
-
-        ]) ++ 
-        (with pkgs-unstable.vscode-utils.extensionsFromVscodeMarketplace; [
-          /*{
-            name = "remote-ssh-edit";
-            publisher = "ms-vscode-remote";
-            version = "0.47.2";
-            sha256 = "1hp6gjh4xp2m1xlm1jsdzxw9d8frkiidhph6nvl24d0h8z34w49g";
-          }*/
-        ]);
+        vscodeExtensions = vscode-extnsns;
       })
 
     ]);
@@ -131,28 +135,30 @@ in
     # https://discourse.nixos.org/t/home-manager-vscode-extension-settings-mutableextensionsdir-false/33878
     /*vscode = {
       enable = true;
-      package = pkgs-unstable.vscode;
+      package = vscode-package;
       mutableExtensionsDir = false;
       enableExtensionUpdateCheck = false;
       enableUpdateCheck =  false;
-      extensions = [
+      
+      extensions = vscode-extnsns;
 
-      ];
+      
       userSettings = {
         ##### VsCode Settings #####
         ## Commonly Used
-        #"files.autoSave" = "onFocusChange";
+        "files.autoSave" = "afterDelay";
+        "git.openRepositoryInParentFolders" = "always";
         
         #### NixIDE
         "nix.enableLanguageServer" = true;
-        "nix.formatterPath" = "nixpkgs-fmt";
+        "nix.formatterPath" = "nixfmt";
         "nix.serverPath" = "nixd";
         "nix.serverSettings" = {
           "nixd" = {
             "eval" = { };
             "formatting" = {
-              "command" = "nixpkgs-fmt";
-              #nicd and nixpkgs-fmt to be added as packages
+              "command" = "nixfmt";
+              #nixd and nixfmt to be added as packages
             };
             "options" = {
               "enable" = true;
@@ -163,7 +169,8 @@ in
                 ## Flake-parts options
                 # "installable" = "<flakeref>#debug.options";
                 ## Home-manager options
-                "installable" = "~/Documents/ksvnixospcconfigs/home.nix#homeConfigurations.ksvnixospc.options";
+                #"installable" = "~/Documents/ksvnixospcconfigs/home.nix#homeConfigurations.ksvnixospc.options";
+                "installable" = "${./home.nix}#homeConfigurations.ksvnixospc.options";
               };
             };
           };
