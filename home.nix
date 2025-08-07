@@ -170,8 +170,8 @@ in
                 ## Flake-parts options
                 # "installable" = "<flakeref>#debug.options";
                 ## Home-manager options
-                "installable" = "~/Documents/ksvnixospcconfigs/home.nix#homeConfigurations.ksvnixospc.options";
-                #"installable" = "${./home.nix}#homeConfigurations.ksvnixospc.options";
+                #"installable" = "~/Documents/ksvnixospcconfigs/home.nix#homeConfigurations.ksvnixospc.options";
+                "installable" = "${./home.nix}#homeConfigurations.ksvnixospc.options";
               };
             };
           };
