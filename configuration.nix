@@ -2,17 +2,24 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ inputs, config, pkgs, pkgs-unstable, lib, ... }:
+{
+  inputs,
+  config,
+  pkgs,
+  pkgs-unstable,
+  lib,
+  ...
+}:
 
 {
-  imports = [ 
+  imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     inputs.home-manager.nixosModules.home-manager
   ];
 
   home-manager = {
-    extraSpecialArgs = { inherit inputs pkgs pkgs-unstable ; };
+    extraSpecialArgs = { inherit inputs pkgs pkgs-unstable; };
     users = {
       ksvnixospc = import ./home.nix;
     };
@@ -20,9 +27,9 @@
   };
 
   #fonts
-  fonts.packages = with pkgs;[
+  fonts.packages = with pkgs; [
     nerd-fonts.monofur
-    
+
   ];
 
   #SWAP
@@ -36,15 +43,15 @@
   #Enabling docker in rootless mode.
   #Don't forget to include the below commented commands to start the docker daemon service,
   #coz just enabling doesn't start the daemon
-  /*virtualisation.docker.rootless = {
-    enable = true;
-    setSocketVariable = true;
-  };*/
-    #systemctl --user enable --now docker
-    #systemctl --user start docker
-    #systemctl --user status docker # to check the status
-
-
+  /*
+    virtualisation.docker.rootless = {
+      enable = true;
+      setSocketVariable = true;
+    };
+  */
+  #systemctl --user enable --now docker
+  #systemctl --user start docker
+  #systemctl --user status docker # to check the status
 
   #virt-manager - this requires the above declared libvirt
   programs.virt-manager = {
@@ -55,15 +62,15 @@
   virtualisation.libvirtd = {
     enable = true;
     package = pkgs-unstable.libvirt;
-    onShutdown = "shutdown"; 
+    onShutdown = "shutdown";
   };
   virtualisation.spiceUSBRedirection.enable = true;
-  users.groups.libvirtd.members = ["ksvnixospc"]; # or u have to add this :  users.users.<myuser>.extraGroups = [ "libvirtd" ];
+  users.groups.libvirtd.members = [ "ksvnixospc" ]; # or u have to add this :  users.users.<myuser>.extraGroups = [ "libvirtd" ];
   networking.firewall.trustedInterfaces = [ "virbr0" ];
   systemd.services.libvirt-default-network = {
     description = "Start libvirt default network";
-    after = ["libvirtd.service"];
-    wantedBy = ["multi-user.target"];
+    after = [ "libvirtd.service" ];
+    wantedBy = [ "multi-user.target" ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
@@ -74,13 +81,13 @@
   };
 
   /*
-  #check out this issue: https://github.com/NixOS/nixpkgs/issues/223594
-  #solutions for theissue are as below
-  networking.firewall.trustedInterfaces = [ "virbr0" ]; #try this only if the below methods doesn't work
-  #also sometimes u need to run one or more of the following commands for the network to work (see the wiki link above)
-  # sudo virsh net-autostart default # auto setup on all launch
-  # sudo virsh net-start default #manual each time
-  #chck this: https://blog.programster.org/kvm-missing-default-network
+    #check out this issue: https://github.com/NixOS/nixpkgs/issues/223594
+    #solutions for theissue are as below
+    networking.firewall.trustedInterfaces = [ "virbr0" ]; #try this only if the below methods doesn't work
+    #also sometimes u need to run one or more of the following commands for the network to work (see the wiki link above)
+    # sudo virsh net-autostart default # auto setup on all launch
+    # sudo virsh net-start default #manual each time
+    #chck this: https://blog.programster.org/kvm-missing-default-network
   */
 
   # Podman
@@ -89,28 +96,30 @@
   users.groups.podman.members = [ "ksvnixospc" ];
   virtualisation.podman = {
     enable = true;
-    dockerCompat = true;  # Enables the Docker compatibility socket #also creates wrapper alias for docker commands
-    dockerSocket.enable = true;  # Creates a Docker-compatible socket
-    
-    /*#Auto-pruning
-    autoPrune = {
-      enable = true;
-      dates = "weekly";  # When to run: "daily", "weekly", etc.
-      flags = [ "--all" "--volumes" ];  # Additional flags
-    };
-  
-    #Container settings
-    settings = {
-      engine = {
-        cgroup_manager = "systemd";  # Use systemd for cgroup management
-        events_logger = "journald";  # Log to journald
-        runtime = "crun";  # Default runtime
-        volume_path = "$HOME/.local/share/containers/storage/volumes";  # Custom volume path
-      };*/
+    dockerCompat = true; # Enables the Docker compatibility socket #also creates wrapper alias for docker commands
+    dockerSocket.enable = true; # Creates a Docker-compatible socket
+
+    /*
+      #Auto-pruning
+      autoPrune = {
+        enable = true;
+        dates = "weekly";  # When to run: "daily", "weekly", etc.
+        flags = [ "--all" "--volumes" ];  # Additional flags
+      };
+
+      #Container settings
+      settings = {
+        engine = {
+          cgroup_manager = "systemd";  # Use systemd for cgroup management
+          events_logger = "journald";  # Log to journald
+          runtime = "crun";  # Default runtime
+          volume_path = "$HOME/.local/share/containers/storage/volumes";  # Custom volume path
+        };
+    */
 
     # Default network settings
     defaultNetwork.settings = {
-      dns_enabled = true;  # Enable DNS server for containers
+      dns_enabled = true; # Enable DNS server for containers
       #network_interface = "podman0";  # Default network interface name
     };
   };
@@ -118,22 +127,25 @@
   #download buffer size; default size is 16mb (16*1024*1024)
   nix.settings.download-buffer-size = 67108864;
 
- 
-  nix.settings.auto-optimise-store = true; #if set to false(default) then run " nix-store --optimise " periodically to get rid of duplicate files.
-   #Nix GC
-  /*nix.gc = {
-    automatic = true;
-    #persistent = false;
-    dates = "daily";
-    options = "--delete-older-than 7d";
-    #randomizedDelaySec = "30min";
-  };*/
+  nix.settings.auto-optimise-store = true; # if set to false(default) then run " nix-store --optimise " periodically to get rid of duplicate files.
+  #Nix GC
+  /*
+    nix.gc = {
+      automatic = true;
+      #persistent = false;
+      dates = "daily";
+      options = "--delete-older-than 7d";
+      #randomizedDelaySec = "30min";
+    };
+  */
 
-  /*nix.settings.substituters = [
-    "https://cache.nixos.org/"
-    "https://nix-community.cachix.org"
-    
-  ];*/
+  /*
+    nix.settings.substituters = [
+      "https://cache.nixos.org/"
+      "https://nix-community.cachix.org"
+
+    ];
+  */
 
   # Bootloader.
   # systemd-boot
@@ -144,7 +156,7 @@
   boot.loader = {
     limine = {
       enable = true;
-      style.wallpapers = lib.filesystem.listFilesRecursive ./resources/limine-images; #list of wallpaper paths
+      style.wallpapers = lib.filesystem.listFilesRecursive ./resources/limine-images; # list of wallpaper paths
       #style.wallpaperStyle = "centered";
       extraEntries = ''
         /Windows
@@ -157,7 +169,6 @@
     };
   };
 
-
   #kde-connect
   programs.kdeconnect = lib.mkForce {
     enable = true;
@@ -166,7 +177,7 @@
 
   #Enable bluetooth
   hardware.bluetooth.enable = true;
-  
+
   #cosmic DE
   #services.displayManager.cosmic-greeter.enable = true; # cosmic login manager
   #services.desktopManager.cosmic.enable = true;
@@ -175,7 +186,10 @@
   #programs.hyprland.enable = true;
 
   #Enable flakes
-  nix.settings.experimental-features = ["nix-command" "flakes"];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   #enable flatpak
   services.flatpak.enable = true;
@@ -186,43 +200,50 @@
 
   #enable unfree services
   #nixpkgs.config.allowUnfree = true;
-  /*nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-    "warp-terminal"
-  ];*/
+  /*
+    nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+      "warp-terminal"
+    ];
+  */
 
-
-  /*#enable fish shell
-  /*#enable fish shell
-  programs.fish ={
-    enable = true;
-    package = pkgs-unstable.fish ;
-    shellAliases = {
-      rm = "echo Use 'rip' instead of rm." ;
-      rip = "rip --graveyard ~/.local/share/Trash" ;
+  /*
+    #enable fish shell
+    /*#enable fish shell
+    programs.fish ={
+      enable = true;
+      package = pkgs-unstable.fish ;
+      shellAliases = {
+        rm = "echo Use 'rip' instead of rm." ;
+        rip = "rip --graveyard ~/.local/share/Trash" ;
+      };
     };
-  };*/
+  */
 
-  /*#enable git
-  programs.git = {
-    enable = true;
-    package = pkgs-unstable.git;
-    config = {
-      user.name = "vivekanandan-ks";
-      user.email = "ksvdevksv@gmail.com";
-      init.defaultBranch = "main";
-      core.editor = "micro";
+  /*
+    #enable git
+    programs.git = {
+      enable = true;
+      package = pkgs-unstable.git;
+      config = {
+        user.name = "vivekanandan-ks";
+        user.email = "ksvdevksv@gmail.com";
+        init.defaultBranch = "main";
+        core.editor = "micro";
+      };
     };
-  };*/
+  */
 
-  /*# Install firefox.
-  programs.firefox = {
-    enable = true;
-    package = pkgs-unstable.firefox;
-    policies ={
-      DisableTelemetry = true;
-      #Homepage.StartPage = "https://google.com";
+  /*
+    # Install firefox.
+    programs.firefox = {
+      enable = true;
+      package = pkgs-unstable.firefox;
+      policies ={
+        DisableTelemetry = true;
+        #Homepage.StartPage = "https://google.com";
+      };
     };
-  };*/
+  */
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -256,19 +277,21 @@
   # You can disable this if you're only using the Wayland session.
   services.xserver.enable = true;
 
-  /*specialisation = {
-    kdeunstable.configuration =
-      let
-        nixpkgs.pkgs = inputs.nixpkgs-unstable;
-      in 
-    { 
-      # Enable the KDE Plasma Desktop Environment.
-      services.displayManager.sddm.enable = true;
-      services.desktopManager.plasma6.enable = true;
+  /*
+    specialisation = {
+      kdeunstable.configuration =
+        let
+          nixpkgs.pkgs = inputs.nixpkgs-unstable;
+        in
+      {
+        # Enable the KDE Plasma Desktop Environment.
+        services.displayManager.sddm.enable = true;
+        services.desktopManager.plasma6.enable = true;
+
+      };
 
     };
-
-  };*/
+  */
 
   # Enable the KDE Plasma Desktop Environment.
   services.displayManager.sddm.enable = true;
@@ -302,36 +325,39 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
-  users.mutableUsers = false; #this will make all user management only via nixos and
+  users.mutableUsers = false; # this will make all user management only via nixos and
   #imperative user creations or anything in kde or commands won't persist the nixos-rebuild command.
 
-
   #root password
-  users.users.root.hashedPassword = "$6$/Yo/IR.A6rGbFVr6$a6c7yhjPYGuJOBBkcPXl/SjZ531tEUHtkY3tX3np2dcX6JpZg.Myrwdnz.fhqci0Sg83vU8lDYmdpSAQqD.OF0" ;
+  users.users.root.hashedPassword = "$6$/Yo/IR.A6rGbFVr6$a6c7yhjPYGuJOBBkcPXl/SjZ531tEUHtkY3tX3np2dcX6JpZg.Myrwdnz.fhqci0Sg83vU8lDYmdpSAQqD.OF0";
   # Define a user account
   users.users.ksvnixospc = {
     isNormalUser = true;
     description = "ksvnixospc";
-    extraGroups = [ "networkmanager" "wheel" ];
-    hashedPassword = "$6$DmrUUL7YWFMar6aA$sAoRlSbFH/GYETfXGTGa6GSTEsBEP1lQ6oRdXlQUsqhRB7OTI2vTmVlx64B2ihcez8B0q0l8/Vx1pO8c82bxm0" ;
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ];
+    hashedPassword = "$6$DmrUUL7YWFMar6aA$sAoRlSbFH/GYETfXGTGa6GSTEsBEP1lQ6oRdXlQUsqhRB7OTI2vTmVlx64B2ihcez8B0q0l8/Vx1pO8c82bxm0";
     shell = pkgs-unstable.fish;
-    packages = (with pkgs; [
-      #stable
+    packages =
+      (with pkgs; [
+        #stable
 
-    ])
+      ])
 
-    ++
+      ++
 
-    (with pkgs-unstable;[
-      #unstable
-      gh
+        (with pkgs-unstable; [
+          #unstable
+          gh
 
-    ]);
+        ]);
   };
 
   # Enable automatic login for the user.
   services.displayManager.autoLogin.enable = true;
-  services.displayManager.autoLogin.user = "ksvnixospc"; 
+  services.displayManager.autoLogin.user = "ksvnixospc";
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -343,17 +369,17 @@
 
     ++
 
-    (with pkgs-unstable;[
-      #unstable
+      (with pkgs-unstable; [
+        #unstable
 
-    ])
-    
+      ])
+
     ++
 
-    ([
-      #inputs.kwin-effects-forceblur.packages.${pkgs.system}.default # Wayland
-      #inputs.kwin-effects-forceblur.packages.${pkgs.system}.x11 # X11
-    ]);
+      ([
+        #inputs.kwin-effects-forceblur.packages.${pkgs.system}.default # Wayland
+        #inputs.kwin-effects-forceblur.packages.${pkgs.system}.x11 # X11
+      ]);
 
   # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   # Some programs need SUID wrappers, can be configured further or are
