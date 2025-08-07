@@ -53,7 +53,7 @@ in
   home.packages = (with pkgs; [
       #stable packages
       kdePackages.partitionmanager
-      warp-terminal
+      #warp-terminal
 
     ])
 
@@ -105,6 +105,7 @@ in
       onlyoffice-desktopeditors
       #virtualbox
       waveterm # modern terminal app
+      warp-terminal
       cheese #camera app
       #zoom-us
       
