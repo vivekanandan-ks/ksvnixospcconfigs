@@ -79,18 +79,55 @@ in
       waveterm # modern terminal app
       cheese #camera app
       #zoom-us
-      vscode
       
       telegram-desktop
       signal-desktop
       discord
 
+      nixfmt
+      nixd
+
+
+
+      #vscode
+      (vscode-with-extensions.override {
+
+        #vscode = vscodium;
+        vscodeExtensions = (with pkgs-unstable.vscode-extensions; [
+          # nix
+          jnoortheen.nix-ide # Nix IDE
+          brettm12345.nixfmt-vscode# nixfmt
+
+          tamasfe.even-better-toml # Even Better TOML
+          mads-hartmann.bash-ide-vscode # Bash IDE
+          redhat.vscode-yaml # YAML
+
+          # Python
+          ms-python.python # Python
+          ms-python.debugpy # Python Debugger
+
+          thenuprojectcontributors.vscode-nushell-lang # vscode-nushell-lang
+          eamodio.gitlens # GitLens
+
+
+        ]) ++ 
+        (with pkgs-unstable.vscode-utils.extensionsFromVscodeMarketplace; [
+          /*{
+            name = "remote-ssh-edit";
+            publisher = "ms-vscode-remote";
+            version = "0.47.2";
+            sha256 = "1hp6gjh4xp2m1xlm1jsdzxw9d8frkiidhph6nvl24d0h8z34w49g";
+          }*/
+        ]);
+      })
+
     ]);
 
   programs = {
 
-    #vscode
+    # vscode
     # https://unix.stackexchange.com/questions/768678/configure-vscode-in-nixos
+    # https://discourse.nixos.org/t/home-manager-vscode-extension-settings-mutableextensionsdir-false/33878
     /*vscode = {
       enable = true;
       package = pkgs-unstable.vscode;
