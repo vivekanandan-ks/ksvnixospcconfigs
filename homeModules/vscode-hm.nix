@@ -104,4 +104,8 @@ in
     };
   };
 
+  home.sessionVariables = {
+    NIXOS_OZONE_WL = "1"; # To use VS Code under Wayland
+  };
+
 }
