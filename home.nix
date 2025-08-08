@@ -21,6 +21,8 @@ in
 
   nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
 
+  #imports = pkgs-unstable.lib.filesystem.listFilesRecursive ./homeModules;
+
   imports = [
     ./homeModules/vscode-hm.nix
     ./homeModules/shells-hm.nix

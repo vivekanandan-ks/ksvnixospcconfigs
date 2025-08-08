@@ -60,48 +60,52 @@ in
     enable = true;
     package = vscode-package;
     mutableExtensionsDir = false;
-    enableExtensionUpdateCheck = false;
-    enableUpdateCheck = false;
 
-    extensions = vscode-extnsns;
+    profiles.default = {
+      extensions = vscode-extnsns;
+      enableExtensionUpdateCheck = false;
+      enableUpdateCheck = false;
 
-    userSettings = {
-      ##### VsCode Settings #####
-      ## Commonly Used
-      "files.autoSave" = "afterDelay";
-      "git.openRepositoryInParentFolders" = "always";
+      userSettings = {
+        ##### VsCode Settings #####
+        ## Commonly Used
+        "files.autoSave" = "afterDelay";
+        "git.openRepositoryInParentFolders" = "always";
 
-      #### NixIDE
-      "nix.enableLanguageServer" = true;
-      "nix.formatterPath" = "nixfmt";
-      "nix.serverPath" = "nixd";
-      "nix.serverSettings" = {
-        "nixd" = {
-          "eval" = { };
-          "formatting" = {
-            "command" = "nixfmt";
-            #nixd and nixfmt to be added as packages
-          };
-          "options" = {
-            "enable" = true;
-            "target" = {
-              "args" = [ ];
-              ## NixOS options
-              # "installable" = "<flakeref>#nixosConfigurations.<name>.options";
-              ## Flake-parts options
-              # "installable" = "<flakeref>#debug.options";
-              ## Home-manager options
-              #"installable" = "~/Documents/ksvnixospcconfigs/home.nix#homeConfigurations.ksvnixospc.options";
-              "installable" = "${./../home.nix}#homeConfigurations.ksvnixospc.options";
+        #### NixIDE
+        "nix.enableLanguageServer" = true;
+        "nix.formatterPath" = "nixfmt";
+        "nix.serverPath" = "nixd";
+        "nix.serverSettings" = {
+          "nixd" = {
+            "eval" = { };
+            "formatting" = {
+              "command" = "nixfmt";
+              #nixd and nixfmt to be added as packages
+            };
+            "options" = {
+              "enable" = true;
+              "target" = {
+                "args" = [ ];
+                ## NixOS options
+                # "installable" = "<flakeref>#nixosConfigurations.<name>.options";
+                ## Flake-parts options
+                # "installable" = "<flakeref>#debug.options";
+                ## Home-manager options
+                #"installable" = "~/Documents/ksvnixospcconfigs/home.nix#homeConfigurations.ksvnixospc.options";
+                "installable" = "${./../home.nix}#homeConfigurations.ksvnixospc.options";
+              };
             };
           };
         };
-      };
-      "[nix]" = {
-        "editor.defaultFormatter" = "jnoortheen.nix-ide";
+        "[nix]" = {
+          "editor.defaultFormatter" = "jnoortheen.nix-ide";
+        };
+
       };
 
     };
+
   };
 
   home.sessionVariables = {
