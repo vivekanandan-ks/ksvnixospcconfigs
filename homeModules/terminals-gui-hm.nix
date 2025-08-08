@@ -1,0 +1,53 @@
+{
+  #inputs,
+  #config,
+  #lib,
+  #pkgs,
+  pkgs-unstable,
+  ...
+}:
+
+{
+
+  #kitty
+  programs.kitty = {
+    enable = true;
+    package = pkgs-unstable.kitty;
+    extraConfig = ''
+
+      # cursor
+      #cursor_shape  block
+      cursor_trail  3
+      cursor_trail_decay  0.1 0.4
+      #cursor_blink_interval 0
+      #cursor_trail_start_threshold 0
+           
+      # window
+      background_opacity 0.8
+      background_blur 1
+      dynamic_background_opacity yes
+
+    '';
+  };
+
+  /*
+    #waveterm - modern terminal app
+    programs.waveterm = {
+      enable = true;
+      package = pkgs-unstable.waveterm;
+
+      bookmarks = {
+        "bookmark@google" = {
+          title = "Google";
+          url = "https://www.google.com";
+        };
+      };
+
+      settings = {
+        #"window:blur" = true;
+        #"window:opacity" = 0.5;
+      };
+    };
+  */
+
+}

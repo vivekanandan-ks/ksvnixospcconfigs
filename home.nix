@@ -24,7 +24,12 @@ in
   imports = [
     ./homeModules/vscode-hm.nix
     ./homeModules/shells-hm.nix
-    
+    ./homeModules/pay-respects-hm.nix
+    ./homeModules/terminals-gui-hm.nix
+    ./homeModules/terminal-tools-hm.nix
+    ./homeModules/cli-apps-hm.nix
+    ./homeModules/gui-apps-hm.nix
+
   ];
 
   # The home.packages option allows you to install Nix packages into your
@@ -107,47 +112,9 @@ in
 
   programs = {
 
+    # nix garbage collection
     /*
-      #waveterm - modern terminal app
-      waveterm = {
-        enable = true;
-        package = pkgs-unstable.waveterm;
-
-        bookmarks = {
-          "bookmark@google" = {
-            title = "Google";
-            url = "https://www.google.com";
-          };
-        };
-
-        settings = {
-          #"window:blur" = true;
-          #"window:opacity" = 0.5;
-        };
-      };
-    */
-
-    #nix helper
-    nh = {
-      enable = true;
-      package = pkgs-unstable.nh;
-      clean = {
-        enable = true;
-        dates = "daily";
-        extraArgs = "--keep 5 --keep-since 3d";
-      };
-    };
-
-    #fastfetch
-    fastfetch = {
-      enable = true;
-      package = pkgs-unstable.fastfetch;
-      settings = builtins.fromJSON (builtins.readFile ./resources/fastfetch-settings.json);
-    };
-
-    #nix garbage collection
-    /*
-      nix.gc = {
+      programs.nix.gc = {
         automatic = true;
         frequency = "daily";
         options = "--delete-older-than 7d";
@@ -155,172 +122,6 @@ in
         #randomizedDelaySec = "30min";
       };
     */
-
-    #micro - editor
-    micro = {
-      enable = true;
-      package = pkgs-unstable.micro;
-      settings = {
-
-      };
-    };
-
-    #git
-    git = {
-      enable = true;
-      package = pkgs-unstable.git;
-      extraConfig = {
-        user.name = "vivekanandan-ks";
-        user.email = "ksvdevksv@gmail.com";
-        init.defaultBranch = "main";
-        #core.editor = "nano";
-      };
-    };
-
-    #jujutsu
-    jujutsu = {
-      enable = true;
-      package = pkgs-unstable.jujutsu;
-      settings = {
-        user = {
-          email = "ksvdevksv@gmail.com";
-          name = "vivekanandan-ks";
-        };
-        #ui.editor = "micro";
-        snapshot.max-new-file-size = "10MiB"; # https://github.com/jj-vcs/jj/blob/main/docs/config.md#maximum-size-for-new-files
-      };
-    };
-
-    #firefox
-    firefox = {
-      enable = true;
-      package = pkgs-unstable.firefox;
-      policies = {
-        DisableTelemetry = true;
-        #Homepage.StartPage = "https://google.com";
-      };
-    };
-
-    /*
-      #github
-      gh = {
-        enable = true ;
-        package = pkgs-unstable.gh;
-        #gitCredentialHelper = {
-          #enable = true ;
-          #hosts = [];
-        #};
-      };
-    */
-
-    #carapace
-    carapace = {
-      enable = true;
-      package = pkgs-unstable.carapace;
-      enableNushellIntegration = true;
-      enableBashIntegration = true;
-      # enableFishIntegration = true;
-      #fish already have it's own features so commenting this for now
-    };
-
-    #starship
-    starship = {
-      enable = true;
-      package = pkgs-unstable.starship;
-      #enableInteractive = false; #see HM option page before uncommenting
-      enableNushellIntegration = true;
-      enableFishIntegration = true;
-      enableBashIntegration = true;
-      #uncomment only on eof the following settings
-      settings = builtins.fromTOML (builtins.readFile ./resources/starship-themes/pastel-powerline.toml);
-      #settings = builtins.fromTOML (builtins.readFile ./resources/starship-themes/catppuccin_macchiato.toml);
-      #settings = builtins.fromTOML (builtins.readFile ./resources/starship-themes/catppuccin_frappe.toml);
-      #settings = builtins.fromTOML (builtins.readFile ./resources/starship-themes/catppuccin_mocha);
-      #settings = builtins.fromTOML (builtins.readFile ./resources/starship-themes/catppuccin_latte.toml);
-      #settings = builtins.fromTOML (builtins.readFile ./resources/starship-themes/gruvbox-rainbow.toml);
-      #settings = builtins.fromTOML (builtins.readFile ./resources/starship-themes/tokyo-night.toml);
-      #settings = builtins.fromTOML (builtins.readFile ./resources/starship-themes/nerd-font-symbols.toml);
-
-    };
-
-
-    #atuin - shell history and sync e2ee to my atuin account
-    atuin = {
-      enable = true;
-      package = pkgs-unstable.atuin;
-      enableNushellIntegration = true;
-      enableFishIntegration = true;
-      enableBashIntegration = true;
-      flags = [
-        "--disable-up-arrow"
-        #"--disable-ctrl-r"
-      ];
-      #check this out for settings options: https://docs.atuin.sh/configuration/config/
-      settings = {
-        auto_sync = true;
-        sync_frequency = "1m";
-        sync.records = true;
-        search_mode = "prefix";
-        style = "auto";
-        inline_height = 40; # default 40
-        show_preview = true;
-        theme = {
-          name = "marine"; # options are ""(default) or "autumn" or "marine"(good out of the three)
-          debug = true;
-        };
-      };
-    };
-
-    #zoxide
-    zoxide = {
-      enable = true;
-      package = pkgs-unstable.zoxide;
-      enableBashIntegration = true;
-      enableFishIntegration = true;
-      enableNushellIntegration = true;
-      #options = [];
-      #added an environment variable below in home.sessionVariables
-
-    };
-
-    #kitty
-    kitty = {
-      enable = true;
-      package = pkgs-unstable.kitty;
-      extraConfig = ''
-
-        # cursor
-        #cursor_shape  block
-        cursor_trail  3
-        cursor_trail_decay  0.1 0.4
-        #cursor_blink_interval 0
-        #cursor_trail_start_threshold 0
-             
-        # window
-        background_opacity 0.8
-        background_blur 1
-        dynamic_background_opacity yes
-
-      '';
-
-    };
-
-    #obs-studio
-    obs-studio = {
-      enable = true;
-      package = pkgs-unstable.obs-studio;
-      plugins = with pkgs-unstable.obs-studio-plugins; [
-        obs-composite-blur
-        obs-backgroundremoval
-        obs-pipewire-audio-capture
-        droidcam-obs
-        obs-advanced-masks
-        obs-move-transition
-        obs-multi-rtmp
-        input-overlay
-
-      ];
-    };
 
   };
 
@@ -351,33 +152,6 @@ in
       };
     */
 
-  };
-
-  # nix-index
-  programs.nix-index = {
-    enable = true;
-    package = pkgs-unstable.nix-index;
-    enableBashIntegration = true;
-    enableFishIntegration = true;
-    #nushell integration doesn't exist yet
-  };
-  #command-not-found.enable = false;
-
-  #pay-respects
-  programs.pay-respects = {
-    enable = true;
-    package = pkgs-unstable.pay-respects;
-    #enableBashIntegration = true;
-    #enableFishIntegration = true;
-    #enableNushellIntegration = true;
-    #options = [ "--alias" "f" ]; # by default alias is f in new versions so no need for this option
-    #added a home.file below
-  };
-  #pay-respects config file
-  home.file.".config/pay-respects/config.toml" = {
-    text = ''
-      package_manager.install_method = "Shell"
-    '';
   };
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -414,7 +188,14 @@ in
   #
   home.sessionVariables = {
     EDITOR = "micro";
-    _ZO_ECHO = 1; # zoxide show resolved directory
+  };
+
+  home.shellAliases = {
+    rm = "echo Use 'rip' instead of rm.";
+    rip = "rip --graveyard ~/.local/share/Trash";
+    df = "echo try duf instead";
+    grep = "echo 'try ripgrep or ripgrep-all and rg or rga is the command'";
+
   };
 
   # This value determines the Home Manager release that your configuration is

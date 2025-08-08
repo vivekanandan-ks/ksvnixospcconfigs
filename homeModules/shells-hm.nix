@@ -53,9 +53,9 @@ in
     nushell = {
       enable = true;
       package = pkgs-unstable.nushell;
-      plugins = with pkgs-unstable; [
+      /*plugins = with pkgs-unstable; [
         #nushellPlugins.gstat
-      ];
+      ];*/
       settings = {
         #show_banner = false;
         highlight_resolved_externals = true;
@@ -91,14 +91,6 @@ in
       */
 
     };
-
-  };
-
-  home.shellAliases = {
-    rm = "echo Use 'rip' instead of rm.";
-    rip = "rip --graveyard ~/.local/share/Trash";
-    df = "echo try duf instead";
-    grep = "echo 'try ripgrep or ripgrep-all and rg or rga is the command'";
 
   };
 
