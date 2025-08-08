@@ -1,7 +1,7 @@
 {
   inputs,
-  config,
-  lib,
+  #config,
+  #lib,
   pkgs,
   pkgs-unstable,
   ...
@@ -50,12 +50,19 @@ let
 
 in
 {
+
+  #targets.genericLinux.enable = true ; # enable this on non NixOS distro
+
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "ksvnixospc";
   home.homeDirectory = "/home/ksvnixospc";
 
   nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
+
+  imports = [
+    ./homeModules/vscode-hm.nix
+  ];
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
@@ -144,7 +151,7 @@ in
     # vscode
     # https://unix.stackexchange.com/questions/768678/configure-vscode-in-nixos
     # https://discourse.nixos.org/t/home-manager-vscode-extension-settings-mutableextensionsdir-false/33878
-    vscode = {
+    /*vscode = {
       enable = true;
       package = vscode-package;
       mutableExtensionsDir = false;
@@ -190,7 +197,7 @@ in
         };
 
       };
-    };
+    };*/
 
     /*
       #waveterm - modern terminal app

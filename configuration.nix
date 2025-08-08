@@ -4,7 +4,7 @@
 
 {
   inputs,
-  config,
+  #config,
   pkgs,
   pkgs-unstable,
   lib,
@@ -13,16 +13,14 @@
 
 {
   imports = [
-    # Include the results of the hardware scan.
-    ./hardware-configuration.nix
+    
+    ./hardware-configuration.nix # Include the results of the hardware scan.
     inputs.home-manager.nixosModules.home-manager
   ];
 
   home-manager = {
     extraSpecialArgs = { inherit inputs pkgs pkgs-unstable; };
-    users = {
-      ksvnixospc = import ./home.nix;
-    };
+    users.ksvnixospc = import ./home.nix;
     backupFileExtension = "backup";
   };
 
