@@ -37,7 +37,12 @@ let
 in
 {
   home.packages = with pkgs-unstable; [
-    #vscode
+
+    nixfmt
+    nixd
+    #nil
+
+    # vscode
     /*
       (vscode-with-extensions.override {
 
