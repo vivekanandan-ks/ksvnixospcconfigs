@@ -9,6 +9,19 @@
 
 {
 
+  #btop
+  programs.btop = {
+    enable = true;
+    package = pkgs-unstable.btop;
+  };
+
+  # bat # cat modern alternative
+  programs.bat = {
+    enable = true;
+    package = pkgs-unstable.bat;
+    
+  };
+
   # nix helper
   programs.nh = {
     enable = true;
@@ -26,7 +39,6 @@
     package = pkgs-unstable.fastfetch;
     settings = builtins.fromJSON (builtins.readFile ./hmResources/fastfetch-settings.json);
   };
-
 
   # micro - editor
   programs.micro = {
@@ -50,18 +62,20 @@
   };
 
   # jujutsu
-  /*programs.jujutsu = {
-    enable = true;
-    package = pkgs-unstable.jujutsu;
-    settings = {
-      user = {
-        email = "ksvdevksv@gmail.com";
-        name = "vivekanandan-ks";
+  /*
+    programs.jujutsu = {
+      enable = true;
+      package = pkgs-unstable.jujutsu;
+      settings = {
+        user = {
+          email = "ksvdevksv@gmail.com";
+          name = "vivekanandan-ks";
+        };
+        #ui.editor = "micro";
+        snapshot.max-new-file-size = "10MiB"; # https://github.com/jj-vcs/jj/blob/main/docs/config.md#maximum-size-for-new-files
       };
-      #ui.editor = "micro";
-      snapshot.max-new-file-size = "10MiB"; # https://github.com/jj-vcs/jj/blob/main/docs/config.md#maximum-size-for-new-files
     };
-  };*/
+  */
 
   /*
     # github

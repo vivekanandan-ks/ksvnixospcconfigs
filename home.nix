@@ -57,12 +57,13 @@ in
 
         # terminal apps
         vim
-        wget
+        #wget
+        wcurl
         nano
         git-town
-        btop
+        #btop
         #fastfetch
-        bat # cat modern alternative
+        #bat # cat modern alternative
         tldr # tldr-update is added in services
         lsd
         rip2
