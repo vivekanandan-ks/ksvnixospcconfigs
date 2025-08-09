@@ -57,8 +57,8 @@ in
 
         # terminal apps
         vim
-        #wget
-        wcurl
+        wget
+        #wcurl
         nano
         git-town
         #btop
