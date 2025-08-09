@@ -41,12 +41,12 @@
   #Enabling docker in rootless mode.
   #Don't forget to include the below commented commands to start the docker daemon service,
   #coz just enabling doesn't start the daemon
-  /*
+  
     virtualisation.docker.rootless = {
       enable = true;
       setSocketVariable = true;
     };
-  */
+  
   #systemctl --user enable --now docker
   #systemctl --user start docker
   #systemctl --user status docker # to check the status
