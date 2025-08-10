@@ -74,6 +74,7 @@ in
         gg-jj
         #pay-respects
         #nix-index
+        qpwgraph
 
         # desktop apps
         vlc
