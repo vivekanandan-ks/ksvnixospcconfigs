@@ -56,10 +56,10 @@ in
       plugins = with pkgs-unstable.nushellPlugins; [
         gstat
         #net
-        hcl
-        skim
-        query
-        highlight
+        #hcl
+        #skim
+        #query
+        #highlight
 
       ];
       settings = {
