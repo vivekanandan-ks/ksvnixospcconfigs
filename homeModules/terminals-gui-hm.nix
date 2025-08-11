@@ -27,11 +27,17 @@
       background_blur 1
       dynamic_background_opacity yes
 
+      # terminal bell
+      enable_audio_bell no
+      visual_bell_duration 1
+      window_alert_on_bell yes
+      bell_on_tab "🔔 "
+
     '';
   };
 
   /*
-    #waveterm - modern terminal app
+    # waveterm - modern terminal app
     programs.waveterm = {
       enable = true;
       package = pkgs-unstable.waveterm;
