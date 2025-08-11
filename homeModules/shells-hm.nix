@@ -53,9 +53,15 @@ in
     nushell = {
       enable = true;
       package = pkgs-unstable.nushell;
-      /*plugins = with pkgs-unstable; [
-        #nushellPlugins.gstat
-      ];*/
+      plugins = with pkgs-unstable.nushellPlugins; [
+        gstat
+        net
+        hcl
+        skim
+        query
+        highlight
+
+      ];
       settings = {
         #show_banner = false;
         highlight_resolved_externals = true;
