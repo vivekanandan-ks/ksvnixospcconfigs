@@ -181,7 +181,11 @@
   #services.desktopManager.cosmic.enable = true;
 
   # enable Hyprland
-  #programs.hyprland.enable = true;
+  programs.hyprland = {
+    enable = true;
+    package = pkgs-unstable.hyprland;
+    xwayland.enable = true; # default is true
+  };
 
   #Enable flakes
   nix.settings.experimental-features = [
