@@ -55,7 +55,7 @@ in
       package = pkgs-unstable.nushell;
       plugins = with pkgs-unstable.nushellPlugins; [
         gstat
-        net
+        #net
         hcl
         skim
         query
