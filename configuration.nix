@@ -82,7 +82,7 @@
   };
   programs.dconf = {
     enable = true;
-    settings = {
+    profiles.user.databases = {
       "org/virt-manager/virt-manager/connections" = {
         autoconnect = [ "qemu:///system" ];
         uris = [ "qemu:///system" ];
