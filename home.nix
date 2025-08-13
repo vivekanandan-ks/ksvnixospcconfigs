@@ -102,7 +102,7 @@ in
         signal-desktop
         discord
 
-        #vscode
+        # vscode
         /*
           (vscode-with-extensions.override {
 
