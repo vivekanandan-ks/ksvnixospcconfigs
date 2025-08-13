@@ -131,7 +131,7 @@ in
 
   services = {
 
-    #home manager auto expire of the generations
+    # home manager auto expire of the generations
     home-manager.autoExpire = {
       enable = true;
       frequency = "daily";
@@ -139,9 +139,9 @@ in
 
     };
 
-    #tldr-update
-    #tldr package actually declared above
-    #this particular below package is for running the update
+    # tldr-update
+    # tldr package actually declared above
+    # this particular below package is for running the update
     tldr-update = {
       enable = true;
       package = pkgs-unstable.tldr;

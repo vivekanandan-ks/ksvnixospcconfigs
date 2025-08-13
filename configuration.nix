@@ -13,7 +13,7 @@
 
 {
   imports = [
-    
+
     ./hardware-configuration.nix # Include the results of the hardware scan.
     inputs.home-manager.nixosModules.home-manager
   ];
@@ -41,12 +41,12 @@
   #Enabling docker in rootless mode.
   #Don't forget to include the below commented commands to start the docker daemon service,
   #coz just enabling doesn't start the daemon
-  
-    virtualisation.docker.rootless = {
-      enable = true;
-      setSocketVariable = true;
-    };
-  
+
+  virtualisation.docker.rootless = {
+    enable = true;
+    setSocketVariable = true;
+  };
+
   #systemctl --user enable --now docker
   #systemctl --user start docker
   #systemctl --user status docker # to check the status
@@ -66,15 +66,27 @@
   users.groups.libvirtd.members = [ "ksvnixospc" ]; # or u have to add this :  users.users.<myuser>.extraGroups = [ "libvirtd" ];
   networking.firewall.trustedInterfaces = [ "virbr0" ];
   systemd.services.libvirt-default-network = {
+    # Unit
     description = "Start libvirt default network";
     after = [ "libvirtd.service" ];
-    wantedBy = [ "multi-user.target" ];
+    # Service
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
       ExecStart = "${pkgs.libvirt}/bin/virsh net-start default";
       ExecStop = "${pkgs.libvirt}/bin/virsh net-destroy default";
       User = "root";
+    };
+    # Install
+    wantedBy = [ "multi-user.target" ];
+  };
+  programs.dconf = {
+    enable = true;
+    settings = {
+      "org/virt-manager/virt-manager/connections" = {
+        autoconnect = [ "qemu:///system" ];
+        uris = [ "qemu:///system" ];
+      };
     };
   };
 
@@ -122,11 +134,11 @@
     };
   };
 
-  #download buffer size; default size is 16mb (16*1024*1024)
+  # download buffer size; default size is 16mb (16*1024*1024)
   nix.settings.download-buffer-size = 67108864;
 
   nix.settings.auto-optimise-store = true; # if set to false(default) then run " nix-store --optimise " periodically to get rid of duplicate files.
-  #Nix GC
+  # Nix GC
   /*
     nix.gc = {
       automatic = true;
@@ -150,42 +162,46 @@
   #boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  #limine boot
+  # limine boot
   boot.loader = {
     limine = {
       enable = true;
       style.wallpapers = lib.filesystem.listFilesRecursive ./nixosResources/limine-images; # list of wallpaper paths
       #style.wallpaperStyle = "centered";
-      /*extraEntries = ''
-        /Windows
-          protocol: efi
-          path: uuid(1c135138-506a-45ed-8352-6455f45e9fea):/EFI/Microsoft/Boot/bootmgfw.efi
-      '';*/
+      /*
+        extraEntries = ''
+          /Windows
+            protocol: efi
+            path: uuid(1c135138-506a-45ed-8352-6455f45e9fea):/EFI/Microsoft/Boot/bootmgfw.efi
+        '';
+      */
       extraConfig = ''
         remember_last_entry: yes
       '';
     };
   };
 
-  #kde-connect
+  # kde-connect
   programs.kdeconnect = lib.mkForce {
     enable = true;
     package = pkgs-unstable.kdePackages.kdeconnect-kde;
   };
 
-  #Enable bluetooth
+  # Enable bluetooth
   hardware.bluetooth.enable = true;
 
-  #cosmic DE
+  # cosmic DE
   #services.displayManager.cosmic-greeter.enable = true; # cosmic login manager
   #services.desktopManager.cosmic.enable = true;
 
   # enable Hyprland
-  /*programs.hyprland = {
-    enable = true;
-    package = pkgs-unstable.hyprland;
-    xwayland.enable = true; # default is true
-  };*/
+  /*
+    programs.hyprland = {
+      enable = true;
+      package = pkgs-unstable.hyprland;
+      xwayland.enable = true; # default is true
+    };
+  */
 
   #Enable flakes
   nix.settings.experimental-features = [
@@ -200,7 +216,7 @@
   programs.appimage.enable = true;
   programs.appimage.binfmt = true;
 
-  #enable unfree services
+  # enable unfree services
   #nixpkgs.config.allowUnfree = true;
   /*
     nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
