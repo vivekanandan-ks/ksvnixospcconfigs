@@ -82,12 +82,17 @@
   };
   programs.dconf = {
     enable = true;
-    profiles.user.databases = {
-      "org/virt-manager/virt-manager/connections" = {
-        autoconnect = [ "qemu:///system" ];
-        uris = [ "qemu:///system" ];
-      };
-    };
+    profiles.user.databases = with lib.gvariant; [
+      {
+        #lockAll = true; # prevents overriding
+        settings = with lib.gvariant; {
+          "org/virt-manager/virt-manager/connections" = {
+            autoconnect = [ "qemu:///system" ];
+            uris = [ "qemu:///system" ];
+          };
+        };
+      }
+    ];
   };
 
   /*
