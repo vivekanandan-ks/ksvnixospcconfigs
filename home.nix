@@ -54,7 +54,6 @@ in
         kdePackages.filelight
 
         #nixd #nix lsp for code editors
-
         # terminal apps
         vim
         wget
@@ -84,6 +83,11 @@ in
         collector # drag and drop tool
         localsend
         qbittorrent
+        
+        # audio tool
+        gnome-sound-recorder
+        audacity # audio tool app
+        reco # recorder
 
         brave
         google-chrome
