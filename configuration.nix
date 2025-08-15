@@ -35,6 +35,12 @@
   # If you also want to disable zram (compressed swap in RAM):
   #zramSwap.enable = false;
 
+  # n8n
+  /*services.n8n = {
+    enable = true;
+    #openFirewall = true;
+  };*/
+
   #Docker
   #if u are changing the config from root to rootless mode,
   #follow this: https://discourse.nixos.org/t/docker-rootless-containers-are-running-but-not-showing-in-docker-ps/47717
