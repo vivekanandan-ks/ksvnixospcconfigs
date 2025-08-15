@@ -85,9 +85,9 @@ in
         qbittorrent
         
         # audio tool
-        gnome-sound-recorder
+        #gnome-sound-recorder
         audacity # audio tool app
-        reco # recorder
+        #reco # recorder
 
         brave
         google-chrome
