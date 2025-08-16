@@ -36,10 +36,12 @@
   #zramSwap.enable = false;
 
   # n8n
-  /*services.n8n = {
-    enable = true;
-    #openFirewall = true;
-  };*/
+  /*
+    services.n8n = {
+      enable = true;
+      #openFirewall = true;
+    };
+  */
 
   #Docker
   #if u are changing the config from root to rootless mode,
