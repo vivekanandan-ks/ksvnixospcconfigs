@@ -61,7 +61,7 @@
       auto_sync = true;
       sync_frequency = "1m";
       sync.records = true;
-      search_mode = "prefix";
+      search_mode = "fuzzy";
       style = "auto";
       inline_height = 40; # default 40
       show_preview = true;
