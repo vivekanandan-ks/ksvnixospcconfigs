@@ -16,9 +16,13 @@
     installBatSyntax = true;
     
       settings = {
-        background-opacity = 0.6;
+        background-opacity = 0.8;
         background-blur = true;
-        custom-shader = "${./hmResources/ghostty-shaders/cursor_smear.glsl}";
+        #custom-shader = "${./hmResources/ghostty-shaders/cursor_smear.glsl}";
+        custom-shader = [
+          #"${./hmResources/ghostty-shaders/cursor_smear.glsl}"
+          "${./hmResources/ghostty-shaders/animated-gradient-shader.glsl}"
+        ];
 
 
 
