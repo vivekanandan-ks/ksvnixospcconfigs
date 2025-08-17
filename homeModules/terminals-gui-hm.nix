@@ -16,9 +16,9 @@
     installBatSyntax = true;
     
       settings = {
-        background-opacity = 0.8;
+        background-opacity = 0.6;
         background-blur = true;
-        custom-shader = toString ./hmResources/ghostty-shaders/cursor_smear.glsl;
+        custom-shader = "${./hmResources/ghostty-shaders/cursor_smear.glsl}";
 
 
 
