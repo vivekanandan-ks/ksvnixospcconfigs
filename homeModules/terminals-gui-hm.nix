@@ -18,7 +18,7 @@
       settings = {
         background-opacity = 0.8;
         background-blur = true;
-        custom-shader = ./hmResources/ghostty-shaders/cursor_smear.glsl;
+        custom-shader = toString ./hmResources/ghostty-shaders/cursor_smear.glsl;
 
 
 
