@@ -14,16 +14,20 @@
     enable = true;
     package = pkgs-unstable.ghostty;
     installBatSyntax = true;
-    /*
+    
       settings = {
+        background-opacity = 0.8;
+        background-blur = true;
+
+        /*
         theme = "catppuccin-mocha";
         font-size = 10;
         keybind = [
           "ctrl+h=goto_split:left"
           "ctrl+l=goto_split:right"
-        ];
+        ];*/
       };
-    */
+    
     /*themes = {
       catppuccin-mocha = {
         background = "1e1e2e";
