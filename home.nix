@@ -85,6 +85,7 @@ in
         qbittorrent
         qpwgraph
         
+        
         # audio tool
         #gnome-sound-recorder
         audacity # audio tool app
