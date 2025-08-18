@@ -9,17 +9,17 @@
 
 {
 
-  #firefox
-  programs.firefox = {
+  # firefox
+  /*programs.firefox = {
     enable = true;
     package = pkgs-unstable.firefox;
     policies = {
       DisableTelemetry = true;
       #Homepage.StartPage = "https://google.com";
     };
-  };
+  };*/
 
-  #obs-studio
+  # obs-studio
   programs.obs-studio = {
     enable = true;
     package = pkgs-unstable.obs-studio;

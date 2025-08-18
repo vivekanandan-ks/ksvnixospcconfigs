@@ -41,13 +41,13 @@
   };
 
   # micro - editor
-  programs.micro = {
+  /*programs.micro = {
     enable = true;
     package = pkgs-unstable.micro;
     settings = {
 
     };
-  };
+  };*/
 
   # git
   programs.git = {

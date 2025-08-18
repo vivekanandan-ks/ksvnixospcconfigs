@@ -73,7 +73,7 @@ in
         gg-jj
         #pay-respects
         #nix-index
-        qpwgraph
+        micro
 
         # desktop apps
         vlc
@@ -83,6 +83,7 @@ in
         collector # drag and drop tool
         localsend
         qbittorrent
+        qpwgraph
         
         # audio tool
         #gnome-sound-recorder
@@ -91,6 +92,7 @@ in
 
         brave
         google-chrome
+        firefox
         #tor-browser
 
         #soundwireserver
