@@ -94,7 +94,7 @@ in
         #tor-browser
 
         #soundwireserver
-        #podman-desktop
+        podman-desktop
         onlyoffice-desktopeditors
         #virtualbox
         waveterm # modern terminal app
