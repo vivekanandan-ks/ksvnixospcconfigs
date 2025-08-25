@@ -59,7 +59,7 @@ in
         #hcl
         #skim
         #query
-        #highlight
+        highlight
 
       ];
       settings = {
@@ -76,6 +76,12 @@ in
           shape_external = "red"; # color of unresolved externals (see 'ansi --list')
           shape_external_resolved = "white"; # color of resolved externals
         };
+        # better use explore instead instead if below gimmick
+        #hooks.display_output = "table -e --width 1000 | less -FSRX";
+        #hooks.display_output = "table -e --width 1000 | less -FSR";
+        #hooks.display_output = "table -e --width 1000 | less -FS";
+        #hooks.display_output = "table -e --width 1000 | less -SRX";
+        #hooks.display_output = "table -e --width 1000";
       };
 
       extraConfig = ''
@@ -84,7 +90,8 @@ in
         ]
 
         #pay-respects nushell
-        ${globalShellInit}     
+        ${globalShellInit}
+        
       '';
       /*
         # Add your shell init command here

@@ -19,7 +19,10 @@
   programs.bat = {
     enable = true;
     package = pkgs-unstable.bat;
-    
+    extraPackages = with pkgs-unstable.bat-extras; [
+      batman
+    ];
+
   };
 
   # nix helper
@@ -41,13 +44,15 @@
   };
 
   # micro - editor
-  /*programs.micro = {
-    enable = true;
-    package = pkgs-unstable.micro;
-    settings = {
+  /*
+    programs.micro = {
+      enable = true;
+      package = pkgs-unstable.micro;
+      settings = {
 
+      };
     };
-  };*/
+  */
 
   # git
   programs.git = {

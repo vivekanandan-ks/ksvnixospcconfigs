@@ -20,10 +20,10 @@
         background-blur = true;
         #custom-shader = "${./hmResources/ghostty-shaders/cursor_smear.glsl}";
         custom-shader = [
-          #"${./hmResources/ghostty-shaders/cursor_smear.glsl}"
-          #"${./hmResources/ghostty-shaders/cursor_blaze.glsl}"
+          "${./hmResources/ghostty-shaders/cursor_smear.glsl}"
+          "${./hmResources/ghostty-shaders/cursor_blaze.glsl}"
           #"${./hmResources/ghostty-shaders/animated-gradient-shader.glsl}"
-          "${./hmResources/ghostty-shaders/cursor_smear_gradient.glsl}"
+          #"${./hmResources/ghostty-shaders/cursor_smear_gradient.glsl}"
 
         ];
         

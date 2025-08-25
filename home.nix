@@ -60,6 +60,7 @@ in
         #wcurl
         nano
         git-town
+        #moar # pager like less but modern
         #btop
         #fastfetch
         #bat # cat modern alternative
@@ -84,8 +85,7 @@ in
         localsend
         qbittorrent
         qpwgraph
-        
-        
+
         # audio tool
         #gnome-sound-recorder
         audacity # audio tool app
@@ -200,13 +200,16 @@ in
   #
   home.sessionVariables = {
     EDITOR = "micro";
+    #MANPAGER = "sh -c 'col -b | bat -l man -p '"; # add -p flag to bat for plain style
+    
   };
 
   home.shellAliases = {
     rm = "echo Use 'rip' instead of rm.";
-    rip = "rip --graveyard ~/.local/share/Trash";
+    rip = "rip --graveyard ~/.local/shareman -psh";
     df = "echo try duf instead";
     grep = "echo 'try ripgrep or ripgrep-all and rg or rga is the command'";
+    man = "batman";
 
   };
 
