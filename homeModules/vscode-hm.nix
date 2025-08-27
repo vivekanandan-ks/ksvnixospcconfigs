@@ -1,6 +1,6 @@
 {
   #inputs,
-  #pkgs,
+  pkgs,
   pkgs-unstable,
   ...
 }:
@@ -33,6 +33,12 @@ let
           sha256 = "1hp6gjh4xp2m1xlm1jsdzxw9d8frkiidhph6nvl24d0h8z34w49g";
         }
       */
+    ])
+    ++ (with pkgs.vscode-extensions; [
+      
+      # Python
+      ms-python.python # Python
+      ms-python.debugpy # Python Debugger
     ]);
 in
 {
