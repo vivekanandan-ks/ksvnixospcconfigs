@@ -17,7 +17,7 @@ let
       redhat.vscode-yaml # YAML
 
       # Python
-      ms-python.python # Python
+      #ms-python.python # Python
       #ms-python.debugpy # Python Debugger
 
       thenuprojectcontributors.vscode-nushell-lang # vscode-nushell-lang
