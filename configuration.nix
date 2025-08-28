@@ -203,6 +203,7 @@
   hardware.bluetooth.enable = true;
 
   # Enable intel graphics harware acceleration (this is supposed to solve the CPUoverheating issues while using camera)
+  # refer this: https://wiki.nixos.org/wiki/Accelerated_Video_Playback#Intel
   hardware.graphics = {
     enable = true;
     extraPackages = with pkgs-unstable; [
