@@ -1,7 +1,7 @@
 {
   #inputs,
   #config,
-  lib,
+  #lib,
   #pkgs,
   pkgs-unstable,
   ...
@@ -115,7 +115,7 @@
         ''
       )*/
     ];
-  home.File.".config/micro/plug/" = {
+  home.file.".config/micro/plug/" = {
     recursive = true;
     source = ./hmResources/microPlugins/plug ; # trying out this
   };
