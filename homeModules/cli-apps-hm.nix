@@ -44,15 +44,13 @@
   };
 
   # micro - editor
-  /*
-    programs.micro = {
-      enable = true;
-      package = pkgs-unstable.micro;
-      settings = {
-
-      };
+  programs.micro = {
+    enable = true;
+    package = pkgs-unstable.micro;
+    settings = {
+      
     };
-  */
+  };
 
   # git
   programs.git = {
