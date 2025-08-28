@@ -48,9 +48,30 @@
     enable = true;
     package = pkgs-unstable.micro;
     settings = {
+      # Refer: https://github.com/zyedidia/micro/blob/master/runtime/help/options.md and https://forum.garudalinux.org/t/mastering-the-micro-text-editor/32889/14
+      helpsplit = "vsplit";
+      hlsearch = true;
+      hltaberrors = true;
+      savecursor = true;
+      scrollbar = true;
+      tabhighlight = true;
+      #mkparents = true; # default false
+      softwrap = true;
+
+      autoclose = true; # automatically closes brackets, quotes, etc...
+      comment = true; # provides automatic commenting for a number of languages # Simply place the cursor on the line and use the shortcut alt+/. The line will be commented according to the language used.
+      linter = true; # provides extensible linting for many languages
+      
+      status = true; # provides some extensions to the status line (integration with Git and more).
+      statusformatr = "$(status.branch) | $(status.hash) | $(status.size)";
+      diff = true; # 
+      diffgutter = true;
       
     };
   };
+  home.packages = [
+    pkgs-unstable.wl-clipboard #for micro editor external clipboard integration
+  ];
 
   # git
   programs.git = {
