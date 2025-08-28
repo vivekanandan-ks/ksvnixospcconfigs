@@ -117,7 +117,7 @@
     ];
   home.file.".config/micro/plug/" = {
     recursive = true;
-    source = ./hmResources/microPlugins/plug ; # trying out this
+    source = ./hmResources/microPlugins ; # trying out this
   };
 
 
