@@ -180,13 +180,13 @@
     limine = {
       enable = true;
       style.wallpapers = lib.filesystem.listFilesRecursive ./nixosResources/limine-images; # list of wallpaper paths
-      #style.wallpaperStyle = "centered";    
+      #style.wallpaperStyle = "centered";
       extraEntries = ''
         /Windows
           protocol: efi
           path: uuid(1c135138-506a-45ed-8352-6455f45e9fea):/EFI/Microsoft/Boot/bootmgfw.efi
       '';
-    
+
       extraConfig = ''
         remember_last_entry: yes
       '';
@@ -201,6 +201,17 @@
 
   # Enable bluetooth
   hardware.bluetooth.enable = true;
+
+  # Enable intel graphics harware acceleration (this is supposed to solve the CPUoverheating issues while using camera)
+  hardware.graphics = {
+    enable = true;
+    extraPackages = with pkgs-unstable; [
+      intel-media-driver # For Broadwell (2014) or newer processors. LIBVA_DRIVER_NAME=iHD
+      intel-vaapi-driver # For older processors. LIBVA_DRIVER_NAME=i965
+    ];
+  };
+  environment.sessionVariables = { LIBVA_DRIVER_NAME = "iHD"; }; # Optionally, set the environment variable
+
 
   # cosmic DE
   #services.displayManager.cosmic-greeter.enable = true; # cosmic login manager
