@@ -209,6 +209,7 @@
     extraPackages = with pkgs-unstable; [
       intel-media-driver # For Broadwell (2014) or newer processors. LIBVA_DRIVER_NAME=iHD
       intel-vaapi-driver # For older processors. LIBVA_DRIVER_NAME=i965
+      intel-ocl # took this package name from this option example in nixos option (no other specific reason to add such this)
     ];
   };
   environment.sessionVariables = { LIBVA_DRIVER_NAME = "iHD"; }; # Optionally, set the environment variable

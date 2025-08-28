@@ -75,6 +75,7 @@ in
         #pay-respects
         #nix-index
         #micro
+        wakatime-cli
 
         # desktop apps
         vlc

@@ -23,6 +23,8 @@ let
       thenuprojectcontributors.vscode-nushell-lang # vscode-nushell-lang
       eamodio.gitlens # GitLens
 
+      wakatime.vscode-wakatime # https://wakatime.com/
+
     ])
     ++ (with pkgs-unstable.vscode-utils.extensionsFromVscodeMarketplace; [
       /*
