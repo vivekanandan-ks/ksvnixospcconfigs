@@ -115,7 +115,7 @@
         ''
       )*/
     ];
-  home.file.".config/micro/plug/" = {
+  xdg.configFile."micro/plug/" = {
     recursive = true;
     source = ./hmResources/microPlugins ; # trying out this
   };
