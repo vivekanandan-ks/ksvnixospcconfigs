@@ -31,6 +31,7 @@ in
     ./homeModules/terminal-tools-hm.nix
     ./homeModules/cli-apps-hm.nix
     ./homeModules/gui-apps-hm.nix
+    ./homeModules/micro-editor-hm.nix
 
   ];
 
