@@ -76,6 +76,7 @@ in
           shape_external = "red"; # color of unresolved externals (see 'ansi --list')
           shape_external_resolved = "white"; # color of resolved externals
         };
+        cursor_shape.emacs = "line";
         # better use explore instead instead if below gimmick
         #hooks.display_output = "table -e --width 1000 | less -FSRX";
         #hooks.display_output = "table -e --width 1000 | less -FSR";
