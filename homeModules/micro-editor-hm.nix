@@ -85,7 +85,8 @@
       */
     ];
   /*
-    home.file.".config/micro/plug/" = { # this sin't working for some reason so i'll solve this later
+    # this sin't working for some reason so i'll solve this later
+    home.file.".config/micro/plug/" = {
       #recursive = true;
       source = ./hmResources/microPlugins/plug ; # trying out this
     };
