@@ -109,6 +109,8 @@ in
         "[nix]" = {
           "editor.defaultFormatter" = "jnoortheen.nix-ide";
         };
+        "update.mode" = "none";
+        "wakatime.apiKey" = "";
 
       };
 
