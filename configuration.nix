@@ -8,6 +8,7 @@
   pkgs,
   pkgs-unstable,
   lib,
+  nix4vscode,
   ...
 }:
 
@@ -20,7 +21,7 @@
   ];
 
   home-manager = {
-    extraSpecialArgs = { inherit inputs pkgs pkgs-unstable; };
+    extraSpecialArgs = { inherit inputs pkgs pkgs-unstable nix4vscode; };
     users.ksvnixospc = import ./home.nix;
     backupFileExtension = "backup";
     /*sharedModules = [
