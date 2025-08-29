@@ -52,7 +52,7 @@
     {
       nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
         specialArgs = {
-          inherit inputs pkgs pkgs-unstable nix4vscode;
+          inherit inputs pkgs pkgs-unstable nix4vscode system;
         };
         modules = [
           ./configuration.nix

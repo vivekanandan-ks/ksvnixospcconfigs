@@ -3,13 +3,14 @@
   pkgs,
   pkgs-unstable,
   nix4vscode,
+  system,
   ...
 }:
 let
 
   pkgs-vscode = import inputs.nixpkgs {
+    inherit system;
     config.allowUnfree = true;
-    system = builtins.currentSystem;
     overlays = [
       nix4vscode.overlays.default
     ];
