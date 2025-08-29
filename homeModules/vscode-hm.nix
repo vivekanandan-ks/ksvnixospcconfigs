@@ -1,5 +1,5 @@
 {
-  #inputs,
+  inputs,
   pkgs,
   pkgs-unstable,
   nix4vscode,
@@ -7,12 +7,12 @@
 }:
 let
 
-  /*pkgs = import inputs.nixpkgs {
+  pkgs-vscode = import inputs.nixpkgs {
     config.allowUnfree = true;
     overlays = [
       nix4vscode.overlays.default
     ];
-  };*/
+  };
 
   vscode-package = pkgs-unstable.vscode-fhs;
   vscode-extnsns =
@@ -61,7 +61,7 @@ let
       ms-python.python # Python
       ms-python.debugpy # Python Debugger
     ])
-    ++ (nix4vscode.forVscode [
+    ++ (pkgs-vscode.nix4vscode.forVscode [
       "KevinRose.vsc-python-indent"
 
     ]);
