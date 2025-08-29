@@ -27,6 +27,14 @@ let
 
     ])
     ++ (with pkgs-unstable.vscode-utils.extensionsFromVscodeMarketplace; [
+
+      {
+        # Python Indent https://marketplace.visualstudio.com/items?itemName=KevinRose.vsc-python-indent&ssr=true
+        name = "vsc-python-indent";
+        publisher = "KevinRose";
+        version = "1.18.0";
+        sha256 = "sha256-hiOMcHiW8KFmau7WYli0pFszBBkb6HphZsz+QT5vHv0=";
+      }
       /*
         {
           name = "remote-ssh-edit";
