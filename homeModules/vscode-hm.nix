@@ -20,22 +20,28 @@ let
   vscode-extnsns =
     (with pkgs-unstable.vscode-extensions; [
       # nix
-      jnoortheen.nix-ide # Nix IDE
+      #jnoortheen.nix-ide # Nix IDE
       #brettm12345.nixfmt-vscode # nixfmt (not needed since we use nix IDE for formatting too)
 
-      tamasfe.even-better-toml # Even Better TOML
-      mads-hartmann.bash-ide-vscode # Bash IDE
-      redhat.vscode-yaml # YAML
+      #tamasfe.even-better-toml # Even Better TOML
+      #mads-hartmann.bash-ide-vscode # Bash IDE
+      #redhat.vscode-yaml # YAML
 
       # Python
       #ms-python.python # Python
       #ms-python.debugpy # Python Debugger
 
-      thenuprojectcontributors.vscode-nushell-lang # vscode-nushell-lang
-      eamodio.gitlens # GitLens
+      #thenuprojectcontributors.vscode-nushell-lang # vscode-nushell-lang
+      #eamodio.gitlens # GitLens
 
-      wakatime.vscode-wakatime # https://wakatime.com/
+      #wakatime.vscode-wakatime # https://wakatime.com/
 
+    ])
+    ++ (with pkgs.vscode-extensions; [
+
+      # Python
+      #ms-python.python # Python
+      #ms-python.debugpy # Python Debugger
     ])
     ++ (pkgs-unstable.vscode-utils.extensionsFromVscodeMarketplace [
 
@@ -57,14 +63,20 @@ let
         }
       */
     ])
-    ++ (with pkgs.vscode-extensions; [
-
-      # Python
-      ms-python.python # Python
-      ms-python.debugpy # Python Debugger
-    ])
     ++ (pkgs-vscode.nix4vscode.forVscode [
-      "KevinRose.vsc-python-indent"
+
+      "ms-python.python" # Python
+      "ms-python.debugpy" # Python Debugger
+      "KevinRose.vsc-python-indent" # Python Indent
+
+      "jnoortheen.nix-ide" # Nix IDE
+      "tamasfe.even-better-toml" # Even Better TOML
+      "mads-hartmann.bash-ide-vscode" # Bash IDE
+      "redhat.vscode-yaml" # YAML
+      "thenuprojectcontributors.vscode-nushell-lang" # vscode-nushell-lang
+
+      "eamodio.gitlens" # GitLens
+      "wakatime.vscode-wakatime" # https://wakatime.com/
 
     ]);
 in
