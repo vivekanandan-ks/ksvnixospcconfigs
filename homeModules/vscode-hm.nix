@@ -2,6 +2,7 @@
   #inputs,
   pkgs,
   pkgs-unstable,
+  nix4vscode,
   ...
 }:
 let
@@ -28,13 +29,13 @@ let
     ])
     ++ (pkgs-unstable.vscode-utils.extensionsFromVscodeMarketplace [
 
-      {
+      /*{
         # Python Indent https://marketplace.visualstudio.com/items?itemName=KevinRose.vsc-python-indent&ssr=true
         name = "vsc-python-indent";
         publisher = "kevinrose";
         version = "1.21.0";
         sha256 = "1zlkbxgl8bad8g1lm60z0zf5gr1011p696zps3azr89cdxa63wja";
-      }
+      }*/
       /*
         {
           name = "remote-ssh-edit";
@@ -49,6 +50,10 @@ let
       # Python
       ms-python.python # Python
       ms-python.debugpy # Python Debugger
+    ])
+    ++ (nix4vscode.forVscode [
+      "KevinRose.vsc-python-indent"
+
     ]);
 in
 {
