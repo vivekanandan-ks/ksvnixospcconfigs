@@ -110,7 +110,7 @@ in
           "editor.defaultFormatter" = "jnoortheen.nix-ide";
         };
         "update.mode" = "none";
-        "wakatime.apiKey" = "";
+        "wakatime.apiKey" = builtins.readFile ./hmResources/.hmSecrets/wakatimeapikey.txt;
 
       };
 
