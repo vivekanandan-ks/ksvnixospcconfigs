@@ -26,14 +26,14 @@ let
       wakatime.vscode-wakatime # https://wakatime.com/
 
     ])
-    ++ (with pkgs-unstable.vscode-utils.extensionsFromVscodeMarketplace; [
+    ++ (pkgs-unstable.vscode-utils.extensionsFromVscodeMarketplace [
 
       {
         # Python Indent https://marketplace.visualstudio.com/items?itemName=KevinRose.vsc-python-indent&ssr=true
         name = "vsc-python-indent";
-        publisher = "KevinRose";
-        version = "1.18.0";
-        sha256 = "sha256-hiOMcHiW8KFmau7WYli0pFszBBkb6HphZsz+QT5vHv0=";
+        publisher = "kevinrose";
+        version = "1.21.0";
+        sha256 = "1zlkbxgl8bad8g1lm60z0zf5gr1011p696zps3azr89cdxa63wja";
       }
       /*
         {
