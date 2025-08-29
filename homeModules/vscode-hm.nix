@@ -9,6 +9,7 @@ let
 
   pkgs-vscode = import inputs.nixpkgs {
     config.allowUnfree = true;
+    system = builtins.currentSystem;
     overlays = [
       nix4vscode.overlays.default
     ];
