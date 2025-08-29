@@ -1,11 +1,19 @@
 {
-  #inputs,
-  pkgs,
+  inputs,
+  #pkgs,
   pkgs-unstable,
   nix4vscode,
   ...
 }:
 let
+
+  pkgs = import inputs.nixpkgs {
+    config.allowUnfree = true;
+    overlays = [
+      nix4vscode.overlays.default
+    ];
+  };
+
   vscode-package = pkgs-unstable.vscode-fhs;
   vscode-extnsns =
     (with pkgs-unstable.vscode-extensions; [
@@ -29,13 +37,15 @@ let
     ])
     ++ (pkgs-unstable.vscode-utils.extensionsFromVscodeMarketplace [
 
-      /*{
-        # Python Indent https://marketplace.visualstudio.com/items?itemName=KevinRose.vsc-python-indent&ssr=true
-        name = "vsc-python-indent";
-        publisher = "kevinrose";
-        version = "1.21.0";
-        sha256 = "1zlkbxgl8bad8g1lm60z0zf5gr1011p696zps3azr89cdxa63wja";
-      }*/
+      /*
+        {
+          # Python Indent https://marketplace.visualstudio.com/items?itemName=KevinRose.vsc-python-indent&ssr=true
+          name = "vsc-python-indent";
+          publisher = "kevinrose";
+          version = "1.21.0";
+          sha256 = "1zlkbxgl8bad8g1lm60z0zf5gr1011p696zps3azr89cdxa63wja";
+        }
+      */
       /*
         {
           name = "remote-ssh-edit";
@@ -51,7 +61,7 @@ let
       ms-python.python # Python
       ms-python.debugpy # Python Debugger
     ])
-    ++ (nix4vscode.forVscode [
+    ++ (pkgs.nix4vscode.forVscode [
       "KevinRose.vsc-python-indent"
 
     ]);
