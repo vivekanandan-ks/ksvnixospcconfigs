@@ -16,13 +16,24 @@
 
     ./hardware-configuration.nix # Include the results of the hardware scan.
     inputs.home-manager.nixosModules.home-manager
+    #inputs.sops-nix.nixosModules.sops
   ];
 
   home-manager = {
     extraSpecialArgs = { inherit inputs pkgs pkgs-unstable; };
     users.ksvnixospc = import ./home.nix;
     backupFileExtension = "backup";
+    /*sharedModules = [
+      inputs.sops-nix.homeManagerModules.sops
+    ];*/
   };
+
+  # sops
+  /*sops = {
+    defaultSopsFile = ./secrets/secrets.yaml;
+    defaultSopsFormat = "yaml";
+    age.keyFile = "/home/ksvnixospc/.config/sops/age/keys.txt";
+  };*/
 
   #fonts
   fonts.packages = with pkgs; [

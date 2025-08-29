@@ -24,6 +24,7 @@ in
   #imports = pkgs-unstable.lib.filesystem.listFilesRecursive ./homeModules;
 
   imports = [
+    #inputs.sops-nix.homeManagerModules.sops # for standalone home manager (not for nixos HM integration)
     ./homeModules/vscode-hm.nix
     ./homeModules/shells-hm.nix
     ./homeModules/pay-respects-hm.nix
@@ -34,6 +35,16 @@ in
     ./homeModules/micro-editor-hm.nix
 
   ];
+
+  # sops
+  /*
+    sops = {
+      defaultSopsFile = ./secrets/secrets.yaml;
+      defaultSopsFormat = "yaml";
+      age.keyFile = "/home/ksvnixospc/.config/sops/age/keys.txt";
+    };
+    systemd.user.services.mbsync.unitConfig.After = [ "sops-nix.service" ];  # refer: https://github.com/Mic92/sops-nix#use-with-home-manager
+  */
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
@@ -201,9 +212,9 @@ in
   #  /etc/profiles/per-user/ksvnixospc/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
-    EDITOR = "micro"; #micro added in cli-apps-hm.nix file
+    EDITOR = "micro"; # micro added in cli-apps-hm.nix file
     #MANPAGER = "sh -c 'col -b | bat -l man -p '"; # add -p flag to bat for plain style
-    
+
   };
 
   home.shellAliases = {

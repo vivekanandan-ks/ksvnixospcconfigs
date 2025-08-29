@@ -37,7 +37,7 @@ let
       */
     ])
     ++ (with pkgs.vscode-extensions; [
-      
+
       # Python
       ms-python.python # Python
       ms-python.debugpy # Python Debugger
