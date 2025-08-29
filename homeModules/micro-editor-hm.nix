@@ -22,6 +22,7 @@
       tabhighlight = true;
       #mkparents = true; # default false
       softwrap = true;
+      eofnewline = false; # default true
 
       autoclose = true; # automatically closes brackets, quotes, etc...
       comment = true; # provides automatic commenting for a number of languages # Simply place the cursor on the line and use the shortcut alt+/. The line will be commented according to the language used.
