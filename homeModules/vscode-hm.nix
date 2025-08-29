@@ -18,7 +18,23 @@ let
 
   vscode-package = pkgs-unstable.vscode-fhs;
   vscode-extnsns =
-    (with pkgs-unstable.vscode-extensions; [
+    (pkgs-vscode.nix4vscode.forVscode [
+
+      "ms-python.python" # Python
+      "ms-python.debugpy" # Python Debugger
+      "KevinRose.vsc-python-indent" # Python Indent
+
+      "jnoortheen.nix-ide" # Nix IDE
+      "tamasfe.even-better-toml" # Even Better TOML
+      "mads-hartmann.bash-ide-vscode" # Bash IDE
+      "redhat.vscode-yaml" # YAML
+      "thenuprojectcontributors.vscode-nushell-lang" # vscode-nushell-lang
+
+      "eamodio.gitlens" # GitLens
+      "wakatime.vscode-wakatime" # https://wakatime.com/
+
+    ])
+    ++ (with pkgs-unstable.vscode-extensions; [
       # nix
       #jnoortheen.nix-ide # Nix IDE
       #brettm12345.nixfmt-vscode # nixfmt (not needed since we use nix IDE for formatting too)
@@ -62,22 +78,6 @@ let
           sha256 = "1hp6gjh4xp2m1xlm1jsdzxw9d8frkiidhph6nvl24d0h8z34w49g";
         }
       */
-    ])
-    ++ (pkgs-vscode.nix4vscode.forVscode [
-
-      "ms-python.python" # Python
-      "ms-python.debugpy" # Python Debugger
-      "KevinRose.vsc-python-indent" # Python Indent
-
-      "jnoortheen.nix-ide" # Nix IDE
-      "tamasfe.even-better-toml" # Even Better TOML
-      "mads-hartmann.bash-ide-vscode" # Bash IDE
-      "redhat.vscode-yaml" # YAML
-      "thenuprojectcontributors.vscode-nushell-lang" # vscode-nushell-lang
-
-      "eamodio.gitlens" # GitLens
-      "wakatime.vscode-wakatime" # https://wakatime.com/
-
     ]);
 in
 {
@@ -154,7 +154,7 @@ in
   };
 
   home.sessionVariables = {
-    NIXOS_OZONE_WL = "1"; # To use VS Code under Wayland
+    NIXOS_OZONE_WL = "1"; # To use VS Code and other apps under Wayland
   };
 
 }
