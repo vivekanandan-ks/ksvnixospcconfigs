@@ -25,9 +25,10 @@
     extraSpecialArgs = { inherit inputs pkgs pkgs-unstable nix4vscode system; };
     users.ksvnixospc = import ./home.nix;
     backupFileExtension = "backup";
-    /*sharedModules = [
-      inputs.sops-nix.homeManagerModules.sops
-    ];*/
+    sharedModules = [
+      #inputs.nvf.homeManagerModules.default
+      #inputs.sops-nix.homeManagerModules.sops      
+    ];
   };
 
   # sops
