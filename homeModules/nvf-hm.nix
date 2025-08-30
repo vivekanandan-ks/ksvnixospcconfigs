@@ -22,6 +22,7 @@
 
       # your settings need to go into the settings attribute set
       # most settings are documented in the appendix
+      #the default settings can also be seen here: https://github.com/NotAShelf/nvf/blob/main/configuration.nix
       settings = {
         vim = {
           package = pkgs-unstable.neovim-unwrapped;
