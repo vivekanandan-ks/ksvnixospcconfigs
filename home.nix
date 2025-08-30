@@ -33,6 +33,7 @@ in
     ./homeModules/cli-apps-hm.nix
     ./homeModules/gui-apps-hm.nix
     ./homeModules/micro-editor-hm.nix
+    ./homeModules/nvf-hm.nix
 
   ];
 
