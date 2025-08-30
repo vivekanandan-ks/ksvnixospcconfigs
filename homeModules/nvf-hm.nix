@@ -73,18 +73,18 @@
             markdown.enable = true;
 
             # Languages that are enabled in the maximal configuration.
-            bash.enable = isMaximal;
+            bash.enable = true; # changed
             clang.enable = isMaximal;
             css.enable = isMaximal;
-            html.enable = isMaximal;
-            sql.enable = isMaximal;
+            html.enable = true; # changed
+            sql.enable = true; # changed
             java.enable = isMaximal;
             kotlin.enable = isMaximal;
             ts.enable = isMaximal;
             go.enable = isMaximal;
             lua.enable = isMaximal;
             zig.enable = isMaximal;
-            python.enable = isMaximal;
+            python.enable = true; # changed
             typst.enable = isMaximal;
             rust = {
               enable = isMaximal;
@@ -94,7 +94,7 @@
             # Language modules that are not as common.
             assembly.enable = false;
             astro.enable = false;
-            nu.enable = false;
+            nu.enable = true; # changed
             csharp.enable = false;
             julia.enable = false;
             vala.enable = false;
@@ -144,7 +144,7 @@
             enable = true;
             name = "catppuccin";
             style = "mocha";
-            transparent = false;
+            transparent = true; # changed
           };
 
           autopairs.nvim-autopairs.enable = true;
@@ -206,7 +206,7 @@
 
           utility = {
             ccc.enable = false;
-            vim-wakatime.enable = false;
+            vim-wakatime.enable = true; # changed
             diffview-nvim.enable = true;
             yanky-nvim.enable = false;
             icon-picker.enable = isMaximal;
