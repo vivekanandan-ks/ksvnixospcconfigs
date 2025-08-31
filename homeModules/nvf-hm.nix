@@ -45,13 +45,13 @@
             enable = true;
 
             formatOnSave = true;
-            lspkind.enable = false;
+            lspkind.enable = true; # changed
             lightbulb.enable = true;
-            lspsaga.enable = false;
+            lspsaga.enable = true; # changed
             trouble.enable = true;
             lspSignature.enable = !isMaximal; # conflicts with blink in maximal
-            otter-nvim.enable = isMaximal;
-            nvim-docs-view.enable = isMaximal;
+            otter-nvim.enable = true; # maximal
+            nvim-docs-view.enable = true; # maximal
           };
 
           debugger = {
@@ -120,7 +120,7 @@
           };
 
           visuals = {
-            nvim-scrollbar.enable = isMaximal;
+            nvim-scrollbar.enable = true; # maximal
             nvim-web-devicons.enable = true;
             nvim-cursorline.enable = true;
             cinnamon-nvim.enable = true;
@@ -154,8 +154,8 @@
           # enable blink-cmp in maximal because it needs to build its rust fuzzy
           # matcher library.
           autocomplete = {
-            nvim-cmp.enable = !isMaximal;
-            blink-cmp.enable = isMaximal;
+            nvim-cmp.enable = false; # not maximal
+            blink-cmp.enable = true; # maximal # modern rust implementation (preferred)
           };
 
           snippets.luasnip.enable = true;
@@ -187,13 +187,13 @@
           };
 
           minimap = {
-            minimap-vim.enable = false;
-            codewindow.enable = isMaximal; # lighter, faster, and uses lua for configuration
+            minimap-vim.enable = true; # changed
+            codewindow.enable = true; # maximal # lighter, faster, and uses lua for configuration
           };
 
           dashboard = {
-            dashboard-nvim.enable = false;
-            alpha.enable = isMaximal;
+            dashboard-nvim.enable = true; # changed
+            alpha.enable = true; # maximal
           };
 
           notify = {
@@ -201,7 +201,7 @@
           };
 
           projects = {
-            project-nvim.enable = isMaximal;
+            project-nvim.enable = true; # maximal
           };
 
           utility = {
@@ -210,21 +210,21 @@
             diffview-nvim.enable = true;
             yanky-nvim.enable = false;
             icon-picker.enable = isMaximal;
-            surround.enable = isMaximal;
+            surround.enable = true; # maximal
             leetcode-nvim.enable = isMaximal;
-            multicursors.enable = isMaximal;
-            smart-splits.enable = isMaximal;
-            undotree.enable = isMaximal;
-            nvim-biscuits.enable = isMaximal;
+            multicursors.enable = true; # maximal
+            smart-splits.enable = true; # maximal
+            undotree.enable = true; # maximal
+            nvim-biscuits.enable = true; # maximal
 
             motion = {
               hop.enable = true;
               leap.enable = true;
-              precognition.enable = isMaximal;
+              precognition.enable = true; # maximal
             };
             images = {
-              image-nvim.enable = false;
-              img-clip.enable = isMaximal;
+              image-nvim.enable = true; # changed
+              img-clip.enable = true; # maximal
             };
           };
 
@@ -248,10 +248,10 @@
             noice.enable = true;
             colorizer.enable = true;
             modes-nvim.enable = false; # the theme looks terrible with catppuccin
-            illuminate.enable = true;
+            illuminate.enable = true; # default false
             breadcrumbs = {
-              enable = isMaximal;
-              navbuddy.enable = isMaximal;
+              enable = true; # maximal
+              navbuddy.enable = true; # maximal
             };
             smartcolumn = {
               enable = true;
