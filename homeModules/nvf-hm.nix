@@ -224,10 +224,10 @@
               leap.enable = true;
               precognition.enable = true; # maximal
             };
-            images = {
+            /*images = {
               image-nvim.enable = true; # changed
               img-clip.enable = true; # maximal
-            };
+            };*/
           };
 
           notes = {
