@@ -49,7 +49,7 @@
             lightbulb.enable = true;
             lspsaga.enable = true; # changed
             trouble.enable = true;
-            lspSignature.enable = !isMaximal; # conflicts with blink in maximal
+            lspSignature.enable = false; # not maximal # conflicts with blink in maximal
             otter-nvim.enable = true; # maximal
             nvim-docs-view.enable = true; # maximal
           };
