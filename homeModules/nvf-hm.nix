@@ -37,7 +37,7 @@
 
           spellcheck = {
             enable = true;
-            programmingWordlist.enable = isMaximal;
+            programmingWordlist.enable = true; # maximal
           };
 
           lsp = {
@@ -224,10 +224,10 @@
               leap.enable = true;
               precognition.enable = true; # maximal
             };
-            /*images = {
+            images = {
               image-nvim.enable = true; # changed
               img-clip.enable = true; # maximal
-            };*/
+            }; # added this app for this to work properly : ueberzugpp
           };
 
           notes = {
@@ -299,5 +299,9 @@
         };
       };
     };
+  
+  home.packages = with pkgs-unstable;[
+    ueberzugpp
+  ];
 
 }
