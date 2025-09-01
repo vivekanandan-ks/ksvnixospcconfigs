@@ -27,6 +27,10 @@
       #inputs.obsidian-nvim.follows = "obsidian-nvim"; # <- this will use the obsidian-nvim from your inputs
     };
 
+    niri = {
+      url = "github:sodiboo/niri-flake";
+    };
+
     /*
       sops-nix = {
         url = "github:Mic92/sops-nix";

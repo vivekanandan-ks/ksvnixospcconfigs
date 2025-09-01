@@ -37,7 +37,7 @@
 
           spellcheck = {
             enable = true;
-            programmingWordlist.enable = true; # maximal
+            #programmingWordlist.enable = true; # maximal
           };
 
           lsp = {
