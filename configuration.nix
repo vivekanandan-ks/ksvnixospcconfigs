@@ -32,10 +32,10 @@
   };
 
   # niri
-  programs.niri = {
+  /*programs.niri = {
     enable = true;
     package = pkgs-unstable.niri;
-  };
+  };*/
 
   # sops
   /*sops = {
