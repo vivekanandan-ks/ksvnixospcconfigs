@@ -194,8 +194,8 @@
           };
 
           dashboard = {
-            dashboard-nvim.enable = true; # changed
-            alpha.enable = true; # maximal
+            #dashboard-nvim.enable = true; # changed
+            #alpha.enable = true; # maximal
           };
 
           notify = {
