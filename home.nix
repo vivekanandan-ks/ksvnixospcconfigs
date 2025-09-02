@@ -221,7 +221,7 @@ in
 
   home.shellAliases = {
     rm = "echo Use 'rip' instead of rm.";
-    rip = "rip --graveyard ~/.local/shareman -psh";
+    rip = "rip --graveyard ~/.local/shareman -sh";
     df = "echo try duf instead";
     grep = "echo 'try ripgrep or ripgrep-all and rg or rga is the command'";
     man = "batman";
