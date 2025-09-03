@@ -85,7 +85,7 @@ in
         ripgrep # grep alternative #rg is the command
         ripgrep-all # same as ripgrep but for many file types like video, PDFs, etc etc
         #nh
-        gg-jj
+        #gg-jj
         #pay-respects
         #nix-index
         #micro
