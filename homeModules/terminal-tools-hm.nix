@@ -65,6 +65,7 @@
       style = "auto";
       inline_height = 40; # default 40
       show_preview = true;
+      history_filter = [ "^z" "^clear" "^exit" ];
       theme = {
         name = "marine"; # options are ""(default) or "autumn" or "marine"(good out of the three)
         debug = true;
