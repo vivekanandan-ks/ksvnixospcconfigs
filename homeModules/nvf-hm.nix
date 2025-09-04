@@ -223,6 +223,7 @@
               hop.enable = true;
               leap.enable = true;
               precognition.enable = true; # maximal
+              #flash-nvim.enable = true; # extra
             };
             images = {
               image-nvim.enable = true; # changed

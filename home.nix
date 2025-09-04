@@ -123,7 +123,8 @@ in
 
         telegram-desktop
         signal-desktop
-        discord
+        #discord
+        vesktop
 
         # vscode
         /*
