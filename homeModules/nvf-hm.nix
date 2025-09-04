@@ -176,7 +176,13 @@
           binds = {
             whichKey.enable = true;
             cheatsheet.enable = true;
-            hardtime-nvim.enable = true;
+            hardtime-nvim = {
+              enable = true;
+              setupOpts = {
+                restriction_mode = "hint";
+              };
+
+            };
           };
 
           telescope.enable = true;
