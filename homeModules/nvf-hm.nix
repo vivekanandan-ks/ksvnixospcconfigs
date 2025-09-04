@@ -179,8 +179,8 @@
             hardtime-nvim = {
               enable = true;
               setupOpts = {
-                #restriction_mode = "hint";
-                disable_mouse = false;
+                restriction_mode = "hint"; #other opyions: "block"
+                #disable_mouse = false;
               };
 
             };
