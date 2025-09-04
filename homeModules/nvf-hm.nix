@@ -27,8 +27,8 @@
         vim = {
           #package = pkgs-unstable.neovim-unwrapped;
           package = pkgs.neovim-unwrapped;
-          viAlias = true;
-          vimAlias = true;
+          viAlias = false; # changed
+          vimAlias = false; # changed
           debugMode = {
             enable = false;
             level = 16;
