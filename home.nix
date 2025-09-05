@@ -34,7 +34,8 @@ in
     ./homeModules/gui-apps-hm.nix
     ./homeModules/micro-editor-hm.nix
     ./homeModules/nvf-hm.nix
-    #./homeModules/niri.nix
+    #./homeModules/niri-hm.nix
+    #./homeModules/hyprland-hm.nix
 
   ];
 

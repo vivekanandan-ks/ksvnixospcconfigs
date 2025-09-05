@@ -22,27 +22,39 @@
   ];
 
   home-manager = {
-    extraSpecialArgs = { inherit inputs pkgs pkgs-unstable nix4vscode system; };
+    extraSpecialArgs = {
+      inherit
+        inputs
+        pkgs
+        pkgs-unstable
+        nix4vscode
+        system
+        ;
+    };
     users.ksvnixospc = import ./home.nix;
     backupFileExtension = "backup";
     sharedModules = [
       #inputs.nvf.homeManagerModules.default
-      #inputs.sops-nix.homeManagerModules.sops      
+      #inputs.sops-nix.homeManagerModules.sops
     ];
   };
 
   # niri
-  /*programs.niri = {
-    enable = true;
-    package = pkgs-unstable.niri;
-  };*/
+  /*
+    programs.niri = {
+      enable = true;
+      package = pkgs-unstable.niri;
+    };
+  */
 
   # sops
-  /*sops = {
-    defaultSopsFile = ./secrets/secrets.yaml;
-    defaultSopsFormat = "yaml";
-    age.keyFile = "/home/ksvnixospc/.config/sops/age/keys.txt";
-  };*/
+  /*
+    sops = {
+      defaultSopsFile = ./secrets/secrets.yaml;
+      defaultSopsFormat = "yaml";
+      age.keyFile = "/home/ksvnixospc/.config/sops/age/keys.txt";
+    };
+  */
 
   #fonts
   fonts.packages = with pkgs; [
@@ -182,13 +194,11 @@
     };
   */
 
-  /*
-    nix.settings.substituters = [
-      "https://cache.nixos.org/"
-      "https://nix-community.cachix.org"
-
-    ];
-  */
+  nix.settings = {
+    substituters = [ "https://hyprland.cachix.org" ];
+    trusted-substituters = [ "https://hyprland.cachix.org" ];
+    trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
+  };
 
   # Bootloader.
   # systemd-boot
@@ -232,21 +242,26 @@
       intel-ocl # took this package name from this option example in nixos option (no other specific reason to add such this)
     ];
   };
-  environment.sessionVariables = { LIBVA_DRIVER_NAME = "iHD"; }; # Optionally, set the environment variable
-
+  environment.sessionVariables = {
+    LIBVA_DRIVER_NAME = "iHD";
+  }; # Optionally, set the environment variable
 
   # cosmic DE
   #services.displayManager.cosmic-greeter.enable = true; # cosmic login manager
   #services.desktopManager.cosmic.enable = true;
 
   # enable Hyprland
-  /*
-    programs.hyprland = {
-      enable = true;
-      package = pkgs-unstable.hyprland;
-      xwayland.enable = true; # default is true
-    };
-  */
+
+  programs.hyprland = let
+    hyprland-pkg = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system} ;
+   in {
+    enable = true;
+    #package = hyprland-pkg.hyprland;
+    package = null;
+    #portalPackage = hyprland-pkg.xdg-desktop-portal-hyprland;
+    portalPackage = null;
+
+  };
 
   #Enable flakes
   nix.settings.experimental-features = [

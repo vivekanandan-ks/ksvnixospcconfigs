@@ -27,6 +27,9 @@
       #inputs.obsidian-nvim.follows = "obsidian-nvim"; # <- this will use the obsidian-nvim from your inputs
     };
 
+    # hyprland
+    hyprland.url = "github:hyprwm/Hyprland";
+
     /*niri = {
       url = "github:sodiboo/niri-flake";
     };*/
