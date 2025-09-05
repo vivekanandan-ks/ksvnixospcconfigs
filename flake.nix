@@ -60,10 +60,10 @@
       inputs.hyprland.follows = "hyprland"; # to make sure that the plugin is built for the correct version of hyprland
     };
 
-    hyprlock = {
+    /*hyprlock = {
       url = "github:hyprwm/hyprlock";
       inputs.hyprland.follows = "hyprland"; # to make sure that the plugin is built for the correct version of hyprland
-    };
+    };*/
 
     /*
       niri = {
