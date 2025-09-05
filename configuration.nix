@@ -255,7 +255,7 @@
   programs.hyprland = let
     hyprland-pkg = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system} ;
    in {
-    enable = true;
+    #enable = true;
     package = hyprland-pkg.hyprland;
     #package = null; # doesn't work in nixos options
     portalPackage = hyprland-pkg.xdg-desktop-portal-hyprland;
