@@ -35,7 +35,7 @@ in
     ./homeModules/micro-editor-hm.nix
     ./homeModules/nvf-hm.nix
     #./homeModules/niri-hm.nix
-    #./homeModules/hyprland-hm.nix
+    ./homeModules/hyprland-hm.nix
 
   ];
 
