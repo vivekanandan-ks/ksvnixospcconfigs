@@ -28,11 +28,37 @@
     };
 
     # hyprland
-    hyprland.url = "github:hyprwm/Hyprland";
+    #hyprland.url = "github:hyprwm/Hyprland";
+    hyprland = {
+      #type = "git";
+      url = "github:hyprwm/Hyprland";
+      #submodules = true;
+      #inputs.nixpkgs.follows = "nixpkgs"; # commenting means we use latest hyprland directly
+    };
 
-    /*niri = {
-      url = "github:sodiboo/niri-flake";
-    };*/
+    # hyprland official plugins
+    hyprland-plugins = {
+      url = "github:hyprwm/hyprland-plugins";
+      inputs.hyprland.follows = "hyprland";
+    };
+
+    # a hyprland plugin refer: https://github.com/KZDKM/Hyprspace
+    Hyprspace = {
+      url = "github:KZDKM/Hyprspace";
+      # Hyprspace uses latest Hyprland. We declare this to keep them in sync.
+      inputs.hyprland.follows = "hyprland";
+    };
+
+    # unofficial hyprexpo alternative
+    hyprtasking = {
+      url = "github:raybbian/hyprtasking";
+      inputs.hyprland.follows = "hyprland";
+    };
+    /*
+      niri = {
+        url = "github:sodiboo/niri-flake";
+      };
+    */
 
     /*
       sops-nix = {
