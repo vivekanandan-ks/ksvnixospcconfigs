@@ -252,7 +252,7 @@
 
   # enable Hyprland
 
-  programs.hyprland = let
+  /*programs.hyprland = let
     hyprland-pkg = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system} ;
    in {
     enable = true;
@@ -261,7 +261,7 @@
     portalPackage = hyprland-pkg.xdg-desktop-portal-hyprland;
     #portalPackage = null; # # doesn't work in nixos options
 
-  };
+  };*/
 
   #Enable flakes
   nix.settings.experimental-features = [

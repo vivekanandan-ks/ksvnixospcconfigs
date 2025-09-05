@@ -29,41 +29,38 @@
 
     # hyprland
     #hyprland.url = "github:hyprwm/Hyprland";
-    hyprland = {
-      #type = "git";
-      url = "github:hyprwm/Hyprland";
-      #submodules = true;
-      #inputs.nixpkgs.follows = "nixpkgs"; # commenting means we use latest hyprland directly
-    };
+    /*
+      hyprland = {
+        #type = "git";
+        url = "github:hyprwm/Hyprland";
+        #submodules = true;
+        #inputs.nixpkgs.follows = "nixpkgs"; # commenting means we use latest hyprland directly
+      };
 
-    # hyprland official plugins
-    hyprland-plugins = {
-      url = "github:hyprwm/hyprland-plugins";
-      inputs.hyprland.follows = "hyprland";
-    };
+      # hyprland official plugins
+      hyprland-plugins = {
+        url = "github:hyprwm/hyprland-plugins";
+        inputs.hyprland.follows = "hyprland";
+      };
 
-    # a hyprland plugin refer: https://github.com/KZDKM/Hyprspace
-    Hyprspace = {
-      url = "github:KZDKM/Hyprspace";
-      # Hyprspace uses latest Hyprland. We declare this to keep them in sync.
-      inputs.hyprland.follows = "hyprland";
-    };
+      # a hyprland plugin refer: https://github.com/KZDKM/Hyprspace
+      Hyprspace = {
+        url = "github:KZDKM/Hyprspace";
+        # Hyprspace uses latest Hyprland. We declare this to keep them in sync.
+        inputs.hyprland.follows = "hyprland";
+      };
 
-    # unofficial hyprexpo alternative
-    hyprtasking = {
-      url = "github:raybbian/hyprtasking";
-      inputs.hyprland.follows = "hyprland";
-    };
+      # unofficial hyprexpo alternative
+      hyprtasking = {
+        url = "github:raybbian/hyprtasking";
+        inputs.hyprland.follows = "hyprland";
+      };
 
-    hypr-dynamic-cursors = {
-      url = "github:VirtCode/hypr-dynamic-cursors";
-      inputs.hyprland.follows = "hyprland"; # to make sure that the plugin is built for the correct version of hyprland
-    };
-
-    /*hyprlock = {
-      url = "github:hyprwm/hyprlock";
-      inputs.hyprland.follows = "hyprland"; # to make sure that the plugin is built for the correct version of hyprland
-    };*/
+      hypr-dynamic-cursors = {
+        url = "github:VirtCode/hypr-dynamic-cursors";
+        inputs.hyprland.follows = "hyprland"; # to make sure that the plugin is built for the correct version of hyprland
+      };
+    */
 
     /*
       niri = {
@@ -77,12 +74,12 @@
         inputs.nixpkgs.follows = "nixpkgs";
       };
     */
-    /*
-      kwin-effects-forceblur = {
-        url = "github:taj-ny/kwin-effects-forceblur";
-        inputs.nixpkgs.follows = "nixpkgs";
-      };
-    */
+
+    /*kwin-effects-forceblur = {
+      url = "github:taj-ny/kwin-effects-forceblur";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };*/
+
   };
 
   outputs =
