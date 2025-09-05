@@ -60,6 +60,11 @@
       inputs.hyprland.follows = "hyprland"; # to make sure that the plugin is built for the correct version of hyprland
     };
 
+    hyprlock = {
+      url = "github:hyprwm/hyprlock";
+      inputs.hyprland.follows = "hyprland"; # to make sure that the plugin is built for the correct version of hyprland
+    };
+
     /*
       niri = {
         url = "github:sodiboo/niri-flake";
