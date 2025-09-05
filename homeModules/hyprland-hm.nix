@@ -41,10 +41,10 @@
   in {
     enable = true;
     # set the flake package
-    package = hyprland-pkg.hyprland;
-    #package = null;
-    portalPackage = hyprland-pkg.xdg-desktop-portal-hyprland;
-    #portalPackage = null;
+    #package = hyprland-pkg.hyprland;
+    package = null;
+    #portalPackage = hyprland-pkg.xdg-desktop-portal-hyprland;
+    portalPackage = null;
     systemd.enable = true; # default true
     xwayland.enable = true; # default true
 
