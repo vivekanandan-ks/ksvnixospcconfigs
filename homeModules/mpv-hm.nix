@@ -24,10 +24,10 @@
       webtorrent-mpv-hook # Adds a hook that allows mpv to stream torrents
 
       # eisa01 mpv scripts. refer: https://github.com/Eisa01/mpv-scripts
-      eisa01.smart-copy-paste-2
+      #eisa01.smart-copy-paste-2
       #eisa01.undoredo
 
-      #modernz # Fully automatic subtitle downloading for the MPV media player
+      modernz # Fully automatic subtitle downloading for the MPV media player
       #memo # Recent files menu for mpv
       #autosub # Fully automatic subtitle downloading for the MPV media playe
       #thumbfastr # High-performance on-the-fly thumbnailer for mpv
@@ -43,12 +43,12 @@
       # arrow keys
       "UP" = "add volume 5";
       "DOWN" = "add volume -5";
-      "RIGHT" = "seek 10";
-      "LEFT" = "seek -10";
-      "Ctrl+RIGHT" = "seek 60";
-      "Ctrl+LEFT" = "seek -60";
-      "Shift+RIGHT" = "seek 5";
-      "Shift+LEFT" = "seek -5";
+      "RIGHT" = "seek 10; show-text 'Seek: +10s | \${time-pos} / \${duration} (\${percent-pos}%)'";
+      "LEFT" = "seek -10; show-text 'Seek: -10s | \${time-pos} / \${duration} (\${percent-pos}%)'";
+      "Ctrl+RIGHT" = "seek 60; show-text 'Seek: +60s | \${time-pos} / \${duration} (\${percent-pos}%)'";
+      "Ctrl+LEFT" = "seek -60; show-text 'Seek: -60s | \${time-pos} / \${duration} (\${percent-pos}%)'";
+      "Shift+RIGHT" = "seek 5; show-text 'Seek: +5s | \${time-pos} / \${duration} (\${percent-pos}%)'";
+      "Shift+LEFT" = "seek -5; show-text 'Seek: -5s | \${time-pos} / \${duration} (\${percent-pos}%)'";
 
       # mouse
       "MBTN_LEFT" = "ignore";
@@ -75,8 +75,8 @@
 
       "v" = "cycle sub";
       "Shift+v" = "cycle sub down";
-      "b" = "cycle audio";
-      "Shift+b" = "cycle audio down";
+      "b" = "cycle audio-track";
+      "Shift+b" = "cycle audio-track down";
 
       "e" = "frame-step"; # next frame (and pause)
       "Shift+e" = "frame-back-step";
@@ -91,8 +91,8 @@
       "1" = "add chapter -1";
       "2" = "add chapter 1";
 
-      "Shift+UP" = "add sub-pos -1"; # move subtitles up
-      "Shift+DOWN" = "add sub-pos +10"; # move subtitles down
+      "Shift+UP" = "add sub-pos +1"; # move subtitles up
+      "Shift+DOWN" = "add sub-pos -1"; # move subtitles down
       "Shift+=" = "add sub-scale +0.1";
       "Shift+-" = "add sub-scale -0.1";
     };
@@ -111,14 +111,32 @@
       keep-open = true; # Don't close the player after finishing the video
       save-position-on-quit = true; # The last position of your video is saved when quitting mpv
       force-seekable = true; # Force seeking (if seeking doesn't work)
-      cursor-autohide = 100; # Cursor hide in ms
+      cursor-autohide = 1000; # Cursor hide in ms
       autocreate-playlist = "same"; # Generate a playlist from same files in the same directory
+      remember-window-geometry = true; # Remember size/position
 
       # OSD
       #osc = "no"; # Disable the whole OSD (if you use an external one like uosc)
-      #osd-level = 1; # Level of OSD, some GUIs might surpress mpv OSD, so you can add it back
+      osd-level = 1; # Level of OSD, some GUIs might surpress mpv OSD, so you can add it back
       #osd-bar = "no"; # Don't show a huge volume box on screen when turning the volume up/down
       #border = "no"; # Disable the Windows border of mpv
+      osd-duration = 0;
+      # OSD positioning
+      #osd-margin-x = 25; # Horizontal margins
+      #osd-margin-y = 40; # Vertical margins (distance from edge)
+      #osd-align-x = "center"; # left, center, right
+      #osd-align-y = "bottom"; # top, center, bottom
+      # Seekbar specific
+      #osd-bar-align-y = 0.8; # Position as fraction (0=top, 1=bottom)
+      #osd-bar-w = 95; # Width as percentage of screen
+      # Volume bar settings
+      osd-bar = true; # Enable OSD bars
+      osd-bar-align-y = "top"; # Volume bar at top for vertical
+      osd-bar-w = 5; # Width of volume bar (thin for vertical)
+      osd-bar-h = 80; # Height of volume bar (tall for vertical)
+      # Position volume bar on side
+      osd-margin-x = 20; # Distance from screen edge
+      osd-align-x = "left"; # Position on left side
 
       # Screenshot
       screenshot-sw = true; # Turns on software rendering for screenshots Faster, but might lack stuff like HDR
