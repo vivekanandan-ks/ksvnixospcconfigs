@@ -30,7 +30,7 @@
       modernz # Fully automatic subtitle downloading for the MPV media player
       #memo # Recent files menu for mpv
       #autosub # Fully automatic subtitle downloading for the MPV media playe
-      #thumbfastr # High-performance on-the-fly thumbnailer for mpv
+      thumbfastr # High-performance on-the-fly thumbnailer for mpv
       #chapterskip # Automatically skips chapters based on title
       #sponsorblock-minimal # Minimal script to skip sponsored segments of YouTube videos
       #quality-menu # Userscript for MPV that allows you to change youtube video quality (ytdl-format) on the fly
@@ -52,7 +52,10 @@
 
       # mouse
       "MBTN_LEFT" = "ignore";
-      "MBTN_RIGHT" = "cycle pause";
+      "MBTN_RIGHT" = "script-message-to modernz menu";
+      #"MBTN_RIGHT" = "script-message-to modernz showcontrols";
+      #"MBTN_RIGHT" = "cycle pause";
+
       "WHEEL_UP" = "add volume 5";
       "WHEEL_DOWN" = "add volume -5";
       "MBTN_LEFT_DBL" = "cycle fullscreen";
@@ -117,10 +120,10 @@
 
       # OSD
       #osc = "no"; # Disable the whole OSD (if you use an external one like uosc)
-      osd-level = 1; # Level of OSD, some GUIs might surpress mpv OSD, so you can add it back
+      #osd-level = 1; # Level of OSD, some GUIs might surpress mpv OSD, so you can add it back
       #osd-bar = "no"; # Don't show a huge volume box on screen when turning the volume up/down
       #border = "no"; # Disable the Windows border of mpv
-      osd-duration = 0;
+      #osd-duration = 0;
       # OSD positioning
       #osd-margin-x = 25; # Horizontal margins
       #osd-margin-y = 40; # Vertical margins (distance from edge)
@@ -130,13 +133,13 @@
       #osd-bar-align-y = 0.8; # Position as fraction (0=top, 1=bottom)
       #osd-bar-w = 95; # Width as percentage of screen
       # Volume bar settings
-      osd-bar = true; # Enable OSD bars
-      osd-bar-align-y = "top"; # Volume bar at top for vertical
-      osd-bar-w = 5; # Width of volume bar (thin for vertical)
-      osd-bar-h = 80; # Height of volume bar (tall for vertical)
+      #osd-bar = true; # Enable OSD bars
+      #osd-bar-align-y = "top"; # Volume bar at top for vertical
+      #osd-bar-w = 5; # Width of volume bar (thin for vertical)
+      #osd-bar-h = 80; # Height of volume bar (tall for vertical)
       # Position volume bar on side
-      osd-margin-x = 20; # Distance from screen edge
-      osd-align-x = "left"; # Position on left side
+      #osd-margin-x = 20; # Distance from screen edge
+      #osd-align-x = "left"; # Position on left side
 
       # Screenshot
       screenshot-sw = true; # Turns on software rendering for screenshots Faster, but might lack stuff like HDR
@@ -216,24 +219,26 @@
 
     };
 
-    /*
-      scriptOpts = {
+    scriptOpts = {
 
-        modernz = {
-          window_top_bar = true;
-          greenandgrumpy = true;
-          jump_buttons = true;
-          speed_button = true;
-          ontop_button = true; # pin button
-          chapter_skip_buttons = true;
-          track_nextprev_buttons = true;
-          #hover_effect_color = "#7F7F7F"; # 50% gray
-          #seekbarfg_color = "#FFFFFF";
-          #seekbarbg_color = "#7F7F7F"; # 50% gray
-        };
-
+      modernz = {
+        window_top_bar = true;
+        greenandgrumpy = true;
+        jump_buttons = true;
+        speed_button = true;
+        ontop_button = true; # pin button
+        chapter_skip_buttons = true;
+        track_nextprev_buttons = true;
+        
+        seekbarheight = 10; # Default is usually 3-4, increase for thicker
+        seekbar_roundness = 2;          # Rounded corners (0-10)
+        seekbar_cache = true;           # Show buffer/cache on seekbar
+        #hover_effect_color = "#7F7F7F"; # 50% gray
+        #seekbarfg_color = "#FFFFFF";
+        #seekbarbg_color = "#7F7F7F"; # 50% gray
       };
-    */
+
+    };
 
   };
 
