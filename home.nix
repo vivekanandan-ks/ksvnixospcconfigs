@@ -156,7 +156,7 @@ in
       };
     */
 
-    command-not-found.enable = true;
+    command-not-found.enable = true; # this provides the suggestions command by default in nix
 
   };
 
