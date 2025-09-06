@@ -156,6 +156,8 @@ in
       };
     */
 
+    command-not-found.enable = true;
+
   };
 
   services = {
