@@ -34,6 +34,10 @@ in
     ./homeModules/gui-apps-hm.nix
     ./homeModules/micro-editor-hm.nix
     ./homeModules/nvf-hm.nix
+    ./homeModules/mpv-hm.nix
+
+
+    # WMs
     #./homeModules/niri-hm.nix
     #./homeModules/hyprland-hm.nix
 
