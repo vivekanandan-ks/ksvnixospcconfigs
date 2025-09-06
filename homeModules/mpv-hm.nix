@@ -172,6 +172,7 @@
       #hwdec = "no";
       # Ignore cropping (if specified inside a .mkv file)
       #video-crop = "0x0+0+0";
+      hwdec = true;
 
       # Audio
       audio-delay = "+0.084";
@@ -212,8 +213,7 @@
       #sub-scale-with-window = false;
 
       #speed = 1;
-      hwdec = true;
-
+      
       ytdl-format = "bestvideo+bestaudio/best";
       #watch-later-options-clr = true; # Dont save settings like brightness
 
