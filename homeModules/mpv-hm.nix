@@ -38,24 +38,64 @@
 
     ];
 
-    /*
-      bindings = {
-        l = "seek 20";
-        h = "seek -20";
-        "]" = "add speed 0.1";
-        "[" = "add speed -0.1";
-        j = "seek -4";
-        k = "seek 4";
-        K = "cycle sub";
-        J = "cycle sub down";
-        w = "add sub-pos -10"; # move subtitles up
-        W = "add sub-pos -1"; # move subtitles up
-        e = "add sub-pos +10"; # move subtitles down
-        E = "add sub-pos +1"; # move subtitles down
-        "=" = "add sub-scale +0.1";
-        "-" = "add sub-scale -0.1";
-      };
-    */
+    bindings = {
+
+      # arrow keys
+      "UP" = "add volume 5";
+      "DOWN" = "add volume -5";
+      "RIGHT" = "seek 10";
+      "LEFT" = "seek -10";
+      "Ctrl+RIGHT" = "seek 60";
+      "Ctrl+LEFT" = "seek -60";
+      "Shift+RIGHT" = "seek 5";
+      "Shift+LEFT" = "seek -5";
+
+      # mouse
+      "MBTN_LEFT" = "ignore";
+      "MBTN_RIGHT" = "cycle pause";
+      "WHEEL_UP" = "add volume 5";
+      "WHEEL_DOWN" = "add volume -5";
+      "MBTN_LEFT_DBL" = "cycle fullscreen";
+      #"MBTN_RIGHT_DBL" = "quit";
+      #"MBTN_MID_DBL" = "cycle ontop";
+
+      # subs and audio delays and mute
+      "g" = "add sub-delay -0.05";
+      "h" = "add sub-delay 0.05";
+      "j" = "add audio-delay -0.05";
+      "k" = "add audio-delay 0.05";
+      "m" = "cycle mute";
+
+      "]" = "add speed 0.1";
+      "[" = "add speed -0.1";
+
+      "ESC" = "cycle fullscreen";
+      "q" = "quit-watch-later";
+      "Ctrl+q" = "quit-watch-later";
+
+      "v" = "cycle sub";
+      "Shift+v" = "cycle sub down";
+      "b" = "cycle audio";
+      "Shift+b" = "cycle audio down";
+
+      "e" = "frame-step"; # next frame (and pause)
+      "Shift+e" = "frame-back-step";
+
+      "o" = "cycle-values video-unscaled yes no";
+      "a" = "cycle-values video-aspect-override -1 16:9 4:3 16:10 2.35:1 2.40:1 1.85:1 1:1";
+      "Shift+a" = "set video-aspect-override -1";
+      "c" = "cycle-values video-crop '' 16:9 4:3 16:10 2.35:1 1.85:1 1:1";
+      "Shift+c" = "set video-crop ''";
+      "f" = "cycle fullscreen";
+
+      "1" = "add chapter -1";
+      "2" = "add chapter 1";
+
+      "Shift+UP" = "add sub-pos -1"; # move subtitles up
+      "Shift+DOWN" = "add sub-pos +10"; # move subtitles down
+      "Shift+=" = "add sub-scale +0.1";
+      "Shift+-" = "add sub-scale -0.1";
+    };
 
     config = {
       # recommended mpv settings can be referenced here:
@@ -150,8 +190,6 @@
       #sub-scale-by-window = true;
       #sub-scale-with-window = false;
 
-
-
       #speed = 1;
       hwdec = true;
 
@@ -160,22 +198,24 @@
 
     };
 
-    /*scriptOpts = {
+    /*
+      scriptOpts = {
 
-      modernz = {
-        window_top_bar = true;
-        greenandgrumpy = true;
-        jump_buttons = true;
-        speed_button = true;
-        ontop_button = true; # pin button
-        chapter_skip_buttons = true;
-        track_nextprev_buttons = true;
-        #hover_effect_color = "#7F7F7F"; # 50% gray
-        #seekbarfg_color = "#FFFFFF";
-        #seekbarbg_color = "#7F7F7F"; # 50% gray
+        modernz = {
+          window_top_bar = true;
+          greenandgrumpy = true;
+          jump_buttons = true;
+          speed_button = true;
+          ontop_button = true; # pin button
+          chapter_skip_buttons = true;
+          track_nextprev_buttons = true;
+          #hover_effect_color = "#7F7F7F"; # 50% gray
+          #seekbarfg_color = "#FFFFFF";
+          #seekbarbg_color = "#7F7F7F"; # 50% gray
+        };
+
       };
-
-    };*/
+    */
 
   };
 

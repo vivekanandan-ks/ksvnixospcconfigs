@@ -97,7 +97,7 @@ in
 
         # desktop apps
         vlc
-        haruna
+        #haruna
         euphonica
         freetube
         collector # drag and drop tool
