@@ -52,8 +52,8 @@
 
       # mouse
       "MBTN_LEFT" = "ignore";
-      "MBTN_RIGHT" = "script-message-to modernz menu";
-      #"MBTN_RIGHT" = "script-message-to modernz showcontrols";
+      #"MBTN_RIGHT" = "script-message-to modernz menu"; # not a right option not workibng
+      "MBTN_RIGHT" = "script-message-to modernz showcontrols";
       #"MBTN_RIGHT" = "cycle pause";
 
       "WHEEL_UP" = "add volume 5";
