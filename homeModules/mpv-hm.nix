@@ -53,8 +53,8 @@
       # mouse
       "MBTN_LEFT" = "ignore";
       #"MBTN_RIGHT" = "script-message-to modernz menu"; # not a right option not workibng
-      "MBTN_RIGHT" = "script-message-to modernz showcontrols";
-      #"MBTN_RIGHT" = "cycle pause";
+      #"MBTN_RIGHT" = "script-message-to modernz showcontrols"; # not a right option not workibng
+      "MBTN_RIGHT" = "cycle pause";
 
       "WHEEL_UP" = "add volume 5";
       "WHEEL_DOWN" = "add volume -5";
@@ -94,10 +94,10 @@
       "1" = "add chapter -1";
       "2" = "add chapter 1";
 
-      "Shift+UP" = "add sub-pos +1"; # move subtitles up
-      "Shift+DOWN" = "add sub-pos -1"; # move subtitles down
-      "Shift+=" = "add sub-scale +0.1";
-      "Shift+-" = "add sub-scale -0.1";
+      "Shift+UP" = "add sub-pos -1"; # move subtitles down
+      "Shift+DOWN" = "add sub-pos +1"; # move subtitles up
+      "=" = "add sub-scale +0.1";
+      "-" = "add sub-scale -0.1";
     };
 
     config = {
@@ -199,7 +199,8 @@
       #Some settings fixing VOB/PGS subtitles (creating blur & changing yellow subs to gray)
       #sub-gauss = "1.0";
       #sub-gray = "yes";
-      #sub-pos = 90;
+      sub-pos = 100;
+      sub-scale = 1.2;
       #sub-font-size = 40;
       #sub-border-size = 2;
       #sub-shadow-offset = 2;
