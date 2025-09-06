@@ -27,7 +27,7 @@ in
     #inputs.sops-nix.homeManagerModules.sops # for standalone home manager (not for nixos HM integration)
     ./homeModules/vscode-hm.nix
     ./homeModules/shells-hm.nix
-    ./homeModules/pay-respects-hm.nix
+    #./homeModules/pay-respects-hm.nix
     ./homeModules/terminals-gui-hm.nix
     ./homeModules/terminal-tools-hm.nix
     ./homeModules/cli-apps-hm.nix
@@ -87,7 +87,6 @@ in
         ripgrep-all # same as ripgrep but for many file types like video, PDFs, etc etc
         #nh
         #gg-jj
-        #pay-respects
         #nix-index
         #micro
         wakatime-cli
@@ -126,9 +125,11 @@ in
         signal-desktop
         #discord
         vesktop
-
+        
+        # KDE desktop effects addons
         inputs.kwin-effects-forceblur.packages.${pkgs.system}.default # Wayland
         #inputs.kwin-effects-forceblur.packages.${pkgs.system}.x11 # X11
+        kde-rounded-corners
 
         # vscode
         /*
