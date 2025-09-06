@@ -1,15 +1,13 @@
 {
   description = "A very basic flake";
 
-  inputs = let 
-    main = "unstable";
-    #main = "25.05";
-  in {
+  inputs = {
     #nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-25.05";
-    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-${main}";
+    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     nixpkgs-unstable.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     home-manager = {
-      url = "github:nix-community/home-manager/release-${main}";
+      #url = "github:nix-community/home-manager/release-25.05";
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # for vscode extensions
