@@ -30,7 +30,7 @@
       modernz # Fully automatic subtitle downloading for the MPV media player
       #memo # Recent files menu for mpv
       #autosub # Fully automatic subtitle downloading for the MPV media playe
-      thumbfastr # High-performance on-the-fly thumbnailer for mpv
+      thumbfast # High-performance on-the-fly thumbnailer for mpv
       #chapterskip # Automatically skips chapters based on title
       #sponsorblock-minimal # Minimal script to skip sponsored segments of YouTube videos
       #quality-menu # Userscript for MPV that allows you to change youtube video quality (ytdl-format) on the fly
@@ -213,7 +213,7 @@
       #sub-scale-with-window = false;
 
       #speed = 1;
-      
+
       ytdl-format = "bestvideo+bestaudio/best";
       #watch-later-options-clr = true; # Dont save settings like brightness
 
