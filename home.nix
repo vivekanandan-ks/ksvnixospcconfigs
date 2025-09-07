@@ -113,6 +113,7 @@ in
         brave
         google-chrome
         firefox
+        #firefoxpwa
         #tor-browser
 
         #soundwireserver

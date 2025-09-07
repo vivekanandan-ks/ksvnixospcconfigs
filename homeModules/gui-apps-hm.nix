@@ -13,10 +13,8 @@
   /*programs.firefox = {
     enable = true;
     package = pkgs-unstable.firefox;
-    policies = {
-      DisableTelemetry = true;
-      #Homepage.StartPage = "https://google.com";
-    };
+    nativeMessagingHosts.packages = [ pkgs-unstable.firefoxpwa ];
+
   };*/
 
   # obs-studio

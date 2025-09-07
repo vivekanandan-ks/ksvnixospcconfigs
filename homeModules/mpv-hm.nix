@@ -58,7 +58,7 @@
 
       "WHEEL_UP" = "add volume 5";
       "WHEEL_DOWN" = "add volume -5";
-      "MBTN_LEFT_DBL" = "cycle fullscreen";
+      "MBTN_LEFT_DBL" = "cycle fullscreen"; #script-binding modernz/progress-toggle";
       #"MBTN_RIGHT_DBL" = "quit";
       #"MBTN_MID_DBL" = "cycle ontop";
 
@@ -72,9 +72,9 @@
       "]" = "add speed 0.1";
       "[" = "add speed -0.1";
 
-      "ESC" = "cycle fullscreen";
+      "ESC" = "cycle fullscreen"; #script-binding modernz/progress-toggle";
       "q" = "quit-watch-later";
-      "Ctrl+q" = "quit-watch-later";
+      "Ctrl+q" = "quit";
 
       "v" = "cycle sub";
       "Shift+v" = "cycle sub down";
@@ -89,7 +89,7 @@
       "Shift+a" = "set video-aspect-override -1";
       "c" = "cycle-values video-crop '' 16:9 4:3 16:10 2.35:1 1.85:1 1:1";
       "Shift+c" = "set video-crop ''";
-      "f" = "cycle fullscreen";
+      "f" = "cycle fullscreen"; #script-binding modernz/progress-toggle";
 
       "1" = "add chapter -1";
       "2" = "add chapter 1";
@@ -120,7 +120,7 @@
 
       # OSD
       #osc = "no"; # Disable the whole OSD (if you use an external one like uosc)
-      #osd-level = 1; # Level of OSD, some GUIs might surpress mpv OSD, so you can add it back
+      osd-level = 3; # Level of OSD, some GUIs might surpress mpv OSD, so you can add it back
       #osd-bar = "no"; # Don't show a huge volume box on screen when turning the volume up/down
       #border = "no"; # Disable the Windows border of mpv
       #osd-duration = 0;
@@ -200,7 +200,7 @@
       #sub-gauss = "1.0";
       #sub-gray = "yes";
       sub-pos = 100;
-      sub-scale = 1.2;
+      sub-scale = 1;
       #sub-font-size = 40;
       #sub-border-size = 2;
       #sub-shadow-offset = 2;
@@ -215,7 +215,12 @@
 
       #speed = 1;
 
-      ytdl-format = "bestvideo+bestaudio/best";
+      #ytdl-format = "bestvideo+bestaudio/best";
+      #ytdl-format = "bestvideo*[height<=?1080]+bestaudio/best";
+      #ytdl-format = "worst[ext=webm][height=1080][acodec=opus]";
+      ytdl-format = "worstvideo[height<=?1080]+worstaudio[acodec=opus]/worstvideo[height<=?1080]+bestaudio";
+
+
       #watch-later-options-clr = true; # Dont save settings like brightness
 
     };
@@ -223,6 +228,8 @@
     scriptOpts = {
 
       modernz = {
+        # refer: https://github.com/Samillion/ModernZ/blob/main/docs/USER_OPTS.md
+        icon_theme = "material"; # "fluent"
         window_top_bar = true;
         greenandgrumpy = true;
         jump_buttons = true;
@@ -230,10 +237,26 @@
         ontop_button = true; # pin button
         chapter_skip_buttons = true;
         track_nextprev_buttons = true;
-        
-        seekbarheight = 10; # Default is usually 3-4, increase for thicker
-        seekbar_roundness = 2;          # Rounded corners (0-10)
-        seekbar_cache = true;           # Show buffer/cache on seekbar
+        playlist_button="no";
+        screenshot_button = "yes";
+
+        bottomhover = "no"; # show OSC only when hovering at the bottom
+        osc_on_seek = "yes";
+        osc_on_start = "yes";
+        force_seek_tooltip = "yes"; # force show seekbar tooltip on mouse drag, even if not hovering seekbar
+
+        title = "\${media-title}";
+        window_title = "yes";
+        windowcontrols_title = "\${filename}";
+        cache_info = "yes";
+        cache_info_speed = "yes";
+
+
+
+
+        # seekbarheight = 10; # Default is usually 3-4, increase for thicker # option not available
+        #seekbar_roundness = 2; # Rounded corners (0-10)
+        seekbar_cache = true; # Show buffer/cache on seekbar
         #hover_effect_color = "#7F7F7F"; # 50% gray
         #seekbarfg_color = "#FFFFFF";
         #seekbarbg_color = "#7F7F7F"; # 50% gray
