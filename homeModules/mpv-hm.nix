@@ -120,7 +120,7 @@
 
       # OSD
       #osc = "no"; # Disable the whole OSD (if you use an external one like uosc)
-      osd-level = 2; # Level of OSD, some GUIs might surpress mpv OSD, so you can add it back
+      osd-level = 1; # Level of OSD, some GUIs might surpress mpv OSD, so you can add it back
       #osd-bar = "no"; # Don't show a huge volume box on screen when turning the volume up/down
       #border = "no"; # Disable the Windows border of mpv
       #osd-duration = 0;
