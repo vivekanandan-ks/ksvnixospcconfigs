@@ -35,13 +35,13 @@ $character\
 
 [status]
 disabled = false
-format = '[(${status})](fg:#red) '
+format = '[(${status})](fg:red) '
 
 [character]
 #success_symbol = '[❯ ](fg:#33658A)'
 success_symbol = '[ ](fg:#33658A)'
 #error_symbol = '[❯ ](fg:#red)'
-error_symbol = '[ ](fg:#red)'
+error_symbol = '[ ](fg:red)'
 
 # You can also replace your username with a neat symbol like   or disable this
 # and use the os module below

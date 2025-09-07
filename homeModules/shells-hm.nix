@@ -86,7 +86,7 @@ in
       };
 
       extraConfig = ''
-        $env.config.hooks.command_not_found ++= [
+        $env.config.hooks.command_not_found = [
           {|cmd| ^command-not-found $cmd | print }  
         ]
 
