@@ -120,7 +120,7 @@
 
       # OSD
       #osc = "no"; # Disable the whole OSD (if you use an external one like uosc)
-      osd-level = 3; # Level of OSD, some GUIs might surpress mpv OSD, so you can add it back
+      osd-level = 2; # Level of OSD, some GUIs might surpress mpv OSD, so you can add it back
       #osd-bar = "no"; # Don't show a huge volume box on screen when turning the volume up/down
       #border = "no"; # Disable the Windows border of mpv
       #osd-duration = 0;
@@ -229,7 +229,7 @@
 
       modernz = {
         # refer: https://github.com/Samillion/ModernZ/blob/main/docs/USER_OPTS.md
-        icon_theme = "material"; # "fluent"
+        icon_theme = "material"; # "fluent" "material"
         window_top_bar = true;
         greenandgrumpy = true;
         jump_buttons = true;
@@ -237,7 +237,7 @@
         ontop_button = true; # pin button
         chapter_skip_buttons = true;
         track_nextprev_buttons = true;
-        playlist_button="no";
+        playlist_button="yes";
         screenshot_button = "yes";
 
         bottomhover = "no"; # show OSC only when hovering at the bottom
@@ -245,9 +245,11 @@
         osc_on_start = "yes";
         force_seek_tooltip = "yes"; # force show seekbar tooltip on mouse drag, even if not hovering seekbar
 
+        hover_button_size = 120;
+
         title = "\${media-title}";
-        window_title = "yes";
-        windowcontrols_title = "\${filename}";
+        #window_title = "yes";
+        #windowcontrols_title = "\${filename}";
         cache_info = "yes";
         cache_info_speed = "yes";
 
