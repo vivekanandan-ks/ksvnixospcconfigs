@@ -86,13 +86,36 @@ in
       };
 
       extraConfig = ''
-        $env.config.hooks.command_not_found = [
+        $env.config.hooks.command_not_found ++= [
           {|cmd| ^command-not-found $cmd | print }  
         ]
 
+        $env.config.hooks.env_change = {
+          PWD: [{|before, after| print $"changing directory from ($before) to ($after)" }]
+        }
+        
+        # upsert method
+        #$env.config.hooks = ($env.config.hooks | upsert display_output {
+        #  {if (term size).columns >= 100 { table -ed 1 } else { table }
+        #})
+        
+        # merge method
+        #$env.config.hooks = ($env.config.hooks | merge {
+        #  display_output: { to html --partial --no-color | save --raw /tmp/nu-output.html }
+        #})
+        # both methods syntax explained
+        #{} | upsert name value
+        #{} | merge { name: value }
+        # ok so in my case:
+        #{} | upsert name { {value} } # {{}} needed because of closure property
+        #{} | merge { name: {value} }
+
+
+
+
         #pay-respects nushell
         ${globalShellInit}
-        
+
       '';
       /*
         # Add your shell init command here
