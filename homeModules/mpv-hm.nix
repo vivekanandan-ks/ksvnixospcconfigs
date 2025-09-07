@@ -256,7 +256,7 @@
 
         # seekbarheight = 10; # Default is usually 3-4, increase for thicker # option not available
         #seekbar_roundness = 2; # Rounded corners (0-10)
-        seekbar_cache = true; # Show buffer/cache on seekbar
+        #seekbar_cache = true; # Show buffer/cache on seekbar
         #hover_effect_color = "#7F7F7F"; # 50% gray
         #seekbarfg_color = "#FFFFFF";
         #seekbarbg_color = "#7F7F7F"; # 50% gray
