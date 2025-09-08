@@ -13,7 +13,7 @@
   programs.carapace = {
     enable = true;
     package = pkgs-unstable.carapace;
-    enableNushellIntegration = true;
+    #enableNushellIntegration = true; # configured in nushell config so no need for this integration implementation
     enableBashIntegration = true;
     # enableFishIntegration = true;
     #fish already have it's own features so commenting this for now
