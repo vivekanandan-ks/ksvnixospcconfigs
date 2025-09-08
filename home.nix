@@ -217,8 +217,9 @@ in
   #  /etc/profiles/per-user/ksvnixospc/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
-    EDITOR = "micro"; # micro added in cli-apps-hm.nix file
+    EDITOR = "nvim"; # micro added in cli-apps-hm.nix file
     #MANPAGER = "sh -c 'col -b | bat -l man -p '"; # add -p flag to bat for plain style
+    #MANPAGER = "nvim +Man! +only";
 
   };
 

@@ -85,13 +85,13 @@ in
         #hooks.display_output = "table -e --width 1000";
       };
 
-      extraConfig = ''
+      extraConfig = /*nu*/ ''
         $env.config.hooks.command_not_found = [
           {|cmd| ^command-not-found $cmd | print }  
         ]
 
         $env.config.hooks.env_change = {
-          PWD: [{|before, after| print $"changing directory from (ansi blue_underline )($before)(ansi reset) to (ansi green_underline)($after)(ansi reset)" }]
+          PWD: [{|before, after| print $"changing directory from (ansi blue_underline )($before | ansi link )(ansi reset) to (ansi green_underline)($after | ansi link )(ansi reset)" }]
         }
         
         # upsert method
@@ -109,6 +109,30 @@ in
         # ok so in my case:
         #{} | upsert name { {value} } # {{}} needed because of closure property
         #{} | merge { name: {value} }
+
+        if true {
+          const mime_to_lang = {
+            application/json: json,
+            application/xml: xml,
+            application/yaml: yaml,
+            text/csv: csv,
+            text/tab-separated-values: tsv,
+            text/x-toml: toml,
+            text/x-rust: rust,
+          }
+
+          $env.config.hooks.display_output = {
+            metadata access {|meta|
+              match $meta.content_type? {
+                null => {},
+                "application/x-nuscript" | "application/x-nuon" | "text/x-nushell" => { if (config use-colors) { nu-highlight } else {} },
+                "text/markdown" => { CLICOLOR_FORCE=1 PAGER="less -r" ^glow -p -s dark - },
+                $mime if $mime in $mime_to_lang => { ^bat -Ppf --language=($mime_to_lang | get $mime) },
+                _ => {},
+              }
+            } | table -e
+          }
+        }
 
 
 
@@ -134,6 +158,9 @@ in
     };
 
   };
+  home.packages = [
+    pkgs-unstable.glow # for nushell displayoutput hook to highlight markdown
+  ];
   home.shell.enableNushellIntegration = true;
 
 }
