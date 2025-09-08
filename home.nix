@@ -136,16 +136,6 @@ in
         #inputs.kwin-effects-forceblur.packages.${pkgs.system}.x11 # X11
         kde-rounded-corners
 
-        # vscode
-        /*
-          (vscode-with-extensions.override {
-
-            vscode = vscode-package;
-
-            vscodeExtensions = vscode-extnsns;
-          })
-        */
-
       ]);
 
   programs = {
