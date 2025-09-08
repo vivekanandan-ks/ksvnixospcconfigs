@@ -91,7 +91,7 @@ in
         ]
 
         $env.config.hooks.env_change = {
-          PWD: [{|before, after| print $"changing directory from (ansi blue_underline )($'($before)' | ansi link )(ansi reset) to (ansi green_underline)($'($after)' | ansi link )(ansi reset)" }]
+          PWD: [{|before, after| print $"changing directory from (ansi blue )($'($before)' | ansi link )(ansi reset) to (ansi green)($'($after)' | ansi link )(ansi reset)" }]
         }
         
         # upsert method
