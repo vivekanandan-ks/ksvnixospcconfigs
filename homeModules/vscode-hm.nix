@@ -133,12 +133,13 @@ in
               "target" = {
                 "args" = [ ];
                 ## NixOS options
-                # "installable" = "<flakeref>#nixosConfigurations.<name>.options";
+                # "installable" = "<flakeref>#nixosConfigurations.ksvnixospc.options";
+                "installable" = "${./../flake.nix}#nixosConfigurations.ksvnixospc.options";
                 ## Flake-parts options
                 # "installable" = "<flakeref>#debug.options";
                 ## Home-manager options
                 #"installable" = "~/Documents/ksvnixospcconfigs/home.nix#homeConfigurations.ksvnixospc.options";
-                "installable" = "${./../home.nix}#homeConfigurations.ksvnixospc.options";
+                #"installable" = "${./..}#homeConfigurations.ksvnixospc.options";
               };
             };
           };

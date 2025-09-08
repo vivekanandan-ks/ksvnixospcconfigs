@@ -85,13 +85,13 @@ in
         #hooks.display_output = "table -e --width 1000";
       };
 
-      extraConfig = /*nu*/ ''
+      extraConfig = ''
         $env.config.hooks.command_not_found = [
           {|cmd| ^command-not-found $cmd | print }  
         ]
 
         $env.config.hooks.env_change = {
-          PWD: [{|before, after| print $"changing directory from (ansi blue_underline )($before | ansi link )(ansi reset) to (ansi green_underline)($after | ansi link )(ansi reset)" }]
+          PWD: [{|before, after| print $"changing directory from (ansi blue_underline )($'($before)' | ansi link )(ansi reset) to (ansi green_underline)($'($after)' | ansi link )(ansi reset)" }]
         }
         
         # upsert method
