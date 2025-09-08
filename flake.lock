@@ -101,11 +101,11 @@
         "systems": "systems_2"
       },
       "locked": {
-        "lastModified": 1757210216,
-        "narHash": "sha256-wPFyyAJ9dw3a0W3rUUvMs53YHI1f37/4icFLYRbdBtE=",
+        "lastModified": 1757296593,
+        "narHash": "sha256-7BUbBxtbNO4us4Cj1e8kUDwW+nAU7IDEID0betwfqf0=",
         "owner": "nix-community",
         "repo": "nix4vscode",
-        "rev": "a916585d834e4e4bf092adad85e7f90c84ed7ddb",
+        "rev": "afc9ee3014065ba3a39ed5e4700a483c6f52fe33",
         "type": "github"
       },
       "original": {
