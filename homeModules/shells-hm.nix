@@ -91,7 +91,7 @@ in
         ]
 
         $env.config.hooks.env_change = {
-          PWD: [{|before, after| print $"changing directory from ($before) to ($after)" }]
+          PWD: [{|before, after| print $"changing directory from (ansi blue_underline )($before)(ansi reset) to (ansi green_underline)($after)(ansi reset)" }]
         }
         
         # upsert method
@@ -101,7 +101,7 @@ in
         
         # merge method
         #$env.config.hooks = ($env.config.hooks | merge {
-        #  display_output: { to html --partial --no-color | save --raw /tmp/nu-output.html }
+        #  display_output: {if (term size).columns >= 100 { table -ed 1 } else { table }
         #})
         # both methods syntax explained
         #{} | upsert name value
