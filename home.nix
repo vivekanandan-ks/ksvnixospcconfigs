@@ -71,7 +71,7 @@ in
         #kde packages
         kdePackages.kate
         kdePackages.filelight
-        kdePackages.poppler
+        #kdePackages.poppler
 
         poppler-utils
 
