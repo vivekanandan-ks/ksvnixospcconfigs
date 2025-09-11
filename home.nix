@@ -73,7 +73,7 @@ in
         kdePackages.filelight
         kdePackages.poppler
 
-        #poppler-utils
+        poppler-utils
 
         #nixd #nix lsp for code editors
         # terminal apps
