@@ -71,6 +71,9 @@ in
         #kde packages
         kdePackages.kate
         kdePackages.filelight
+        kdePackages.poppler
+
+        #poppler-utils
 
         #nixd #nix lsp for code editors
         # terminal apps
