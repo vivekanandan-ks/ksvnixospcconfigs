@@ -183,6 +183,19 @@ in
 
         $env.config.completions.external.completer = $external_completer
 
+        $env.config.hooks.pre_prompt ++= [
+          { # atuin history to nushell history
+            history --clear ; atuin history list --format "{command}\t{directory}" |
+            lines | split column "\t" command cwd | history import 
+          }
+          {
+            # Clean up backup files
+            try { ls ~/.config/nushell/history.txt.bak* } | each { |file| ^rm $file.name } | ignore
+          }  
+        ] 
+
+
+
         
 
 
