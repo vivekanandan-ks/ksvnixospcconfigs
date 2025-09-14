@@ -13,7 +13,7 @@
   programs.firefox = {
     enable = true;
     package = pkgs-unstable.firefox;
-    nativeMessagingHosts.packages = [ pkgs-unstable.firefoxpwa ];
+    nativeMessagingHosts = [ pkgs-unstable.firefoxpwa ];
 
   };
   # to make sure the package is both in the PATH and in the Firefox's nativeMessagingHosts.
