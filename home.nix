@@ -126,7 +126,7 @@ in
         warp-terminal
         cheese # camera app
         #zoom-us
-        n8n
+        #n8n
 
         telegram-desktop
         signal-desktop
