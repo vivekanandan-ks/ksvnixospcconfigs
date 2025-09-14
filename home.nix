@@ -115,8 +115,7 @@ in
 
         brave
         google-chrome
-        firefox
-        #firefoxpwa
+        #firefox # declared as options in gui-apps-hm.nix
         #tor-browser
 
         #soundwireserver

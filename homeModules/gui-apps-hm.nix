@@ -10,12 +10,16 @@
 {
 
   # firefox
-  /*programs.firefox = {
+  programs.firefox = {
     enable = true;
     package = pkgs-unstable.firefox;
     nativeMessagingHosts.packages = [ pkgs-unstable.firefoxpwa ];
 
-  };*/
+  };
+  # to make sure the package is both in the PATH and in the Firefox's nativeMessagingHosts.
+  home.packages = [
+    pkgs-unstable.firefoxpwa
+  ];
 
   # obs-studio
   programs.obs-studio = {
