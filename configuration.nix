@@ -19,7 +19,7 @@
     ./hardware-configuration.nix # Include the results of the hardware scan.
     inputs.home-manager.nixosModules.home-manager
     #inputs.sops-nix.nixosModules.sops
-    ./nixosModules/jellyfin-nixos.nix
+    #./nixosModules/jellyfin-nixos.nix
   ];
 
   home-manager = {
