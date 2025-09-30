@@ -16,18 +16,17 @@
     installBatSyntax = true;
     
       settings = {
-        background-opacity = 0.8;
+        background-opacity = 0.7;
         background-blur = true;
-        #custom-shader = "${./hmResources/ghostty-shaders/cursor_smear.glsl}";
         custom-shader = [
           "${./hmResources/ghostty-shaders/cursor_smear.glsl}"
-          "${./hmResources/ghostty-shaders/cursor_blaze.glsl}"
+          #"${./hmResources/ghostty-shaders/cursor_blaze.glsl}"
           #"${./hmResources/ghostty-shaders/animated-gradient-shader.glsl}"
           #"${./hmResources/ghostty-shaders/cursor_smear_gradient.glsl}"
 
         ];
         
-        theme = "carbonfox"; # "citruszest" "Dark Pastel" "Hurtado" "Oxocarbon" 
+        #theme = "carbonfox"; # "citruszest" "Dark Pastel" "Hurtado" "Oxocarbon" # showing error
         #font-size = 10;
         #keybind = [
         #  "ctrl+h=goto_split:left"
