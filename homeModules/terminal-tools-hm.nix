@@ -53,7 +53,7 @@
     enableFishIntegration = true;
     enableBashIntegration = true;
     flags = [
-      #"--disable-up-arrow"
+      "--disable-up-arrow"
       #"--disable-ctrl-r"
     ];
     #check this out for settings options: https://docs.atuin.sh/configuration/config/
