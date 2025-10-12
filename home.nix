@@ -130,6 +130,7 @@ in
 
         telegram-desktop
         signal-desktop
+        element-desktop
         #discord
         vesktop
         
