@@ -54,12 +54,12 @@ in
       enable = true;
       package = pkgs-unstable.nushell;
       plugins = with pkgs-unstable.nushellPlugins; [
-        gstat
+        #gstat
         #net
         #hcl
         #skim
         #query
-        highlight
+        #highlight
 
       ];
       settings = {
