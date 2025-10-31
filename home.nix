@@ -133,6 +133,7 @@ in
         element-desktop
         #discord
         vesktop
+        thunderbird-latest
         
         # KDE desktop effects addons
         inputs.kwin-effects-forceblur.packages.${pkgs.system}.default # Wayland
