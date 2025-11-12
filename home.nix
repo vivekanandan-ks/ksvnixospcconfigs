@@ -130,7 +130,7 @@ in
 
         telegram-desktop
         signal-desktop
-        element-desktop
+        #element-desktop
         #discord
         vesktop
         thunderbird-latest
