@@ -21,7 +21,7 @@
     #inputs.sops-nix.nixosModules.sops
     #./nixosModules/jellyfin-nixos.nix
     #./nixosModules/peertube.nix
-    #./nixosModules/graphics.nix
+    ./nixosModules/graphics.nix
   
   ];
 

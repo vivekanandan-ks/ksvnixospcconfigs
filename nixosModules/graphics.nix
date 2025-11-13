@@ -40,8 +40,8 @@ in
   hardware = {
     nvidia = {
       # Depending on which GPU you actually have
-      #package = config.boot.kernelPackages.nvidiaPackages.legacy_470;
-      package = config.boot.kernelPackages.nvidiaPackages.legacy_390;
+      package = config.boot.kernelPackages.nvidiaPackages.legacy_470;
+      #package = config.boot.kernelPackages.nvidiaPackages.legacy_390;
       videoAcceleration = false;
     };
 

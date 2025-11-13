@@ -114,10 +114,10 @@
         specialArgs = {
           inherit
             inputs
-            pkgs
+            #pkgs # https://discourse.nixos.org/t/error-persists-even-after-allowing-unfree-and-nvidia-acceptlicense-to-true/72096/2?u=ksvivek
+            system
             pkgs-unstable
             nix4vscode
-            system
             ;
         };
         modules = [
