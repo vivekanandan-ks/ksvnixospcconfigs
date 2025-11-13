@@ -98,12 +98,14 @@
       pkgs = import nixpkgs {
         inherit system;
         config.allowUnfree = true;
+        nvidia.acceptLicense = true;
       };
 
       #pkgs-unstable = nixpkgs-unstable.legacyPackages."${system}";
       pkgs-unstable = import nixpkgs-unstable {
         inherit system;
         config.allowUnfree = true;
+        nvidia.acceptLicense = true;
       };
 
     in
