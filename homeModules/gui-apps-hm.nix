@@ -29,7 +29,7 @@
       obs-composite-blur
       obs-backgroundremoval
       obs-pipewire-audio-capture
-      droidcam-obs
+      #droidcam-obs
       obs-advanced-masks
       obs-move-transition
       obs-multi-rtmp
