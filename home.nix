@@ -35,6 +35,7 @@ in
     ./homeModules/micro-editor-hm.nix
     ./homeModules/nvf-hm.nix
     ./homeModules/mpv-hm.nix
+    ./homeModules/zed-editor-hm.nix
 
 
     # WMs
