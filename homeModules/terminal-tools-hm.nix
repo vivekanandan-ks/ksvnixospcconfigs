@@ -92,13 +92,15 @@
     _ZO_ECHO = 1; # zoxide show resolved directory
   };
 
-  programs.intelli-shell = {
-    enable = true;
-    package = pkgs-unstable.intelli-shell;
-    enableBashIntegration = true;
-    enableFishIntegration = true;
-    enableNushellIntegration = true;
+  /*
+    programs.intelli-shell = {
+      enable = true;
+      package = pkgs-unstable.intelli-shell;
+      enableBashIntegration = true;
+      enableFishIntegration = true;
+      enableNushellIntegration = true;
 
-  };
+    };
+  */
 
 }
