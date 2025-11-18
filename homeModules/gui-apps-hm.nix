@@ -38,4 +38,16 @@
     ];
   };
 
+  programs.kdeconnect = {
+    enable = true;
+    indicator = true;
+    package = pkgs-unstable.kdePackages.kdeconnect-kde;
+  };
+
+  programs.zapzap = {
+    enable = true;
+    package = pkgs-unstable.zapzap;
+    #settings = {}; # GUI settings changes can be found in $XDG_CONFIG_HOME/ZapZap/ZapZap.conf
+  };
+
 }

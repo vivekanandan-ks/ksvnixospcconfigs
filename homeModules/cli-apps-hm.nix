@@ -1,6 +1,6 @@
 {
   #inputs,
-  #config,
+  config,
   #lib,
   #pkgs,
   pkgs-unstable,
@@ -52,6 +52,26 @@
       user.email = "ksvdevksv@gmail.com";
       init.defaultBranch = "main";
       #core.editor = "nano";
+    };
+  };
+
+  # bluetuith
+  programs.bluetuith = {
+    enable = true;
+    package = pkgs-unstable.bluetuith;
+    settings = {
+      #adapter = "hci0";
+      receive-dir = "${config.home.homeDirectory}/Downloads/Bluetooth/";
+
+      keybindings = {
+        Menu = "Alt+m";
+      };
+
+      /*
+        theme = {
+          Adapter = "red";
+        };
+      */
     };
   };
 

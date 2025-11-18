@@ -89,18 +89,18 @@ in
 
       extraConfig = ''
         $env.config.hooks.command_not_found = [
-          {|cmd| ^command-not-found $cmd | print }  
+          {|cmd| ^command-not-found $cmd | print }
         ]
 
         $env.config.hooks.env_change = {
           PWD: [{|before, after| print $"changing directory from (ansi blue_underline )($'($before)' | ansi link )(ansi reset) to (ansi green_underline)($'($after)' | ansi link )(ansi reset)" }]
         }
-        
+
         # upsert method
         #$env.config.hooks = ($env.config.hooks | upsert display_output {
         #  {if (term size).columns >= 100 { table -ed 1 } else { table }
         #})
-        
+
         # merge method
         #$env.config.hooks = ($env.config.hooks | merge {
         #  display_output: {if (term size).columns >= 100 { table -ed 1 } else { table }
@@ -177,7 +177,8 @@ in
             git => $fish_completer
             # carapace doesn't have completions for asdf
             asdf => $fish_completer
-            _ => $carapace_completer
+            #_ => $carapace_completer
+            _ => $fish_completer
           } | do $in $spans
         }
 
@@ -186,17 +187,17 @@ in
         $env.config.hooks.pre_prompt ++= [
           { # atuin history to nushell history
             history --clear ; atuin history list --format "{command}\t{directory}" |
-            lines | split column "\t" command cwd | history import 
+            lines | split column "\t" command cwd | history import
           }
           {
             # Clean up backup files
             try { ls ~/.config/nushell/history.txt.bak* } | each { |file| ^rm $file.name } | ignore
-          }  
-        ] 
+          }
+        ]
 
 
 
-        
+
 
 
 

@@ -22,7 +22,7 @@
     #./nixosModules/jellyfin-nixos.nix
     #./nixosModules/peertube.nix
     ./nixosModules/graphics.nix
-  
+
   ];
 
   home-manager = {
@@ -215,11 +215,13 @@
       enable = true;
       style.wallpapers = lib.filesystem.listFilesRecursive ./nixosModules/nixosResources/limine-images; # list of wallpaper paths
       #style.wallpaperStyle = "centered";
-      /*extraEntries = ''
-        /Windows
-          protocol: efi
-          path: uuid(1c135138-506a-45ed-8352-6455f45e9fea):/EFI/Microsoft/Boot/bootmgfw.efi
-      '';*/
+      /*
+        extraEntries = ''
+          /Windows
+            protocol: efi
+            path: uuid(1c135138-506a-45ed-8352-6455f45e9fea):/EFI/Microsoft/Boot/bootmgfw.efi
+        '';
+      */
 
       extraConfig = ''
         remember_last_entry: yes
@@ -228,30 +230,32 @@
   };
 
   # kde-connect
-  programs.kdeconnect = lib.mkForce {
-    enable = true;
-    package = pkgs-unstable.kdePackages.kdeconnect-kde;
-  };
+  /*
+    programs.kdeconnect = lib.mkForce {
+      enable = true;
+      package = pkgs-unstable.kdePackages.kdeconnect-kde;
+    };
+  */
 
   # Enable bluetooth
   hardware.bluetooth.enable = true;
 
   /*
-  # Enable intel graphics harware acceleration (this is supposed to solve the CPUoverheating issues while using camera)
-  # refer this: https://wiki.nixos.org/wiki/Accelerated_Video_Playback#Intel
-  # refer: https://discourse.nixos.org/t/help-to-solve-cpu-peaks-overheats-while-using-camera-possibly-hw-acceleration-i-guess/68591/1
-  hardware.graphics = {
-    enable = true;
-    extraPackages = with pkgs-unstable; [
-      #intel-media-driver # For Broadwell (2014) or newer processors. LIBVA_DRIVER_NAME=iHD
-      intel-vaapi-driver # For older processors. LIBVA_DRIVER_NAME=i965
-      #intel-ocl # looks like this is useful for running LLMs
-    ];
-  };
-  environment.sessionVariables = {
-    #LIBVA_DRIVER_NAME = "iHD";
-    LIBVA_DRIVER_NAME = "i965";
-  }; # Optionally, set the environment variable
+    # Enable intel graphics harware acceleration (this is supposed to solve the CPUoverheating issues while using camera)
+    # refer this: https://wiki.nixos.org/wiki/Accelerated_Video_Playback#Intel
+    # refer: https://discourse.nixos.org/t/help-to-solve-cpu-peaks-overheats-while-using-camera-possibly-hw-acceleration-i-guess/68591/1
+    hardware.graphics = {
+      enable = true;
+      extraPackages = with pkgs-unstable; [
+        #intel-media-driver # For Broadwell (2014) or newer processors. LIBVA_DRIVER_NAME=iHD
+        intel-vaapi-driver # For older processors. LIBVA_DRIVER_NAME=i965
+        #intel-ocl # looks like this is useful for running LLMs
+      ];
+    };
+    environment.sessionVariables = {
+      #LIBVA_DRIVER_NAME = "iHD";
+      LIBVA_DRIVER_NAME = "i965";
+    }; # Optionally, set the environment variable
   */
 
   # cosmic DE
@@ -260,16 +264,18 @@
 
   # enable Hyprland
 
-  /*programs.hyprland = let
-    hyprland-pkg = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system} ;
-   in {
-    enable = true;
-    package = hyprland-pkg.hyprland;
-    #package = null; # doesn't work in nixos options
-    portalPackage = hyprland-pkg.xdg-desktop-portal-hyprland;
-    #portalPackage = null; # # doesn't work in nixos options
+  /*
+    programs.hyprland = let
+      hyprland-pkg = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system} ;
+     in {
+      enable = true;
+      package = hyprland-pkg.hyprland;
+      #package = null; # doesn't work in nixos options
+      portalPackage = hyprland-pkg.xdg-desktop-portal-hyprland;
+      #portalPackage = null; # # doesn't work in nixos options
 
-  };*/
+    };
+  */
 
   #Enable flakes
   nix.settings.experimental-features = [

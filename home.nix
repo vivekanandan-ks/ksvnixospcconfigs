@@ -37,7 +37,6 @@ in
     ./homeModules/mpv-hm.nix
     ./homeModules/zed-editor-hm.nix
 
-
     # WMs
     #./homeModules/niri-hm.nix
     #./homeModules/hyprland-hm.nix
@@ -135,7 +134,7 @@ in
         #discord
         vesktop
         thunderbird-latest
-        
+
         # KDE desktop effects addons
         inputs.kwin-effects-forceblur.packages.${pkgs.system}.default # Wayland
         #inputs.kwin-effects-forceblur.packages.${pkgs.system}.x11 # X11
@@ -178,14 +177,13 @@ in
       package = pkgs-unstable.tldr;
       period = "weekly"; # default is weekly
     };
-
-    /*
-      kdeconnect = {
-        enable = true;
-        indicator = true;
-        package = pkgs-unstable.kdePackages.kdeconnect-kde ;
-      };
-    */
+    
+    # this program persist the clipboard contents from wayland apps even if the apps are closed
+    wl-clip-persist = {
+      enable = true;
+      package = pkgs-unstable.wl-clip-persist;
+      
+    };
 
   };
 
