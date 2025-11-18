@@ -110,6 +110,7 @@ in
       extensions = vscode-extnsns;
       enableExtensionUpdateCheck = false;
       enableUpdateCheck = false;
+      enableMcpIntegration = true; # mcp servers declared in mcp-hm.nix
 
       userSettings = {
         ##### VsCode Settings #####

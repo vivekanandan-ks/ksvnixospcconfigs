@@ -36,6 +36,7 @@ in
     ./homeModules/nvf-hm.nix
     ./homeModules/mpv-hm.nix
     ./homeModules/zed-editor-hm.nix
+    ./homeModules/mcp-hm.nix
 
     # WMs
     #./homeModules/niri-hm.nix
@@ -177,12 +178,12 @@ in
       package = pkgs-unstable.tldr;
       period = "weekly"; # default is weekly
     };
-    
+
     # this program persist the clipboard contents from wayland apps even if the apps are closed
     wl-clip-persist = {
       enable = true;
       package = pkgs-unstable.wl-clip-persist;
-      
+
     };
 
   };
