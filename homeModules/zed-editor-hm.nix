@@ -55,8 +55,9 @@
       "eyecandy"
 
     ];
-    extraPackages = [
-      pkgs-unstable.nixd
+    extraPackages = with pkgs-unstable; [
+      nixd
+      nixl
     ];
     #installRemoteServer = false; # default false
     #mutableUserDebug = true; # default true
@@ -89,16 +90,18 @@
       };
     */
 
-    /*userTasks = [
-      {
-        label = "Format Code";
-        command = "nix";
-        args = [
-          "fmt"
-          "$ZED_WORKTREE_ROOT"
-        ];
-      }
-    ];*/
+    /*
+      userTasks = [
+        {
+          label = "Format Code";
+          command = "nix";
+          args = [
+            "fmt"
+            "$ZED_WORKTREE_ROOT"
+          ];
+        }
+      ];
+    */
 
   };
 
