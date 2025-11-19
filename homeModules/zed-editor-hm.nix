@@ -57,7 +57,7 @@
     ];
     extraPackages = with pkgs-unstable; [
       nixd
-      nixl
+      nil
     ];
     #installRemoteServer = false; # default false
     #mutableUserDebug = true; # default true
