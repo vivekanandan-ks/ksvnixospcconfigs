@@ -29,6 +29,9 @@
       #inputs.obsidian-nvim.follows = "obsidian-nvim"; # <- this will use the obsidian-nvim from your inputs
     };
 
+    # https://github.com/gmodena/nix-flatpak
+    nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
+
     # hyprland
     #hyprland.url = "github:hyprwm/Hyprland";
     /*

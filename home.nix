@@ -37,6 +37,7 @@ in
     ./homeModules/mpv-hm.nix
     ./homeModules/zed-editor-hm.nix
     ./homeModules/mcp-hm.nix
+    ./homeModules/flatpak-hm.nix
 
     # WMs
     #./homeModules/niri-hm.nix
