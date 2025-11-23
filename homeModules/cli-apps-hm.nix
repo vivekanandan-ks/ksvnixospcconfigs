@@ -47,7 +47,7 @@
   programs.git = {
     enable = true;
     package = pkgs-unstable.git;
-    extraConfig = {
+    settings = {
       user.name = "vivekanandan-ks";
       user.email = "ksvdevksv@gmail.com";
       init.defaultBranch = "main";

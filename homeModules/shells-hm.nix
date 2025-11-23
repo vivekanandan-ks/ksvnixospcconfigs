@@ -87,7 +87,7 @@ in
         #hooks.display_output = "table -e --width 1000";
       };
 
-      extraConfig = ''
+      extraConfig = /* nu */ ''
         $env.config.hooks.command_not_found = [
           {|cmd| ^command-not-found $cmd | print }
         ]
