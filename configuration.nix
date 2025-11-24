@@ -432,7 +432,7 @@
       "wheel"
     ];
     hashedPassword = "$6$DmrUUL7YWFMar6aA$sAoRlSbFH/GYETfXGTGa6GSTEsBEP1lQ6oRdXlQUsqhRB7OTI2vTmVlx64B2ihcez8B0q0l8/Vx1pO8c82bxm0";
-    shell = pkgs-unstable.nushell;
+    shell = pkgs-unstable.fish;
     packages =
       (with pkgs; [
         #stable
