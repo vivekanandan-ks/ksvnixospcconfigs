@@ -99,6 +99,7 @@ in
         #nix-index
         #micro
         wakatime-cli
+        nix-output-monitor
 
         # desktop apps
         vlc
@@ -132,7 +133,7 @@ in
 
         telegram-desktop
         signal-desktop
-        #element-desktop
+        element-desktop
         #discord
         vesktop
         thunderbird-latest

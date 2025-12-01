@@ -96,6 +96,8 @@
       ...
     }@inputs:
     let
+    # find system using the below command:
+    # nix eval --raw --impure --expr "builtins.currentSystem"
       system = "x86_64-linux";
       #pkgs = nixpkgs.legacyPackages."${system}";
       pkgs = import nixpkgs {
