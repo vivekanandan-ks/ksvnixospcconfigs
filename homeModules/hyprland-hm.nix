@@ -57,7 +57,7 @@
         hyprexpo
         hyprtrails
         #inputs.hyprlock.packages.${pkgs.system}.hyprlock
-        inputs.hypr-dynamic-cursors.packages.${pkgs.system}.hypr-dynamic-cursors # https://github.com/VirtCode/hypr-dynamic-cursors
+        inputs.hypr-dynamic-cursors.packages.${pkgs.stdenv.hostPlatform.system}.hypr-dynamic-cursors # https://github.com/VirtCode/hypr-dynamic-cursors
         #hyprscrolling
         #inputs.Hyprspace.packages.${pkgs.system}.Hyprspace # not a good impression, buggy I guess also no demo video
         #inputs.hyprtasking.packages.${pkgs.system}.hyprtasking # unofficial hyprexpo alternative
