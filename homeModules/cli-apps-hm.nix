@@ -80,6 +80,22 @@
     package = pkgs-unstable.gemini-cli;
   };
 
+  programs.claude-code = {
+    enable = true;
+    package = pkgs-unstable.claude-code;
+  };
+
+  programs.opencode = {
+    enable = true;
+    package = pkgs-unstable.opencode;
+    enableMcpIntegration = true;
+  };
+
+  programs.codex = {
+    enable = true;
+    package = pkgs-unstable.codex;
+  };
+
   # jujutsu
   /*
     programs.jujutsu = {

@@ -104,7 +104,7 @@ in
   programs.vscode = {
     enable = true;
     package = vscode-package;
-    mutableExtensionsDir = false;
+    mutableExtensionsDir = true;
 
     profiles.default = {
       extensions = vscode-extnsns;

@@ -74,6 +74,7 @@ in
         kdePackages.kate
         kdePackages.filelight
         #kdePackages.poppler
+        kdePackages.tokodon
 
         poppler-utils
 
@@ -137,6 +138,7 @@ in
         #discord
         vesktop
         thunderbird-latest
+        spotube
 
         # KDE desktop effects addons
         inputs.kwin-effects-forceblur.packages.${pkgs.system}.default # Wayland
