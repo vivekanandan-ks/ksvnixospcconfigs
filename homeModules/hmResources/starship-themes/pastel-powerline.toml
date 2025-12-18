@@ -1,6 +1,7 @@
 format = """
 [](#9A348E)\
 $os\
+$shell\
 $username\
 [](bg:#DA627D fg:#9A348E)\
 $directory\
@@ -20,7 +21,8 @@ $nodejs\
 $nim\
 $rust\
 $scala\
-$nix_shell
+$nix_shell\
+$shlvl\
 [](fg:#86BBD8 bg:#06969A)\
 $docker_context\
 [](fg:#06969A bg:#33658A)\
@@ -58,6 +60,14 @@ disabled = false
 [os]
 style = "bg:#9A348E"
 disabled = true # Disabled by default
+
+[shell]
+disabled = false
+#fish_indicator = '󰈺 '
+#powershell_indicator = '_'
+#unknown_indicator = 'mystery shell'
+#style = 'cyan bold'
+
 
 [directory]
 style = "bg:#DA627D"
@@ -169,3 +179,8 @@ impure_msg = '[impure shell](bold red)'
 pure_msg = '[pure shell](bold green)'
 unknown_msg = '[unknown shell](bold yellow)'
 #format = 'via [☃️ $state( \($name\))](bold blue) '
+
+[shlvl]
+disabled = false
+format = '[$symbol$shlvl levels]($style) '
+#threshold = 2 # default is 2
