@@ -20,6 +20,7 @@ $nodejs\
 $nim\
 $rust\
 $scala\
+$nix_shell
 [](fg:#86BBD8 bg:#06969A)\
 $docker_context\
 [](fg:#06969A bg:#33658A)\
@@ -160,3 +161,11 @@ disabled = false
 time_format = "%R" # Hour:Minute Format
 style = "bg:#33658A"
 format = '[ ♥ $time ]($style)'
+
+[nix_shell]
+disabled = false
+heuristic = true
+impure_msg = '[impure shell](bold red)'
+pure_msg = '[pure shell](bold green)'
+unknown_msg = '[unknown shell](bold yellow)'
+#format = 'via [☃️ $state( \($name\))](bold blue) '

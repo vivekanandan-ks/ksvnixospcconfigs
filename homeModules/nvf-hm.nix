@@ -90,6 +90,7 @@
             rust = {
               enable = isMaximal;
               crates.enable = isMaximal;
+              #extensions.crates-nvim = isMaximal;
             };
 
             # Language modules that are not as common.
