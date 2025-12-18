@@ -42,9 +42,9 @@ format = '[(${status})](fg:red) '
 
 [character]
 #success_symbol = '[❯ ](fg:#33658A)'
-success_symbol = '[ ](fg:#33658A)'
+success_symbol = '[](fg:#33658A)'
 #error_symbol = '[❯ ](fg:#red)'
-error_symbol = '[ ](fg:red)'
+error_symbol = '[](fg:red)'
 
 # You can also replace your username with a neat symbol like   or disable this
 # and use the os module below
@@ -63,16 +63,16 @@ disabled = true # Disabled by default
 
 [shell]
 disabled = false
+style = "bg:#9A348E"
 #fish_indicator = '󰈺 '
 #powershell_indicator = '_'
 #unknown_indicator = 'mystery shell'
-#style = 'cyan bold'
 
 
 [directory]
 style = "bg:#DA627D"
 format = "[ $path ]($style)"
-truncation_length = 3
+#truncation_length = 1
 truncation_symbol = "…/"
 
 # Here is how you can shorten some long paths by text replacement
@@ -174,13 +174,18 @@ format = '[ ♥ $time ]($style)'
 
 [nix_shell]
 disabled = false
-heuristic = true
+#heuristic = true
+#style = "bg:#86BBD8"
 impure_msg = '[impure shell](bold red)'
 pure_msg = '[pure shell](bold green)'
+#symbol = '❄️'
 unknown_msg = '[unknown shell](bold yellow)'
-#format = 'via [☃️ $state( \($name\))](bold blue) '
+format = '[$symbol$state( \($name\))]($style) '
+#format = '[$state( \($name\))]($style) '
 
 [shlvl]
 disabled = false
-format = '[$symbol$shlvl levels]($style) '
+format = '[$symbol level $shlvl]($style)'
+symbol = '↕️'
+#style = "bg:#33658A"
 #threshold = 2 # default is 2
