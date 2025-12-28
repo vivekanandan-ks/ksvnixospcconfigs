@@ -19,7 +19,6 @@
     {
       enable = true;
 
-
       # your settings need to go into the settings attribute set
       # most settings are documented in the appendix
       #the default settings can also be seen here: https://github.com/NotAShelf/nvf/blob/main/configuration.nix
@@ -88,8 +87,8 @@
             python.enable = true; # changed
             typst.enable = isMaximal;
             rust = {
-              enable = isMaximal;
-              crates.enable = isMaximal;
+              enable = true;
+              crates.enable = true;
               #extensions.crates-nvim = isMaximal;
             };
 
@@ -308,8 +307,8 @@
         };
       };
     };
-  
-  home.packages = with pkgs-unstable;[
+
+  home.packages = with pkgs-unstable; [
     ueberzugpp
   ];
 
