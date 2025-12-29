@@ -97,20 +97,19 @@
   };
 
   # jujutsu
-  /*
-    programs.jujutsu = {
-      enable = true;
-      package = pkgs-unstable.jujutsu;
-      settings = {
-        user = {
-          email = "ksvdevksv@gmail.com";
-          name = "vivekanandan-ks";
-        };
-        #ui.editor = "micro";
-        snapshot.max-new-file-size = "10MiB"; # https://github.com/jj-vcs/jj/blob/main/docs/config.md#maximum-size-for-new-files
+
+  programs.jujutsu = {
+    enable = true;
+    package = pkgs-unstable.jujutsu;
+    settings = {
+      user = {
+        email = "ksvdevksv@gmail.com";
+        name = "vivekanandan-ks";
       };
+      #ui.editor = "micro";
+      snapshot.max-new-file-size = "30MiB"; # https://github.com/jj-vcs/jj/blob/main/docs/config.md#maximum-size-for-new-files
     };
-  */
+  };
 
   /*
     # github
