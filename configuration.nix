@@ -109,7 +109,7 @@
   virtualisation.spiceUSBRedirection.enable = true;
   users.groups.libvirtd.members = [ "ksvnixospc" ]; # or u have to add this :  users.users.<myuser>.extraGroups = [ "libvirtd" ];
   networking.firewall.trustedInterfaces = [ "virbr0" ];
-  systemd.services.libvirt-default-network = {
+  /*systemd.services.libvirt-default-network = {
     # Unit
     description = "Start libvirt default network";
     after = [ "libvirtd.service" ];
@@ -123,7 +123,7 @@
     };
     # Install
     wantedBy = [ "multi-user.target" ];
-  };
+  };*/
   programs.dconf = {
     enable = true;
     profiles.user.databases = [

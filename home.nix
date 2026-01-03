@@ -38,6 +38,7 @@ in
     ./homeModules/zed-editor-hm.nix
     ./homeModules/mcp-hm.nix
     ./homeModules/flatpak-hm.nix
+    ./homeModules/helix-editor-hm.nix
 
     # WMs
     #./homeModules/niri-hm.nix

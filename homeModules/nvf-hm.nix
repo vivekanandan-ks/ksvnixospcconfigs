@@ -177,9 +177,9 @@
             whichKey.enable = true;
             cheatsheet.enable = true;
             hardtime-nvim = {
-              enable = true;
+              enable = false;
               setupOpts = {
-                #restriction_mode = "hint"; #other opyions: "block"
+                #restriction_mode = "hint"; #other options: "block"
                 disable_mouse = false;
               };
 

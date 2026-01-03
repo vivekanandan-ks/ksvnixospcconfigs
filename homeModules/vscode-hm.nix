@@ -85,7 +85,8 @@ in
 {
   home.packages = with pkgs-unstable; [
 
-    nixfmt
+    #nixfmt
+    alejandra
     nixd
     #nil
 
@@ -122,14 +123,14 @@ in
 
         #### NixIDE
         "nix.enableLanguageServer" = true;
-        "nix.formatterPath" = "nixfmt";
+        "nix.formatterPath" = "alejandra";
         "nix.serverPath" = "nixd";
         "nix.serverSettings" = {
           "nixd" = {
             "eval" = { };
             "formatting" = {
-              "command" = "nixfmt";
-              #nixd and nixfmt to be added as packages
+              "command" = "alejandra";
+              #nixd and alejandra to be added as packages
             };
             "options" = {
               "enable" = true;
