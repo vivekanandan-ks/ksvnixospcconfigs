@@ -38,6 +38,8 @@
   stylix.targets.wezterm.colors.enable = false;
   #stylix.targets.vscode.colors.enable = false;
   stylix.targets.vscode.enable = false;
+  stylix.targets.kde.enable = false;
+  stylix.targets.nixos-icons.enable = false;
 
   # helix have lib.mkForce option for the custom theme which 
   # overrides the stylix theme (coz theming via isnt that good for helix)
