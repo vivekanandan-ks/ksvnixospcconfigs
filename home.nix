@@ -41,6 +41,9 @@ in
     ./homeModules/helix-editor-hm.nix
     ./homeModules/zellij-hm.nix
 
+    ./homeModules/stylix-hm.nix
+    inputs.stylix.homeModules.stylix
+
     # WMs
     #./homeModules/niri-hm.nix
     #./homeModules/hyprland-hm.nix
@@ -229,7 +232,8 @@ in
   #  /etc/profiles/per-user/ksvnixospc/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
-    EDITOR = "nvim";
+    #EDITOR = "hx";
+    #VISUAL = "hx";
     #MANPAGER = "sh -c 'col -b | bat -l man -p '"; # add -p flag to bat for plain style
     #MANPAGER = "nvim +Man! +only";
 

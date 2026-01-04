@@ -16,7 +16,7 @@
     installBatSyntax = true;
     
       settings = {
-        background-opacity = 0.7;
+        #background-opacity = 0.8;
         background-blur = true;
         custom-shader = [
           "${./hmResources/ghostty-shaders/cursor_smear.glsl}"
@@ -50,7 +50,7 @@
       #cursor_trail_start_threshold 0
            
       # window
-      background_opacity 0.7
+      #background_opacity 0.7
       background_blur 1
       dynamic_background_opacity yes
 

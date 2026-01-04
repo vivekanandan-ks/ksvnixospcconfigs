@@ -88,8 +88,8 @@
             typst.enable = isMaximal;
             rust = {
               enable = true;
-              crates.enable = true;
-              #extensions.crates-nvim = isMaximal;
+              #crates.enable = true; # old option chnaged into new option below (remove this if below one works)
+              extensions.crates-nvim.enable = true;
             };
 
             # Language modules that are not as common.
@@ -137,14 +137,14 @@
           statusline = {
             lualine = {
               enable = true;
-              theme = "catppuccin";
+              #theme = "catppuccin";
             };
           };
 
           theme = {
             enable = true;
-            name = "catppuccin";
-            style = "mocha";
+            #name = "catppuccin";
+            #style = "mocha";
             transparent = true; # changed
           };
 

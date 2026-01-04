@@ -35,9 +35,17 @@
         system
         ;
     };
-    users.ksvnixospc = import ./home.nix;
-    backupFileExtension = "backup";
+    #users.ksvnixospc = import ./home.nix;
+    users.ksvnixospc = {
+      imports = [
+        ./home.nix
+      ];
+    };
+    #backupFileExtension = "bak";
+    backupFileExtension = lib.mkForce null;
+    backupCommand = "sh -c 'mv $0 $0.backup-$(date +%s)'";
     sharedModules = [
+      #inputs.stylix.homeModules.stylix
       #inputs.nvf.homeManagerModules.default
       #inputs.sops-nix.homeManagerModules.sops
     ];

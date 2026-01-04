@@ -32,6 +32,11 @@
     # https://github.com/gmodena/nix-flatpak
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
 
+    stylix = {
+      url = "github:nix-community/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # hyprland
     #hyprland.url = "github:hyprwm/Hyprland";
     /*

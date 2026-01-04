@@ -66,7 +66,7 @@
       inline_height = 40; # default 40
       show_preview = true;
       history_filter = [
-        "^z"
+        #"^z"
         "^clear"
         "^exit"
       ];

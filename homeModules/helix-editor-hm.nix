@@ -1,7 +1,7 @@
 {
   #inputs,
   #config,
-  #lib,
+  lib,
   #pkgs,
   pkgs-unstable,
   ...
@@ -11,6 +11,7 @@
   programs.helix = {
     enable = true;
     package = pkgs-unstable.helix;
+    defaultEditor = true;
     extraPackages = with pkgs-unstable; [
       
       marksman
@@ -103,8 +104,7 @@
 
     settings = {
 
-      #theme = "my-transparent-theme"; # defined below
-      theme = "my-transparent-theme"; # defined below
+      theme = lib.mkForce "my-transparent-theme"; # defined below
 
       editor = {
 
@@ -207,7 +207,7 @@
     # This defines a new theme called "my-transparent-theme"
     themes = {
       my-transparent-theme = {
-        "inherits" = "catppuccin_mocha"; # Replace "onedark" with your preferred base theme
+        "inherits" = "catppuccin_macchiato"; # Replace "onedark" with your preferred base theme
         
         # 1. TRANSPARENCY: Setting this to an empty set {} removes the background
         "ui.background" = {};
@@ -224,7 +224,8 @@
 
         # 3. Gutter/Line Number Transparency (ADD THESE)
         # We use #00000000 to set the background to fully transparent
-        "ui.gutter" = { bg = "#00000000"; };
+        #"ui.gutter" = { bg = "#00000000"; };
+        "ui.gutter" = {};
         #"ui.linenr" = { fg = "#abb2bf"; bg = "#00000000"; }; 
         #"ui.linenr.selected" = { fg = "#c678dd"; bg = "#00000000"; modifiers = ["bold"]; };
       };
