@@ -30,17 +30,54 @@
     #popups = 18;
   };
 
+  stylix.targets = {
+    kitty = {
+      enable = true;
+      colors.enable = false;
+    };
+
+    ghostty = {
+      enable = true;
+      colors.enable = false;
+    };
+
+    bat.enable = true;
+    btop.enable = true;
+    chromium.enable = true;
+    vesktop.enable = true;
+    fish.enable = true;
+    fzf.enable = true;
+    gdu.enable = true;
+    gedit.enable = true;
+    gitui.enable = true;
+    k9s.enable = true;
+    kubecolor.enable = true;
+    lazygit.enable = true;
+    micro.enable = true;
+    mpv.enable = true;
+    nvf.enable = true;
+    nixos-icons.enable = true;
+    nushell.enable = true;
+    opencode.enable = true;
+    starship.enable = true;
+    yazi.enable = true;
+    zed.enable = true;
+    zellij.enable = true;
+    zen-browser.enable = true;
+
+  };
+
   #stylix.targets.nushell.enable = false;
   #stylix.targets.nushell.colors.enable = false;
 
   #stylix.targets.kitty.enable = false;
-  stylix.targets.kitty.colors.enable = false;
-  stylix.targets.ghostty.colors.enable = false;
-  stylix.targets.wezterm.colors.enable = false;
+  #stylix.targets.kitty.colors.enable = false;
+  #stylix.targets.ghostty.colors.enable = false;
+  #stylix.targets.wezterm.colors.enable = false;
   #stylix.targets.vscode.colors.enable = false;
-  stylix.targets.vscode.enable = false;
-  stylix.targets.kde.enable = false;
-  stylix.targets.nixos-icons.enable = false;
+  #stylix.targets.vscode.enable = false;
+  #stylix.targets.kde.enable = false;
+  #stylix.targets.nixos-icons.enable = false;
 
   # helix have lib.mkForce option for the custom theme which 
   # overrides the stylix theme (coz theming via isnt that good for helix)
