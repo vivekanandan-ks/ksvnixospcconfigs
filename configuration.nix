@@ -23,6 +23,10 @@
     #./nixosModules/peertube.nix
     ./nixosModules/graphics.nix
 
+    # stylix
+    inputs.stylix.nixosModules.stylix
+    ./nixosModules/stylix.nix
+
   ];
 
   home-manager = {
