@@ -39,6 +39,7 @@ in
     ./homeModules/mcp-hm.nix
     ./homeModules/flatpak-hm.nix
     ./homeModules/helix-editor-hm.nix
+    ./homeModules/zellij-hm.nix
 
     # WMs
     #./homeModules/niri-hm.nix
@@ -63,6 +64,7 @@ in
       #stable packages
       kdePackages.partitionmanager
       #warp-terminal
+      vesktop
 
     ])
 
@@ -137,7 +139,7 @@ in
         signal-desktop
         element-desktop
         #discord
-        vesktop
+        #vesktop
         thunderbird-latest
         spotube
 
