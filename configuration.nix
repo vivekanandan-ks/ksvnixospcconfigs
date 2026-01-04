@@ -24,8 +24,10 @@
     ./nixosModules/graphics.nix
 
     # stylix
-    inputs.stylix.nixosModules.stylix
-    ./nixosModules/stylix.nix
+    # for some reason some options aren't working when I use stylix with nixosModules
+    # but works good when used as homeModule in home.nix
+    #inputs.stylix.nixosModules.stylix
+    #./nixosModules/stylix.nix
 
   ];
 
