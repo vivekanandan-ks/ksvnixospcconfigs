@@ -64,7 +64,7 @@ in
       #stable packages
       kdePackages.partitionmanager
       #warp-terminal
-      vesktop
+      #vesktop
 
     ])
 
