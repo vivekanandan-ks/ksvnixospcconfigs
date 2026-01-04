@@ -43,7 +43,6 @@
 
     bat.enable = true;
     btop.enable = true;
-    chromium.enable = true;
     vesktop.enable = true;
     fish.enable = true;
     fzf.enable = true;
