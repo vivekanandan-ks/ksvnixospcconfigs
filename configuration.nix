@@ -10,6 +10,7 @@
   lib,
   nix4vscode,
   system,
+  isDroid,
   ...
 }:
 
@@ -39,6 +40,7 @@
         pkgs-unstable
         nix4vscode
         system
+        isDroid
         ;
     };
     #users.ksvnixospc = import ./home.nix;

@@ -1,9 +1,10 @@
 {
   inputs,
   #config,
-  #lib,
+  lib,
   pkgs,
   pkgs-unstable,
+  isDroid ? false,
   ...
 }:
 
@@ -16,8 +17,10 @@ in
 
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
-  home.username = "ksvnixospc";
-  home.homeDirectory = "/home/ksvnixospc";
+  #home.username = "ksvnixospc";
+  home.username = lib.mkDefault "ksvnixospc";
+  #home.homeDirectory = "/home/ksvnixospc";
+  home.homeDirectory = lib.mkDefault "/home/ksvnixospc";
 
   nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
 
@@ -31,13 +34,10 @@ in
     ./homeModules/terminals-gui-hm.nix
     ./homeModules/terminal-tools-hm.nix
     ./homeModules/cli-apps-hm.nix
-    ./homeModules/gui-apps-hm.nix
     ./homeModules/micro-editor-hm.nix
     ./homeModules/nvf-hm.nix
-    ./homeModules/mpv-hm.nix
     ./homeModules/zed-editor-hm.nix
     ./homeModules/mcp-hm.nix
-    ./homeModules/flatpak-hm.nix
     ./homeModules/helix-editor-hm.nix
     ./homeModules/zellij-hm.nix
 
@@ -48,6 +48,10 @@ in
     #./homeModules/niri-hm.nix
     #./homeModules/hyprland-hm.nix
 
+  ] ++ lib.optionals (!isDroid) [
+    ./homeModules/gui-apps-hm.nix
+    ./homeModules/mpv-hm.nix
+    ./homeModules/flatpak-hm.nix
   ];
 
   # sops
@@ -65,22 +69,17 @@ in
   home.packages =
     (with pkgs; [
       #stable packages
-      kdePackages.partitionmanager
       #warp-terminal
       #vesktop
 
+    ] ++ lib.optionals (!isDroid) [
+      kdePackages.partitionmanager
     ])
 
     ++
 
       (with pkgs-unstable; [
         #unstable packages
-
-        #kde packages
-        kdePackages.kate
-        kdePackages.filelight
-        #kdePackages.poppler
-        kdePackages.tokodon
 
         poppler-utils
 
@@ -107,6 +106,16 @@ in
         #micro
         wakatime-cli
         nix-output-monitor
+
+      ])
+
+    ++
+      (lib.optionals (!isDroid) (with pkgs-unstable; [
+        #kde packages
+        kdePackages.kate
+        kdePackages.filelight
+        #kdePackages.poppler
+        kdePackages.tokodon
 
         # desktop apps
         vlc
@@ -152,7 +161,7 @@ in
         #inputs.kwin-effects-forceblur.packages.${pkgs.system}.x11 # X11
         #kde-rounded-corners
 
-      ]);
+      ]));
 
   programs = {
 
