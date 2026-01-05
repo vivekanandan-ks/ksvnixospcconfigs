@@ -1,13 +1,7 @@
-{
-  pkgs, 
-  ...
-}:
-
-{
+{pkgs, ...}: {
   stylix.enable = true;
-  stylix.autoEnable = false;
+  #stylix.autoEnable = false;
 
-  
   #stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-latte.yaml"; # light theme
   #stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-frappe.yaml";
   #stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-macchiato.yaml";
@@ -41,7 +35,13 @@
       colors.enable = false;
     };
 
-    bat.enable = true;
+    vscode = {
+      enable = false;
+    };
+
+    qt.enable = false;
+
+    /*bat.enable = true;
     btop.enable = true;
     vesktop.enable = true;
     fish.enable = true;
@@ -63,7 +63,10 @@
     zed.enable = true;
     zellij.enable = true;
     zen-browser.enable = true;
-
+    kde.enable = true;
+    gtk.enable = true;
+    #qt.enable = true;
+    */
   };
 
   #stylix.targets.nushell.enable = false;
@@ -78,7 +81,6 @@
   #stylix.targets.kde.enable = false;
   #stylix.targets.nixos-icons.enable = false;
 
-  # helix have lib.mkForce option for the custom theme which 
+  # helix have lib.mkForce option for the custom theme which
   # overrides the stylix theme (coz theming via isnt that good for helix)
-
 }
