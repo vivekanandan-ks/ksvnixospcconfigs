@@ -118,10 +118,7 @@
         nvidia.acceptLicense = true;
       };
 
-    in
-    {
-      nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-        specialArgs = {
+      specialArgs = {
           inherit
             inputs
             #pkgs # https://discourse.nixos.org/t/error-persists-even-after-allowing-unfree-and-nvidia-acceptlicense-to-true/72096/2?u=ksvivek
@@ -130,8 +127,32 @@
             nix4vscode
             ;
         };
+
+    in
+    {
+      ksvnixospc = self.nixosConfigurations.ksvnixospc;
+      nixosConfigurations.ksvnixospc = nixpkgs.lib.nixosSystem {
+
+        inherit specialArgs ;
+
         modules = [
           ./configuration.nix
+          ./hosts/ksvnixospc/limine-ksvnixospc.nix
+          ./hosts/ksvnixospc/hardware-configuration-ksvnixospc.nix
+        ];
+
+      };
+
+      deejunixospc = self.nixosConfigurations.deejunixospc;
+      nixosConfigurations.deejunixospc = nixpkgs.lib.nixosSystem {
+
+        inherit specialArgs ;
+
+        modules = [
+          ./configuration.nix
+          ./hosts/deejunixospc/limine-deejunixospc.nix
+          ./hosts/deejunixospc/hardware-configuration-deejunixospc.nix
+
         ];
 
       };

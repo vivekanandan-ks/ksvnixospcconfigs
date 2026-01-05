@@ -16,7 +16,7 @@
 {
   imports = [
 
-    ./hardware-configuration.nix # Include the results of the hardware scan.
+    #./hardware-configuration.nix # Include the results of the hardware scan.
     inputs.home-manager.nixosModules.home-manager
     #inputs.sops-nix.nixosModules.sops
     #./nixosModules/jellyfin-nixos.nix
@@ -224,24 +224,24 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   # limine boot
-  boot.loader = {
-    limine = {
-      enable = true;
-      style.wallpapers = lib.filesystem.listFilesRecursive ./nixosModules/nixosResources/limine-images; # list of wallpaper paths
-      #style.wallpaperStyle = "centered";
-      /*
-        extraEntries = ''
-          /Windows
-            protocol: efi
-            path: uuid(1c135138-506a-45ed-8352-6455f45e9fea):/EFI/Microsoft/Boot/bootmgfw.efi
-        '';
-      */
-
-      extraConfig = ''
-        remember_last_entry: yes
-      '';
-    };
-  };
+  #boot.loader = {
+  #  limine = {
+  #    enable = true;
+  #    style.wallpapers = lib.filesystem.listFilesRecursive ./nixosModules/nixosResources/limine-images; # list of wallpaper paths
+  #    #style.wallpaperStyle = "centered";
+  #    /*
+  #      extraEntries = ''
+  #        /Windows
+  #          protocol: efi
+  #          path: uuid(1c135138-506a-45ed-8352-6455f45e9fea):/EFI/Microsoft/Boot/bootmgfw.efi
+  #      '';
+  #    */
+  #
+  #    extraConfig = ''
+  #      remember_last_entry: yes
+  #    '';
+  #  };
+  #};
 
   # kde-connect
   /*
