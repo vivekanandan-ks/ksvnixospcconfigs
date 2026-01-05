@@ -24,6 +24,8 @@
     #popups = 18;
   };
 
+  stylix.targets.firefox.profileNames = [ "default" ];
+
   stylix.targets = {
     kitty = {
       enable = true;
