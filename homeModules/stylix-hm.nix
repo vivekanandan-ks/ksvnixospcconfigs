@@ -41,7 +41,8 @@
 
     qt.enable = false;
 
-    /*bat.enable = true;
+    /*
+      bat.enable = true;
     btop.enable = true;
     vesktop.enable = true;
     fish.enable = true;
