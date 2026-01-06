@@ -4,6 +4,7 @@
   #lib,
   #pkgs,
   pkgs-unstable,
+  isDroid ? false,
   ...
 }:
 
@@ -81,7 +82,7 @@
   };
 
   programs.claude-code = {
-    enable = true;
+    enable = !isDroid;
     package = pkgs-unstable.claude-code;
   };
 
