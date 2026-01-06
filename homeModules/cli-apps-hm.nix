@@ -87,6 +87,7 @@
     enableBashIntegration = false;
     enableFishIntegration = false;
     enableZshIntegration = false;
+    enableNushellIntegration = true;
   };
 
   programs.claude-code = {
