@@ -81,6 +81,14 @@
     package = pkgs-unstable.gemini-cli;
   };
 
+  programs.nix-index = {
+    enable = true;
+    package = pkgs-unstable.nix-index;
+    enableBashIntegration = false;
+    enableFishIntegration = false;
+    enableZshIntegration = false;
+  };
+
   programs.claude-code = {
     enable = !isDroid;
     package = pkgs-unstable.claude-code;
