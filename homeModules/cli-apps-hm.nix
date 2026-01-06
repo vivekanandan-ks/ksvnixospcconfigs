@@ -90,10 +90,10 @@
     enableNushellIntegration = true;
   };
 
-  programs.claude-code = {
+  /*programs.claude-code = {
     enable = !isDroid;
     package = pkgs-unstable.claude-code;
-  };
+  };*/
 
   programs.opencode = {
     enable = true;
