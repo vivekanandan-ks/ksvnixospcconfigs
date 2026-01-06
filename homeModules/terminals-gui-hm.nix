@@ -40,6 +40,10 @@
   programs.kitty = {
     enable = true;
     package = pkgs-unstable.kitty;
+    settings = {
+      hide_window_decorations = "yes";
+      shell = "${pkgs-unstable.zellij}/bin/zellij";
+    };
     extraConfig = ''
 
       # cursor

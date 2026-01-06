@@ -180,6 +180,7 @@
 
         # list of extra special args for Nix-on-Droid modules
         extraSpecialArgs = specialArgs // {
+          system = "aarch64-linux";
           pkgs-unstable = import nixpkgs-unstable {
             system = "aarch64-linux";
             config.allowUnfree = true;

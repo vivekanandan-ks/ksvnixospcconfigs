@@ -28,21 +28,23 @@ in
 
   imports = [
     #inputs.sops-nix.homeManagerModules.sops # for standalone home manager (not for nixos HM integration)
-    ./homeModules/vscode-hm.nix
+    
     ./homeModules/shells-hm.nix
     #./homeModules/pay-respects-hm.nix
-    ./homeModules/terminals-gui-hm.nix
+    
     ./homeModules/terminal-tools-hm.nix
     ./homeModules/cli-apps-hm.nix
     ./homeModules/micro-editor-hm.nix
     ./homeModules/nvf-hm.nix
-    ./homeModules/zed-editor-hm.nix
+
     ./homeModules/mcp-hm.nix
     ./homeModules/helix-editor-hm.nix
     ./homeModules/zellij-hm.nix
 
     ./homeModules/stylix-hm.nix
     inputs.stylix.homeModules.stylix
+
+    ./homeModules/cli-packages-list-hm.nix
 
     # WMs
     #./homeModules/niri-hm.nix
@@ -52,6 +54,11 @@ in
     ./homeModules/gui-apps-hm.nix
     ./homeModules/mpv-hm.nix
     ./homeModules/flatpak-hm.nix
+    ./homeModules/zed-editor-hm.nix
+    ./homeModules/vscode-hm.nix
+    ./homeModules/terminals-gui-hm.nix
+
+    ./homeModules/gui-packages-list-hm.nix
   ];
 
   # sops
@@ -69,97 +76,13 @@ in
   home.packages =
     (with pkgs; [
       #stable packages
-      #warp-terminal
-      #vesktop
+      
 
-    ] ++ lib.optionals (!isDroid) [
-      kdePackages.partitionmanager
-    ])
-
-    ++
-
-      (with pkgs-unstable; [
-        #unstable packages
-
-        poppler-utils
-
-        #nixd #nix lsp for code editors
-        # terminal apps
-        vim
-        wget
-        #wcurl
-        nano
-        git-town
-        #moar # pager like less but modern
-        #btop
-        #fastfetch
-        #bat # cat modern alternative
-        tldr # tldr-update is added in services
-        lsd
-        rip2
-        duf
-        ripgrep # grep alternative #rg is the command
-        ripgrep-all # same as ripgrep but for many file types like video, PDFs, etc etc
-        #nh
-        #gg-jj
-        #nix-index
-        #micro
-        wakatime-cli
-        nix-output-monitor
-
-      ])
+    ] )
 
     ++
       (lib.optionals (!isDroid) (with pkgs-unstable; [
-        #kde packages
-        kdePackages.kate
-        kdePackages.filelight
-        #kdePackages.poppler
-        kdePackages.tokodon
-
-        # desktop apps
-        vlc
-        #haruna
-        euphonica
-        freetube
-        collector # drag and drop tool
-        localsend
-        qbittorrent
-        qpwgraph
-
-        # audio tool
-        #gnome-sound-recorder
-        audacity # audio tool app
-        #reco # recorder
-
-        brave
-        google-chrome
-        #firefox # declared as options in gui-apps-hm.nix
-        #tor-browser
-
-        #soundwireserver
-        podman-desktop
-        onlyoffice-desktopeditors
-        #virtualbox
-        waveterm # modern terminal app
-        warp-terminal
-        cheese # camera app
-        #zoom-us
-        #n8n
-
-        telegram-desktop
-        signal-desktop
-        element-desktop
-        #discord
-        #vesktop
-        thunderbird-latest
-        spotube
-
-        # KDE desktop effects addons
-        #inputs.kwin-effects-forceblur.packages.${pkgs.system}.default # Wayland
-        inputs.kwin-effects-forceblur.packages.${pkgs.stdenv.hostPlatform.system}.default # Wayland
-        #inputs.kwin-effects-forceblur.packages.${pkgs.system}.x11 # X11
-        #kde-rounded-corners
+        
 
       ]));
 
