@@ -4,7 +4,7 @@
   #lib,
   #pkgs,
   pkgs-unstable,
-  isDroid ? false,
+  #isDroid ? false,
   ...
 }:
 
@@ -33,7 +33,7 @@
     clean = {
       enable = true;
       dates = "daily";
-      extraArgs = "--keep 5 --keep-since 3d";
+      extraArgs = "--keep 3 --keep-since 3d";
     };
   };
 
@@ -81,14 +81,14 @@
     package = pkgs-unstable.gemini-cli;
   };
 
-  programs.nix-index = {
+  /*programs.nix-index = {
     enable = true;
     package = pkgs-unstable.nix-index;
     enableBashIntegration = false;
     enableFishIntegration = false;
     enableZshIntegration = false;
     enableNushellIntegration = true;
-  };
+  };*/
 
   /*programs.claude-code = {
     enable = !isDroid;
@@ -101,10 +101,10 @@
     enableMcpIntegration = true;
   };
 
-  programs.codex = {
+  /*programs.codex = {
     enable = true;
     package = pkgs-unstable.codex;
-  };
+  };*/
 
   # jujutsu
 
