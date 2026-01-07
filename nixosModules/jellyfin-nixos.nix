@@ -6,6 +6,7 @@
   #lib,
   #nix4vscode,
   #system,
+  username,
   ...
 }:
 {
@@ -22,7 +23,7 @@
     enable = true;
     package = pkgs-unstable.jellyfin;
     openFirewall = true;
-    user="ksvnixospc";
+    user= username;
   };
 
 }

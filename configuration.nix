@@ -11,6 +11,7 @@
   nix4vscode,
   system,
   isDroid,
+  username,
   ...
 }:
 
@@ -43,10 +44,12 @@
         nix4vscode
         system
         isDroid
+        username
         ;
     };
     #users.ksvnixospc = import ./home.nix;
-    users.ksvnixospc = {
+    #users.ksvnixospc = {
+    users."${username}" = {
       imports = [
         ./home.nix
       ];
@@ -302,9 +305,9 @@
   #root password
   users.users.root.hashedPassword = "$6$/Yo/IR.A6rGbFVr6$a6c7yhjPYGuJOBBkcPXl/SjZ531tEUHtkY3tX3np2dcX6JpZg.Myrwdnz.fhqci0Sg83vU8lDYmdpSAQqD.OF0";
   # Define a user account
-  users.users.ksvnixospc = {
+  users.users."${username}" = {
     isNormalUser = true;
-    description = "ksvnixospc";
+    description = username;
     extraGroups = [
       "networkmanager"
       "wheel"
@@ -328,7 +331,7 @@
 
   # Enable automatic login for the user.
   services.displayManager.autoLogin.enable = true;
-  services.displayManager.autoLogin.user = "ksvnixospc";
+  services.displayManager.autoLogin.user = username;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget

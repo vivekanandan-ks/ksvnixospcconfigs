@@ -7,6 +7,7 @@
   #nix4vscode,
   #system,
   #isDroid,
+  username,
   ...
 }:
 
@@ -41,7 +42,7 @@
     onShutdown = "shutdown";
   };
   virtualisation.spiceUSBRedirection.enable = true;
-  users.groups.libvirtd.members = [ "ksvnixospc" ]; # or u have to add this :  users.users.<myuser>.extraGroups = [ "libvirtd" ];
+  users.groups.libvirtd.members = [ username ]; # or u have to add this :  users.users.<myuser>.extraGroups = [ "libvirtd" ];
   networking.firewall.trustedInterfaces = [ "virbr0" ];
   /*systemd.services.libvirt-default-network = {
     # Unit
@@ -86,7 +87,7 @@
   # Podman
   # Enable common container config files in /etc/containers
   virtualisation.containers.enable = true;
-  users.groups.podman.members = [ "ksvnixospc" ];
+  users.groups.podman.members = [ username ];
   virtualisation.podman = {
     enable = true;
     dockerCompat = true; # Enables the Docker compatibility socket #also creates wrapper alias for docker commands

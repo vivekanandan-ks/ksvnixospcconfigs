@@ -4,6 +4,7 @@
   pkgs-unstable,
   nix4vscode,
   system,
+  username,
   ...
 }:
 let
@@ -138,7 +139,7 @@ in
                 "args" = [ ];
                 ## NixOS options
                 # "installable" = "<flakeref>#nixosConfigurations.ksvnixospc.options";
-                "installable" = "${./../flake.nix}#nixosConfigurations.ksvnixospc.options";
+                "installable" = "${./../flake.nix}#nixosConfigurations.${username}.options";
                 ## Flake-parts options
                 # "installable" = "<flakeref>#debug.options";
                 ## Home-manager options

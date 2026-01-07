@@ -5,6 +5,7 @@
   pkgs,
   pkgs-unstable,
   isDroid ? false,
+  username,
   ...
 }:
 
@@ -18,9 +19,9 @@ in
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   #home.username = "ksvnixospc";
-  home.username = lib.mkDefault "ksvnixospc";
+  home.username = lib.mkDefault username;
   #home.homeDirectory = "/home/ksvnixospc";
-  home.homeDirectory = lib.mkDefault "/home/ksvnixospc";
+  home.homeDirectory = lib.mkDefault "/home/${username}";
 
   nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
 
@@ -57,8 +58,10 @@ in
     ./homeModules/zed-editor-hm.nix
     ./homeModules/vscode-hm.nix
     ./homeModules/terminals-gui-hm.nix
+    ./homeModules/gui-packages-list-hm.nix    
+    ./homeModules/tailscale-systray-hm.nix  
 
-    ./homeModules/gui-packages-list-hm.nix
+
   ];
 
   # sops

@@ -125,13 +125,18 @@
         nvidia.acceptLicense = true;
       };
 
-      specialArgs = {
+      specialArgs =
+        let
+          username = "ksvnixospc";
+        in
+        {
           inherit
             inputs
             #pkgs # https://discourse.nixos.org/t/error-persists-even-after-allowing-unfree-and-nvidia-acceptlicense-to-true/72096/2?u=ksvivek
             system
             pkgs-unstable
             nix4vscode
+            username
             ;
           isDroid = false;
         };
@@ -141,7 +146,9 @@
       ksvnixospc = self.nixosConfigurations.ksvnixospc;
       nixosConfigurations.ksvnixospc = nixpkgs.lib.nixosSystem {
 
-        inherit specialArgs ;
+        inherit 
+          specialArgs
+        ;
 
         modules = [
           ./configuration.nix
