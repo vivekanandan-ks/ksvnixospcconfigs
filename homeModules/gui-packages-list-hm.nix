@@ -55,7 +55,8 @@
         cheese # camera app
         #zoom-us
         #n8n
-        rustdesk
+        #rustdesk
+        rustdesk-flutter
 
         telegram-desktop
         signal-desktop
