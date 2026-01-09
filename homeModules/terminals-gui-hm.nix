@@ -21,7 +21,7 @@
         #"${./hmResources/ghostty-shaders/animated-gradient-shader.glsl}"
         #"${./hmResources/ghostty-shaders/cursor_smear_gradient.glsl}"
       ];
-      fullscreen = true;
+      #fullscreen = true;
 
       #theme = "carbonfox"; # "citruszest" "Dark Pastel" "Hurtado" "Oxocarbon" # showing error
       #font-size = 10;
