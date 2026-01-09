@@ -160,7 +160,7 @@
             #  pkgs
             #);
 
-            _module.args.pkgs-unstable = withSystem config.nixpkgs.hostPlatform.system (
+            _module.args.pkgs-unstable = withSystem system (
               {pkgs-unstable, ...}: pkgs-unstable
             );
 
@@ -171,7 +171,7 @@
               #isDroid = false;
               nix4vscode = inputs.nix4vscode;
               #system = system;
-              inherit (config.nixpkgs.hostPlatform) system;
+              inherit system;
             };
           })
         ];
