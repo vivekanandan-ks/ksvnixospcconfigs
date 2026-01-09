@@ -5,26 +5,20 @@
   pkgs,
   pkgs-unstable,
   ...
-}:
-
-{
-  home.packages = 
-    
+}: {
+  home.packages =
     (with pkgs; [
       # stable packages
-      
-
-    ]) ++
-    
-    (with pkgs-unstable; [
+    ])
+    ++ (with pkgs-unstable; [
       #unstable packages
 
       poppler-utils
 
       #lsp for code editors
-      nixd 
+      nixd
       nix
-      
+
       # terminal apps
       vim
       wget
@@ -47,11 +41,9 @@
       #micro
       wakatime-cli
       nix-output-monitor
-
     ]);
-    #++ 
-    #(lib.optionals (!isDroid) (with pkgs-unstable; [
-    #    
-    #  ]))
-    
+  #++
+  #(lib.optionals (!isDroid) (with pkgs-unstable; [
+  #
+  #  ]))
 }
