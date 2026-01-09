@@ -1,5 +1,5 @@
 {
-  description = "A very basic flake";
+  description = "Description for the project";
 
   inputs = {
     #nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-25.05";
@@ -96,125 +96,179 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
-
   };
 
-  outputs =
-    {
-      self,
-      nixpkgs,
-      nixpkgs-unstable,
-      nix4vscode,
-      ...
-    }@inputs:
-    let
-    # find system using the below command:
-    # nix eval --raw --impure --expr "builtins.currentSystem"
-      system = "x86_64-linux";
-      #pkgs = nixpkgs.legacyPackages."${system}";
-      pkgs = import nixpkgs {
-        inherit system;
-        config.allowUnfree = true;
-        nvidia.acceptLicense = true;
-      };
+  outputs = inputs@{ flake-parts, ... }:
+    flake-parts.lib.mkFlake { inherit inputs; } (top@{ config, withSystem, moduleWithSystem, ... }: {
+      imports = [
+        # To import an internal flake module: ./other.nix
+        # To import an external flake module:
+        #   1. Add foo to inputs
+        #   2. Add foo as a parameter to the outputs function
+        #   3. Add here: foo.flakeModule
 
-      #pkgs-unstable = nixpkgs-unstable.legacyPackages."${system}";
-      pkgs-unstable = import nixpkgs-unstable {
-        inherit system;
-        config.allowUnfree = true;
-        nvidia.acceptLicense = true;
-      };
+      ];
+      systems = [ 
+        "x86_64-linux" 
+        "aarch64-linux" # Added for Nix-on-Droid 
+        #"aarch64-darwin" 
+        #"x86_64-darwin" 
+      ];
+      perSystem = { config, self', inputs', pkgs, system, ... }: {
+        # Per-system attributes can be defined here. The self' and inputs'
+        # module parameters provide easy access to attributes of the same
+        # system.
 
-      specialArgs =
-        let
-          username = "ksvnixospc";
-        in
-        {
-          inherit
-            inputs
-            #pkgs # https://discourse.nixos.org/t/error-persists-even-after-allowing-unfree-and-nvidia-acceptlicense-to-true/72096/2?u=ksvivek
-            system
-            pkgs-unstable
-            nix4vscode
-            username
-            ;
-          isDroid = false;
-        };
+        # Equivalent to  inputs'.nixpkgs.legacyPackages.hello;
+        #packages.default = pkgs.hello;
 
-    in
-    {
-      ksvnixospc = self.nixosConfigurations.ksvnixospc;
-      nixosConfigurations.ksvnixospc = nixpkgs.lib.nixosSystem {
-
-        inherit 
-          specialArgs
-        ;
-
-        modules = [
-          ./configuration.nix
-          ./hosts/ksvnixospc/limine-ksvnixospc.nix
-          ./hosts/ksvnixospc/hardware-configuration-ksvnixospc.nix
-        ];
-
-      };
-
-      deejunixospc = self.nixosConfigurations.deejunixospc;
-      nixosConfigurations.deejunixospc = nixpkgs.lib.nixosSystem {
-
-        inherit specialArgs ;
-
-        modules = [
-          ./configuration.nix
-          ./hosts/deejunixospc/limine-deejunixospc.nix
-          ./hosts/deejunixospc/hardware-configuration-deejunixospc.nix
-
-        ];
-
-      };
-
-      nixOnDroidConfigurations.default = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
-        modules = [
-          #/nix-on-droid.nix
-          ./hosts/ksv-nix-on-droid/ksv-nix-on-droid.nix
-
-          # list of extra modules for Nix-on-Droid system
-          # { nix.registry.nixpkgs.flake = nixpkgs; }
-          # ./path/to/module.nix
-
-          # or import source out-of-tree modules like:
-          # flake.nixOnDroidModules.module
-        ];
-
-        # list of extra special args for Nix-on-Droid modules
-        extraSpecialArgs = specialArgs // {
-          system = "aarch64-linux";
-          pkgs-unstable = import nixpkgs-unstable {
-            system = "aarch64-linux";
-            config.allowUnfree = true;
-          };
-          isDroid = true;
-        };
-        #extraSpecialArgs = specialArgs;
-        #extraSpecialArgs = {
-        #  # rootPath = ./.;
-        #  #inherit inputs ;
-        #  inherit specialArgs ;
-        #};
-
-        # set nixpkgs instance, it is recommended to apply `nix-on-droid.overlays.default`
-        pkgs = import inputs.nixpkgs {
-          system = "aarch64-linux";
+        _module.args.pkgs = import inputs.nixpkgs {
+          inherit system;
           config.allowUnfree = true;
-
-          overlays = [
-            inputs.nix-on-droid.overlays.default
-            # add other overlays
-          ];
+          nvidia.acceptLicense = true;
+          #overlays = [ inputs.foo.overlays.default ];
         };
 
-        # set path to home-manager flake
-        home-manager-path = inputs.home-manager.outPath;
-      };
+        _module.args.pkgs-unstable = import inputs.nixpkgs-unstable {
+          inherit system;
+          config.allowUnfree = true;
+          nvidia.acceptLicense = true;
+          #overlays = [ inputs.foo.overlays.default ];
+        };
 
-    };
+      };
+      flake = let
+
+        system = "x86_64-linux";
+
+        commonConfigModules = [
+
+          #inputs.nixpkgs.nixosModules.readOnlyPkgs
+
+          ({ config, ... }: {
+
+            # Use the configured pkgs from perSystem
+            #_module.args.pkgs = withSystem system (
+            #  { pkgs, ... }: # perSystem module arguments
+            #  pkgs
+            #);
+
+            _module.args.pkgs-unstable = withSystem config.nixpkgs.hostPlatform.system (
+              { pkgs-unstable, ... }: pkgs-unstable
+            );
+
+            _module.args = {
+              #inherit inputs;
+              inputs = inputs;
+              username = "ksvnixospc";
+              #isDroid = false;
+              nix4vscode = inputs.nix4vscode;
+              #system = system;
+              inherit (config.nixpkgs.hostPlatform) system;
+              
+            };
+
+          })
+
+        ];
+
+        isDroidModule = option: (
+          [
+
+            ({...}:{
+
+              _module.args = {
+                isDroid = option;
+              };
+
+            })
+
+          ] 
+          ++ (if !option then [
+            # this section is for non nix-on-droid common modules
+          #inputs.nixpkgs.nixosModules.readOnlyPkgs
+        ] else [])
+        );
+
+       in 
+       {
+        # The usual flake attributes can be defined here, including system-
+        # agnostic ones like nixosModule and system-enumerating ones, although
+        # those are more easily expressed in perSystem.
+
+        ksvnixospc = top.self.nixosConfigurations.ksvnixospc;
+        deejunixospc = top.self.nixosConfigurations.deejunixospc;
+
+        nixosConfigurations.ksvnixospc = inputs.nixpkgs.lib.nixosSystem {
+
+          inherit system; #system = "x86_64-linux";
+
+          modules = [
+            ./configuration.nix
+            ./hosts/ksvnixospc/limine-ksvnixospc.nix
+            ./hosts/ksvnixospc/hardware-configuration-ksvnixospc.nix
+            inputs.home-manager.nixosModules.home-manager
+
+            { networking.hostName = "ksvnixospc"; }
+
+          ] ++ (isDroidModule false) ++ commonConfigModules;
+
+
+        };
+
+        nixosConfigurations.deejunixospc = inputs.nixpkgs.lib.nixosSystem {
+
+          inherit system; #system = "x86_64-linux";
+
+          modules = [
+            ./configuration.nix
+            ./hosts/deejunixospc/limine-deejunixospc.nix
+            ./hosts/deejunixospc/hardware-configuration-deejunixospc.nix
+            inputs.home-manager.nixosModules.home-manager
+
+            { networking.hostName = "deejunixospc"; }
+            
+          ] ++ (isDroidModule false) ++ commonConfigModules;
+
+
+        };
+
+        nixOnDroidConfigurations.default =  
+          let
+            system = "aarch64-linux";
+          in 
+          inputs.nix-on-droid.lib.nixOnDroidConfiguration {
+          # Instantiate pkgs explicitly with the Droid overlay here
+          pkgs = import inputs.nixpkgs {
+            #system = "aarch64-linux";
+            inherit system;
+            config.allowUnfree = true;
+            overlays = [ inputs.nix-on-droid.overlays.default ];
+          };
+
+          modules = [
+            ./hosts/ksv-nix-on-droid/ksv-nix-on-droid.nix
+            # list of extra modules for Nix-on-Droid system
+            # { nix.registry.nixpkgs.flake = nixpkgs; }
+            
+            # Module injection for Nix-on-Droid
+            ({ pkgs, ... }: {
+              _module.args = {
+                inherit inputs;
+                
+                # Manually define system since nix-on-droid doesn't strictly follow hostPlatform pattern
+                inherit system;
+                
+                pkgs-unstable = withSystem system ({ pkgs-unstable, ... }: pkgs-unstable);
+              };
+            })
+          ] 
+          ++ (isDroidModule true); # Use the helper setting isDroid to true
+
+          home-manager-path = inputs.home-manager.outPath;
+        };
+
+
+      };
+    });
 }
