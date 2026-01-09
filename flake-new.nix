@@ -221,10 +221,15 @@
 
         };
 
-        nixOnDroidConfigurations.default = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
+        nixOnDroidConfigurations.default =  
+          let
+            system = "aarch64-linux";
+          in 
+          inputs.nix-on-droid.lib.nixOnDroidConfiguration {
           # Instantiate pkgs explicitly with the Droid overlay here
           pkgs = import inputs.nixpkgs {
-            system = "aarch64-linux";
+            #system = "aarch64-linux";
+            inherit system;
             config.allowUnfree = true;
             overlays = [ inputs.nix-on-droid.overlays.default ];
           };
@@ -236,15 +241,13 @@
             
             # Module injection for Nix-on-Droid
             ({ pkgs, ... }: {
-              _module.args = let
-                system = "aarch64-linux";
-               in {
+              _module.args = {
                 inherit inputs;
                 
                 # Manually define system since nix-on-droid doesn't strictly follow hostPlatform pattern
                 inherit system;
                 
-                pkgs-unstable = withSystem "aarch64-linux" ({ pkgs-unstable, ... }: pkgs-unstable);
+                pkgs-unstable = withSystem system ({ pkgs-unstable, ... }: pkgs-unstable);
               };
             })
           ] 
