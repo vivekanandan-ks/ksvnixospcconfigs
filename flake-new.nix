@@ -143,7 +143,7 @@
 
         commonConfigModules = [
 
-          inputs.nixpkgs.nixosModules.readOnlyPkgs
+          #inputs.nixpkgs.nixosModules.readOnlyPkgs
 
           ({ config, ... }: {
 
@@ -170,23 +170,22 @@
 
         ];
 
-        isDroidModule = option: [
+        isDroidModule = option: (
+          [
 
-          ({...}:{
+            ({...}:{
 
-            _module.args = {
-              isDroid = option;
-            };
+              _module.args = {
+                isDroid = option;
+              };
 
-          })
+            })
 
-        ];
-
-        /*isDroidModule = option: [
-          ({ ... }: {
-            _module.args.isDroid = option;
-          })
-        ];*/
+          ] 
+          ++ (if !option then [
+          inputs.nixpkgs.nixosModules.readOnlyPkgs
+        ] else [])
+        );
 
        in 
        {
@@ -220,6 +219,38 @@
           ] ++ (isDroidModule false) ++ commonConfigModules;
 
 
+        };
+
+        nixOnDroidConfigurations.default = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
+          # Instantiate pkgs explicitly with the Droid overlay here
+          pkgs = import inputs.nixpkgs {
+            system = "aarch64-linux";
+            config.allowUnfree = true;
+            overlays = [ inputs.nix-on-droid.overlays.default ];
+          };
+
+          modules = [
+            ./hosts/ksv-nix-on-droid/ksv-nix-on-droid.nix
+            # list of extra modules for Nix-on-Droid system
+            # { nix.registry.nixpkgs.flake = nixpkgs; }
+            
+            # Module injection for Nix-on-Droid
+            ({ pkgs, ... }: {
+              _module.args = let
+                system = "aarch64-linux";
+               in {
+                inherit inputs;
+                
+                # Manually define system since nix-on-droid doesn't strictly follow hostPlatform pattern
+                inherit system;
+                
+                pkgs-unstable = withSystem "aarch64-linux" ({ pkgs-unstable, ... }: pkgs-unstable);
+              };
+            })
+          ] 
+          ++ (isDroidModule true); # Use the helper setting isDroid to true
+
+          home-manager-path = inputs.home-manager.outPath;
         };
 
 
