@@ -148,10 +148,10 @@
           ({ config, ... }: {
 
             # Use the configured pkgs from perSystem
-            nixpkgs.pkgs = withSystem config.nixpkgs.hostPlatform.system (
-              { pkgs, ... }: # perSystem module arguments
-              pkgs
-            );
+            #_module.args.pkgs = withSystem system (
+            #  { pkgs, ... }: # perSystem module arguments
+            #  pkgs
+            #);
 
             _module.args.pkgs-unstable = withSystem config.nixpkgs.hostPlatform.system (
               { pkgs-unstable, ... }: pkgs-unstable
@@ -163,6 +163,8 @@
               username = "ksvnixospc";
               #isDroid = false;
               nix4vscode = inputs.nix4vscode;
+              #system = system;
+              inherit (config.nixpkgs.hostPlatform) system;
               
             };
 
@@ -183,7 +185,8 @@
 
           ] 
           ++ (if !option then [
-          inputs.nixpkgs.nixosModules.readOnlyPkgs
+            # this section is for non nix-on-droid common modules
+          #inputs.nixpkgs.nixosModules.readOnlyPkgs
         ] else [])
         );
 
@@ -201,6 +204,7 @@
             ./configuration.nix
             ./hosts/ksvnixospc/limine-ksvnixospc.nix
             ./hosts/ksvnixospc/hardware-configuration-ksvnixospc.nix
+            inputs.home-manager.nixosModules.home-manager
 
           ] ++ (isDroidModule false) ++ commonConfigModules;
 
@@ -215,6 +219,7 @@
             ./configuration.nix
             ./hosts/deejunixospc/limine-deejunixospc.nix
             ./hosts/deejunixospc/hardware-configuration-deejunixospc.nix
+            inputs.home-manager.nixosModules.home-manager
             
           ] ++ (isDroidModule false) ++ commonConfigModules;
 
