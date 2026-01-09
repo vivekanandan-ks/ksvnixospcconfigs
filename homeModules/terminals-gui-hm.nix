@@ -5,35 +5,31 @@
   #pkgs,
   pkgs-unstable,
   ...
-}:
-
-{
-
+}: {
   # ghostty
   programs.ghostty = {
     enable = true;
     package = pkgs-unstable.ghostty;
     installBatSyntax = true;
-    
-      settings = {
-        #background-opacity = 0.8;
-        background-blur = true;
-        custom-shader = [
-          "${./hmResources/ghostty-shaders/cursor_smear.glsl}"
-          #"${./hmResources/ghostty-shaders/cursor_blaze.glsl}"
-          #"${./hmResources/ghostty-shaders/animated-gradient-shader.glsl}"
-          #"${./hmResources/ghostty-shaders/cursor_smear_gradient.glsl}"
 
-        ];
-        
-        #theme = "carbonfox"; # "citruszest" "Dark Pastel" "Hurtado" "Oxocarbon" # showing error
-        #font-size = 10;
-        #keybind = [
-        #  "ctrl+h=goto_split:left"
-        #  "ctrl+l=goto_split:right"
-        #];
-      };
-    
+    settings = {
+      #background-opacity = 0.8;
+      background-blur = true;
+      custom-shader = [
+        "${./hmResources/ghostty-shaders/cursor_smear.glsl}"
+        #"${./hmResources/ghostty-shaders/cursor_blaze.glsl}"
+        #"${./hmResources/ghostty-shaders/animated-gradient-shader.glsl}"
+        #"${./hmResources/ghostty-shaders/cursor_smear_gradient.glsl}"
+      ];
+      fullscreen = true;
+
+      #theme = "carbonfox"; # "citruszest" "Dark Pastel" "Hurtado" "Oxocarbon" # showing error
+      #font-size = 10;
+      #keybind = [
+      #  "ctrl+h=goto_split:left"
+      #  "ctrl+l=goto_split:right"
+      #];
+    };
   };
 
   # kitty
@@ -52,7 +48,7 @@
       cursor_trail_decay  0.1 0.4
       #cursor_blink_interval 0
       #cursor_trail_start_threshold 0
-           
+
       # window
       #background_opacity 0.7
       background_blur 1
@@ -68,23 +64,22 @@
   };
 
   /*
-    # waveterm - modern terminal app
-    programs.waveterm = {
-      enable = true;
-      package = pkgs-unstable.waveterm;
+  # waveterm - modern terminal app
+  programs.waveterm = {
+    enable = true;
+    package = pkgs-unstable.waveterm;
 
-      bookmarks = {
-        "bookmark@google" = {
-          title = "Google";
-          url = "https://www.google.com";
-        };
-      };
-
-      settings = {
-        #"window:blur" = true;
-        #"window:opacity" = 0.5;
+    bookmarks = {
+      "bookmark@google" = {
+        title = "Google";
+        url = "https://www.google.com";
       };
     };
-  */
 
+    settings = {
+      #"window:blur" = true;
+      #"window:opacity" = 0.5;
+    };
+  };
+  */
 }
