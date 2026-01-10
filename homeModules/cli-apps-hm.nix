@@ -6,10 +6,7 @@
   pkgs-unstable,
   #isDroid ? false,
   ...
-}:
-
-{
-
+}: {
   #btop
   programs.btop = {
     enable = true;
@@ -23,7 +20,6 @@
     extraPackages = with pkgs-unstable.bat-extras; [
       batman
     ];
-
   };
 
   # nix helper
@@ -69,9 +65,9 @@
       };
 
       /*
-        theme = {
-          Adapter = "red";
-        };
+      theme = {
+        Adapter = "red";
+      };
       */
     };
   };
@@ -81,19 +77,23 @@
     package = pkgs-unstable.gemini-cli;
   };
 
-  /*programs.nix-index = {
+  /*
+    programs.nix-index = {
     enable = true;
     package = pkgs-unstable.nix-index;
     enableBashIntegration = false;
     enableFishIntegration = false;
     enableZshIntegration = false;
     enableNushellIntegration = true;
-  };*/
+  };
+  */
 
-  /*programs.claude-code = {
+  /*
+    programs.claude-code = {
     enable = !isDroid;
     package = pkgs-unstable.claude-code;
-  };*/
+  };
+  */
 
   programs.opencode = {
     enable = true;
@@ -101,10 +101,12 @@
     enableMcpIntegration = true;
   };
 
-  /*programs.codex = {
+  /*
+    programs.codex = {
     enable = true;
     package = pkgs-unstable.codex;
-  };*/
+  };
+  */
 
   # jujutsu
 
@@ -116,21 +118,21 @@
         email = "ksvdevksv@gmail.com";
         name = "vivekanandan-ks";
       };
-      #ui.editor = "micro";
+      #ui.editor = "hx";
+      ui.default-command = "log";
       snapshot.max-new-file-size = "30MiB"; # https://github.com/jj-vcs/jj/blob/main/docs/config.md#maximum-size-for-new-files
     };
   };
 
   /*
-    # github
-    programs.gh = {
-      enable = true ;
-      package = pkgs-unstable.gh;
-      #gitCredentialHelper = {
-        #enable = true ;
-        #hosts = [];
-      #};
-    };
+  # github
+  programs.gh = {
+    enable = true ;
+    package = pkgs-unstable.gh;
+    #gitCredentialHelper = {
+      #enable = true ;
+      #hosts = [];
+    #};
+  };
   */
-
 }
