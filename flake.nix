@@ -10,6 +10,9 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    flake-parts.url = "github:hercules-ci/flake-parts";
+
     # for vscode extensions
     nix4vscode = {
       url = "github:nix-community/nix4vscode";
