@@ -2,16 +2,13 @@
   #inputs,
   #config,
   #lib,
-  #pkgs,
-  pkgs-unstable,
+  pkgs,
+  #pkgs-unstable,
   ...
-}:
-
-{
-
+}: {
   programs.zed-editor = {
     enable = true;
-    package = pkgs-unstable.zed-editor;
+    package = pkgs.zed-editor;
     extensions = [
       # get the names from here : https://zed.dev/extensions
       "nix"
@@ -53,7 +50,6 @@
       "jq"
       "django"
       "eyecandy"
-
     ];
     extraPackages = with pkgs-unstable; [
       nixd
@@ -63,46 +59,44 @@
     #mutableUserDebug = true; # default true
     #mutableUserTasks = true; # default true
     /*
-      userKeymaps = [
-        # default []
-        {
-          context = "Workspace";
-          bindings = {
-            ctrl-shift-t = "workspace::NewTerminal";
-          };
-        }
+    userKeymaps = [
+      # default []
+      {
+        context = "Workspace";
+        bindings = {
+          ctrl-shift-t = "workspace::NewTerminal";
+        };
+      }
 
-      ];
+    ];
     */
 
     /*
-      userSettings = {
-        features = {
-          copilot = false;
-        };
-        telemetry = {
-          metrics = false;
-        };
-        vim_mode = false;
-        ui_font_size = 16;
-        buffer_font_size = 16;
-
+    userSettings = {
+      features = {
+        copilot = false;
       };
+      telemetry = {
+        metrics = false;
+      };
+      vim_mode = false;
+      ui_font_size = 16;
+      buffer_font_size = 16;
+
+    };
     */
 
     /*
-      userTasks = [
-        {
-          label = "Format Code";
-          command = "nix";
-          args = [
-            "fmt"
-            "$ZED_WORKTREE_ROOT"
-          ];
-        }
-      ];
+    userTasks = [
+      {
+        label = "Format Code";
+        command = "nix";
+        args = [
+          "fmt"
+          "$ZED_WORKTREE_ROOT"
+        ];
+      }
+    ];
     */
-
   };
-
 }
