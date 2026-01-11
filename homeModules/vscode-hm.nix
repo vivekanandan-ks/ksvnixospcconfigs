@@ -6,9 +6,7 @@
   system,
   username,
   ...
-}:
-let
-
+}: let
   pkgs-vscode = import inputs.nixpkgs {
     inherit system;
     config.allowUnfree = true;
@@ -20,9 +18,8 @@ let
   vscode-package = pkgs-unstable.vscode-fhs;
   vscode-extnsns =
     (pkgs-vscode.nix4vscode.forVscode [
-
-      "ms-python.python" # Python
-      "ms-python.debugpy" # Python Debugger
+      #"ms-python.python" # Python
+      #"ms-python.debugpy" # Python Debugger
       "KevinRose.vsc-python-indent" # Python Indent
 
       "jnoortheen.nix-ide" # Nix IDE
@@ -35,7 +32,6 @@ let
       "wakatime.vscode-wakatime" # https://wakatime.com/
 
       "rust-lang.rust-analyzer" # rust-analyzer
-
     ])
     ++ (with pkgs-unstable.vscode-extensions; [
       # nix
@@ -47,58 +43,53 @@ let
       #redhat.vscode-yaml # YAML
 
       # Python
-      #ms-python.python # Python
-      #ms-python.debugpy # Python Debugger
+      ms-python.python # Python
+      ms-python.debugpy # Python Debugger
 
       #thenuprojectcontributors.vscode-nushell-lang # vscode-nushell-lang
       #eamodio.gitlens # GitLens
 
       #wakatime.vscode-wakatime # https://wakatime.com/
-
     ])
     ++ (with pkgs.vscode-extensions; [
-
       # Python
       #ms-python.python # Python
       #ms-python.debugpy # Python Debugger
     ])
     ++ (pkgs-unstable.vscode-utils.extensionsFromVscodeMarketplace [
-
       /*
-        {
-          # Python Indent https://marketplace.visualstudio.com/items?itemName=KevinRose.vsc-python-indent&ssr=true
-          name = "vsc-python-indent";
-          publisher = "kevinrose";
-          version = "1.21.0";
-          sha256 = "1zlkbxgl8bad8g1lm60z0zf5gr1011p696zps3azr89cdxa63wja";
-        }
+      {
+        # Python Indent https://marketplace.visualstudio.com/items?itemName=KevinRose.vsc-python-indent&ssr=true
+        name = "vsc-python-indent";
+        publisher = "kevinrose";
+        version = "1.21.0";
+        sha256 = "1zlkbxgl8bad8g1lm60z0zf5gr1011p696zps3azr89cdxa63wja";
+      }
       */
       /*
-        {
-          name = "remote-ssh-edit";
-          publisher = "ms-vscode-remote";
-          version = "0.47.2";
-          sha256 = "1hp6gjh4xp2m1xlm1jsdzxw9d8frkiidhph6nvl24d0h8z34w49g";
-        }
+      {
+        name = "remote-ssh-edit";
+        publisher = "ms-vscode-remote";
+        version = "0.47.2";
+        sha256 = "1hp6gjh4xp2m1xlm1jsdzxw9d8frkiidhph6nvl24d0h8z34w49g";
+      }
       */
     ]);
-in
-{
+in {
   home.packages = with pkgs-unstable; [
-
     #nixfmt
     alejandra
     nixd
-    #nil
+    nil
 
     # vscode
     /*
-      (vscode-with-extensions.override {
+    (vscode-with-extensions.override {
 
-        vscode = vscode-package;
+      vscode = vscode-package;
 
-        vscodeExtensions = vscode-extnsns;
-      })
+      vscodeExtensions = vscode-extnsns;
+    })
     */
   ];
 
@@ -128,7 +119,7 @@ in
         "nix.serverPath" = "nixd";
         "nix.serverSettings" = {
           "nixd" = {
-            "eval" = { };
+            "eval" = {};
             "formatting" = {
               "command" = "alejandra";
               #nixd and alejandra to be added as packages
@@ -136,7 +127,7 @@ in
             "options" = {
               "enable" = true;
               "target" = {
-                "args" = [ ];
+                "args" = [];
                 ## NixOS options
                 # "installable" = "<flakeref>#nixosConfigurations.ksvnixospc.options";
                 "installable" = "${./../flake.nix}#nixosConfigurations.${username}.options";
@@ -154,13 +145,10 @@ in
         };
         "update.mode" = "none";
       };
-
     };
-
   };
 
   home.sessionVariables = {
     NIXOS_OZONE_WL = "1"; # To use VS Code and other apps under Wayland
   };
-
 }
