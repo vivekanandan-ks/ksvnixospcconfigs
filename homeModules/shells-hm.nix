@@ -203,8 +203,8 @@ in {
           ]
 
 
-          source ${inshellisense-nu-init}
-          ${globalShellInit}
+          #source ${inshellisense-nu-init}
+          #${globalShellInit}
 
         '';
       /*
