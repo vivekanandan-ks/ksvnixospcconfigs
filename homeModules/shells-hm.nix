@@ -45,7 +45,17 @@ in {
     };
 
     #nushell
-    nushell = {
+    nushell =
+    let 
+      inshellisense-nu-init = pkgs.runCommand "inshellisense-init.nu" {
+        nativeBuildInputs = [ pkgs-unstable.inshellisense ];
+      } ''
+        # Set a fake HOME to satisfy node/inshellisense during build
+        export HOME=$(mktemp -d)
+        ${pkgs-unstable.inshellisense}/bin/is init nu > $out
+      '';
+    in
+    {
       enable = true;
       package = pkgs-unstable.nushell;
       plugins = with pkgs-unstable.nushellPlugins; [
@@ -194,15 +204,10 @@ in {
           ]
 
 
-
-
-
-
-
-
           #pay-respects nushell
           #is init nu
-          if ( '~/.inshellisense/nu/init.nu' | path exists ) { source ~/.inshellisense/nu/init.nu }
+          #if ( '~/.inshellisense/nu/init.nu' | path exists ) { source ~/.inshellisense/nu/init.nu }
+          source ${inshellisense-nu-init}
           ${globalShellInit}
 
         '';
