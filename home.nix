@@ -169,7 +169,7 @@ in
   home.sessionVariables = {
     #EDITOR = "hx";
     #VISUAL = "hx";
-    #MANPAGER = "sh -c 'col -b | bat -l man -p '"; # add -p flag to bat for plain style
+    #MANPAGER = "sh -c 'col -b | bat -l man '"; # add -p flag to bat for plain style
     #MANPAGER = "nvim +Man! +only";
 
   };
@@ -180,6 +180,7 @@ in
     df = "echo try duf instead";
     grep = "echo 'try ripgrep or ripgrep-all and rg or rga is the command'";
     #man = "batman";
+    #man = "env BAT_PAGER='less -RF' BAT_STYLE='grid,numbers' batman";
     man = "env BAT_STYLE='grid,numbers' batman";
 
   };

@@ -17,6 +17,9 @@
   programs.bat = {
     enable = true;
     package = pkgs-unstable.bat;
+    #config = {
+    #  pager = "less -FRX";
+    #};
     extraPackages = with pkgs-unstable.bat-extras; [
       batman
     ];
