@@ -52,6 +52,12 @@
       #wakatime.vscode-wakatime # https://wakatime.com/
 
       rust-lang.rust-analyzer
+
+      catppuccin.catppuccin-vsc
+      catppuccin.catppuccin-vsc-icons
+      enkia.tokyo-night
+      sdras.night-owl
+      silofy.hackthebox
     ])
     ++ (with pkgs.vscode-extensions; [
       # Python
@@ -123,22 +129,25 @@ in {
           "nixd" = {
             "eval" = {};
             "formatting" = {
-              "command" = "alejandra";
+              "command" = ["alejandra"];
               #nixd and alejandra to be added as packages
             };
             "options" = {
-              "enable" = true;
-              "target" = {
-                "args" = [];
-                ## NixOS options
-                # "installable" = "<flakeref>#nixosConfigurations.ksvnixospc.options";
-                "installable" = "${./../flake.nix}#nixosConfigurations.${username}.options";
-                ## Flake-parts options
-                # "installable" = "<flakeref>#debug.options";
-                ## Home-manager options
-                #"installable" = "~/Documents/ksvnixospcconfigs/home.nix#homeConfigurations.ksvnixospc.options";
-                #"installable" = "${./..}#homeConfigurations.ksvnixospc.options";
+              "nixos" = {
+                "expr" = "(builtins.getFlake \"${./../flake.nix}\").nixosConfigurations.${username}.options";
               };
+              # "enable" = true;
+              # "target" = {
+              #   "args" = [];
+              #   ## NixOS options
+              #   # "installable" = "<flakeref>#nixosConfigurations.ksvnixospc.options";
+              #   "installable" = "${./../flake.nix}#nixosConfigurations.${username}.options";
+              #   ## Flake-parts options
+              #   # "installable" = "<flakeref>#debug.options";
+              #   ## Home-manager options
+              #   #"installable" = "~/Documents/ksvnixospcconfigs/home.nix#homeConfigurations.ksvnixospc.options";
+              #   #"installable" = "${./..}#homeConfigurations.ksvnixospc.options";
+              # };
             };
           };
         };
@@ -146,6 +155,7 @@ in {
           "editor.defaultFormatter" = "jnoortheen.nix-ide";
         };
         "update.mode" = "none";
+        "workbench.colorTheme" = "Catppuccin Mocha";
       };
     };
   };
