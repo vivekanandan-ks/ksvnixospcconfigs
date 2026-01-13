@@ -1,0 +1,60 @@
+List the filenames, sizes, and modification times of items in a directory.
+
+Search terms: dir
+
+Usage:
+  > ls {flags} ...(pattern) 
+
+Flags:
+  -h, --help: Display the help message for this command
+  -a, --all: Show hidden files
+  -l, --long: Get all available columns for each entry (slower; columns are platform-dependent)
+  -s, --short-names: Only print the file names, and not the path
+  -f, --full-paths: display paths as absolute paths
+  -d, --du: Display the apparent directory size ("disk usage") in place of the directory metadata size
+  -D, --directory: List the specified directory itself instead of its contents
+  -m, --mime-type: Show mime-type in type column instead of 'file' (based on filenames only; files' contents are not examined)
+  -t, --threads: Use multiple threads to list contents. Output will be non-deterministic.
+
+Parameters:
+  ...pattern <oneof<glob, string>>: The glob pattern to use.
+
+Input/output types:
+  ╭───┬─────────┬────────╮
+  │ # │  input  │ output │
+  ├───┼─────────┼────────┤
+  │ 0 │ nothing │ table  │
+  ╰───┴─────────┴────────╯
+
+Examples:
+  List visible files in the current directory
+  > ls
+
+  List visible files in a subdirectory
+  > ls subdir
+
+  List visible files with full path in the parent directory
+  > ls -f ..
+
+  List Rust files
+  > ls *.rs
+
+  List files and directories whose name do not contain 'bar'
+  > ls | where name !~ bar
+
+  List the full path of all dirs in your home directory
+  > ls -a ~ | where type == dir
+
+  List only the names (not paths) of all dirs in your home directory which have not been modified in 7 days
+  > ls -as ~ | where type == dir and modified < ((date now) - 7day)
+
+  Recursively list all files and subdirectories under the current directory using a glob pattern
+  > ls -a **/*
+
+  Recursively list *.rs and *.toml files using the glob command
+  > ls ...(glob **/*.{rs,toml})
+
+  List given paths and show directories themselves
+  > ['/path/to/directory' '/path/to/file'] | each {|| ls -D $in } | flatten
+
+

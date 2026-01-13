@@ -101,17 +101,44 @@ in {
         ''
           # Custom command to run any command with --help, -h, or man, piping to bat for better readability
           # Usage: h <command> (e.g., h git commit)
+          # Old implementation:
+          # def --wrapped h [cmd: string, ...args] {
+          #   try {
+          #     # We append "--help" to the args list so run-external sees it as a parameter, 
+          #     # not a flag for itself.
+          #     run-external $cmd ...($args | append "--help") | bat -l help -P
+          #   } catch {
+          #     try {
+          #       run-external $cmd ...($args | append "-h") | bat -l help -P
+          #     } catch {
+          #       ^man $cmd | bat -l man -P
+          #     }
+          #   }
+          # }
+
           def --wrapped h [cmd: string, ...args] {
-            try {
-              # We append "--help" to the args list so run-external sees it as a parameter, 
-              # not a flag for itself.
-              run-external $cmd ...($args | append "--help") | bat -l help -P
-            } catch {
+            let cmd_info = (try { which $cmd } catch { null })
+            if $cmd_info == null {
+              print $"Command '($cmd)' not found."
+              return
+            }
+            let type = ($cmd_info | get type | first)
+            let real_cmd = ($cmd_info | get command | first)
+
+            if $type == "external" {
               try {
-                run-external $cmd ...($args | append "-h") | bat -l help -P
+                run-external $real_cmd ...($args | append "--help") | bat -l help
               } catch {
-                ^man $cmd | bat -l man -P
+                try {
+                  run-external $real_cmd ...($args | append "-h") | bat -l help
+                } catch {
+                  ^man $real_cmd | bat -l man
+                }
               }
+            } else {
+              # For built-ins, aliases, etc., just run the command with --help
+              # to preserve native formatting and colors
+              nu -c $"($cmd) --help"
             }
           }
 

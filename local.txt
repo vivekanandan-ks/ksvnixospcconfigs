@@ -1,0 +1,59 @@
+List the filenames, sizes, and modification times of items in a directory.
+
+[32mSearch terms[0m: [36mdir[0m
+
+[32mUsage[0m:
+  > ls {flags} ...(pattern) 
+
+[32mFlags[0m:
+  [36m-h[0m[39m,[0m [36m--help[0m: Display the help message for this command
+  [36m-a[0m[39m,[0m [36m--all[0m: Show hidden files
+  [36m-l[0m[39m,[0m [36m--long[0m: Get all available columns for each entry (slower; columns are platform-dependent)
+  [36m-s[0m[39m,[0m [36m--short-names[0m: Only print the file names, and not the path
+  [36m-f[0m[39m,[0m [36m--full-paths[0m: display paths as absolute paths
+  [36m-d[0m[39m,[0m [36m--du[0m: Display the apparent directory size ("disk usage") in place of the directory metadata size
+  [36m-D[0m[39m,[0m [36m--directory[0m: List the specified directory itself instead of its contents
+  [36m-m[0m[39m,[0m [36m--mime-type[0m: Show mime-type in type column instead of 'file' (based on filenames only; files' contents are not examined)
+  [36m-t[0m[39m,[0m [36m--threads[0m: Use multiple threads to list contents. Output will be non-deterministic.
+
+[32mParameters[0m:
+  ...[36mpattern[0m <[94moneof<glob, string>[0m>: The glob pattern to use.
+
+[32mInput/output types[0m:
+  [39m╭───┬─────────┬────────╮[0m
+  [39m│[0m [1;32m#[0m [39m│[0m  [1;32minput[0m  [39m│[0m [1;32moutput[0m [39m│[0m
+  [39m├───┼─────────┼────────┤[0m
+  [39m│[0m [1;32m0[0m [39m│[0m [39mnothing[0m [39m│[0m [39mtable[0m  [39m│[0m
+  [39m╰───┴─────────┴────────╯[0m
+
+[32mExamples[0m:
+  List visible files in the current directory
+  > [1;36mls[0m
+
+  List visible files in a subdirectory
+  > [1;36mls[0m [1;36msubdir[0m
+
+  List visible files with full path in the parent directory
+  > [1;36mls[0m [1;34m-f[0m [1;36m..[0m
+
+  List Rust files
+  > [1;36mls[0m [1;36m*.rs[0m
+
+  List files and directories whose name do not contain 'bar'
+  > [1;36mls[0m [1;35m|[0m [1;36mwhere[0m [32mname[0m [33m!~[0m [32mbar[0m
+
+  List the full path of all dirs in your home directory
+  > [1;36mls[0m [1;34m-a[0m [1;36m~[0m [1;35m|[0m [1;36mwhere[0m [32mtype[0m [33m==[0m [32mdir[0m
+
+  List only the names (not paths) of all dirs in your home directory which have not been modified in 7 days
+  > [1;36mls[0m [1;34m-as[0m [1;36m~[0m [1;35m|[0m [1;36mwhere[0m [32mtype[0m [33m==[0m [32mdir[0m [33mand[0m [32mmodified[0m [33m<[0m [1;34m([0m[1;34m([0m[1;36mdate now[0m[1;34m)[0m [33m-[0m [1;35m7[0m[32mday[0m[1;34m)[0m
+
+  Recursively list all files and subdirectories under the current directory using a glob pattern
+  > [1;36mls[0m [1;34m-a[0m [1;36m**/*[0m
+
+  Recursively list *.rs and *.toml files using the glob command
+  > [1;36mls[0m [33m...[0m[1;34m([0m[1;36mglob[0m [32m**/*.{rs,toml}[0m[1;34m)[0m
+
+  List given paths and show directories themselves
+  > [1;36m[[0m[32m'/path/to/directory'[0m[1;36m [0m[32m'/path/to/file'[0m[1;36m][0m [1;35m|[0m [1;36meach[0m [1;34m{|| [0m[1;36mls[0m [1;34m-D[0m [35m$in[0m[1;34m }[0m [1;35m|[0m [1;36mflatten[0m
+
