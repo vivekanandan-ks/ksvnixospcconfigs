@@ -179,7 +179,8 @@ in
     rip = "rip --graveyard ~/.local/share/Trash/files/rip2trash";
     df = "echo try duf instead";
     grep = "echo 'try ripgrep or ripgrep-all and rg or rga is the command'";
-    man = "batman";
+    #man = "batman";
+    man = "env BAT_STYLE='grid,numbers' batman";
 
   };
 

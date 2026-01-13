@@ -99,6 +99,22 @@ in {
         nu
         */
         ''
+          # Custom command to run any command with --help, -h, or man, piping to bat for better readability
+          # Usage: h <command> (e.g., h git commit)
+          def --wrapped h [cmd: string, ...args] {
+            try {
+              # We append "--help" to the args list so run-external sees it as a parameter, 
+              # not a flag for itself.
+              run-external $cmd ...($args | append "--help") | bat -l help -P
+            } catch {
+              try {
+                run-external $cmd ...($args | append "-h") | bat -l help -P
+              } catch {
+                ^man $cmd | bat -l man -P
+              }
+            }
+          }
+
           $env.config.hooks.command_not_found = [
             {|cmd| ^command-not-found $cmd | print }
           ]
