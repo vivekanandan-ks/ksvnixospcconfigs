@@ -45,16 +45,20 @@ in {
     };
 
     #nushell
-    nushell = let
-      inshellisense-nu-init =
-        pkgs.runCommand "inshellisense-init.nu" {
-          nativeBuildInputs = [pkgs-unstable.inshellisense];
-        } ''
-          # Set a fake HOME to satisfy node/inshellisense during build
-          export HOME=$(mktemp -d)
-          ${pkgs-unstable.inshellisense}/bin/is init nu > $out
-        '';
-    in {
+    nushell =
+      /*
+        let
+          inshellisense-nu-init =
+            pkgs.runCommand "inshellisense-init.nu" {
+              nativeBuildInputs = [pkgs-unstable.inshellisense];
+            } ''
+              # Set a fake HOME to satisfy node/inshellisense during build
+              export HOME=$(mktemp -d)
+              ${pkgs-unstable.inshellisense}/bin/is init nu > $out
+            '';
+        in
+      */
+      {
       enable = true;
       package = pkgs-unstable.nushell;
       plugins = with pkgs-unstable.nushellPlugins; [
@@ -203,7 +207,19 @@ in {
           ]
 
 
-          #source ${inshellisense-nu-init}
+          #if ('~/.inshellisense/nu/init.nu' | path exists) {
+          #  source ~/.inshellisense/nu/init.nu
+          #}
+          if "ISTERM" not-in $env and $nu.is-interactive and "VSCODE_RESOLVING_ENVIRONMENT" not-in $env {
+            if $nu.is-login {
+              ^${pkgs-unstable.inshellisense}/bin/is -s nu --login
+              exit
+            } else {
+              ^${pkgs-unstable.inshellisense}/bin/is -s nu
+              exit
+            }
+          }
+          source "${pkgs-unstable.inshellisense}/lib/node_modules/@microsoft/inshellisense/shell/shellIntegration.nu"
           #${globalShellInit}
 
         '';
@@ -222,6 +238,19 @@ in {
       '';
     };
   };
+
+  #home.file.".inshellisense/nu/init.nu".text = ''
+  #  if "ISTERM" not-in $env and $nu.is-interactive and "VSCODE_RESOLVING_ENVIRONMENT" not-in $env {
+  #    if $nu.is-login {
+  #      ^${pkgs-unstable.inshellisense}/bin/is -s nu --login
+  #      exit
+  #    } else {
+  #      ^${pkgs-unstable.inshellisense}/bin/is -s nu
+  #      exit
+  #    }
+  #  }
+  #'';
+
   home.packages = [
     pkgs-unstable.glow # for nushell displayoutput hook to highlight markdown
     pkgs-unstable.inshellisense

@@ -31,7 +31,7 @@
       "eamodio.gitlens" # GitLens
       "wakatime.vscode-wakatime" # https://wakatime.com/
 
-      "rust-lang.rust-analyzer" # rust-analyzer
+      #"rust-lang.rust-analyzer" # rust-analyzer
     ])
     ++ (with pkgs-unstable.vscode-extensions; [
       # nix
@@ -50,6 +50,8 @@
       #eamodio.gitlens # GitLens
 
       #wakatime.vscode-wakatime # https://wakatime.com/
+
+      rust-lang.rust-analyzer
     ])
     ++ (with pkgs.vscode-extensions; [
       # Python
