@@ -211,12 +211,17 @@ in {
           #  source ~/.inshellisense/nu/init.nu
           #}
           if "ISTERM" not-in $env and $nu.is-interactive and "VSCODE_RESOLVING_ENVIRONMENT" not-in $env {
+            #if $nu.is-login {
+            #  ^${pkgs-unstable.inshellisense}/bin/is -s nu --login
+            #  exit
+            #} else {
+            #  ^${pkgs-unstable.inshellisense}/bin/is -s nu
+            #  exit
+            #}
             if $nu.is-login {
-              ^${pkgs-unstable.inshellisense}/bin/is -s nu --login
-              exit
+              exec ${pkgs-unstable.inshellisense}/bin/is -s nu --login
             } else {
-              ^${pkgs-unstable.inshellisense}/bin/is -s nu
-              exit
+              exec ${pkgs-unstable.inshellisense}/bin/is -s nu
             }
           }
           source "${pkgs-unstable.inshellisense}/lib/node_modules/@microsoft/inshellisense/shell/shellIntegration.nu"
