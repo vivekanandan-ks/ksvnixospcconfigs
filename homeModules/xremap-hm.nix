@@ -4,7 +4,7 @@
   #lib,
   #pkgs,
   pkgs-unstable,
-  username,
+  #username,
   ...
 }: {
   home.packages = with pkgs-unstable; [

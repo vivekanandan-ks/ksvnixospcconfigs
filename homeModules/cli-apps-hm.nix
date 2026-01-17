@@ -98,11 +98,11 @@
   };
   */
 
-  programs.opencode = {
+  /*programs.opencode = {
     enable = true;
     package = pkgs-unstable.opencode;
     enableMcpIntegration = true;
-  };
+  };*/
 
   /*
     programs.codex = {
