@@ -162,6 +162,12 @@
   # Enable bluetooth
   hardware.bluetooth.enable = true;
 
+  # for xremap to work as user
+  hardware.uinput.enable = true;
+  users.groups.uinput.members = [username];
+  users.groups.input.members = [username];
+
+
   /*
     # Enable intel graphics harware acceleration (this is supposed to solve the CPUoverheating issues while using camera)
     # refer this: https://wiki.nixos.org/wiki/Accelerated_Video_Playback#Intel
