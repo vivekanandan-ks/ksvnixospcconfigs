@@ -5,13 +5,10 @@
   #pkgs,
   #pkgs-unstable,
   ...
-}:
-
-{
+}: {
   programs.mcp = {
     enable = true;
     servers = {
-
       nixos = {
         # https://mcp-nixos.io/usage
         command = "nix";
@@ -25,7 +22,7 @@
       git = {
         # https://github.com/modelcontextprotocol/servers/tree/main/src/git
         command = "uvx";
-        args = [ "mcp-server-git" ];
+        args = ["mcp-server-git"];
       };
 
       memory = {
@@ -45,8 +42,6 @@
           "@modelcontextprotocol/server-sequential-thinking"
         ];
       };
-
     };
   };
-
 }

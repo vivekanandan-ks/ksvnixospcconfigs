@@ -5,10 +5,7 @@
   #pkgs,
   pkgs-unstable,
   ...
-}:
-
-{
-
+}: {
   # nix-index (needed to support pay-respects for suggesting nixpkgs)
   programs.nix-index = {
     enable = true;
@@ -35,5 +32,4 @@
       package_manager.install_method = "Shell"
     '';
   };
-
 }

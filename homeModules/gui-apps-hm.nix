@@ -5,17 +5,12 @@
   #pkgs,
   pkgs-unstable,
   ...
-}:
-
-{
-
+}: {
   # firefox
   programs.firefox = {
     enable = true;
     package = pkgs-unstable.firefox;
-    nativeMessagingHosts = [ pkgs-unstable.firefoxpwa ];
-    
-
+    nativeMessagingHosts = [pkgs-unstable.firefoxpwa];
   };
   # to make sure the package is both in the PATH and in the Firefox's nativeMessagingHosts.
   home.packages = [
@@ -35,7 +30,6 @@
       obs-move-transition
       obs-multi-rtmp
       input-overlay
-
     ];
   };
 
@@ -50,5 +44,4 @@
     package = pkgs-unstable.zapzap;
     #settings = {}; # GUI settings changes can be found in $XDG_CONFIG_HOME/ZapZap/ZapZap.conf
   };
-
 }

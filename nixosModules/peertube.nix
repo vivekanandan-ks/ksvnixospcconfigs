@@ -7,9 +7,7 @@
   #nix4vscode,
   #system,
   ...
-}:
-{
-
+}: {
   networking.extraHosts = ''
     127.0.0.1 peertube.local
   '';
@@ -21,7 +19,6 @@
   };
 
   services = {
-
     peertube = {
       enable = true;
       localDomain = "peertube.local";
@@ -66,7 +63,5 @@
       requirePass = "test123";
       port = 31638;
     };
-
   };
-
 }

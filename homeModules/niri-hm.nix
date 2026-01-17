@@ -4,8 +4,7 @@
   pkgs-unstable,
   system,
   ...
-}:
-let
+}: let
   pkgs-niri = import inputs.nixpkgs {
     inherit system;
     config.allowUnfree = true;
@@ -13,10 +12,7 @@ let
       inputs.niri.overlays.niri
     ];
   };
-
-in
-{
-
+in {
   #importing the niri module
   imports = [
     inputs.niri.homeModules.niri
@@ -26,9 +22,6 @@ in
     enable = true;
     package = pkgs-niri.niri-stable;
     settings = {
-
     };
-
   };
-
 }

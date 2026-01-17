@@ -5,10 +5,7 @@
   #pkgs,
   pkgs-unstable,
   ...
-}:
-
-{
-
+}: {
   #carapace
   programs.carapace = {
     enable = true;
@@ -20,30 +17,25 @@
   };
 
   #starship
-  programs.starship =
-    let
-
-      starship-themes-folder = ./hmResources/starship-themes;
-
-    in
-    {
-      enable = true;
-      package = pkgs-unstable.starship;
-      #enableInteractive = false; #see HM option page before uncommenting
-      enableNushellIntegration = true;
-      enableFishIntegration = true;
-      enableBashIntegration = true;
-      #uncomment only on eof the following settings
-      settings = builtins.fromTOML (builtins.readFile "${starship-themes-folder}/pastel-powerline.toml");
-      #settings = builtins.fromTOML (builtins.readFile "${starship-themes-folder}/catppuccin_macchiato.toml");
-      #settings = builtins.fromTOML (builtins.readFile "${starship-themes-folder}/catppuccin_frappe.toml");
-      #settings = builtins.fromTOML (builtins.readFile "${starship-themes-folder}/catppuccin_mocha");
-      #settings = builtins.fromTOML (builtins.readFile "${starship-themes-folder}/catppuccin_latte.toml");
-      #settings = builtins.fromTOML (builtins.readFile "${starship-themes-folder}/gruvbox-rainbow.toml);
-      #settings = builtins.fromTOML (builtins.readFile "${starship-themes-folder}/tokyo-night.toml");
-      #settings = builtins.fromTOML (builtins.readFile "${starship-themes-folder}/nerd-font-symbols.toml");
-
-    };
+  programs.starship = let
+    starship-themes-folder = ./hmResources/starship-themes;
+  in {
+    enable = true;
+    package = pkgs-unstable.starship;
+    #enableInteractive = false; #see HM option page before uncommenting
+    enableNushellIntegration = true;
+    enableFishIntegration = true;
+    enableBashIntegration = true;
+    #uncomment only on eof the following settings
+    settings = builtins.fromTOML (builtins.readFile "${starship-themes-folder}/pastel-powerline.toml");
+    #settings = builtins.fromTOML (builtins.readFile "${starship-themes-folder}/catppuccin_macchiato.toml");
+    #settings = builtins.fromTOML (builtins.readFile "${starship-themes-folder}/catppuccin_frappe.toml");
+    #settings = builtins.fromTOML (builtins.readFile "${starship-themes-folder}/catppuccin_mocha");
+    #settings = builtins.fromTOML (builtins.readFile "${starship-themes-folder}/catppuccin_latte.toml");
+    #settings = builtins.fromTOML (builtins.readFile "${starship-themes-folder}/gruvbox-rainbow.toml);
+    #settings = builtins.fromTOML (builtins.readFile "${starship-themes-folder}/tokyo-night.toml");
+    #settings = builtins.fromTOML (builtins.readFile "${starship-themes-folder}/nerd-font-symbols.toml");
+  };
 
   #atuin - shell history and sync e2ee to my atuin account
   programs.atuin = {
@@ -86,21 +78,19 @@
     enableNushellIntegration = true;
     #options = [];
     #added an environment variable below in home.sessionVariables
-
   };
   home.sessionVariables = {
     _ZO_ECHO = 1; # zoxide show resolved directory
   };
 
   /*
-    programs.intelli-shell = {
-      enable = true;
-      package = pkgs-unstable.intelli-shell;
-      enableBashIntegration = true;
-      enableFishIntegration = true;
-      enableNushellIntegration = true;
+  programs.intelli-shell = {
+    enable = true;
+    package = pkgs-unstable.intelli-shell;
+    enableBashIntegration = true;
+    enableFishIntegration = true;
+    enableNushellIntegration = true;
 
-    };
+  };
   */
-
 }

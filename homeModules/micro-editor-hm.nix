@@ -5,9 +5,7 @@
   #pkgs,
   pkgs-unstable,
   ...
-}:
-
-{
+}: {
   # micro - editor
   programs.micro = {
     enable = true;
@@ -32,65 +30,60 @@
       #statusformatr = "$(status.branch) | $(status.hash) | $(status.size)";
       diff = true;
       diffgutter = true;
-
     };
   };
-  home.packages =
-    let
-      /*
-        microPluginsRepoText = pkgs-unstable.writers.writeText "microPluginsRepo" ''
-          sparques/micro-quoter
-          priner/micro-aspell-plugin
-          a11ce/micro-autofmt
-          wakatime/micro-wakatime
-          AndCake/micro-plugin-lsp # not added yet
-          NicolaiSoeborg/manipulator-plugin
-          terokarvinen/micro-jump
-          terokarvinen/micro-run
-          dmaluka/micro-detectindent
-        '';
-      */
+  home.packages = let
+    /*
+    microPluginsRepoText = pkgs-unstable.writers.writeText "microPluginsRepo" ''
+      sparques/micro-quoter
+      priner/micro-aspell-plugin
+      a11ce/micro-autofmt
+      wakatime/micro-wakatime
+      AndCake/micro-plugin-lsp # not added yet
+      NicolaiSoeborg/manipulator-plugin
+      terokarvinen/micro-jump
+      terokarvinen/micro-run
+      dmaluka/micro-detectindent
+    '';
+    */
+  in [
+    pkgs-unstable.wl-clipboard # for micro editor external clipboard integration
+    # shell script to auto download the plugins (yet to implement the correct symlinking to the micro plugins path)
+    /*
+    (pkgs-unstable.writers.writeNuBin
+      # name
+      "microPluginsAutoInstall"
+      # other options
+      {
+        makeWrapperArgs = [
+          "--prefix"
+          "PATH"
+          ":"
+          "${lib.makeBinPath (
+            with pkgs-unstable;
+            [
+              #pkgs-unstable.hello
+              cat
+              xargs
+              git
+            ]
+          )}"
+        ];
+      }
+      # script
+      ''
+        cd /home/ksvnixospc/Documents/ksvnixospcconfigs/homeModules/hmResources/microPlugins/
+        cat ${microPluginsRepoText} | xargs -n 1 git clone
 
-    in
-    [
-      pkgs-unstable.wl-clipboard # for micro editor external clipboard integration
-      # shell script to auto download the plugins (yet to implement the correct symlinking to the micro plugins path)
-      /*
-        (pkgs-unstable.writers.writeNuBin
-          # name
-          "microPluginsAutoInstall"
-          # other options
-          {
-            makeWrapperArgs = [
-              "--prefix"
-              "PATH"
-              ":"
-              "${lib.makeBinPath (
-                with pkgs-unstable;
-                [
-                  #pkgs-unstable.hello
-                  cat
-                  xargs
-                  git
-                ]
-              )}"
-            ];
-          }
-          # script
-          ''
-            cd /home/ksvnixospc/Documents/ksvnixospcconfigs/homeModules/hmResources/microPlugins/
-            cat ${microPluginsRepoText} | xargs -n 1 git clone
-
-          ''
-        )
-      */
-    ];
+      ''
+    )
+    */
+  ];
   /*
-    # this sin't working for some reason so i'll solve this later
-    home.file.".config/micro/plug/" = {
-      #recursive = true;
-      source = ./hmResources/microPlugins/plug ; # trying out this
-    };
+  # this sin't working for some reason so i'll solve this later
+  home.file.".config/micro/plug/" = {
+    #recursive = true;
+    source = ./hmResources/microPlugins/plug ; # trying out this
+  };
   */
-
 }

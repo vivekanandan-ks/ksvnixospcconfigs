@@ -60,7 +60,8 @@
     useGlobalPkgs = true;
     useUserPackages = true;
     sharedModules = [
-      #inputs.plasma-manager.homeModules.plasma-manager
+      inputs.plasma-manager.homeModules.plasma-manager
+      #inputs.xremap-flake.homeManagerModules.default # added in home.nix
       #inputs.stylix.homeModules.stylix
       #inputs.nvf.homeManagerModules.default
       #inputs.sops-nix.homeManagerModules.sops

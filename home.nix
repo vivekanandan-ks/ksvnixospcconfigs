@@ -7,13 +7,8 @@
   isDroid ? false,
   username,
   ...
-}:
-
-let
-
-in
-{
-
+}: let
+in {
   #targets.genericLinux.enable = true ; # enable this on non NixOS distro
 
   # Home Manager needs a bit of information about you and the paths it should
@@ -23,55 +18,59 @@ in
   #home.homeDirectory = "/home/ksvnixospc";
   home.homeDirectory = lib.mkDefault "/home/${username}";
 
-  nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
+  nix.nixPath = ["nixpkgs=${inputs.nixpkgs}"];
 
   #imports = pkgs-unstable.lib.filesystem.listFilesRecursive ./homeModules;
 
-  imports = [
-    #inputs.sops-nix.homeManagerModules.sops # for standalone home manager (not for nixos HM integration)
-    
-    ./homeModules/shells-hm.nix
-    #./homeModules/pay-respects-hm.nix
-    
-    ./homeModules/terminal-tools-hm.nix
-    ./homeModules/cli-apps-hm.nix
-    ./homeModules/micro-editor-hm.nix
-    ./homeModules/nvf-hm.nix
+  imports =
+    [
+      #inputs.sops-nix.homeManagerModules.sops # for standalone home manager (not for nixos HM integration)
 
-    ./homeModules/mcp-hm.nix
-    ./homeModules/helix-editor-hm.nix
-    ./homeModules/zellij-hm.nix
+      ./homeModules/shells-hm.nix
+      #./homeModules/pay-respects-hm.nix
 
-    ./homeModules/stylix-hm.nix
-    inputs.stylix.homeModules.stylix
+      ./homeModules/terminal-tools-hm.nix
+      ./homeModules/cli-apps-hm.nix
+      ./homeModules/micro-editor-hm.nix
+      ./homeModules/nvf-hm.nix
 
-    ./homeModules/cli-packages-list-hm.nix
+      ./homeModules/mcp-hm.nix
+      ./homeModules/helix-editor-hm.nix
+      ./homeModules/zellij-hm.nix
 
-    # WMs
-    #./homeModules/niri-hm.nix
-    #./homeModules/hyprland-hm.nix
+      ./homeModules/stylix-hm.nix
+      inputs.stylix.homeModules.stylix
 
-  ] ++ lib.optionals (!isDroid) [
-    ./homeModules/gui-apps-hm.nix
-    ./homeModules/mpv-hm.nix
-    ./homeModules/flatpak-hm.nix
-    ./homeModules/zed-editor-hm.nix
-    ./homeModules/vscode-hm.nix
-    ./homeModules/terminals-gui-hm.nix
-    ./homeModules/gui-packages-list-hm.nix    
-    ./homeModules/tailscale-systray-hm.nix  
+      ./homeModules/cli-packages-list-hm.nix
 
+      # WMs
+      #./homeModules/niri-hm.nix
+      #./homeModules/hyprland-hm.nix
+    ]
+    ++ lib.optionals (!isDroid) [
+      ./homeModules/gui-apps-hm.nix
+      ./homeModules/mpv-hm.nix
+      ./homeModules/flatpak-hm.nix
+      ./homeModules/zed-editor-hm.nix
+      ./homeModules/vscode-hm.nix
+      ./homeModules/terminals-gui-hm.nix
+      ./homeModules/gui-packages-list-hm.nix
+      ./homeModules/tailscale-systray-hm.nix
 
-  ];
+      ./homeModules/plasma-manager-hm.nix
+
+      inputs.xremap-flake.homeManagerModules.default
+      ./homeModules/xremap-hm.nix
+    ];
 
   # sops
   /*
-    sops = {
-      defaultSopsFile = ./secrets/secrets.yaml;
-      defaultSopsFormat = "yaml";
-      age.keyFile = "/home/ksvnixospc/.config/sops/age/keys.txt";
-    };
-    systemd.user.services.mbsync.unitConfig.After = [ "sops-nix.service" ];  # refer: https://github.com/Mic92/sops-nix#use-with-home-manager
+  sops = {
+    defaultSopsFile = ./secrets/secrets.yaml;
+    defaultSopsFormat = "yaml";
+    age.keyFile = "/home/ksvnixospc/.config/sops/age/keys.txt";
+  };
+  systemd.user.services.mbsync.unitConfig.After = [ "sops-nix.service" ];  # refer: https://github.com/Mic92/sops-nix#use-with-home-manager
   */
 
   # The home.packages option allows you to install Nix packages into your
@@ -79,41 +78,31 @@ in
   home.packages =
     (with pkgs; [
       #stable packages
-      
-
-    ] )
-
-    ++
-      (lib.optionals (!isDroid) (with pkgs-unstable; [
-        
-
-      ]));
+    ])
+    ++ (lib.optionals (!isDroid) (with pkgs-unstable; [
+        ]));
 
   programs = {
-
     # nix garbage collection
     /*
-      programs.nix.gc = {
-        automatic = true;
-        frequency = "daily";
-        options = "--delete-older-than 7d";
-        #persistent = false;
-        #randomizedDelaySec = "30min";
-      };
+    programs.nix.gc = {
+      automatic = true;
+      frequency = "daily";
+      options = "--delete-older-than 7d";
+      #persistent = false;
+      #randomizedDelaySec = "30min";
+    };
     */
 
     command-not-found.enable = true; # this provides the suggestions command by default in nix
-
   };
 
   services = {
-
     # home manager auto expire of the generations
     home-manager.autoExpire = {
       enable = true;
       frequency = "daily";
       timestamp = "-3 days";
-
     };
 
     # tldr-update
@@ -129,9 +118,7 @@ in
     wl-clip-persist = {
       enable = true;
       package = pkgs-unstable.wl-clip-persist;
-
     };
-
   };
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -147,7 +134,6 @@ in
     #   org.gradle.console=verbose
     #   org.gradle.daemon.idletimeout=3600000
     # '';
-
   };
 
   # Home Manager can also manage your environment variables through
@@ -171,7 +157,6 @@ in
     #VISUAL = "hx";
     #MANPAGER = "sh -c 'col -b | bat -l man '"; # add -p flag to bat for plain style
     #MANPAGER = "nvim +Man! +only";
-
   };
 
   home.shellAliases = {
@@ -182,7 +167,6 @@ in
     #man = "batman";
     man = "env BAT_PAGER='less -RF' BAT_STYLE='grid,numbers' batman";
     #nman = "env BAT_STYLE='grid,numbers' batman";
-
   };
 
   # This value determines the Home Manager release that your configuration is

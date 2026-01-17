@@ -5,18 +5,15 @@
   #pkgs,
   pkgs-unstable,
   ...
-}:
-
-{
-
+}: {
   programs.mpv = {
     enable = true;
     package = pkgs-unstable.mpv;
     /*
-      package = pkgs-unstable.mpv-unwrapped.wrapper {
-        #mpv = pkgs-unstable.mpv-unwrapped.override { vapoursynthSupport = true; };
-        youtubeSupport = true;
-      };
+    package = pkgs-unstable.mpv-unwrapped.wrapper {
+      #mpv = pkgs-unstable.mpv-unwrapped.override { vapoursynthSupport = true; };
+      youtubeSupport = true;
+    };
     */
     scripts = with pkgs-unstable.mpvScripts; [
       mpris # MPRIS plugin for mpv
@@ -35,11 +32,9 @@
       #sponsorblock-minimal # Minimal script to skip sponsored segments of YouTube videos
       #quality-menu # Userscript for MPV that allows you to change youtube video quality (ytdl-format) on the fly
       #mpv-notify-send # Lua script for mpv to send notifications with notify-send
-
     ];
 
     bindings = {
-
       # arrow keys
       "UP" = "add volume 5";
       "DOWN" = "add volume -5";
@@ -220,13 +215,10 @@
       #ytdl-format = "worst[ext=webm][height=1080][acodec=opus]";
       ytdl-format = "worstvideo[height<=?1080]+worstaudio[acodec=opus]/worstvideo[height<=?1080]+bestaudio";
 
-
       #watch-later-options-clr = true; # Dont save settings like brightness
-
     };
 
     scriptOpts = {
-
       modernz = {
         # refer: https://github.com/Samillion/ModernZ/blob/main/docs/USER_OPTS.md
         icon_theme = "material"; # "fluent" "material"
@@ -237,7 +229,7 @@
         ontop_button = true; # pin button
         chapter_skip_buttons = true;
         track_nextprev_buttons = true;
-        playlist_button="yes";
+        playlist_button = "yes";
         screenshot_button = "yes";
 
         bottomhover = "no"; # show OSC only when hovering at the bottom
@@ -253,9 +245,6 @@
         cache_info = "yes";
         cache_info_speed = "yes";
 
-
-
-
         # seekbarheight = 10; # Default is usually 3-4, increase for thicker # option not available
         #seekbar_roundness = 2; # Rounded corners (0-10)
         #seekbar_cache = true; # Show buffer/cache on seekbar
@@ -263,9 +252,6 @@
         #seekbarfg_color = "#FFFFFF";
         #seekbarbg_color = "#7F7F7F"; # 50% gray
       };
-
     };
-
   };
-
 }
