@@ -21,8 +21,8 @@
   services.xremap = {
     #enable = true;
     withKDE = true;
-    serviceMode = "user";
-    userName = username;
+    #serviceMode = "user";
+    #userName = username;
     config = {
       keymap = [
         {

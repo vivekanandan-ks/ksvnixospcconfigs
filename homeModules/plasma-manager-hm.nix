@@ -85,10 +85,10 @@
           path = lib.filesystem.listFilesRecursive ./../nixosModules/nixosResources/limine-images;
           interval = 300; # default: 300
         };
-        autoLock = true;
+        #autoLock = true;
         #timeout = 5; # minutes
-        lockOnResume = true;
-        passwordRequired = true;
+        #lockOnResume = true;
+        #passwordRequired = true;
       };
     };
 
