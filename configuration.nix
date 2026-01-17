@@ -57,7 +57,10 @@
     #backupFileExtension = "bak";
     backupFileExtension = lib.mkForce null;
     backupCommand = "sh -c 'mv $0 $0.backup-$(date +%s)'";
+    useGlobalPkgs = true;
+    useUserPackages = true;
     sharedModules = [
+      #inputs.plasma-manager.homeModules.plasma-manager
       #inputs.stylix.homeModules.stylix
       #inputs.nvf.homeManagerModules.default
       #inputs.sops-nix.homeManagerModules.sops
