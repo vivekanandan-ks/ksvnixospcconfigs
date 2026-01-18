@@ -167,7 +167,7 @@
       };
 
       bookmarks = {
-        #force = true; # Required for nix to overwrite bookmarks on rebuild
+        force = true; # Required for nix to overwrite bookmarks on rebuild
         settings = [
           {
             name = "Nix sites";
