@@ -19,7 +19,7 @@
   */
 
   services.flatpak.packages = [
-    "app.zen_browser.zen"
+    #"app.zen_browser.zen"
     #"org.kde.kdenlive"
 
     #{

@@ -26,7 +26,7 @@
     config = {
       keymap = [
         {
-          name = "Terminals launch shortcuts";
+          name = "Basic shortcuts";
           remap = {
             CTRL-ALT-z.remap = {
               t.launch = ["konsole"];
@@ -37,9 +37,12 @@
               w.remap.e.launch = ["waveterm"];
             };
             Ctrl-Alt-a.remap = {
-              t.launch = ["telegram-desktop"];
+              t.launch = ["Telegram"];
               f.launch = ["firefox"];
-              c.launch = ["chrome"];
+              c.launch = ["google-chrome-stable"];
+              v.launch = ["code"]; # vscode
+              z.remap.d.launch = ["zeditor"];
+              z.remap.n.launch = ["zen"];
             };
             super-f1.launch = ["wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"];
             super-f2.launch = ["wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+"];

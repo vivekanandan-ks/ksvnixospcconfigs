@@ -40,6 +40,7 @@
       google-chrome
       #firefox # declared as options in gui-apps-hm.nix
       #tor-browser
+      
 
       #soundwireserver
       podman-desktop
