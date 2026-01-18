@@ -44,12 +44,13 @@
               z.remap.d.launch = ["zeditor"];
               z.remap.n.launch = ["zen"];
             };
-            # super-f1.launch = ["wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"];
-            # super-f2.launch = ["wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+"];
-            # super-f3.launch = ["brightnessctl set +5%"];
-            # super-f4.launch = ["brightnessctl set 5%-"];
-            Super-F1.launch = ["wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%-"];
-            Super-F2.launch = ["wpctl" "set-volume" /*"-l" "1.5"*/ "@DEFAULT_AUDIO_SINK@" "5%+"];
+
+            #Super-F1.launch = ["wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%-"];
+            #Super-F2.launch = ["wpctl" "set-volume" /*"-l" "1.5"*/ "@DEFAULT_AUDIO_SINK@" "5%+"];
+            
+            Super-F1.launch = ["qdbus" "org.kde.kglobalaccel" "/component/kmix" "invokeShortcut" "increase_volume"];
+            Super-F2.launch = ["qdbus" "org.kde.kglobalaccel" "/component/kmix" "invokeShortcut" "decrease_volume"];
+            
             # Option 1: brightnessctl (No OSD)
             #Super-F3.launch = ["brightnessctl" "set" "5%-"];
             #Super-F4.launch = ["brightnessctl" "set" "+5%"];
