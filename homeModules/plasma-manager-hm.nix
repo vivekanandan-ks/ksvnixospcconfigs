@@ -307,10 +307,10 @@
           # 3. Panel Spacer
           {
             panelSpacer = {
-              #expanding = true;
+              expanding = true;
 
-              expanding = false;
-              length = 0;
+              #expanding = false;
+              #length = 0;
             };
           }
           # 4. Pager
@@ -339,10 +339,10 @@
           # 7. Panel Spacer
           {
             panelSpacer = {
-              #expanding = true;
+              expanding = true;
 
-              expanding = false;
-              length = 0;
+              #expanding = false;
+              #length = 0;
             };
           }
           # 8. Netspeed Widget (Custom)
