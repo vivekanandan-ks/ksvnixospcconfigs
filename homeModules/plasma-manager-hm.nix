@@ -15,64 +15,217 @@
   programs.plasma = {
     #enable = true;
 
-    configFile."kwinrc" = {
-      #Effect-overview.BorderActivate = 9;
-      "ElectricBorders" = {
-        # Corner/Edge mappings:
-        # TopLeft, Top, TopRight, Right, BottomRight, Bottom, BottomLeft, Left
-
-        # Example: Top-Left corner triggers "Overview"
-        "TopLeft" = "Overview";
-
-        # Example: Bottom-Right corner triggers "Show Desktop"
-        "BottomRight" = "ShowDesktop"; #Peek at Desktop
-
-        "BottomLeft" = "Grid";
-
-        # Example: Right edge triggers "KRunner"
-        #"Right" = "KRunner";
+    configFile = {
+      "kwinrc" = {
+        "ElectricBorders" = {
+          "TopLeft" = "Overview";
+          "BottomRight" = "ShowDesktop";
+          "BottomLeft" = "Grid";
+        };
+        "Effect-blur" = {
+          BlurStrength = 5;
+          NoiseStrength = 8;
+        };
+        "Effect-blurplus" = {
+          BlurDecorations = true;
+          BlurMenus = true;
+          BlurStrength = 8;
+          FakeBlur = true;
+          NoiseStrength = 0;
+          TransparentBlur = false;
+        };
+        "Effect-cube" = {
+          SkyBox = "/home/ksvnixospc/Pictures/Anime wallpapers/demon-slayer-3840x2160-17927.jpg";
+        };
+        "Effect-diminactive" = {
+          Strength = 20;
+        };
+        "Effect-hidecursor" = {
+          HideOnTyping = true;
+        };
+        "Effect-magiclamp" = {
+          AnimationDuration = 400;
+        };
+        "Effect-thumbnailaside" = {
+          Opacity = 100;
+        };
+        "Effect-translucency" = {
+          MoveResize = 82;
+        };
+        "Effect-zoom" = {
+          MouseTracking = 1;
+        };
+        "NightColor" = {
+          Active = true;
+          Mode = "Constant";
+        };
+        "Plugins" = {
+          blurEnabled = true;
+          cubeEnabled = true;
+          desktopchangeosdEnabled = true;
+          diminactiveEnabled = true;
+          dimscreenEnabled = true;
+          fadeEnabled = true;
+          fadedesktopEnabled = true;
+          forceblurEnabled = true;
+          glideEnabled = false;
+          hidecursorEnabled = true;
+          kwin4_effect_geometry_changeEnabled = true;
+          kzonesEnabled = true;
+          magiclampEnabled = true;
+          mousemarkEnabled = true;
+          scaleEnabled = false;
+          shakecursorEnabled = true;
+          sheetEnabled = true;
+          slideEnabled = false;
+          snaphelperEnabled = true;
+          squashEnabled = false;
+          thumbnailasideEnabled = true;
+          translucencyEnabled = true;
+          videowallEnabled = true;
+          wobblywindowsEnabled = true;
+        };
+        "Round-Corners" = {
+          InactiveCornerRadius = 18;
+          Size = 18;
+        };
+        "Tiling" = {
+          padding = 4;
+        };
+        "Windows" = {
+          RollOverDesktops = true;
+        };
+        "Xwayland" = {
+          Scale = 1;
+        };
+        "org.kde.kdecoration2" = {
+          ButtonsOnLeft = "SF";
+          ButtonsOnRight = "HIAX";
+        };
       };
-    };
-
-    configFile.kdeglobals = {
-      General = {
-        TerminalApplication = "kitty";
-        #TerminalService = "com.mitchellh.ghostty.desktop";
-      };
-      KDE.AnimationDurationFactor = 0.17677669529663687;
-
-      /*
+      "kdeglobals" = {
+        General = {
+          TerminalApplication = "kitty";
+          AccentColor = "162,58,207";
+          accentColorFromWallpaper = true;
+        };
+        Icons = {
+          Theme = "candy-icons";
+        };
+        KDE = {
+          AnimationDurationFactor = 0.17677669529663687;
+          ShowDeleteCommand = true;
+        };
         "KFileDialog Settings" = {
-        "Allow Expansion" = false;
-        "Automatically select filename extension" = true;
-        "Breadcrumb Navigation" = false;
-        "Decoration position" = 2;
-        "Show Full Path" = true;
-        "Show Inline Previews" = true;
-        "Show Preview" = true;
-        "Show Speedbar" = true;
-        "Show hidden files" = true;
-        "Sort by" = "Date";
-        "Sort directories first" = true;
-        "Sort hidden files last" = false;
-        "Sort reversed" = false;
-        "Speedbar Width" = 140;
-        "View Style" = "DetailTree";
+          "Allow Expansion" = false;
+          "Automatically select filename extension" = true;
+          "Breadcrumb Navigation" = true;
+          "Decoration position" = 2;
+          "Show Full Path" = false;
+          "Show Inline Previews" = true;
+          "Show Preview" = false;
+          "Show Speedbar" = true;
+          "Show hidden files" = false;
+          "Sort by" = "Name";
+          "Sort directories first" = true;
+          "Sort hidden files last" = false;
+          "Sort reversed" = false;
+          "Speedbar Width" = 140;
+          "View Style" = "Simple";
+        };
+        PreviewSettings = {
+          EnableRemoteFolderThumbnail = false;
+          MaximumRemoteSize = 0;
+        };
+        Sounds = {
+          Theme = "freedesktop";
+        };
+        WM = {
+          activeBackground = "30,30,46";
+          activeBlend = "249,226,175";
+          activeForeground = "205,214,244";
+          inactiveBackground = "30,30,46";
+          inactiveBlend = "69,71,90";
+          inactiveForeground = "205,214,244";
+        };
       };
-      */
-
-      /*
-        Shortcuts = {
-        Copy = "Ctrl+C; Meta+C; Ctrl+Ins";
-        CreateFolder = "Meta+Shift+N; Ctrl+Shift+N";
-        Cut = "Ctrl+X; Meta+X";
-        New = "Ctrl+N; Meta+N";
-        Paste = "Ctrl+V; Shift+Ins; Meta+V";
-        Preferences = "Meta+,";
-        Save = "Ctrl+S; Meta+S";
-        SaveAs = "Ctrl+Shift+S; Meta+Shift+S";
+      "dolphinrc" = {
+        ContentDisplay = {
+          UsePermissionsFormat = "CombinedFormat";
+          UseShortRelativeDates = false;
+        };
+        ContextMenu = {
+          ShowCopyMoveMenu = true;
+        };
+        General = {
+          DoubleClickViewAction = "none";
+          FilterBar = true;
+          ShowFullPath = true;
+          ShowFullPathInTitlebar = true;
+          ShowStatusBar = "FullWidth";
+        };
+        IconsMode = {
+          MaximumTextLines = 4;
+        };
+        "KFileDialog Settings" = {
+          "Places Icons Auto-resize" = false;
+          "Places Icons Static Size" = 22;
+        };
+        PreviewSettings = {
+          Plugins = "appimagethumbnail,audiothumbnail,blenderthumbnail,comicbookthumbnail,cursorthumbnail,djvuthumbnail,ebookthumbnail,exrthumbnail,directorythumbnail,fontthumbnail,imagethumbnail,jpegthumbnail,kraorathumbnail,windowsexethumbnail,windowsimagethumbnail,mobithumbnail,opendocumentthumbnail,gsthumbnail,rawthumbnail,svgthumbnail,ffmpegthumbs";
+        };
+        Search = {
+          Location = "Everywhere";
+        };
+        VersionControl = {
+          enabledPlugins = "Git";
+        };
       };
-      */
+      "kscreenlockerrc" = {
+        Daemon = {
+          LockGrace = 900;
+        };
+        Greeter = {
+          WallpaperPlugin = "org.kde.slideshow";
+        };
+        "Greeter/LnF/General" = {
+          alwaysShowClock = true;
+          showMediaControls = true;
+        };
+      };
+      "kcminputrc" = {
+        Keyboard = {
+          NumLock = 0;
+        };
+      };
+      "krunnerrc" = {
+        General = {
+          historyBehavior = "ImmediateCompletion";
+        };
+        Plugins = {
+          krunner_keysEnabled = true;
+        };
+        "Plugins/Favorites" = {
+          plugins = "krunner_sessions,krunner_powerdevil,krunner_services,krunner_systemsettings,krunner_dictionary";
+        };
+      };
+      "kwalletrc" = {
+        Wallet = {
+          "First Use" = false;
+        };
+      };
+      "spectaclerc" = {
+        Annotations = {
+          textFontColor = "255,255,255";
+          textShadow = false;
+        };
+        ImageSave = {
+          translatedScreenshotsFolder = "Screenshots";
+        };
+        VideoSave = {
+          translatedScreencastsFolder = "Screencasts";
+        };
+      };
     };
 
     workspace = {
@@ -307,74 +460,113 @@
           # 3. Panel Spacer
           {
             panelSpacer = {
-              expanding = true;
+              #expanding = true;
 
-              #expanding = false;
-              #length = 0;
+              expanding = false;
+              length = 0;
             };
           }
           # 4. Pager
           {
             pager = {};
           }
-          # 5. PlasMusic Toolbar (Custom Widget)
-          {
-            name = "plasmusic-toolbar";
-            config = {
-              General = {
-                # You can add specific config keys here if needed
-                # viewType = "panel";
-              };
-            };
-          }
-          # 6. Icons-Only Task Manager
+          # 5. Icons-Only Task Manager
           {
             iconTasks = {
               appearance = {
                 showTooltips = true;
               };
-              #launchers = []; # Top panel didn't show pinned launchers in the video
+            };
+          }
+          # 6. PlasMusic Toolbar (Custom Widget)
+          {
+            name = "plasmusic-toolbar";
+            config = {
+              General = {
+                albumCoverRadius = 6;
+                artistsPosition = 2;
+                fullViewTextScrollingSpeed = 1;
+                maxSongWidthInPanel = 75;
+                panelBackgroundRadius = 0;
+                panelControlsSizeRatio = 1;
+                panelIconSizeRatio = 1;
+                pauseTextScrollingWhileMediaIsNotPlaying = true;
+                preferredPlayerIdentity = "Metro - realme narzo 30A";
+                songTextAlignment = 132;
+                textScrollingResetOnPause = true;
+                textScrollingSpeed = 1;
+                useAlbumCoverAsPanelIcon = true;
+              };
             };
           }
           # 7. Panel Spacer
           {
             panelSpacer = {
-              expanding = true;
+              #expanding = true;
 
-              #expanding = false;
-              #length = 0;
+              expanding = false;
+              length = 0;
             };
           }
           # 8. Netspeed Widget (Custom)
           {
-            name = "org.kde.netspeedWidget"; # https://github.com/dfaust/plasma-applet-netspeed-widget
+            name = "org.kde.netspeedWidget";
+            config = {
+              General = {
+                fontSize = 150;
+                showLowSpeeds = true;
+                speedLayout = "columns";
+              };
+            };
           }
-          # 9. Disk Usage (Custom)
+          # 9. Disk Usage
           {
-            name = "org.kde.plasma.diskquota"; # Common ID, verify if different
+            name = "org.kde.plasma.systemmonitor.diskusage";
+            config = {
+              Appearance = {
+                chartFace = "org.kde.ksysguard.horizontalbars";
+                title = "Disk Usage";
+              };
+            };
           }
-          # 10. Hard Disk Activity (Likely System Monitor Sensor)
+          # 10. Hard Disk Activity
           {
-            systemMonitor = {
-              title = "Hard Disk Activity";
-              # Specific sensor config would go here
+            name = "org.kde.plasma.systemmonitor.diskactivity";
+            config = {
+              Appearance = {
+                chartFace = "org.kde.ksysguard.piechart";
+                title = "Hard Disk Activity";
+              };
             };
           }
           # 11. CatWalk (Custom)
           {
             name = "com.github.k_donn.catwalk";
-          }
-          # 12. Individual Core Usage (System Monitor)
-          {
-            systemMonitor = {
-              title = "Core Usage";
-              displayStyle = "org.kde.ksysguard.barcluster";
+            config = {
+              General = {
+                idle = 30;
+                updateRateLimit = 500;
+              };
             };
           }
-          # 13. Memory Usage (System Monitor)
+          # 12. Individual Core Usage
           {
-            systemMonitor = {
-              title = "Memory Usage";
+            name = "org.kde.plasma.systemmonitor.cpucore";
+            config = {
+              Appearance = {
+                chartFace = "org.kde.ksysguard.barchart";
+                title = "Individual Core Usage";
+              };
+            };
+          }
+          # 13. Memory Usage
+          {
+            name = "org.kde.plasma.systemmonitor.memory";
+            config = {
+              Appearance = {
+                chartFace = "org.kde.ksysguard.piechart";
+                title = "Memory Usage";
+              };
             };
           }
           # 14. Margins Separator
@@ -393,16 +585,22 @@
           {
             digitalClock = {
               date = {
-                format = "isoDate";
+                enable = false;
               };
               time = {
                 format = "24h";
+                showSeconds = "always";
               };
             };
           }
-          # 18. Peek at Desktop (Show Desktop)
+          # 18. Panel Colorizer
           {
-            name = "org.kde.plasma.showdesktop";
+            name = "luisbocanegra.panel.colorizer";
+            config = {
+              General = {
+                hideWidget = true;
+              };
+            };
           }
         ];
       }
@@ -421,12 +619,14 @@
         widgets = [
           # 1. Application Dashboard
           {
-            kickoff = {
-              icon = "nix-snowflake";
-              # The video tooltip says "Application Dashboard", which is technically
-              # a different widget than Kickoff, but plasma-manager often maps them similarly.
-              # If this renders the standard menu, replace `kickoff` with:
-              # name = "org.kde.plasma.kickerdash";
+            name = "org.kde.plasma.kickerdash";
+            config = {
+              General = {
+                alphaSort = true;
+                enableGlow = true;
+                favoriteSystemActions = "lock-screen,suspend,hibernate,logout,shutdown,reboot";
+                icon = "nix-snowflake";
+              };
             };
           }
           # 2. Icons-Only Task Manager
@@ -447,8 +647,16 @@
           {
             name = "org.kde.plasma.showdesktop";
           }
+          # 5. Panel Colorizer
+          {
+            name = "luisbocanegra.panel.colorizer";
+            config = {
+              General = {
+                hideWidget = true;
+              };
+            };
+          }
         ];
       }
-    ];
   };
 }
