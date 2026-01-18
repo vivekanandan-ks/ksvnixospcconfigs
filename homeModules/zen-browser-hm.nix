@@ -121,7 +121,7 @@
         bionic-reader
       ];
 
-      mods = [
+      /*mods = [
         # https://zen-browser.app/mods/ 
         "642854b5-88b4-4c40-b256-e035532109df" # Transparent Zen
         "4596d8f9-f0b7-4aeb-aa92-851222dc1888" # Only Close On Hover
@@ -141,7 +141,7 @@
         #"180d9426-a020-4bd7-98ec-63f957291119" # TitleBarButton UI Tweaks
         "8039de3b-72e1-41ea-83b3-5077cf0f98d1" # Trackpad Animation
 
-      ];
+      ];*/
 
       settings = {
         #"browser.tabs.warnOnClose" = true;
