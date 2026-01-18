@@ -19,7 +19,7 @@
   # https://github.com/xremap/xremap
   # https://github.com/emberian/evdev/blob/main/src/scancodes.rs
   services.xremap = {
-    #enable = true;
+    enable = true;
     withKDE = true;
     #serviceMode = "user";
     #userName = username;
