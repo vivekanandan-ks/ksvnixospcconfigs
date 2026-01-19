@@ -77,7 +77,7 @@
           scaleEnabled = false;
           shakecursorEnabled = true;
           sheetEnabled = true;
-          slideEnabled = false;
+          slideEnabled = true;
           snaphelperEnabled = true;
           squashEnabled = false;
           thumbnailasideEnabled = true;
@@ -303,7 +303,7 @@
           #strength = 5;
         };
         cube.enable = true;
-        desktopSwitching.animation = "fade";
+        desktopSwitching.animation = "slide";
         desktopSwitching.navigationWrapping = true;
         dimAdminMode.enable = true;
         dimInactive.enable = true;
@@ -367,7 +367,7 @@
       AC = {
         powerProfile = "performance";
         displayBrightness = 30;
-        whenPowerButtonIsPressed = "shutDown";
+        powerButtonAction = "shutDown";
 
         dimDisplay = {
           enable = true;
@@ -389,7 +389,7 @@
       battery = {
         powerProfile = "powerSaving";
         displayBrightness = 20;
-        whenPowerButtonIsPressed = "shutDown";
+        powerButtonAction = "shutDown";
 
         dimDisplay = {
           enable = true;
@@ -411,7 +411,7 @@
       lowBattery = {
         powerProfile = "powerSaving";
         displayBrightness = 20;
-        whenPowerButtonIsPressed = "shutDown";
+        powerButtonAction = "shutDown";
 
         dimDisplay = {
           enable = true;
@@ -541,7 +541,7 @@
           }
           # 11. CatWalk (Custom)
           {
-            name = "com.github.k_donn.catwalk";
+            name = "org.kde.plasma.catwalk";
             config = {
               General = {
                 idle = 30;
@@ -658,5 +658,6 @@
           }
         ];
       }
+    ];
   };
 }
