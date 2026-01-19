@@ -78,6 +78,7 @@
   programs.gemini-cli = {
     enable = true;
     package = pkgs-unstable.gemini-cli;
+    defaultModel = "gemini-3-pro-preview";
   };
 
   /*

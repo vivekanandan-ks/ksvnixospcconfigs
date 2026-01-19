@@ -136,7 +136,7 @@
           Theme = "candy-icons";
         };
         KDE = {
-          AnimationDurationFactor = 0.17677669529663687;
+          AnimationDurationFactor = 1;
           ShowDeleteCommand = true;
         };
         "KFileDialog Settings" = {

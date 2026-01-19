@@ -56,6 +56,7 @@ in {
       ./homeModules/terminals-gui-hm.nix
       ./homeModules/gui-packages-list-hm.nix
       ./homeModules/tailscale-systray-hm.nix
+      ./homeModules/waybar-hm.nix
 
       inputs.zen-browser.homeModules.beta
       ./homeModules/zen-browser-hm.nix

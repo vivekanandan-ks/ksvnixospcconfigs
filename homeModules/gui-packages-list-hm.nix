@@ -30,6 +30,7 @@
       localsend
       qbittorrent
       qpwgraph
+      pwvucontrol
 
       # audio tool
       #gnome-sound-recorder
