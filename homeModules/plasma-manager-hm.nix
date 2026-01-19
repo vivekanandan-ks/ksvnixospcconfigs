@@ -16,11 +16,34 @@
     #enable = true;
 
     configFile = {
+      /*
+      "plasma-org.kde.plasma.desktop-appletsrc" = {
+        "Containments" = {
+          "1" = {
+            "Wallpaper" = {
+              "General" = {
+                wallpaperplugin = "a2n.blur";
+              };
+              "a2n.blur" = {
+                BlurRadius = 15;
+                AnimationDuration = 500;
+                IsSlideshow = true;
+                #SlidePaths = ["${./../nixosModules/nixosResources/limine-images/frieren1.jpg}"];
+                SlidePaths = lib.filesystem.listFilesRecursive ./../nixosModules/nixosResources/limine-images ;
+                SlideInterval = 300;
+              };
+            };
+          };
+        };
+      };*/
       "kwinrc" = {
         "ElectricBorders" = {
           "TopLeft" = "Overview";
           "BottomRight" = "ShowDesktop";
-          "BottomLeft" = "Grid";
+          #"BottomLeft" = "Grid";
+        };
+        "Effect-overview" = {
+          GridBorderActivate = 5;
         };
         "Effect-blur" = {
           BlurStrength = 5;
@@ -35,7 +58,7 @@
           TransparentBlur = false;
         };
         "Effect-cube" = {
-          SkyBox = "/home/ksvnixospc/Pictures/Anime wallpapers/demon-slayer-3840x2160-17927.jpg";
+          #SkyBox = "/home/ksvnixospc/Pictures/Anime wallpapers/demon-slayer-3840x2160-17927.jpg";
         };
         "Effect-diminactive" = {
           Strength = 20;
@@ -230,12 +253,12 @@
 
     workspace = {
       #wallpaperSlideShow = /*lib.filesystem.listFilesRecursive*/ ./../nixosModules/nixosResources/limine-images;
-      wallpaperSlideShow = {
-        path = ./../nixosModules/nixosResources/limine-images;
-        interval = 300; # default: 300
-      };
+      #wallpaperSlideShow = {
+      #  path = lib.filesystem.listFilesRecursive ./../nixosModules/nixosResources/limine-images;
+      #  interval = 300; # default: 300
+      #};
       #wallpaper = lib.filesystem.listFilesRecursive ./../nixosModules/nixosResources/limine-images;
-      wallpaperBackground.blur = true;
+      #wallpaperBackground.blur = true;
 
       # cursor
       cursor = {
@@ -598,7 +621,8 @@
             name = "luisbocanegra.panel.colorizer";
             config = {
               General = {
-                hideWidget = true;
+                #hideWidget = true;
+                HideWidget = true;
               };
             };
           }
@@ -653,6 +677,7 @@
             config = {
               General = {
                 hideWidget = true;
+                HideWidget = true;
               };
             };
           }

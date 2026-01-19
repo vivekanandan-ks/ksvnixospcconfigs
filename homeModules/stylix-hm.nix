@@ -44,6 +44,11 @@
 
     qt.enable = false;
 
+    kde = {
+      enable = true;
+      useWallpaper = false;
+    };
+
     /*
       bat.enable = true;
     btop.enable = true;
