@@ -89,7 +89,7 @@
           diminactiveEnabled = true;
           dimscreenEnabled = true;
           fadeEnabled = true;
-          fadedesktopEnabled = true;
+          fadedesktopEnabled = false;
           forceblurEnabled = true;
           glideEnabled = false;
           hidecursorEnabled = true;
@@ -101,6 +101,7 @@
           shakecursorEnabled = true;
           sheetEnabled = true;
           slideEnabled = true;
+          slidebackEnabled = true;
           snaphelperEnabled = true;
           squashEnabled = false;
           thumbnailasideEnabled = true;
@@ -340,7 +341,7 @@
         snapHelper.enable = true;
         translucency.enable = true;
         wobblyWindows.enable = true;
-        windowOpenClose.animation = "fade"; # Type: null or one of “fade”, “glide”, “scale”, “off”
+        windowOpenClose.animation = "scale"; # Type: null or one of “fade”, “glide”, “scale”, “off”
       };
       nightLight = {
         enable = true;
