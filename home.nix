@@ -65,6 +65,9 @@ in {
 
       inputs.xremap-flake.homeManagerModules.default
       ./homeModules/xremap-hm.nix
+
+      inputs.noctalia.homeModules.default
+      ./homeModules/noctalia-shell-hm.nix
     ];
 
   # sops

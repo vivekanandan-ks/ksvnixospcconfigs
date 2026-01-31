@@ -17,17 +17,17 @@
         position = "bottom";
         height = 36;
         spacing = 4;
-        
+
         modules-left = [
           "hyprland/window" # 1. Window Title
         ];
-        
+
         modules-center = [
           "hyprland/workspaces" # 4. Pager
           "wlr/taskbar" # 5. Icons-Only Task Manager
           "mpris" # 6. Media Controls (Middle)
         ];
-        
+
         modules-right = [
           "network" # 8. Netspeed Widget
           "disk" # 9. Disk Usage
@@ -56,7 +56,7 @@
           all-outputs = true;
           format = "{name}";
         };
-        
+
         # 5. Icons-Only Task Manager
         "wlr/taskbar" = {
           format = "{icon}";
@@ -241,7 +241,7 @@
       }
 
       window#waybar {
-        /* background: rgba(30, 30, 46, 0.6); Translucent base */
+        background: transparent;
         /* color: #cdd6f4; */
       }
 
@@ -290,11 +290,11 @@
       }
 
       /* Module Colors - Inspired by Catppuccin/KDE Theme */
-      
+
       #pulseaudio {
         /* background-color: #f38ba8; Red/Pink */
       }
-      
+
       #pulseaudio.microphone {
         /* background-color: #f38ba8; Red/Pink */
       }
@@ -302,7 +302,7 @@
       #backlight {
         /* background-color: #fab387; Orange */
       }
-      
+
       #bluetooth {
         /* background-color: #89b4fa; Blue */
       }

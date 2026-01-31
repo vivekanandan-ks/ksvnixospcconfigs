@@ -26,6 +26,7 @@
     ./nixosModules/graphics.nix
     ./nixosModules/ssh.nix
     ./nixosModules/virtualisation.nix
+    ./nixosModules/power-services.nix
 
     # stylix
     # for some reason some options aren't working when I use stylix with nixosModules
