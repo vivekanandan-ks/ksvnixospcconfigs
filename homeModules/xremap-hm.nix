@@ -62,6 +62,8 @@
             # Option 3: Invoke KDE Shortcut (Recommended - Triggers internal PowerDevil action)
             Super-F3.launch = ["qdbus" "org.kde.kglobalaccel" "/component/org_kde_powerdevil" "org.kde.kglobalaccel.Component.invokeShortcut" "Decrease Screen Brightness"];
             Super-F4.launch = ["qdbus" "org.kde.kglobalaccel" "/component/org_kde_powerdevil" "org.kde.kglobalaccel.Component.invokeShortcut" "Increase Screen Brightness"];
+            
+            Ctrl-Alt-space.launch = ["vicinae" "toggle"];
           };
         }
       ];
