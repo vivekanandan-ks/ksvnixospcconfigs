@@ -1,7 +1,7 @@
 {
   inputs,
   #config,
-  #lib,
+  lib,
   pkgs,
   pkgs-unstable,
   ...
@@ -9,6 +9,14 @@
   programs.vicinae = {
     enable = true;
     package = pkgs-unstable.vicinae;
+    /*package = pkgs-unstable.vicinae.overrideAttrs (oldAttrs: {
+      postInstall =
+        (oldAttrs.postInstall or "")
+        + ''
+          substituteInPlace $out/share/systemd/user/vicinae.service \
+            --replace "ExecStart=vicinae" "ExecStart=$out/bin/vicinae"
+        '';
+    });*/
     systemd.enable = true;
     settings = {
       window = {
@@ -42,4 +50,26 @@
       #})
     ];
   };
+
+  # Override the systemd service to fix the executable path
+
+  /*systemd.user.services.vicinae = {
+    Unit = {
+      Description = "Vicinae Launcher Daemon";
+      Documentation = "https://docs.vicinae.com";
+      After = [ "graphical-session.target" ];
+      Requires = [ "dbus.socket" ];
+      PartOf = [ "graphical-session.target" ];
+    };
+    Service = {
+      Type = "simple";
+      ExecStart = lib.mkForce "${pkgs-unstable.vicinae}/bin/vicinae server --replace";
+      Restart = "always";
+      RestartSec = 60;
+    };
+    Install = {
+      WantedBy = [ "graphical-session.target" ];
+    };
+  };*/
+
 }
