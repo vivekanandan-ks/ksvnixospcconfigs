@@ -19,6 +19,7 @@
       kdePackages.filelight
       #kdePackages.poppler
       kdePackages.tokodon
+      kdePackages.neochat
       #plasma-panel-colorizer
 
       # desktop apps
