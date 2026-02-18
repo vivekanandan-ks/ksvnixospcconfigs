@@ -44,4 +44,21 @@
     package = pkgs-unstable.zapzap;
     #settings = {}; # GUI settings changes can be found in $XDG_CONFIG_HOME/ZapZap/ZapZap.conf
   };
+
+  programs.wlogout = {
+    enable = true;
+    package = pkgs-unstable.wlogout;
+    /*layout = [
+      {
+        label = "shutdown";
+        action = "systemctl poweroff";
+        text = "Shutdown";
+        keybind = "s";
+        circular = true;
+        height = 0.5;
+        width = 0.5;
+      }
+    ];*/
+    
+  };
 }

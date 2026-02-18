@@ -83,6 +83,13 @@
     _ZO_ECHO = 1; # zoxide show resolved directory
   };
 
+  programs.tirith = {
+    enable = true;
+    package = pkgs-unstable.tirith;
+    enableBashIntegration = true;
+    enableFishIntegration = true;
+  };
+
   /*
   programs.intelli-shell = {
     enable = true;

@@ -64,6 +64,7 @@
             Super-F4.launch = ["qdbus" "org.kde.kglobalaccel" "/component/org_kde_powerdevil" "org.kde.kglobalaccel.Component.invokeShortcut" "Increase Screen Brightness"];
             
             Ctrl-Alt-space.launch = ["vicinae" "toggle"];
+            Super-Alt-Delete = ["wlogout -s"];
           };
         }
       ];

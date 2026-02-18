@@ -49,6 +49,8 @@
       useWallpaper = false;
     };
 
+    zed.enable = false;
+
     /*
       bat.enable = true;
     btop.enable = true;
