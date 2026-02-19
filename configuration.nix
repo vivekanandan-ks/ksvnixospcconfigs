@@ -238,6 +238,12 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
+  #enabling for impala
+  networking.wireless.iwd = {
+    enable = true;
+    package = pkgs-unstable.iwd;
+  };
+
   # Set your time zone.
   time.timeZone = "Asia/Kolkata";
 
