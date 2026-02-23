@@ -56,12 +56,12 @@ in {
       ./homeModules/terminals-gui-hm.nix
       ./homeModules/gui-packages-list-hm.nix
       ./homeModules/tailscale-systray-hm.nix
-      ./homeModules/waybar-hm.nix
+      #./homeModules/waybar-hm.nix
 
       inputs.zen-browser.homeModules.beta
       ./homeModules/zen-browser-hm.nix
 
-      ./homeModules/plasma-manager-hm.nix
+      #./homeModules/plasma-manager-hm.nix
 
       inputs.xremap-flake.homeManagerModules.default
       ./homeModules/xremap-hm.nix

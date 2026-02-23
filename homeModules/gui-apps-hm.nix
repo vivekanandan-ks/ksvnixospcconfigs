@@ -33,11 +33,13 @@
     ];
   };
 
-  services.kdeconnect = {
-    enable = true;
-    indicator = true;
-    package = pkgs-unstable.kdePackages.kdeconnect-kde;
-  };
+  /*
+    services.kdeconnect = {
+      enable = true;
+      indicator = true;
+      package = pkgs-unstable.kdePackages.kdeconnect-kde;
+    };
+  */
 
   programs.zapzap = {
     enable = true;
