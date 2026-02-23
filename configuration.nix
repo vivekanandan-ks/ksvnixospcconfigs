@@ -155,7 +155,7 @@
   # kde-connect
   programs.kdeconnect = /*lib.mkForce*/ {
     enable = true;
-    package = pkgs-unstable.kdePackages.kdeconnect-kde;
+    package = lib.mkForce pkgs-unstable.kdePackages.kdeconnect-kde;
   };
   
 
