@@ -17,7 +17,7 @@
     */
     scripts = with pkgs-unstable.mpvScripts; [
       mpris # MPRIS plugin for mpv
-      mpv-cheatsheet # mpv script for looking up keyboard shortcuts shortcut : ?
+      #mpv-cheatsheet # mpv script for looking up keyboard shortcuts shortcut : ?
       webtorrent-mpv-hook # Adds a hook that allows mpv to stream torrents
 
       # eisa01 mpv scripts. refer: https://github.com/Eisa01/mpv-scripts

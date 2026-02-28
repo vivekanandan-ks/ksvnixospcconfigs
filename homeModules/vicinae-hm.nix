@@ -29,7 +29,7 @@
 
     extensions = with inputs.vicinae-extensions.packages.${pkgs.stdenv.hostPlatform.system}; [
       # https://docs.vicinae.com/nixos#configuring-with-home-manager
-      bluetooth
+      #bluetooth
       nix
       power-profile
       #chromium-boookmarks

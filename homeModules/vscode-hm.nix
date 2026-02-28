@@ -28,7 +28,7 @@
       "redhat.vscode-yaml" # YAML
       "thenuprojectcontributors.vscode-nushell-lang" # vscode-nushell-lang
 
-      "eamodio.gitlens" # GitLens
+      #"eamodio.gitlens" # GitLens
       "wakatime.vscode-wakatime" # https://wakatime.com/
 
       #"rust-lang.rust-analyzer" # rust-analyzer
@@ -47,7 +47,7 @@
       ms-python.debugpy # Python Debugger
 
       #thenuprojectcontributors.vscode-nushell-lang # vscode-nushell-lang
-      #eamodio.gitlens # GitLens
+      eamodio.gitlens # GitLens
 
       #wakatime.vscode-wakatime # https://wakatime.com/
 
