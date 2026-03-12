@@ -1,7 +1,7 @@
 {
   #inputs,
   #config,
-  #pkgs,
+  pkgs,
   pkgs-unstable,
   #lib,
   #nix4vscode,
@@ -10,11 +10,11 @@
 }: {
 
   services.netbird = {
-    enable = true;
+    #enable = true;
     package = pkgs-unstable.netbird;
     ui = {
       enable = true;
-      package = pkgs-unstable.netbird-ui;
+      package = pkgs-unstable.netbird-ui;  
     };
   };
 }
