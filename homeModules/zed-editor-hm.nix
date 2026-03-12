@@ -50,11 +50,15 @@
       "jq"
       "django"
       "eyecandy"
+      "gemini"
     ];
+
     extraPackages = with pkgs-unstable; [
       nixd
       nil
     ];
+
+    enableMcpIntegration = true;
     #installRemoteServer = false; # default false
     #mutableUserDebug = true; # default true
     #mutableUserTasks = true; # default true
