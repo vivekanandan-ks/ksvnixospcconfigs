@@ -10,7 +10,7 @@
 }: {
 
   services.netbird = {
-    #enable = true;
+    enable = true;
     package = pkgs-unstable.netbird;
     ui = {
       enable = true;
