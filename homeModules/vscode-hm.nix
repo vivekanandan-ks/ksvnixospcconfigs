@@ -29,7 +29,7 @@
       "thenuprojectcontributors.vscode-nushell-lang" # vscode-nushell-lang
 
       #"eamodio.gitlens" # GitLens
-      "wakatime.vscode-wakatime" # https://wakatime.com/
+      #"wakatime.vscode-wakatime" # https://wakatime.com/
 
       #"rust-lang.rust-analyzer" # rust-analyzer
     ])
