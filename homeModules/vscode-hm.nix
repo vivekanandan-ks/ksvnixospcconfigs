@@ -20,7 +20,7 @@
     (pkgs-vscode.nix4vscode.forVscode [
       #"ms-python.python" # Python
       #"ms-python.debugpy" # Python Debugger
-      "KevinRose.vsc-python-indent" # Python Indent
+      #"KevinRose.vsc-python-indent" # Python Indent
 
       "jnoortheen.nix-ide" # Nix IDE
       "tamasfe.even-better-toml" # Even Better TOML
@@ -65,7 +65,6 @@
       #ms-python.debugpy # Python Debugger
     ])
     ++ (pkgs-unstable.vscode-utils.extensionsFromVscodeMarketplace [
-      /*
       {
         # Python Indent https://marketplace.visualstudio.com/items?itemName=KevinRose.vsc-python-indent&ssr=true
         name = "vsc-python-indent";
@@ -73,7 +72,6 @@
         version = "1.21.0";
         sha256 = "1zlkbxgl8bad8g1lm60z0zf5gr1011p696zps3azr89cdxa63wja";
       }
-      */
       /*
       {
         name = "remote-ssh-edit";
