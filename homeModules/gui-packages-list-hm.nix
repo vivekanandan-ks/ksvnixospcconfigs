@@ -47,8 +47,8 @@
       podman-desktop
       onlyoffice-desktopeditors
       #virtualbox
-      waveterm # modern terminal app
-      warp-terminal
+      #waveterm # modern terminal app
+      #warp-terminal
       cheese # camera app
       #zoom-us
       #n8n

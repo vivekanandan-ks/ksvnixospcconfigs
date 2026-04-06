@@ -33,8 +33,8 @@
               k.launch = ["kitty"];
               g.launch = ["ghostty"];
               #w.launch = ["warp-terminal"];
-              w.remap.p.launch = ["warp-terminal"];
-              w.remap.e.launch = ["waveterm"];
+              #w.remap.p.launch = ["warp-terminal"];
+              #w.remap.e.launch = ["waveterm"];
             };
             Ctrl-Alt-a.remap = {
               t.launch = ["Telegram"];
