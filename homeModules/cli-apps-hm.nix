@@ -79,6 +79,7 @@
     enable = true;
     package = pkgs-unstable.gemini-cli;
     defaultModel = "gemini-3.1-pro-preview";
+    enableMcpIntegration = true;
   };
 
   /*
