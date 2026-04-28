@@ -28,6 +28,7 @@
     ./nixosModules/virtualisation.nix
     ./nixosModules/power-services.nix
     ./nixosModules/netbird.nix
+    ./nixosModules/lix.nix
 
     # stylix
     # for some reason some options aren't working when I use stylix with nixosModules
@@ -108,7 +109,7 @@
 
 
   # download buffer size; default size is 16mb (16*1024*1024)
-  nix.settings.download-buffer-size = 6710886400;
+  #nix.settings.download-buffer-size = 6710886400;
 
   nix.settings.auto-optimise-store = true; # if set to false(default) then run " nix-store --optimise " periodically to get rid of duplicate files.
   # Nix GC
@@ -158,7 +159,7 @@
     enable = true;
     package = lib.mkForce pkgs-unstable.kdePackages.kdeconnect-kde;
   };
-  
+
 
   # Enable bluetooth
   hardware.bluetooth.enable = true;
