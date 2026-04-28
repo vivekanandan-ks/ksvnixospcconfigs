@@ -40,6 +40,8 @@
           # the LSP API.
           enable = true;
 
+          presets.tailwindcss-language-server.enable = false;
+
           formatOnSave = true;
           lspkind.enable = true; # changed
           lightbulb.enable = true;
@@ -76,7 +78,7 @@
           sql.enable = true; # changed
           java.enable = isMaximal;
           kotlin.enable = isMaximal;
-          ts.enable = isMaximal;
+          typescript.enable = isMaximal;
           go.enable = isMaximal;
           lua.enable = isMaximal;
           zig.enable = isMaximal;
@@ -105,7 +107,6 @@
           ruby.enable = false;
           fsharp.enable = false;
 
-          tailwind.enable = false;
           svelte.enable = false;
 
           # Nim LSP is broken on Darwin and therefore

@@ -17,7 +17,7 @@
 
       #lsp for code editors
       nixd
-      nix
+      #nix # removed to use system default (lix)
 
       # terminal apps
       vim
