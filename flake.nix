@@ -4,12 +4,15 @@
   inputs = {
     #nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-25.05";
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    #nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0"; # stable release
     nixpkgs-unstable.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     home-manager = {
       #url = "github:nix-community/home-manager/release-25.05";
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
 
     flake-parts.url = "github:hercules-ci/flake-parts";
 
@@ -188,6 +191,7 @@
 
         commonConfigModules = [
           #inputs.nixpkgs.nixosModules.readOnlyPkgs
+          inputs.determinate.nixosModules.default
 
           ({config, ...}: {
             # Use the configured pkgs from perSystem
