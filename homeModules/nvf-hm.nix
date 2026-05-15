@@ -103,7 +103,7 @@
           dart.enable = false;
           ocaml.enable = false;
           elixir.enable = false;
-          haskell.enable = false;
+          haskell.enable = true;
           ruby.enable = false;
           fsharp.enable = false;
 
@@ -238,7 +238,7 @@
           obsidian.enable = false; # FIXME: neovim fails to build if obsidian is enabled
           neorg.enable = false;
           orgmode.enable = false;
-          mind-nvim.enable = isMaximal;
+          #mind-nvim.enable = isMaximal; # deprecated
           todo-comments.enable = true;
         };
 

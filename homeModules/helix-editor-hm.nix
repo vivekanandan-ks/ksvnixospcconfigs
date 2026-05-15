@@ -32,6 +32,11 @@
       #systemd-lsp
       #docker-language-server
       #terraform-lsp
+
+      # haskell tools
+      haskell-language-server # lsp
+      hlint # linter
+      ormolu # formatter
     ];
 
     languages = {

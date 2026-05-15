@@ -12,6 +12,7 @@
     extensions = [
       # get the names from here : https://zed.dev/extensions
       "nix"
+      "haskell" # https://zed.dev/extensions/haskell
       "html"
       "nu"
       "yaml"
@@ -51,6 +52,7 @@
       "django"
       "eyecandy"
       "gemini"
+
     ];
 
     extraPackages = with pkgs-unstable; [

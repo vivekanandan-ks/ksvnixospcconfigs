@@ -28,6 +28,7 @@
       "redhat.vscode-yaml" # YAML
       "thenuprojectcontributors.vscode-nushell-lang" # vscode-nushell-lang
 
+
       #"eamodio.gitlens" # GitLens
       #"wakatime.vscode-wakatime" # https://wakatime.com/
 
@@ -58,6 +59,9 @@
       enkia.tokyo-night
       sdras.night-owl
       silofy.hackthebox
+
+      justusadam.language-haskell
+      haskell.haskell
     ])
     ++ (with pkgs.vscode-extensions; [
       # Python
