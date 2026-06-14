@@ -179,7 +179,7 @@ in {
   };
 
   # Silence warning about gtk.gtk4.theme default value change
-  gtk.gtk4.theme = null;
+  #gtk.gtk4.theme = null;
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
