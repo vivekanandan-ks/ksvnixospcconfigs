@@ -6,7 +6,8 @@
   pkgs-unstable,
   #isDroid ? false,
   ...
-}: {
+}:
+{
   #btop
   programs.btop = {
     enable = true;
@@ -69,49 +70,51 @@
       };
 
       /*
-      theme = {
-        Adapter = "red";
-      };
+        theme = {
+          Adapter = "red";
+        };
       */
     };
   };
 
-  programs.gemini-cli = {
+  programs.antigravity-cli = {
     enable = true;
-    package = pkgs-unstable.gemini-cli;
+    package = pkgs-unstable.antigravity-cli;
     defaultModel = "gemini-3.1-pro-preview";
     #enableMcpIntegration = true;
   };
 
   /*
-    programs.nix-index = {
-    enable = true;
-    package = pkgs-unstable.nix-index;
-    enableBashIntegration = false;
-    enableFishIntegration = false;
-    enableZshIntegration = false;
-    enableNushellIntegration = true;
-  };
+      programs.nix-index = {
+      enable = true;
+      package = pkgs-unstable.nix-index;
+      enableBashIntegration = false;
+      enableFishIntegration = false;
+      enableZshIntegration = false;
+      enableNushellIntegration = true;
+    };
   */
 
   /*
-    programs.claude-code = {
-    enable = !isDroid;
-    package = pkgs-unstable.claude-code;
-  };
+      programs.claude-code = {
+      enable = !isDroid;
+      package = pkgs-unstable.claude-code;
+    };
   */
 
-  /*programs.opencode = {
-    enable = true;
-    package = pkgs-unstable.opencode;
-    enableMcpIntegration = true;
-  };*/
+  /*
+    programs.opencode = {
+      enable = true;
+      package = pkgs-unstable.opencode;
+      enableMcpIntegration = true;
+    };
+  */
 
   /*
-    programs.codex = {
-    enable = true;
-    package = pkgs-unstable.codex;
-  };
+      programs.codex = {
+      enable = true;
+      package = pkgs-unstable.codex;
+    };
   */
 
   # jujutsu
@@ -131,14 +134,14 @@
   };
 
   /*
-  # github
-  programs.gh = {
-    enable = true ;
-    package = pkgs-unstable.gh;
-    #gitCredentialHelper = {
-      #enable = true ;
-      #hosts = [];
-    #};
-  };
+    # github
+    programs.gh = {
+      enable = true ;
+      package = pkgs-unstable.gh;
+      #gitCredentialHelper = {
+        #enable = true ;
+        #hosts = [];
+      #};
+    };
   */
 }
