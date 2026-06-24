@@ -253,21 +253,30 @@ in {
             #if ('~/.inshellisense/nu/init.nu' | path exists) {
             #  source ~/.inshellisense/nu/init.nu
             #}
-            if "ISTERM" not-in $env and $nu.is-interactive and "VSCODE_RESOLVING_ENVIRONMENT" not-in $env {
-              #if $nu.is-login {
-              #  ^${pkgs-unstable.inshellisense}/bin/is -s nu --login
-              #  exit
-              #} else {
-              #  ^${pkgs-unstable.inshellisense}/bin/is -s nu
-              #  exit
-              #}
-              if $nu.is-login {
-                exec ${pkgs-unstable.inshellisense}/bin/is -s nu --login
-              } else {
-                exec ${pkgs-unstable.inshellisense}/bin/is -s nu
-              }
-            }
-            source "${pkgs-unstable.inshellisense}/lib/node_modules/@microsoft/inshellisense/shell/shellIntegration.nu"
+            #if "ISTERM" not-in $env and $nu.is-interactive and "VSCODE_RESOLVING_ENVIRONMENT" not-in $env {
+            #  #if $nu.is-login {
+            #  #  ^${pkgs-unstable.inshellisense}/bin/is -s nu --login
+            #  #  exit
+            #  #} else {
+            #  #  ^${pkgs-unstable.inshellisense}/bin/is -s nu
+            #  #  exit
+            #  #}
+            #  try {
+            #    if $nu.is-login {
+            #      ^${pkgs-unstable.inshellisense}/bin/is -s nu --login
+            #    } else {
+            #      ^${pkgs-unstable.inshellisense}/bin/is -s nu
+            #    }
+            #    exit
+            #  } catch {
+            #    print ""
+            #    print $"(ansi yellow_bold)[Warning](ansi reset) inshellisense failed to start. You are now in a standard nushell."
+            #    print "If resources are out of date, you can fix it by running:"
+            #    print "  cd ${pkgs-unstable.inshellisense}/lib/node_modules/@microsoft/inshellisense/ ; is reinit"
+            #    print ""
+            #  }
+            #}
+            #source "${pkgs-unstable.inshellisense}/lib/node_modules/@microsoft/inshellisense/shell/shellIntegration.nu"
             #${globalShellInit}
 
           '';
@@ -301,7 +310,7 @@ in {
 
   home.packages = [
     pkgs-unstable.glow # for nushell displayoutput hook to highlight markdown
-    pkgs-unstable.inshellisense
+    #pkgs-unstable.inshellisense
   ];
   home.shell.enableNushellIntegration = true;
 }
