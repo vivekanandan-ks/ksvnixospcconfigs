@@ -12,6 +12,7 @@
   system,
   isDroid,
   username,
+  self,
   ...
 }:
 
@@ -27,7 +28,6 @@
     ./nixosModules/ssh.nix
     ./nixosModules/virtualisation.nix
     ./nixosModules/power-services.nix
-    ./nixosModules/netbird.nix
     ./nixosModules/lix.nix
 
     # stylix
@@ -48,6 +48,7 @@
         system
         isDroid
         username
+        self
         ;
     };
     #users.ksvnixospc = import ./home.nix;

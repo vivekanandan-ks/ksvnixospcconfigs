@@ -5,7 +5,8 @@
   pkgs,
   pkgs-unstable,
   ...
-}: {
+}:
+{
   home.packages =
     (with pkgs; [
       # stable packages
@@ -41,6 +42,7 @@
       #micro
       wakatime-cli
       nix-output-monitor
+      devenv
     ]);
   #++
   #(lib.optionals (!isDroid) (with pkgs-unstable; [

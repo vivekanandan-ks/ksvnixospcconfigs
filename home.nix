@@ -6,6 +6,7 @@
   pkgs-unstable,
   isDroid ? false,
   username,
+  self,
   ...
 }: let
 in {
@@ -56,6 +57,7 @@ in {
       ./homeModules/terminals-gui-hm.nix
       ./homeModules/gui-packages-list-hm.nix
       ./homeModules/tailscale-systray-hm.nix
+      self.homeModules.netbird-ui
       #./homeModules/waybar-hm.nix
 
       inputs.zen-browser.homeModules.beta

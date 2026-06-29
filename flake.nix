@@ -15,6 +15,7 @@
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
 
     flake-parts.url = "github:hercules-ci/flake-parts";
+    import-tree.url = "github:vic/import-tree";
 
     # for vscode extensions
     nix4vscode = {
@@ -79,49 +80,49 @@
     # hyprland
     #hyprland.url = "github:hyprwm/Hyprland";
     /*
-    hyprland = {
-      #type = "git";
-      url = "github:hyprwm/Hyprland";
-      #submodules = true;
-      #inputs.nixpkgs.follows = "nixpkgs"; # commenting means we use latest hyprland directly
-    };
+      hyprland = {
+        #type = "git";
+        url = "github:hyprwm/Hyprland";
+        #submodules = true;
+        #inputs.nixpkgs.follows = "nixpkgs"; # commenting means we use latest hyprland directly
+      };
 
-    # hyprland official plugins
-    hyprland-plugins = {
-      url = "github:hyprwm/hyprland-plugins";
-      inputs.hyprland.follows = "hyprland";
-    };
+      # hyprland official plugins
+      hyprland-plugins = {
+        url = "github:hyprwm/hyprland-plugins";
+        inputs.hyprland.follows = "hyprland";
+      };
 
-    # a hyprland plugin refer: https://github.com/KZDKM/Hyprspace
-    Hyprspace = {
-      url = "github:KZDKM/Hyprspace";
-      # Hyprspace uses latest Hyprland. We declare this to keep them in sync.
-      inputs.hyprland.follows = "hyprland";
-    };
+      # a hyprland plugin refer: https://github.com/KZDKM/Hyprspace
+      Hyprspace = {
+        url = "github:KZDKM/Hyprspace";
+        # Hyprspace uses latest Hyprland. We declare this to keep them in sync.
+        inputs.hyprland.follows = "hyprland";
+      };
 
-    # unofficial hyprexpo alternative
-    hyprtasking = {
-      url = "github:raybbian/hyprtasking";
-      inputs.hyprland.follows = "hyprland";
-    };
+      # unofficial hyprexpo alternative
+      hyprtasking = {
+        url = "github:raybbian/hyprtasking";
+        inputs.hyprland.follows = "hyprland";
+      };
 
-    hypr-dynamic-cursors = {
-      url = "github:VirtCode/hypr-dynamic-cursors";
-      inputs.hyprland.follows = "hyprland"; # to make sure that the plugin is built for the correct version of hyprland
-    };
+      hypr-dynamic-cursors = {
+        url = "github:VirtCode/hypr-dynamic-cursors";
+        inputs.hyprland.follows = "hyprland"; # to make sure that the plugin is built for the correct version of hyprland
+      };
     */
 
     /*
-    niri = {
-      url = "github:sodiboo/niri-flake";
-    };
+      niri = {
+        url = "github:sodiboo/niri-flake";
+      };
     */
 
     /*
-    sops-nix = {
-      url = "github:Mic92/sops-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+      sops-nix = {
+        url = "github:Mic92/sops-nix";
+        inputs.nixpkgs.follows = "nixpkgs";
+      };
     */
 
     kwin-effects-forceblur = {
@@ -137,174 +138,187 @@
     };
   };
 
-  outputs = inputs @ {flake-parts, ...}:
-    flake-parts.lib.mkFlake {inherit inputs;} (top @ {
-      config,
-      withSystem,
-      moduleWithSystem,
-      ...
-    }: {
-      imports = [
-        # To import an internal flake module: ./other.nix
-        # To import an external flake module:
-        #   1. Add foo to inputs
-        #   2. Add foo as a parameter to the outputs function
-        #   3. Add here: foo.flakeModule
-      ];
-      systems = [
-        "x86_64-linux"
-        "aarch64-linux" # Added for Nix-on-Droid
-        #"aarch64-darwin"
-        #"x86_64-darwin"
-      ];
-      perSystem = {
+  outputs =
+    inputs@{ flake-parts, ... }:
+    flake-parts.lib.mkFlake { inherit inputs; } (
+      top@{
         config,
-        self',
-        inputs',
-        pkgs,
-        system,
+        withSystem,
+        moduleWithSystem,
         ...
-      }: {
-        # Per-system attributes can be defined here. The self' and inputs'
-        # module parameters provide easy access to attributes of the same
-        # system.
-
-        # Equivalent to  inputs'.nixpkgs.legacyPackages.hello;
-        #packages.default = pkgs.hello;
-
-        _module.args.pkgs = import inputs.nixpkgs {
-          inherit system;
-          config.allowUnfree = true;
-          nvidia.acceptLicense = true;
-          #overlays = [ inputs.foo.overlays.default ];
-        };
-
-        _module.args.pkgs-unstable = import inputs.nixpkgs-unstable {
-          inherit system;
-          config.allowUnfree = true;
-          nvidia.acceptLicense = true;
-          #overlays = [ inputs.foo.overlays.default ];
-        };
-      };
-      flake = let
-        system = "x86_64-linux";
-
-        commonConfigModules = [
-          #inputs.nixpkgs.nixosModules.readOnlyPkgs
-          inputs.determinate.nixosModules.default
-
-          ({config, ...}: {
-            # Use the configured pkgs from perSystem
-            #_module.args.pkgs = withSystem system (
-            #  { pkgs, ... }: # perSystem module arguments
-            #  pkgs
-            #);
-
-            _module.args.pkgs-unstable = withSystem system (
-              {pkgs-unstable, ...}: pkgs-unstable
-            );
-
-            _module.args = {
-              #inherit inputs;
-              inputs = inputs;
-              username = "ksvnixospc";
-              #isDroid = false;
-              nix4vscode = inputs.nix4vscode;
-              #system = system;
-              inherit system;
-            };
-          })
+      }:
+      {
+        imports = [
+          (inputs.import-tree ./flakepartsModules)
+          #./flakepartsModules/netbird-fp.nix
+          # To import an internal flake module: ./other.nix
+          # To import an external flake module:
+          #   1. Add foo to inputs
+          #   2. Add foo as a parameter to the outputs function
+          #   3. Add here: foo.flakeModule
         ];
+        systems = [
+          "x86_64-linux" # flake.homeModules.netbird-ui
+          "aarch64-linux" # Added for Nix-on-Droid
+          #"aarch64-darwin"
+          #"x86_64-darwin"
+        ];
+        perSystem =
+          {
+            config,
+            self',
+            inputs',
+            pkgs,
+            system,
+            ...
+          }:
+          {
+            # Per-system attributes can be defined here. The self' and inputs'
+            # module parameters provide easy access to attributes of the same
+            # system.
 
-        isDroidModule = option: (
-          [
-            ({...}: {
-              _module.args = {
-                isDroid = option;
-              };
-            })
-          ]
-          ++ (
-            if !option
-            then [
-              # this section is for non nix-on-droid common modules
-              #inputs.nixpkgs.nixosModules.readOnlyPkgs
-            ]
-            else []
-          )
-        );
-      in {
-        # The usual flake attributes can be defined here, including system-
-        # agnostic ones like nixosModule and system-enumerating ones, although
-        # those are more easily expressed in perSystem.
+            # Equivalent to  inputs'.nixpkgs.legacyPackages.hello;
+            #packages.default = pkgs.hello;
 
-        ksvnixospc = top.self.nixosConfigurations.ksvnixospc;
-        deejunixospc = top.self.nixosConfigurations.deejunixospc;
-
-        nixosConfigurations.ksvnixospc = inputs.nixpkgs.lib.nixosSystem {
-          inherit system; #system = "x86_64-linux";
-
-          modules =
-            [
-              ./configuration.nix
-              ./hosts/ksvnixospc/limine-ksvnixospc.nix
-              ./hosts/ksvnixospc/hardware-configuration-ksvnixospc.nix
-              inputs.home-manager.nixosModules.home-manager
-
-              {networking.hostName = "ksvnixospc";}
-            ]
-            ++ (isDroidModule false) ++ commonConfigModules;
-        };
-
-        nixosConfigurations.deejunixospc = inputs.nixpkgs.lib.nixosSystem {
-          inherit system; #system = "x86_64-linux";
-
-          modules =
-            [
-              ./configuration.nix
-              ./hosts/deejunixospc/limine-deejunixospc.nix
-              ./hosts/deejunixospc/hardware-configuration-deejunixospc.nix
-              inputs.home-manager.nixosModules.home-manager
-
-              {networking.hostName = "deejunixospc";}
-            ]
-            ++ (isDroidModule false) ++ commonConfigModules;
-        };
-
-        nixOnDroidConfigurations.default = let
-          system = "aarch64-linux";
-        in
-          inputs.nix-on-droid.lib.nixOnDroidConfiguration {
-            # Instantiate pkgs explicitly with the Droid overlay here
-            pkgs = import inputs.nixpkgs {
-              #system = "aarch64-linux";
+            _module.args.pkgs = import inputs.nixpkgs {
               inherit system;
               config.allowUnfree = true;
-              overlays = [inputs.nix-on-droid.overlays.default];
+              nvidia.acceptLicense = true;
+              #overlays = [ inputs.foo.overlays.default ];
             };
 
-            modules =
-              [
-                ./hosts/ksv-nix-on-droid/ksv-nix-on-droid.nix
-                # list of extra modules for Nix-on-Droid system
-                # { nix.registry.nixpkgs.flake = nixpkgs; }
-
-                # Module injection for Nix-on-Droid
-                ({pkgs, ...}: {
-                  _module.args = {
-                    inherit inputs;
-
-                    # Manually define system since nix-on-droid doesn't strictly follow hostPlatform pattern
-                    inherit system;
-
-                    pkgs-unstable = withSystem system ({pkgs-unstable, ...}: pkgs-unstable);
-                  };
-                })
-              ]
-              ++ (isDroidModule true); # Use the helper setting isDroid to true
-
-            home-manager-path = inputs.home-manager.outPath;
+            _module.args.pkgs-unstable = import inputs.nixpkgs-unstable {
+              inherit system;
+              config.allowUnfree = true;
+              nvidia.acceptLicense = true;
+              #overlays = [ inputs.foo.overlays.default ];
+            };
           };
-      };
-    });
+        flake =
+          let
+            system = "x86_64-linux";
+
+            commonConfigModules = [
+              top.self.nixosModules.netbird
+              #inputs.nixpkgs.nixosModules.readOnlyPkgs
+              inputs.determinate.nixosModules.default
+
+              ({ config, ... }: {
+                # Use the configured pkgs from perSystem
+                #_module.args.pkgs = withSystem system (
+                #  { pkgs, ... }: # perSystem module arguments
+                #  pkgs
+                #);
+
+                _module.args.pkgs-unstable = withSystem system ({ pkgs-unstable, ... }: pkgs-unstable);
+
+                _module.args = {
+                  #inherit inputs;
+                  inputs = inputs;
+                  username = "ksvnixospc";
+                  #isDroid = false;
+                  nix4vscode = inputs.nix4vscode;
+                  #system = system;
+                  inherit system;
+                  self = top.self;
+                };
+              })
+            ];
+
+            isDroidModule =
+              option:
+              (
+                [
+                  ({ ... }: {
+                    _module.args = {
+                      isDroid = option;
+                    };
+                  })
+                ]
+                ++ (
+                  if !option then
+                    [
+                      # this section is for non nix-on-droid common modules
+                      #inputs.nixpkgs.nixosModules.readOnlyPkgs
+                    ]
+                  else
+                    [ ]
+                )
+              );
+          in
+          {
+            # The usual flake attributes can be defined here, including system-
+            # agnostic ones like nixosModule and system-enumerating ones, although
+            # those are more easily expressed in perSystem.
+
+            ksvnixospc = top.self.nixosConfigurations.ksvnixospc;
+            deejunixospc = top.self.nixosConfigurations.deejunixospc;
+
+            nixosConfigurations.ksvnixospc = inputs.nixpkgs.lib.nixosSystem {
+              inherit system; # system = "x86_64-linux";
+
+              modules = [
+                ./configuration.nix
+                ./hosts/ksvnixospc/limine-ksvnixospc.nix
+                ./hosts/ksvnixospc/hardware-configuration-ksvnixospc.nix
+                inputs.home-manager.nixosModules.home-manager
+
+                { networking.hostName = "ksvnixospc"; }
+              ]
+              ++ (isDroidModule false)
+              ++ commonConfigModules;
+            };
+
+            nixosConfigurations.deejunixospc = inputs.nixpkgs.lib.nixosSystem {
+              inherit system; # system = "x86_64-linux";
+
+              modules = [
+                ./configuration.nix
+                ./hosts/deejunixospc/limine-deejunixospc.nix
+                ./hosts/deejunixospc/hardware-configuration-deejunixospc.nix
+                inputs.home-manager.nixosModules.home-manager
+
+                { networking.hostName = "deejunixospc"; }
+              ]
+              ++ (isDroidModule false)
+              ++ commonConfigModules;
+            };
+
+            nixOnDroidConfigurations.default =
+              let
+                system = "aarch64-linux";
+              in
+              inputs.nix-on-droid.lib.nixOnDroidConfiguration {
+                # Instantiate pkgs explicitly with the Droid overlay here
+                pkgs = import inputs.nixpkgs {
+                  #system = "aarch64-linux";
+                  inherit system;
+                  config.allowUnfree = true;
+                  overlays = [ inputs.nix-on-droid.overlays.default ];
+                };
+
+                modules = [
+                  ./hosts/ksv-nix-on-droid/ksv-nix-on-droid.nix
+                  # list of extra modules for Nix-on-Droid system
+                  # { nix.registry.nixpkgs.flake = nixpkgs; }
+
+                  # Module injection for Nix-on-Droid
+                  ({ pkgs, ... }: {
+                    _module.args = {
+                      inherit inputs;
+
+                      # Manually define system since nix-on-droid doesn't strictly follow hostPlatform pattern
+                      inherit system;
+
+                      pkgs-unstable = withSystem system ({ pkgs-unstable, ... }: pkgs-unstable);
+                    };
+                  })
+                ]
+                ++ (isDroidModule true); # Use the helper setting isDroid to true
+
+                home-manager-path = inputs.home-manager.outPath;
+              };
+          };
+      }
+    );
 }
