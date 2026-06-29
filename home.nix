@@ -39,8 +39,7 @@ in {
       ./homeModules/helix-editor-hm.nix
       ./homeModules/zellij-hm.nix
 
-      ./homeModules/stylix-hm.nix
-      inputs.stylix.homeModules.stylix
+      self.homeModules.stylix
 
       ./homeModules/cli-packages-list-hm.nix
 
@@ -64,10 +63,7 @@ in {
       ./homeModules/zen-browser-hm.nix
 
       #./homeModules/plasma-manager-hm.nix
-
-      inputs.xremap-flake.homeManagerModules.default
-      ./homeModules/xremap-hm.nix
-
+      self.homeModules.xremap
       #inputs.noctalia.homeModules.default
       #./homeModules/noctalia-shell-hm.nix
 

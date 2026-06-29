@@ -207,6 +207,8 @@
             commonNixosModules = [
               top.self.nixosModules.netbird
               top.self.nixosModules.flatpak
+              top.self.nixosModules.xremap
+              top.self.nixosModules.stylix
               #inputs.nixpkgs.nixosModules.readOnlyPkgs
               inputs.determinate.nixosModules.default
 

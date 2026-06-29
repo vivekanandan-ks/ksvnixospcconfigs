@@ -30,12 +30,6 @@
     ./nixosModules/power-services.nix
     ./nixosModules/lix.nix
 
-    # stylix
-    # for some reason some options aren't working when I use stylix with nixosModules
-    # but works good when used as homeModule in home.nix
-    #inputs.stylix.nixosModules.stylix
-    #./nixosModules/stylix.nix
-
   ];
 
   home-manager = {
@@ -66,7 +60,6 @@
     sharedModules = [
       inputs.plasma-manager.homeModules.plasma-manager
       #inputs.xremap-flake.homeManagerModules.default # added in home.nix
-      #inputs.stylix.homeModules.stylix
       #inputs.nvf.homeManagerModules.default
       #inputs.sops-nix.homeManagerModules.sops
     ];
@@ -165,10 +158,6 @@
   # Enable bluetooth
   hardware.bluetooth.enable = true;
 
-  # for xremap to work as user
-  hardware.uinput.enable = true;
-  users.groups.uinput.members = [username];
-  users.groups.input.members = [username];
 
 
   /*
