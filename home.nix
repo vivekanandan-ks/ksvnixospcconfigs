@@ -28,43 +28,27 @@ in {
     ++ [
       #inputs.sops-nix.homeManagerModules.sops # for standalone home manager (not for nixos HM integration)
 
-      ./homeModules/shells-hm.nix
-      #./homeModules/pay-respects-hm.nix
-
-      ./homeModules/terminal-tools-hm.nix
-      ./homeModules/cli-apps-hm.nix
-      ./homeModules/micro-editor-hm.nix
-      ./homeModules/nvf-hm.nix
-
-      ./homeModules/mcp-hm.nix
-      ./homeModules/helix-editor-hm.nix
-      ./homeModules/zellij-hm.nix
-
-      ./homeModules/cli-packages-list-hm.nix
-
+      #./oldhomeModules/pay-respects-hm.nix
       # WMs
-      #./homeModules/niri-hm.nix
-      #./homeModules/hyprland-hm.nix
+      #./oldhomeModules/niri-hm.nix
+      #./oldhomeModules/hyprland-hm.nix
     ]
     ++ (lib.optionals (!isDroid) (builtins.attrValues (self.homeModules.nonDroid or {})))
     ++ lib.optionals (!isDroid) [
-      ./homeModules/gui-apps-hm.nix
-      ./homeModules/mpv-hm.nix
-      ./homeModules/zed-editor-hm.nix
-      ./homeModules/vscode-hm.nix
-      ./homeModules/terminals-gui-hm.nix
-      ./homeModules/gui-packages-list-hm.nix
-      ./homeModules/tailscale-systray-hm.nix
-      #./homeModules/waybar-hm.nix
 
-      inputs.zen-browser.homeModules.beta
-      ./homeModules/zen-browser-hm.nix
 
-      #./homeModules/plasma-manager-hm.nix
+
+
+
+
+
+      #./oldhomeModules/waybar-hm.nix
+
+      #./oldhomeModules/plasma-manager-hm.nix
       #inputs.noctalia.homeModules.default
-      #./homeModules/noctalia-shell-hm.nix
+      #./oldhomeModules/noctalia-shell-hm.nix
 
-      ./homeModules/vicinae-hm.nix
+
     ];
 
   # sops

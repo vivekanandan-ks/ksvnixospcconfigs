@@ -24,11 +24,7 @@
     #inputs.sops-nix.nixosModules.sops
     #./nixosModules/jellyfin-nixos.nix
     #./nixosModules/peertube.nix
-    ./nixosModules/graphics.nix
-    ./nixosModules/ssh.nix
-    ./nixosModules/virtualisation.nix
-    ./nixosModules/power-services.nix
-    ./nixosModules/lix.nix
+
 
   ];
 
@@ -60,7 +56,6 @@
     sharedModules = [
       inputs.plasma-manager.homeModules.plasma-manager
       #inputs.xremap-flake.homeManagerModules.default # added in home.nix
-      #inputs.nvf.homeManagerModules.default
       #inputs.sops-nix.homeManagerModules.sops
     ];
   };
@@ -132,7 +127,7 @@
   #boot.loader = {
   #  limine = {
   #    enable = true;
-  #    style.wallpapers = lib.filesystem.listFilesRecursive ./nixosModules/nixosResources/limine-images; # list of wallpaper paths
+  #    style.wallpapers = lib.filesystem.listFilesRecursive ./flakepartsModules/nixosfpModules/nixosResources/limine-images; # list of wallpaper paths
   #    #style.wallpaperStyle = "centered";
   #    /*
   #      extraEntries = ''
