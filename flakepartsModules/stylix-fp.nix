@@ -7,7 +7,7 @@
       # imports = [ inputs.stylix.nixosModules.stylix ];
     };
 
-    homeModules.stylix = { inputs, pkgs, ... }: {
+    homeModules.common.stylix = { inputs, pkgs, ... }: {
       imports = [
         inputs.stylix.homeModules.stylix
       ];

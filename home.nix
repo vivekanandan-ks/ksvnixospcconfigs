@@ -24,7 +24,8 @@ in {
   #imports = pkgs-unstable.lib.filesystem.listFilesRecursive ./homeModules;
 
   imports =
-    [
+    (builtins.attrValues (self.homeModules.common or {}))
+    ++ [
       #inputs.sops-nix.homeManagerModules.sops # for standalone home manager (not for nixos HM integration)
 
       ./homeModules/shells-hm.nix
@@ -39,31 +40,27 @@ in {
       ./homeModules/helix-editor-hm.nix
       ./homeModules/zellij-hm.nix
 
-      self.homeModules.stylix
-
       ./homeModules/cli-packages-list-hm.nix
 
       # WMs
       #./homeModules/niri-hm.nix
       #./homeModules/hyprland-hm.nix
     ]
+    ++ (lib.optionals (!isDroid) (builtins.attrValues (self.homeModules.nonDroid or {})))
     ++ lib.optionals (!isDroid) [
       ./homeModules/gui-apps-hm.nix
       ./homeModules/mpv-hm.nix
-      self.homeModules.flatpak
       ./homeModules/zed-editor-hm.nix
       ./homeModules/vscode-hm.nix
       ./homeModules/terminals-gui-hm.nix
       ./homeModules/gui-packages-list-hm.nix
       ./homeModules/tailscale-systray-hm.nix
-      self.homeModules.netbird-ui
       #./homeModules/waybar-hm.nix
 
       inputs.zen-browser.homeModules.beta
       ./homeModules/zen-browser-hm.nix
 
       #./homeModules/plasma-manager-hm.nix
-      self.homeModules.xremap
       #inputs.noctalia.homeModules.default
       #./homeModules/noctalia-shell-hm.nix
 

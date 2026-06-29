@@ -11,7 +11,7 @@
       };
     };
 
-    homeModules.netbird-ui = { pkgs-unstable, ... }: {
+    homeModules.nonDroid.netbird-ui = { pkgs-unstable, ... }: {
       systemd.user.services.netbird-ui = {
         Unit = {
           Description = "Netbird UI";

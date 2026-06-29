@@ -204,11 +204,7 @@
           let
             system = "x86_64-linux";
 
-            commonNixosModules = [
-              top.self.nixosModules.netbird
-              top.self.nixosModules.flatpak
-              top.self.nixosModules.xremap
-              top.self.nixosModules.stylix
+            commonNixosModules = (builtins.attrValues top.self.nixosModules) ++ [
               #inputs.nixpkgs.nixosModules.readOnlyPkgs
               inputs.determinate.nixosModules.default
 

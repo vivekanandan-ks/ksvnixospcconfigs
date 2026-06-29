@@ -7,7 +7,7 @@
       users.groups.input.members = [username];
     };
 
-    homeModules.xremap = { inputs, pkgs-unstable, ... }: {
+    homeModules.nonDroid.xremap = { inputs, pkgs-unstable, ... }: {
       imports = [
         inputs.xremap-flake.homeManagerModules.default
       ];

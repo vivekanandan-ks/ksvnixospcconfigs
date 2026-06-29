@@ -4,7 +4,7 @@
       services.flatpak.enable = true;
     };
 
-    homeModules.flatpak = { inputs, ... }: {
+    homeModules.nonDroid.flatpak = { inputs, ... }: {
       imports = [
         inputs.nix-flatpak.homeManagerModules.nix-flatpak
       ];
