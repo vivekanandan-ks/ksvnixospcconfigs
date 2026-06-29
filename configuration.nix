@@ -213,10 +213,6 @@
     "nix-command"
     "flakes"
   ];
-
-  #enable flatpak
-  services.flatpak.enable = true;
-
   # enable appimage support
   programs.appimage.enable = true;
   programs.appimage.binfmt = true;

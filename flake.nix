@@ -145,12 +145,18 @@
         config,
         withSystem,
         moduleWithSystem,
+        lib,
         ...
       }:
       {
         imports = [
+          {
+            options.flake.homeModules = lib.mkOption {
+              type = lib.types.lazyAttrsOf lib.types.unspecified;
+              default = {};
+            };
+          }
           (inputs.import-tree ./flakepartsModules)
-          #./flakepartsModules/netbird-fp.nix
           # To import an internal flake module: ./other.nix
           # To import an external flake module:
           #   1. Add foo to inputs
@@ -198,8 +204,9 @@
           let
             system = "x86_64-linux";
 
-            commonConfigModules = [
+            commonNixosModules = [
               top.self.nixosModules.netbird
+              top.self.nixosModules.flatpak
               #inputs.nixpkgs.nixosModules.readOnlyPkgs
               inputs.determinate.nixosModules.default
 
@@ -266,7 +273,7 @@
                 { networking.hostName = "ksvnixospc"; }
               ]
               ++ (isDroidModule false)
-              ++ commonConfigModules;
+              ++ commonNixosModules;
             };
 
             nixosConfigurations.deejunixospc = inputs.nixpkgs.lib.nixosSystem {
@@ -281,7 +288,7 @@
                 { networking.hostName = "deejunixospc"; }
               ]
               ++ (isDroidModule false)
-              ++ commonConfigModules;
+              ++ commonNixosModules;
             };
 
             nixOnDroidConfigurations.default =

@@ -51,7 +51,7 @@ in {
     ++ lib.optionals (!isDroid) [
       ./homeModules/gui-apps-hm.nix
       ./homeModules/mpv-hm.nix
-      ./homeModules/flatpak-hm.nix
+      self.homeModules.flatpak
       ./homeModules/zed-editor-hm.nix
       ./homeModules/vscode-hm.nix
       ./homeModules/terminals-gui-hm.nix
