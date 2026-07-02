@@ -57,6 +57,20 @@
       };
     };
 
+    programs.difftastic = {
+      enable = true;
+      package = pkgs-unstable.difftastic;
+      jujutsu.enable = true;
+      git.enable = true;
+      /*
+        options = {
+        color = "always";
+        #sort-paths = true;
+        #tab-width = 8;
+      };
+      */
+    };
+
     # bluetuith
     programs.bluetuith = {
       enable = true;
