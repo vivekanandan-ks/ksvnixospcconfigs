@@ -810,11 +810,11 @@
         "systems": "systems_3"
       },
       "locked": {
-        "lastModified": 1782841360,
-        "narHash": "sha256-S1f/S5Vv7wURVUtzPkmAFlKPVciaPLXxoeg7/GCnl28=",
+        "lastModified": 1783018202,
+        "narHash": "sha256-ynZrcXMvPrC+SxF9EhbBhUpcN2/vOf5f1qgJ0+jJe90=",
         "owner": "NotAShelf",
         "repo": "nvf",
-        "rev": "6fad9e9a998dd3a7783c839ce2928877d3e5a883",
+        "rev": "5ce8bea487315a6f1a565260f48859ecdc01fa29",
         "type": "github"
       },
       "original": {
