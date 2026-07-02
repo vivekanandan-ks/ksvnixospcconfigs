@@ -12,6 +12,8 @@
           inputs = inputs;
           system = "aarch64-linux";
           pkgs-unstable = withSystem "aarch64-linux" ({ pkgs-unstable, ... }: pkgs-unstable);
+          self = inputs.self;
+          username = "nix-on-droid";
         };
       })
     ] ++ (config.myIsDroidModule true);

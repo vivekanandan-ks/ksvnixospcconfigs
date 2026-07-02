@@ -7,6 +7,8 @@
     pkgs-unstable,
     ...
   }: {
+  home.packages = [ pkgs-unstable.jj-starship ];
+
   #carapace
   programs.carapace = {
     enable = true;

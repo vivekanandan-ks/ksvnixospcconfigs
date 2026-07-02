@@ -1,49 +1,48 @@
 { ... }: {
-  flake.homeModules.common.mcp = {
-    #inputs,
-    #config,
-    #lib,
-    #pkgs,
-    #pkgs-unstable,
-    ...
-  }: {
-  programs.mcp = {
-    enable = true;
-    servers = {
-      nixos = {
-        # https://mcp-nixos.io/usage
-        command = "nix";
-        args = [
-          "run"
-          "github:utensils/mcp-nixos"
-          "--"
-        ];
-      };
+  flake.homeModules.common.mcp =
+    {
+      #inputs,
+      #config,
+      lib,
+      #pkgs,
+      pkgs-unstable,
+      ...
+    }:
+    {
+      programs.mcp = {
+        enable = true;
+        servers = {
+          nixos = {
+            # https://mcp-nixos.io/usage
+            command = lib.getExe pkgs-unstable.mcp-nixos;
+            args = [ ];
+          };
 
-      git = {
-        # https://github.com/modelcontextprotocol/servers/tree/main/src/git
-        command = "uvx";
-        args = ["mcp-server-git"];
-      };
+          git = {
+            command = lib.getExe pkgs-unstable.mcp-server-git;
+            args = [ ];
+          };
 
-      memory = {
-        # https://github.com/modelcontextprotocol/servers/tree/main/src/memory
-        command = "npx";
-        args = [
-          "-y"
-          "@modelcontextprotocol/server-memory"
-        ];
-      };
+          memory = {
+            command = lib.getExe pkgs-unstable.mcp-server-memory;
+            args = [ ];
+          };
 
-      sequential-thinking = {
-        # https://github.com/modelcontextprotocol/servers/tree/main/src/sequentialthinking
-        command = "npx";
-        args = [
-          "-y"
-          "@modelcontextprotocol/server-sequential-thinking"
-        ];
+          sequential-thinking = {
+            command = lib.getExe pkgs-unstable.mcp-server-sequential-thinking;
+            args = [ ];
+          };
+
+          fetch = {
+            command = lib.getExe pkgs-unstable.mcp-server-fetch;
+            args = [ ];
+          };
+
+          github = {
+            command = lib.getExe pkgs-unstable.github-mcp-server;
+            args = [ ];
+          };
+        };
       };
     };
-    };
-  };
 }

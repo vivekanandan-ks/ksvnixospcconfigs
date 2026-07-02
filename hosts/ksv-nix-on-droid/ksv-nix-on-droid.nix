@@ -1,4 +1,4 @@
-{ config, lib, pkgs, inputs, pkgs-unstable, isDroid, ... }:
+{ config, lib, pkgs, inputs, pkgs-unstable, isDroid, self, username, ... }:
 
 {
 
@@ -69,7 +69,7 @@
 
   # Configure home-manager
   home-manager = {
-    config = ./../../home.nix ;
+    config = { imports = [ self.homeModules.home ]; };
     backupFileExtension = "bak";
     #backupFileExtension = lib.mkForce null;
     #backupCommand = "sh -c 'mv $0 $0.backup-$(date +%s)'";
@@ -80,7 +80,7 @@
     useGlobalPkgs = false;
     useUserPackages = true;
     extraSpecialArgs = {
-	    inherit inputs pkgs-unstable isDroid;
+	    inherit inputs pkgs-unstable isDroid username self;
     };
     sharedModules = [
 	    #inputs.nvf.homeManagerModules.default

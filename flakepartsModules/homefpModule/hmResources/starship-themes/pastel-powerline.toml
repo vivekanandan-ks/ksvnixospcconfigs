@@ -6,6 +6,7 @@ $username\
 [](bg:#DA627D fg:#9A348E)\
 $directory\
 [](fg:#DA627D bg:#FCA17D)\
+${custom.jj}\
 $git_branch\
 $git_status\
 [](fg:#FCA17D bg:#86BBD8)\
@@ -114,13 +115,21 @@ style = "bg:#86BBD8"
 format = '[ $symbol ($version) ]($style)'
 
 [git_branch]
-symbol = ""
-style = "bg:#FCA17D"
-format = '[ $symbol $branch ]($style)'
+disabled = true
+# symbol = ""
+# style = "bg:#FCA17D"
+# format = '[ $symbol $branch ]($style)'
 
 [git_status]
-style = "bg:#FCA17D"
-format = '[$all_status$ahead_behind ]($style)'
+disabled = true
+# style = "bg:#FCA17D"
+# format = '[$all_status$ahead_behind ]($style)'
+
+[custom.jj]
+when = "jj-starship detect"
+shell = ["jj-starship"]
+# Wrap the output so it fits the pastel-powerline background color style
+format = "[$output ](bg:#FCA17D)"
 
 [golang]
 symbol = " "

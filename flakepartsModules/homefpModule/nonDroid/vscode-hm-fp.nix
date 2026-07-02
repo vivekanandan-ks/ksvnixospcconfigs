@@ -63,6 +63,8 @@
 
       justusadam.language-haskell
       haskell.haskell
+
+      visualjj.visualjj # visualjj.com
     ])
     ++ (with pkgs.vscode-extensions; [
       # Python
