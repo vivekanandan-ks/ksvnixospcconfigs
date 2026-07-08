@@ -1,4 +1,4 @@
-{ ... }: {
+{...}: {
   flake.homeModules.nonDroid.zed-editor = {
     #inputs,
     #config,
@@ -7,104 +7,103 @@
     pkgs-unstable,
     ...
   }: {
-  programs.zed-editor = {
-    enable = true;
-    package = pkgs.zed-editor;
-    extensions = [
-      # get the names from here : https://zed.dev/extensions
-      "nix"
-      "haskell" # https://zed.dev/extensions/haskell
-      "html"
-      "nu"
-      "yaml"
-      "basher"
-      "toml"
-      "git-firefly"
-      "github-actions"
-      "mcp-server-github"
-      "github-activity-summarizer"
-      "opencode"
-      "quadlet"
-      "dockerfile"
-      "docker-compose"
-      "catppuccin"
-      "catppuccin-icons"
-      "terraform"
-      "catppuccin-blur"
-      "ruff"
-      "csv"
-      "vscode-dark-modern"
-      "intellij-newui-theme"
-      "python-requirements"
-      "fish"
-      "nginx"
-      "wakatime"
-      "helm"
-      "python-snippets"
-      "caddyfile"
-      "http"
-      "perplexity"
-      "strace"
-      #"cython"
-      "color-highlight"
-      "supaglass"
-      "opentofu"
-      "jq"
-      "django"
-      "eyecandy"
-      "gemini"
+    programs.zed-editor = {
+      enable = true;
+      package = pkgs.zed-editor;
+      extensions = [
+        # get the names from here : https://zed.dev/extensions
+        "nix"
+        "haskell" # https://zed.dev/extensions/haskell
+        "html"
+        "nu"
+        "yaml"
+        "basher"
+        "toml"
+        "git-firefly"
+        "github-actions"
+        "mcp-server-github"
+        "github-activity-summarizer"
+        "opencode"
+        "quadlet"
+        "dockerfile"
+        "docker-compose"
+        "catppuccin"
+        "catppuccin-icons"
+        "terraform"
+        "catppuccin-blur"
+        "ruff"
+        "csv"
+        "vscode-dark-modern"
+        "intellij-newui-theme"
+        "python-requirements"
+        "fish"
+        "nginx"
+        "wakatime"
+        "helm"
+        "python-snippets"
+        "caddyfile"
+        "http"
+        "perplexity"
+        "strace"
+        #"cython"
+        "color-highlight"
+        "supaglass"
+        "opentofu"
+        "jq"
+        "django"
+        "eyecandy"
+        "gemini"
+      ];
 
-    ];
+      extraPackages = with pkgs-unstable; [
+        nixd
+        nil
+      ];
 
-    extraPackages = with pkgs-unstable; [
-      nixd
-      nil
-    ];
+      enableMcpIntegration = true;
+      #installRemoteServer = false; # default false
+      #mutableUserDebug = true; # default true
+      #mutableUserTasks = true; # default true
+      /*
+      userKeymaps = [
+        # default []
+        {
+          context = "Workspace";
+          bindings = {
+            ctrl-shift-t = "workspace::NewTerminal";
+          };
+        }
 
-    enableMcpIntegration = true;
-    #installRemoteServer = false; # default false
-    #mutableUserDebug = true; # default true
-    #mutableUserTasks = true; # default true
-    /*
-    userKeymaps = [
-      # default []
-      {
-        context = "Workspace";
-        bindings = {
-          ctrl-shift-t = "workspace::NewTerminal";
+      ];
+      */
+
+      /*
+      userSettings = {
+        features = {
+          copilot = false;
         };
-      }
+        telemetry = {
+          metrics = false;
+        };
+        vim_mode = false;
+        ui_font_size = 16;
+        buffer_font_size = 16;
 
-    ];
-    */
-
-    /*
-    userSettings = {
-      features = {
-        copilot = false;
       };
-      telemetry = {
-        metrics = false;
-      };
-      vim_mode = false;
-      ui_font_size = 16;
-      buffer_font_size = 16;
+      */
 
-    };
-    */
-
-    /*
-    userTasks = [
-      {
-        label = "Format Code";
-        command = "nix";
-        args = [
-          "fmt"
-          "$ZED_WORKTREE_ROOT"
-        ];
-      }
-    ];
-    */
+      /*
+      userTasks = [
+        {
+          label = "Format Code";
+          command = "nix";
+          args = [
+            "fmt"
+            "$ZED_WORKTREE_ROOT"
+          ];
+        }
+      ];
+      */
     };
   };
 }

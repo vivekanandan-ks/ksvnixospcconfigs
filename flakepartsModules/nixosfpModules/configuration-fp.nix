@@ -1,4 +1,4 @@
-{ config, ... }: {
+{config, ...}: {
   flake.nixosModules.configuration = {
     inputs,
     #config,
@@ -54,40 +54,38 @@
 
     # niri
     /*
-      programs.niri = {
-        enable = true;
-        package = pkgs-unstable.niri;
-      };
+    programs.niri = {
+      enable = true;
+      package = pkgs-unstable.niri;
+    };
     */
 
     # sops
     /*
-      sops = {
-        defaultSopsFile = ./secrets/secrets.yaml;
-        defaultSopsFormat = "yaml";
-        age.keyFile = "/home/ksvnixospc/.config/sops/age/keys.txt";
-      };
+    sops = {
+      defaultSopsFile = ./secrets/secrets.yaml;
+      defaultSopsFormat = "yaml";
+      age.keyFile = "/home/ksvnixospc/.config/sops/age/keys.txt";
+    };
     */
 
     #fonts
     fonts.packages = with pkgs; [
       nerd-fonts.monofur
-
     ];
 
     #SWAP
-    swapDevices = lib.mkForce [ ];
+    swapDevices = lib.mkForce [];
     # If you also want to disable zram (compressed swap in RAM):
     #zramSwap.enable = false;
 
     # n8n
     /*
-      services.n8n = {
-        enable = true;
-        #openFirewall = true;
-      };
+    services.n8n = {
+      enable = true;
+      #openFirewall = true;
+    };
     */
-
 
     # download buffer size; default size is 16mb (16*1024*1024)
     #nix.settings.download-buffer-size = 6710886400;
@@ -95,20 +93,14 @@
     nix.settings.auto-optimise-store = true; # if set to false(default) then run " nix-store --optimise " periodically to get rid of duplicate files.
     # Nix GC
     /*
-      nix.gc = {
-        automatic = true;
-        #persistent = false;
-        dates = "daily";
-        options = "--delete-older-than 7d";
-        #randomizedDelaySec = "30min";
-      };
-    */
-
-    nix.settings = {
-      substituters = [ "https://hyprland.cachix.org" ];
-      trusted-substituters = [ "https://hyprland.cachix.org" ];
-      trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
+    nix.gc = {
+      automatic = true;
+      #persistent = false;
+      dates = "daily";
+      options = "--delete-older-than 7d";
+      #randomizedDelaySec = "30min";
     };
+    */
 
     # Bootloader.
     # systemd-boot
@@ -136,33 +128,34 @@
     #};
 
     # kde-connect
-    programs.kdeconnect = /*lib.mkForce*/ {
-      enable = true;
-      package = lib.mkForce pkgs-unstable.kdePackages.kdeconnect-kde;
-    };
-
+    programs.kdeconnect =
+      /*
+      lib.mkForce
+      */
+      {
+        enable = true;
+        package = lib.mkForce pkgs-unstable.kdePackages.kdeconnect-kde;
+      };
 
     # Enable bluetooth
     hardware.bluetooth.enable = true;
 
-
-
     /*
-      # Enable intel graphics harware acceleration (this is supposed to solve the CPUoverheating issues while using camera)
-      # refer this: https://wiki.nixos.org/wiki/Accelerated_Video_Playback#Intel
-      # refer: https://discourse.nixos.org/t/help-to-solve-cpu-peaks-overheats-while-using-camera-possibly-hw-acceleration-i-guess/68591/1
-      hardware.graphics = {
-        enable = true;
-        extraPackages = with pkgs-unstable; [
-          #intel-media-driver # For Broadwell (2014) or newer processors. LIBVA_DRIVER_NAME=iHD
-          intel-vaapi-driver # For older processors. LIBVA_DRIVER_NAME=i965
-          #intel-ocl # looks like this is useful for running LLMs
-        ];
-      };
-      environment.sessionVariables = {
-        #LIBVA_DRIVER_NAME = "iHD";
-        LIBVA_DRIVER_NAME = "i965";
-      }; # Optionally, set the environment variable
+    # Enable intel graphics harware acceleration (this is supposed to solve the CPUoverheating issues while using camera)
+    # refer this: https://wiki.nixos.org/wiki/Accelerated_Video_Playback#Intel
+    # refer: https://discourse.nixos.org/t/help-to-solve-cpu-peaks-overheats-while-using-camera-possibly-hw-acceleration-i-guess/68591/1
+    hardware.graphics = {
+      enable = true;
+      extraPackages = with pkgs-unstable; [
+        #intel-media-driver # For Broadwell (2014) or newer processors. LIBVA_DRIVER_NAME=iHD
+        intel-vaapi-driver # For older processors. LIBVA_DRIVER_NAME=i965
+        #intel-ocl # looks like this is useful for running LLMs
+      ];
+    };
+    environment.sessionVariables = {
+      #LIBVA_DRIVER_NAME = "iHD";
+      LIBVA_DRIVER_NAME = "i965";
+    }; # Optionally, set the environment variable
     */
 
     # cosmic DE
@@ -172,16 +165,16 @@
     # enable Hyprland
 
     /*
-      programs.hyprland = let
-        hyprland-pkg = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system} ;
-       in {
-        enable = true;
-        package = hyprland-pkg.hyprland;
-        #package = null; # doesn't work in nixos options
-        portalPackage = hyprland-pkg.xdg-desktop-portal-hyprland;
-        #portalPackage = null; # # doesn't work in nixos options
+    programs.hyprland = let
+      hyprland-pkg = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system} ;
+     in {
+      enable = true;
+      package = hyprland-pkg.hyprland;
+      #package = null; # doesn't work in nixos options
+      portalPackage = hyprland-pkg.xdg-desktop-portal-hyprland;
+      #portalPackage = null; # # doesn't work in nixos options
 
-      };
+    };
     */
 
     #Enable flakes
@@ -197,9 +190,9 @@
     nixpkgs.config.allowUnfree = true;
     nixpkgs.config.nvidia.acceptLicense = true;
     /*
-      nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-        "warp-terminal"
-      ];
+    nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+      "warp-terminal"
+    ];
     */
 
     #networking.hostName = "nixos"; # Define your hostname.
@@ -248,19 +241,19 @@
     };
 
     /*
-      specialisation = {
-        kdeunstable.configuration =
-          let
-            nixpkgs.pkgs = inputs.nixpkgs-unstable;
-          in
-        {
-          # Enable the KDE Plasma Desktop Environment.
-          services.displayManager.sddm.enable = true;
-          services.desktopManager.plasma6.enable = true;
-
-        };
+    specialisation = {
+      kdeunstable.configuration =
+        let
+          nixpkgs.pkgs = inputs.nixpkgs-unstable;
+        in
+      {
+        # Enable the KDE Plasma Desktop Environment.
+        services.displayManager.sddm.enable = true;
+        services.desktopManager.plasma6.enable = true;
 
       };
+
+    };
     */
 
     # Enable the KDE Plasma Desktop Environment.
@@ -312,16 +305,11 @@
       packages =
         (with pkgs; [
           #stable
-
         ])
-
-        ++
-
-          (with pkgs-unstable; [
-            #unstable
-            gh
-
-          ]);
+        ++ (with pkgs-unstable; [
+          #unstable
+          gh
+        ]);
     };
 
     # Enable automatic login for the user.
@@ -333,22 +321,14 @@
     environment.systemPackages =
       (with pkgs; [
         #stable
-
       ])
-
-      ++
-
-        (with pkgs-unstable; [
-          #unstable
-
-        ])
-
-      ++
-
-        [
-          #inputs.kwin-effects-forceblur.packages.${pkgs.stdenv.hostPlatform.system}.default # Wayland
-          #inputs.kwin-effects-forceblur.packages.${pkgs.system}.x11 # X11
-        ];
+      ++ (with pkgs-unstable; [
+        #unstable
+      ])
+      ++ [
+        #inputs.kwin-effects-forceblur.packages.${pkgs.stdenv.hostPlatform.system}.default # Wayland
+        #inputs.kwin-effects-forceblur.packages.${pkgs.system}.x11 # X11
+      ];
 
     # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     # Some programs need SUID wrappers, can be configured further or are

@@ -1,27 +1,27 @@
-{ ... }: {
+{...}: {
   flake.nixosModules.graphics = {
     #config,
     #lib,
     pkgs,
     ...
   }: {
-  # Enable intel graphics harware acceleration (this is supposed to solve the CPUoverheating issues while using camera)
-  # refer this: https://wiki.nixos.org/wiki/Accelerated_Video_Playback#Intel
-  # refer: https://discourse.nixos.org/t/help-to-solve-cpu-peaks-overheats-while-using-camera-possibly-hw-acceleration-i-guess/68591/1
-  hardware.graphics = {
-    enable = true;
-    extraPackages = with pkgs; [
-      #intel-media-driver # For Broadwell (2014) or newer processors. LIBVA_DRIVER_NAME=iHD
-      intel-vaapi-driver # For older processors. LIBVA_DRIVER_NAME=i965
-      #intel-ocl # looks like this is useful for running LLMs
-    ];
-  };
-  environment.sessionVariables = {
-    #LIBVA_DRIVER_NAME = "iHD";
-    LIBVA_DRIVER_NAME = "i965";
-  }; # Optionally, set the environment variable
+    # Enable intel graphics harware acceleration (this is supposed to solve the CPUoverheating issues while using camera)
+    # refer this: https://wiki.nixos.org/wiki/Accelerated_Video_Playback#Intel
+    # refer: https://discourse.nixos.org/t/help-to-solve-cpu-peaks-overheats-while-using-camera-possibly-hw-acceleration-i-guess/68591/1
+    hardware.graphics = {
+      enable = true;
+      extraPackages = with pkgs; [
+        #intel-media-driver # For Broadwell (2014) or newer processors. LIBVA_DRIVER_NAME=iHD
+        intel-vaapi-driver # For older processors. LIBVA_DRIVER_NAME=i965
+        #intel-ocl # looks like this is useful for running LLMs
+      ];
     };
-  }
+    environment.sessionVariables = {
+      #LIBVA_DRIVER_NAME = "iHD";
+      LIBVA_DRIVER_NAME = "i965";
+    }; # Optionally, set the environment variable
+  };
+}
 /*
 let
   # Put your real IDs here; these should not be the same in practice

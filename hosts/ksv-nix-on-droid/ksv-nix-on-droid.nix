@@ -1,17 +1,22 @@
-{ config, lib, pkgs, inputs, pkgs-unstable, isDroid, self, username, ... }:
-
 {
-
-    android-integration.termux-setup-storage.enable = true;
-    android-integration.am.enable = true;
-    android-integration.termux-open.enable = true;
-    android-integration.termux-open-url.enable = true;
-    android-integration.termux-reload-settings.enable = true;
-    android-integration.termux-wake-lock.enable = true;
-    android-integration.termux-wake-unlock.enable = true;
-    android-integration.xdg-open.enable = true;
-
-
+  config,
+  lib,
+  pkgs,
+  inputs,
+  pkgs-unstable,
+  isDroid,
+  self,
+  username,
+  ...
+}: {
+  android-integration.termux-setup-storage.enable = true;
+  android-integration.am.enable = true;
+  android-integration.termux-open.enable = true;
+  android-integration.termux-open-url.enable = true;
+  android-integration.termux-reload-settings.enable = true;
+  android-integration.termux-wake-lock.enable = true;
+  android-integration.termux-wake-unlock.enable = true;
+  android-integration.xdg-open.enable = true;
 
   # default shell for nix-on-droid
   user.shell = "${pkgs.nushell}/bin/nu";
@@ -62,28 +67,26 @@
   #terminal.font = "${pkgs.nerd-fonts.fira-code}/share/fonts/truetype/NerdFonts/FiraCode/FiraCodeNerdFont-Regular.ttf";
   terminal.font = let
     jetbrains = pkgs.nerd-fonts.jetbrains-mono; #pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; };
-    fontPath =
-      "share/fonts/truetype/NerdFonts/JetBrainsMono/JetBrainsMonoNerdFontMono-Regular.ttf";
+    fontPath = "share/fonts/truetype/NerdFonts/JetBrainsMono/JetBrainsMonoNerdFontMono-Regular.ttf";
   in "${jetbrains}/${fontPath}";
-
 
   # Configure home-manager
   home-manager = {
-    config = { imports = [ self.homeModules.home ]; };
+    config = {imports = [self.homeModules.home];};
     backupFileExtension = "bak";
     #backupFileExtension = lib.mkForce null;
     #backupCommand = "sh -c 'mv $0 $0.backup-$(date +%s)'";
-    
+
     # Reason: Resolves "You have set either `nixpkgs.config` or `nixpkgs.overlays` while using `home-manager.useGlobalPkgs`" warning.
     # Pros: Allows modules (like Stylix) to configure nixpkgs options without conflict.
     # Cons: Home Manager instantiates its own pkgs set, which may increase evaluation time and duplicate package instances.
     useGlobalPkgs = false;
     useUserPackages = true;
     extraSpecialArgs = {
-	    inherit inputs pkgs-unstable isDroid username self;
+      inherit inputs pkgs-unstable isDroid username self;
     };
     sharedModules = [
-	    #inputs.nvf.homeManagerModules.default
+      #inputs.nvf.homeManagerModules.default
     ];
   };
 }

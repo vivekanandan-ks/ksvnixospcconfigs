@@ -1,10 +1,10 @@
-{ ... }: {
+{...}: {
   flake = {
-    nixosModules.flatpak = { ... }: {
+    nixosModules.flatpak = {...}: {
       services.flatpak.enable = true;
     };
 
-    homeModules.nonDroid.flatpak = { inputs, ... }: {
+    homeModules.nonDroid.flatpak = {inputs, ...}: {
       imports = [
         inputs.nix-flatpak.homeManagerModules.nix-flatpak
       ];

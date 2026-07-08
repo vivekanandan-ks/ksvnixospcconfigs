@@ -1,4 +1,4 @@
-{ ... }: {
+{...}: {
   flake.nixosModules.power-services = {
     #inputs,
     #config,
@@ -10,14 +10,14 @@
     #username,
     ...
   }: {
-  services.power-profiles-daemon = {
-    enable = true;
-    package = pkgs-unstable.power-profiles-daemon;
-  };
+    services.power-profiles-daemon = {
+      enable = true;
+      package = pkgs-unstable.power-profiles-daemon;
+    };
 
-  services.upower = {
-    enable = true;
-    package = pkgs-unstable.upower;
-  };
+    services.upower = {
+      enable = true;
+      package = pkgs-unstable.upower;
+    };
   };
 }

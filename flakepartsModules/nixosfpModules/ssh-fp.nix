@@ -1,4 +1,4 @@
-{ ... }: {
+{...}: {
   flake.nixosModules.ssh = {
     #inputs,
     #config,
@@ -10,16 +10,14 @@
     username,
     ...
   }: {
-
-
-  # 3. Enable SSH Server
-  services.openssh = {
-    enable = true;
-    settings = {
-      # Optional: Disable password auth for security (if you set up keys)
-      # PasswordAuthentication = false;
-      PermitRootLogin = "no";
-    };
+    # 3. Enable SSH Server
+    services.openssh = {
+      enable = true;
+      settings = {
+        # Optional: Disable password auth for security (if you set up keys)
+        # PasswordAuthentication = false;
+        PermitRootLogin = "no";
+      };
     };
   };
 }

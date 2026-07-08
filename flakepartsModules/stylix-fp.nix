@@ -1,13 +1,17 @@
-{ ... }: {
+{...}: {
   flake = {
-    nixosModules.stylix = { inputs, ... }: {
+    nixosModules.stylix = {inputs, ...}: {
       # stylix
       # for some reason some options aren't working when I use stylix with nixosModules
       # but works good when used as homeModule in home.nix
       # imports = [ inputs.stylix.nixosModules.stylix ];
     };
 
-    homeModules.common.stylix = { inputs, pkgs, ... }: {
+    homeModules.common.stylix = {
+      inputs,
+      pkgs,
+      ...
+    }: {
       imports = [
         inputs.stylix.homeModules.stylix
       ];

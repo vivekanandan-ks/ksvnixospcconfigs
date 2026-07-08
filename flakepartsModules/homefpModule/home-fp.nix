@@ -1,4 +1,4 @@
-{ ... }: {
+{...}: {
   flake.homeModules.home = {
     inputs,
     #config,
@@ -35,20 +35,11 @@
       ]
       ++ (lib.optionals (!isDroid) (builtins.attrValues (self.homeModules.nonDroid or {})))
       ++ lib.optionals (!isDroid) [
-
-
-
-
-
-
-
         #./unusedHomeModules/waybar-hm.nix
 
         #./unusedHomeModules/plasma-manager-hm.nix
         #inputs.noctalia.homeModules.default
         #./unusedHomeModules/noctalia-shell-hm.nix
-
-
       ];
 
     # sops

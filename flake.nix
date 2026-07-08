@@ -80,49 +80,49 @@
     # hyprland
     #hyprland.url = "github:hyprwm/Hyprland";
     /*
-      hyprland = {
-        #type = "git";
-        url = "github:hyprwm/Hyprland";
-        #submodules = true;
-        #inputs.nixpkgs.follows = "nixpkgs"; # commenting means we use latest hyprland directly
-      };
+    hyprland = {
+      #type = "git";
+      url = "github:hyprwm/Hyprland";
+      #submodules = true;
+      #inputs.nixpkgs.follows = "nixpkgs"; # commenting means we use latest hyprland directly
+    };
 
-      # hyprland official plugins
-      hyprland-plugins = {
-        url = "github:hyprwm/hyprland-plugins";
-        inputs.hyprland.follows = "hyprland";
-      };
+    # hyprland official plugins
+    hyprland-plugins = {
+      url = "github:hyprwm/hyprland-plugins";
+      inputs.hyprland.follows = "hyprland";
+    };
 
-      # a hyprland plugin refer: https://github.com/KZDKM/Hyprspace
-      Hyprspace = {
-        url = "github:KZDKM/Hyprspace";
-        # Hyprspace uses latest Hyprland. We declare this to keep them in sync.
-        inputs.hyprland.follows = "hyprland";
-      };
+    # a hyprland plugin refer: https://github.com/KZDKM/Hyprspace
+    Hyprspace = {
+      url = "github:KZDKM/Hyprspace";
+      # Hyprspace uses latest Hyprland. We declare this to keep them in sync.
+      inputs.hyprland.follows = "hyprland";
+    };
 
-      # unofficial hyprexpo alternative
-      hyprtasking = {
-        url = "github:raybbian/hyprtasking";
-        inputs.hyprland.follows = "hyprland";
-      };
+    # unofficial hyprexpo alternative
+    hyprtasking = {
+      url = "github:raybbian/hyprtasking";
+      inputs.hyprland.follows = "hyprland";
+    };
 
-      hypr-dynamic-cursors = {
-        url = "github:VirtCode/hypr-dynamic-cursors";
-        inputs.hyprland.follows = "hyprland"; # to make sure that the plugin is built for the correct version of hyprland
-      };
+    hypr-dynamic-cursors = {
+      url = "github:VirtCode/hypr-dynamic-cursors";
+      inputs.hyprland.follows = "hyprland"; # to make sure that the plugin is built for the correct version of hyprland
+    };
     */
 
     /*
-      niri = {
-        url = "github:sodiboo/niri-flake";
-      };
+    niri = {
+      url = "github:sodiboo/niri-flake";
+    };
     */
 
     /*
-      sops-nix = {
-        url = "github:Mic92/sops-nix";
-        inputs.nixpkgs.follows = "nixpkgs";
-      };
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     */
 
     kwin-effects-forceblur = {
@@ -138,17 +138,15 @@
     };
   };
 
-  outputs =
-    inputs@{ flake-parts, ... }:
-    flake-parts.lib.mkFlake { inherit inputs; } (
-      top@{
+  outputs = inputs @ {flake-parts, ...}:
+    flake-parts.lib.mkFlake {inherit inputs;} (
+      top @ {
         config,
         withSystem,
         moduleWithSystem,
         lib,
         ...
-      }:
-      {
+      }: {
         imports = [
           {
             options.flake.homeModules = lib.mkOption {
@@ -173,37 +171,35 @@
           #"aarch64-darwin"
           #"x86_64-darwin"
         ];
-        perSystem =
-          {
-            config,
-            self',
-            inputs',
-            pkgs,
-            system,
-            ...
-          }:
-          {
-            # Per-system attributes can be defined here. The self' and inputs'
-            # module parameters provide easy access to attributes of the same
-            # system.
+        perSystem = {
+          config,
+          self',
+          inputs',
+          pkgs,
+          system,
+          ...
+        }: {
+          # Per-system attributes can be defined here. The self' and inputs'
+          # module parameters provide easy access to attributes of the same
+          # system.
 
-            # Equivalent to  inputs'.nixpkgs.legacyPackages.hello;
-            #packages.default = pkgs.hello;
+          # Equivalent to  inputs'.nixpkgs.legacyPackages.hello;
+          #packages.default = pkgs.hello;
 
-            _module.args.pkgs = import inputs.nixpkgs {
-              inherit system;
-              config.allowUnfree = true;
-              nvidia.acceptLicense = true;
-              #overlays = [ inputs.foo.overlays.default ];
-            };
-
-            _module.args.pkgs-unstable = import inputs.nixpkgs-unstable {
-              inherit system;
-              config.allowUnfree = true;
-              nvidia.acceptLicense = true;
-              #overlays = [ inputs.foo.overlays.default ];
-            };
+          _module.args.pkgs = import inputs.nixpkgs {
+            inherit system;
+            config.allowUnfree = true;
+            nvidia.acceptLicense = true;
+            #overlays = [ inputs.foo.overlays.default ];
           };
+
+          _module.args.pkgs-unstable = import inputs.nixpkgs-unstable {
+            inherit system;
+            config.allowUnfree = true;
+            nvidia.acceptLicense = true;
+            #overlays = [ inputs.foo.overlays.default ];
+          };
+        };
         flake = {
           ksvnixospc = top.self.nixosConfigurations.ksvnixospc;
           deejunixospc = top.self.nixosConfigurations.deejunixospc;

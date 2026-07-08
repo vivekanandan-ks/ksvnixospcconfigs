@@ -16,7 +16,7 @@
       bar = {
         barType = "simple";
         position = "bottom";
-        monitors = [ ];
+        monitors = [];
         density = "default";
         showOutline = false;
         showCapsule = true;
@@ -35,31 +35,34 @@
         widgets = {
           left = [
             # Plasma: Window Title, Global Menu
-            { id = "Launcher"; icon = "nix-snowflake"; } # Moved here for easy access, or can rely on Dock
-            { id = "ActiveWindow"; } # Replaces Window Title
-            { id = "Workspace"; }    # Replaces Pager
+            {
+              id = "Launcher";
+              icon = "nix-snowflake";
+            } # Moved here for easy access, or can rely on Dock
+            {id = "ActiveWindow";} # Replaces Window Title
+            {id = "Workspace";} # Replaces Pager
           ];
           center = [
             # Plasma: Media Controls
-            { id = "MediaMini"; }
+            {id = "MediaMini";}
             {
-               id = "Clock"; 
-               formatHorizontal = "HH:mm:ss"; 
-               formatVertical = "HH
+              id = "Clock";
+              formatHorizontal = "HH:mm:ss";
+              formatVertical = "HH
 mm
-ss"; 
+ss";
             }
           ];
           right = [
             # Plasma: Netspeed, Disk, Activity, CPU, Mem, Tray, Camera
-            { id = "SystemMonitor"; } # Consolidates Disk/CPU/Mem
-            { id = "Network"; }       # Replaces Netspeed
-            { id = "Tray"; }          # Replaces System Tray & Camera Indicator
-            { id = "Battery"; }
-            { id = "ControlCenter"; } # Replaces System Tray details
+            {id = "SystemMonitor";} # Consolidates Disk/CPU/Mem
+            {id = "Network";} # Replaces Netspeed
+            {id = "Tray";} # Replaces System Tray & Camera Indicator
+            {id = "Battery";}
+            {id = "ControlCenter";} # Replaces System Tray details
           ];
         };
-        screenOverrides = [ ];
+        screenOverrides = [];
       };
 
       # --- Bottom Dock (Matching Plasma Bottom Panel) ---
@@ -71,12 +74,12 @@ ss";
         floatingRatio = 1;
         size = 1; # Default scaling
         onlySameOutput = true;
-        monitors = [ ];
+        monitors = [];
         pinnedApps = [
-            # Add commonly used apps here if desired, otherwise it shows running apps
-            "kitty"
-            "firefox"
-            "dolphin"
+          # Add commonly used apps here if desired, otherwise it shows running apps
+          "kitty"
+          "firefox"
+          "dolphin"
         ];
         colorizeIcons = false;
         pinnedStatic = false;
@@ -137,7 +140,7 @@ ss";
         enabled = true;
         overviewEnabled = false;
         directory = "/home/ksvnixospc/Documents/ksvnixospcconfigs/nixosModules/nixosResources/limine-images";
-        monitorDirectories = [ ];
+        monitorDirectories = [];
         enableMultiMonitorDirectories = false;
         showHiddenFiles = false;
         viewMode = "single";
@@ -163,25 +166,43 @@ ss";
         diskPath = "/";
         shortcuts = {
           left = [
-            { id = "Network"; }
-            { id = "Bluetooth"; }
-            { id = "WallpaperSelector"; }
-            { id = "NoctaliaPerformance"; }
+            {id = "Network";}
+            {id = "Bluetooth";}
+            {id = "WallpaperSelector";}
+            {id = "NoctaliaPerformance";}
           ];
           right = [
-            { id = "Notifications"; }
-            { id = "PowerProfile"; }
-            { id = "KeepAwake"; }
-            { id = "NightLight"; }
+            {id = "Notifications";}
+            {id = "PowerProfile";}
+            {id = "KeepAwake";}
+            {id = "NightLight";}
           ];
         };
         cards = [
-          { enabled = true; id = "profile-card"; }
-          { enabled = true; id = "shortcuts-card"; }
-          { enabled = true; id = "audio-card"; }
-          { enabled = false; id = "brightness-card"; } # Enable if laptop
-          { enabled = true; id = "weather-card"; }
-          { enabled = true; id = "media-sysmon-card"; }
+          {
+            enabled = true;
+            id = "profile-card";
+          }
+          {
+            enabled = true;
+            id = "shortcuts-card";
+          }
+          {
+            enabled = true;
+            id = "audio-card";
+          }
+          {
+            enabled = false;
+            id = "brightness-card";
+          } # Enable if laptop
+          {
+            enabled = true;
+            id = "weather-card";
+          }
+          {
+            enabled = true;
+            id = "media-sysmon-card";
+          }
         ];
       };
 
@@ -231,7 +252,7 @@ ss";
         clipboardWatchTextCommand = "wl-paste --type text --watch cliphist store";
         clipboardWatchImageCommand = "wl-paste --type image --watch cliphist store";
         position = "center";
-        pinnedApps = [ ];
+        pinnedApps = [];
         useApp2Unit = false;
         sortByMostUsed = true;
         terminalCommand = "kitty"; # Plasma config uses kitty
@@ -254,7 +275,7 @@ ss";
         schedulingMode = "off";
         generationMethod = "tonal-spot";
       };
-      
+
       nightLight = {
         enabled = true; # Plasma has NightColor enabled
         forced = false;
@@ -272,7 +293,6 @@ ss";
         preferredPlayer = ""; # Auto-detect
         volumeFeedback = true;
       };
-
     };
   };
 }

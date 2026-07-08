@@ -1,11 +1,15 @@
-{ ... }: {
-  flake.nixosModules.limine = { config, lib, ... }: {
+{...}: {
+  flake.nixosModules.limine = {
+    config,
+    lib,
+    ...
+  }: {
     # limine boot
     boot.loader = {
       limine = {
         enable = true;
         style.wallpapers = lib.filesystem.listFilesRecursive ./nixosResources/limine-images;
-        
+
         extraEntries = lib.mkIf (config.networking.hostName == "deejunixospc") ''
           /Windows
             protocol: efi
