@@ -40,9 +40,9 @@
           config.flake.homeModules.home
         ];
       };
-      #backupFileExtension = "bak";
-      backupFileExtension = lib.mkForce null;
-      backupCommand = "sh -c 'mv $0 $0.backup-$(date +%s)'";
+      backupFileExtension = "backup";
+      # backupFileExtension = lib.mkForce null;
+      # backupCommand = "sh -c 'mv $0 $0.backup-$(date +%s)'";
       useGlobalPkgs = false;
       useUserPackages = true;
       sharedModules = [
