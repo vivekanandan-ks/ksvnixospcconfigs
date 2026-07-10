@@ -42,7 +42,7 @@
                 };
                 Ctrl-Alt-a.remap = {
                   t.launch = ["Telegram"];
-                  f.launch = ["firefox"];
+                  #f.launch = ["firefox"];
                   c.launch = ["google-chrome-stable"];
                   v.launch = ["code"]; # vscode
                   z.remap.d.launch = ["zeditor"];

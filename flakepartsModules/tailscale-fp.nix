@@ -1,7 +1,7 @@
 {...}: {
   flake.nixosModules.tailscale = {username, ...}: {
     # 1. Enable Tailscale
-    services.tailscale.enable = true;
+    #services.tailscale.enable = true;
     services.tailscale.extraSetFlags = ["--operator=${username}"];
 
     # 2. Trust the Tailscale Interface
@@ -11,7 +11,7 @@
 
   flake.homeModules.nonDroid.tailscale-systray = {pkgs-unstable, ...}: {
     services.tailscale-systray = {
-      enable = true;
+      #enable = true;
       package = pkgs-unstable.tailscale;
     };
   };
