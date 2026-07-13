@@ -58,6 +58,7 @@
       extraPackages = with pkgs-unstable; [
         nixd
         nil
+        alejandra
       ];
 
       enableMcpIntegration = true;
@@ -77,33 +78,103 @@
       ];
       */
 
-      /*
       userSettings = {
-        features = {
-          copilot = false;
+        #helix_mode = true;
+        indent_guides = {
+          background_coloring = "disabled";
+          coloring = "indent_aware";
         };
-        telemetry = {
-          metrics = false;
+        sticky_scroll = {
+          enabled = true;
         };
-        vim_mode = false;
-        ui_font_size = 16;
-        buffer_font_size = 16;
-
+        which_key = {
+          enabled = true;
+        };
+        autosave = "on_focus_change";
+        auto_install_extensions = {
+          basher = true;
+          caddyfile = true;
+          catppuccin = true;
+          "catppuccin-blur" = true;
+          "catppuccin-icons" = true;
+          "color-highlight" = true;
+          csv = true;
+          django = true;
+          "docker-compose" = true;
+          dockerfile = true;
+          eyecandy = true;
+          fish = true;
+          "git-firefly" = true;
+          "github-actions" = true;
+          "github-activity-summarizer" = true;
+          helm = true;
+          html = true;
+          http = true;
+          "intellij-newui-theme" = true;
+          jq = true;
+          "mcp-server-github" = true;
+          nginx = true;
+          nix = true;
+          nu = true;
+          opencode = true;
+          opentofu = true;
+          perplexity = true;
+          "python-requirements" = true;
+          "python-snippets" = true;
+          quadlet = true;
+          ruff = true;
+          strace = true;
+          supaglass = true;
+          terraform = true;
+          toml = true;
+          "vscode-dark-modern" = true;
+          wakatime = true;
+          yaml = true;
+          gemini = true;
+          haskell = true;
+        };
+        buffer_font_family = "DejaVu Sans Mono";
+        buffer_font_size = 14.666666666666666;
+        theme = "Catppuccin Mocha";
+        ui_font_family = "DejaVu Sans";
+        ui_font_size = 13.333333333333334;
+        languages = {
+          Nix = {
+            formatter = {
+              external = {
+                command = "alejandra";
+                arguments = ["--quiet"];
+              };
+            };
+          };
+        };
+        context_servers = {
+          git = {
+            args = [];
+            command = "/nix/store/pmifki14h7xvawrc8zcwyh232bqhblbw-mcp-server-git-2026.6.16/bin/mcp-server-git";
+          };
+          memory = {
+            args = [];
+            command = "/nix/store/kfjjh8ls6cippmg3f53wfg6hn2vacvbl-mcp-server-memory-2026.1.26/bin/mcp-server-memory";
+          };
+          nixos = {
+            args = [];
+            command = "/nix/store/1ir5mdy5a8k1mvydmkm607l9b9x0acfw-mcp-nixos-2.4.3/bin/mcp-nixos";
+          };
+          "sequential-thinking" = {
+            args = [];
+            command = "/nix/store/igpblzb777l3rr3vcxjkx95zsnij1lnc-mcp-server-sequential-thinking-2026.1.26/bin/mcp-server-sequential-thinking";
+          };
+          fetch = {
+            args = [];
+            command = "/nix/store/3ayls7mjqd3238mibn274sishh0v1k4v-mcp-server-fetch-2026.6.16/bin/mcp-server-fetch";
+          };
+          github = {
+            args = [];
+            command = "/nix/store/kd0jkxgkqa600kby1v5px5f6fpb3qz5l-github-mcp-server-1.5.0/bin/github-mcp-server";
+          };
+        };
       };
-      */
-
-      /*
-      userTasks = [
-        {
-          label = "Format Code";
-          command = "nix";
-          args = [
-            "fmt"
-            "$ZED_WORKTREE_ROOT"
-          ];
-        }
-      ];
-      */
     };
   };
 }
