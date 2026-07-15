@@ -17,6 +17,8 @@
     flake-parts.url = "github:hercules-ci/flake-parts";
     import-tree.url = "github:vic/import-tree";
 
+    wrapper-modules.url = "github:BirdeeHub/nix-wrapper-modules";
+
     # for vscode extensions
     nix4vscode = {
       url = "github:nix-community/nix4vscode";
