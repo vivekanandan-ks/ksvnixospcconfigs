@@ -769,6 +769,22 @@
         "type": "gitlab"
       }
     },
+    "noctalia-legacy-v4-plugins": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1783353936,
+        "narHash": "sha256-rjlGImFtn2fNo+VCNj/YZkkje2YPQ8ruCjXZANBoIis=",
+        "owner": "noctalia-dev",
+        "repo": "legacy-v4-plugins",
+        "rev": "1c407496f832279ea2a83fd8730bb27ad6368dc2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "noctalia-dev",
+        "repo": "legacy-v4-plugins",
+        "type": "github"
+      }
+    },
     "nur": {
       "inputs": {
         "flake-parts": [
@@ -852,6 +868,7 @@
         "nix4vscode": "nix4vscode",
         "nixpkgs": "nixpkgs_3",
         "nixpkgs-unstable": "nixpkgs-unstable",
+        "noctalia-legacy-v4-plugins": "noctalia-legacy-v4-plugins",
         "nvf": "nvf",
         "plasma-manager": "plasma-manager",
         "stylix": "stylix",

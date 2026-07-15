@@ -79,6 +79,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    noctalia-legacy-v4-plugins = {
+      url = "github:noctalia-dev/legacy-v4-plugins";
+      flake = false;
+    };
+
     # hyprland
     #hyprland.url = "github:hyprwm/Hyprland";
     /*
