@@ -24,7 +24,7 @@
         enable = true;
         package = null;
         portalPackage = null;
-        configType = "lua";
+        #configType = "lua";
         plugins = [
           inputs.hyprland-plugins.packages.${pkgs.stdenv.hostPlatform.system}.hyprbars
           inputs.hypr-dynamic-cursors.packages.${pkgs.stdenv.hostPlatform.system}.hypr-dynamic-cursors
@@ -33,10 +33,10 @@
         systemd.variables = ["--all"];
 
         settings = {
-          exec_once = [
+          exec-once = [
             "noctalia-shell"
           ];
-          bind = ["SUPER, TAB, gloview:toggle"];
+          #bind = ["SUPER, TAB, gloview:toggle"];
         };
       };
     };
