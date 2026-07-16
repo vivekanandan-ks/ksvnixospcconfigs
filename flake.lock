@@ -395,36 +395,6 @@
         "url": "https://flakehub.com/f/cachix/git-hooks.nix/0.1.941"
       }
     },
-    "gloview": {
-      "inputs": {
-        "hyprland": [
-          "hyprland"
-        ],
-        "nixpkgs": [
-          "gloview",
-          "hyprland",
-          "nixpkgs"
-        ],
-        "systems": [
-          "gloview",
-          "hyprland",
-          "systems"
-        ]
-      },
-      "locked": {
-        "lastModified": 1783970342,
-        "narHash": "sha256-XLc+StuAaVvfWYIjPFtFTf1Rne08wHzHxf85XnUB1kM=",
-        "owner": "fedsfarm",
-        "repo": "gloview",
-        "rev": "375a10893981946b529fcafe5e893b859789fa9d",
-        "type": "github"
-      },
-      "original": {
-        "owner": "fedsfarm",
-        "repo": "gloview",
-        "type": "github"
-      }
-    },
     "gnome-shell": {
       "flake": false,
       "locked": {
@@ -1363,7 +1333,6 @@
         "determinate": "determinate",
         "firefox-addons": "firefox-addons",
         "flake-parts": "flake-parts_2",
-        "gloview": "gloview",
         "home-manager": "home-manager",
         "hypr-dynamic-cursors": "hypr-dynamic-cursors",
         "hyprland": "hyprland",

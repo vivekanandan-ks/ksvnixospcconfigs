@@ -28,7 +28,7 @@
         plugins = [
           inputs.hyprland-plugins.packages.${pkgs.stdenv.hostPlatform.system}.hyprbars
           inputs.hypr-dynamic-cursors.packages.${pkgs.stdenv.hostPlatform.system}.hypr-dynamic-cursors
-          inputs.gloview.packages.${pkgs.system}.gloview
+          #inputs.gloview.packages.${pkgs.system}.gloview
         ];
         systemd.variables = ["--all"];
 

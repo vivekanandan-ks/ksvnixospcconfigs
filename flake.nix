@@ -98,10 +98,12 @@
       inputs.hyprland.follows = "hyprland"; # to make sure that the plugin is built for the correct version of hyprland
     };
 
-    gloview = {
+    /*
+      gloview = {
       url = "github:fedsfarm/gloview";
       inputs.hyprland.follows = "hyprland";
     };
+    */
 
     /*
     hyprland = {
