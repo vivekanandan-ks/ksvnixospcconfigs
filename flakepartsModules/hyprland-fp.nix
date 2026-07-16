@@ -33,7 +33,7 @@
         systemd.variables = ["--all"];
 
         settings = {
-          exec-once = [
+          exec_once = [
             "noctalia-shell"
           ];
           bind = ["SUPER, TAB, gloview:toggle"];
