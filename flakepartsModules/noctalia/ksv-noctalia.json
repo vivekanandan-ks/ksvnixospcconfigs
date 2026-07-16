@@ -8,21 +8,21 @@
       "density": "default",
       "showOutline": false,
       "showCapsule": true,
-      "capsuleOpacity": 1,
+      "capsuleOpacity": 0.5,
       "capsuleColorKey": "none",
       "widgetSpacing": 6,
       "contentPadding": 0,
       "fontScale": 1,
       "enableExclusionZoneInset": true,
-      "backgroundOpacity": 0.93,
-      "useSeparateOpacity": false,
+      "backgroundOpacity": 0.5,
+      "useSeparateOpacity": true,
       "marginVertical": 4,
       "marginHorizontal": 4,
       "frameThickness": 8,
       "frameRadius": 12,
       "outerCorners": true,
       "hideOnOverview": false,
-      "displayMode": "auto_hide",
+      "displayMode": "always_visible",
       "autoHideDelay": 500,
       "autoShowDelay": 150,
       "showOnWorkspaceSwitch": true,
@@ -77,6 +77,27 @@
               "removeMargins": false
             },
             "id": "plugin:privacy-indicator"
+          },
+          {
+            "characterCount": 2,
+            "colorizeIcons": false,
+            "emptyColor": "secondary",
+            "enableScrollWheel": true,
+            "focusedColor": "primary",
+            "followFocusedScreen": false,
+            "fontWeight": "bold",
+            "groupedBorderOpacity": 1,
+            "hideUnoccupied": true,
+            "iconScale": 0.8,
+            "id": "Workspace",
+            "labelMode": "index+name",
+            "occupiedColor": "secondary",
+            "pillSize": 0.6,
+            "showApplications": true,
+            "showApplicationsHover": true,
+            "showBadge": true,
+            "showLabelsOnlyWhenOccupied": true,
+            "unfocusedIconsOpacity": 1
           }
         ],
         "center": [
@@ -102,27 +123,6 @@
             "showCapsLock": true,
             "showNumLock": true,
             "showScrollLock": true
-          },
-          {
-            "characterCount": 2,
-            "colorizeIcons": false,
-            "emptyColor": "secondary",
-            "enableScrollWheel": true,
-            "focusedColor": "primary",
-            "followFocusedScreen": false,
-            "fontWeight": "bold",
-            "groupedBorderOpacity": 1,
-            "hideUnoccupied": true,
-            "iconScale": 0.8,
-            "id": "Workspace",
-            "labelMode": "index+name",
-            "occupiedColor": "secondary",
-            "pillSize": 0.6,
-            "showApplications": true,
-            "showApplicationsHover": true,
-            "showBadge": true,
-            "showLabelsOnlyWhenOccupied": true,
-            "unfocusedIconsOpacity": 1
           }
         ],
         "right": [
@@ -367,7 +367,7 @@
       "tooltipsEnabled": true,
       "scrollbarAlwaysVisible": true,
       "boxBorderEnabled": false,
-      "panelBackgroundOpacity": 0.93,
+      "panelBackgroundOpacity": 0.9,
       "translucentWidgets": true,
       "panelsAttachedToBar": true,
       "settingsPanelMode": "window",
@@ -419,10 +419,10 @@
       "fillColor": "#000000",
       "useSolidColor": false,
       "solidColor": "#1a1a2e",
-      "automationEnabled": false,
-      "wallpaperChangeMode": "random",
+      "automationEnabled": true,
+      "wallpaperChangeMode": "alphabetical",
       "randomIntervalSec": 300,
-      "transitionDuration": 1500,
+      "transitionDuration": 2000,
       "transitionType": [
         "fade",
         "disc",
@@ -584,8 +584,8 @@
       "externalMonitor": "resources || missioncenter || jdsystemmonitor || corestats || system-monitoring-center || gnome-system-monitor || plasma-systemmonitor || mate-system-monitor || ukui-system-monitor || deepin-system-monitor || pantheon-system-monitor"
     },
     "noctaliaPerformance": {
-      "disableWallpaper": true,
-      "disableDesktopWidgets": true
+      "disableWallpaper": false,
+      "disableDesktopWidgets": false
     },
     "dock": {
       "enabled": false,
@@ -601,7 +601,7 @@
       "colorizeIcons": false,
       "showLauncherIcon": true,
       "launcherPosition": "end",
-      "launcherUseDistroLogo": false,
+      "launcherUseDistroLogo": true,
       "launcherIcon": "",
       "launcherIconColor": "none",
       "pinnedStatic": true,
@@ -731,7 +731,7 @@
       "location": "top_right",
       "autoHideMs": 2000,
       "overlayLayer": true,
-      "backgroundOpacity": 1,
+      "backgroundOpacity": 0.8,
       "enabledTypes": [
         0,
         1,
@@ -827,7 +827,7 @@
               "format": "HH:mm:ss\\nd MMMM yyyy",
               "id": "Clock",
               "roundedCorners": true,
-              "scale": 1.3096354303555156,
+              "scale": 1.3725200568594755,
               "showBackground": true,
               "useCustomFont": false,
               "x": 1040,
@@ -844,7 +844,7 @@
               "showVisualizer": true,
               "visualizerType": "mirrored",
               "x": 940,
-              "y": 140
+              "y": 260
             },
             {
               "defaultSettings": {
@@ -852,9 +852,10 @@
                 "minimumThreshold": 10
               },
               "id": "plugin:catwalk",
+              "scale": 0.5,
               "showBackground": true,
               "x": 1040,
-              "y": 220
+              "y": 160
             }
           ]
         }
@@ -868,7 +869,7 @@
     "openedPanel": "",
     "lockScreenActive": false,
     "wallpapers": {
-      "eDP-1": "/home/ksvnixospc/Pictures/Wallpapers/wallhaven_3z96p3.jpg"
+      "eDP-1": "/nix/store/k7nf5ivy7zikk0b0gn67z75lhypj3yf3-limine-images/Frieren3.png"
     },
     "desktopWidgetsEditMode": false,
     "display": {},

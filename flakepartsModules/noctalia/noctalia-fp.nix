@@ -6,12 +6,16 @@
   perSystem = {pkgs, ...}: {
     packages.ksvNoctalia = inputs.wrapper-modules.wrappers.noctalia-shell.wrap {
       inherit pkgs;
-      settings =
+      settings = pkgs.lib.recursiveUpdate
         (
           builtins.fromJSON (
             builtins.readFile ./ksv-noctalia.json
           )
-        ).settings;
+        ).settings
+        {
+          general.avatarImage = "${./shoyohinata.png}";
+          wallpaper.directory = "${../nixosfpModules/nixosResources/limine-images}";
+        };
 
       preInstalledPlugins = {
         clipper = {
@@ -53,6 +57,14 @@
         workspace-overview = {
           enabled = true;
           src = "${inputs.noctalia-legacy-v4-plugins.outPath}/workspace-overview";
+        };
+        mpvpaper = {
+          enabled = false;
+          src = "${inputs.noctalia-legacy-v4-plugins.outPath}/mpvpaper";
+        };
+        video-wallpaper = {
+          enabled = false;
+          src = "${inputs.noctalia-legacy-v4-plugins.outPath}/video-wallpaper";
         };
       };
     };
