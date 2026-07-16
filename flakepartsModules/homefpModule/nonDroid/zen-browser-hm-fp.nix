@@ -14,7 +14,7 @@
 
     programs.zen-browser = {
       enable = true;
-      nativeMessagingHosts = [pkgs-unstable.firefoxpwa];
+      #nativeMessagingHosts = [pkgs-unstable.firefoxpwa];
       policies = {
         # check this for all policies:
         #https://mozilla.github.io/policy-templates/

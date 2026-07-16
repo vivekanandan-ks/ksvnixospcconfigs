@@ -16,10 +16,10 @@
       ])
       ++ (with pkgs-unstable; [
         #unstable packages
-        kdePackages.kate
+        #kdePackages.kate
         kdePackages.filelight
         #kdePackages.poppler
-        kdePackages.tokodon
+        #kdePackages.tokodon
         #kdePackages.neochat
         #plasma-panel-colorizer
 
@@ -27,10 +27,10 @@
         vlc
         #haruna
         #euphonica
-        freetube
-        collector # drag and drop tool
-        localsend
-        qbittorrent
+        #freetube
+        #collector # drag and drop tool
+        #localsend
+        #qbittorrent
         qpwgraph
         pwvucontrol
 
@@ -45,7 +45,7 @@
         #tor-browser
 
         #soundwireserver
-        podman-desktop
+        #podman-desktop
         onlyoffice-desktopeditors
         #virtualbox
         #waveterm # modern terminal app
@@ -54,15 +54,15 @@
         #zoom-us
         #n8n
         #rustdesk
-        rustdesk-flutter
+        #rustdesk-flutter
 
         telegram-desktop
         signal-desktop
         #element-desktop
         #discord
         #vesktop
-        thunderbird-latest
-        spotube
+        #thunderbird-latest
+        #spotube
 
         # KDE desktop effects addons
         #inputs.kwin-effects-forceblur.packages.${pkgs.stdenv.hostPlatform.system}.default # Wayland

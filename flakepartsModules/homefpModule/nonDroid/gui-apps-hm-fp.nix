@@ -18,7 +18,7 @@
       };
       # to make sure the package is both in the PATH and in the Firefox's nativeMessagingHosts.
       home.packages = [
-        pkgs-unstable.firefoxpwa
+        #pkgs-unstable.firefoxpwa
       ];
 
       # obs-studio
