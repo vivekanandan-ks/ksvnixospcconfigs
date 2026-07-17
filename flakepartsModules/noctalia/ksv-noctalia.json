@@ -98,9 +98,7 @@
             "showBadge": true,
             "showLabelsOnlyWhenOccupied": true,
             "unfocusedIconsOpacity": 1
-          }
-        ],
-        "center": [
+          },
           {
             "colorizeIcons": false,
             "hideMode": "visible",
@@ -113,7 +111,9 @@
             "showTitle": true,
             "smartWidth": true,
             "titleWidth": 120
-          },
+          }
+        ],
+        "center": [
           {
             "capsLockIcon": "letter-c",
             "hideWhenOff": true,

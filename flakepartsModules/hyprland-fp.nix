@@ -16,7 +16,9 @@
 
     homeModules.nonDroid.hyprland = {
       inputs,
+      lib,
       pkgs,
+      self,
       #pkgs-unstable,
       ...
     }: {
@@ -26,7 +28,7 @@
         portalPackage = null;
         #configType = "lua";
         plugins = [
-          inputs.hyprland-plugins.packages.${pkgs.stdenv.hostPlatform.system}.hyprbars
+          #inputs.hyprland-plugins.packages.${pkgs.stdenv.hostPlatform.system}.hyprbars
           inputs.hypr-dynamic-cursors.packages.${pkgs.stdenv.hostPlatform.system}.hypr-dynamic-cursors
           #inputs.gloview.packages.${pkgs.system}.gloview
         ];
@@ -34,9 +36,14 @@
 
         settings = {
           exec-once = [
-            "noctalia-shell"
+            "${lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.ksvNoctalia}"
           ];
           #bind = ["SUPER, TAB, gloview:toggle"];
+
+          "plugin:dynamic-cursors" = {
+            enabled = true;
+            mode = "stretch";
+          };
         };
       };
     };

@@ -25,11 +25,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    plasma-manager = {
+    /*plasma-manager = {
       url = "github:nix-community/plasma-manager";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
-    };
+    };*/
 
     xremap-flake.url = "github:xremap/nix-flake";
 
@@ -47,7 +47,7 @@
     };
 
     # https://github.com/gmodena/nix-flatpak
-    nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
+    #nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
 
     stylix = {
       url = "github:nix-community/stylix";
