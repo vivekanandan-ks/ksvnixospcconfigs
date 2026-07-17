@@ -87,6 +87,11 @@
     # hyprland
     hyprland.url = "github:hyprwm/Hyprland";
 
+    hyprnix = {
+      url = "github:hyprwm/hyprnix";
+      inputs.hyprland.follows = "hyprland";
+    };
+
     # hyprland official plugins
     hyprland-plugins = {
       url = "github:hyprwm/hyprland-plugins";

@@ -22,6 +22,11 @@
       #pkgs-unstable,
       ...
     }: {
+      home.packages = [
+        inputs.hyprnix.packages.${pkgs.stdenv.hostPlatform.system}.hyprpolkitagent
+        inputs.hyprnix.packages.${pkgs.stdenv.hostPlatform.system}.hyprlock
+      ];
+
       wayland.windowManager.hyprland = {
         enable = true;
         package = null;
@@ -37,6 +42,7 @@
         settings = {
           exec-once = [
             "${lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.ksvNoctalia}"
+            "systemctl --user start hyprpolkitagent"
           ];
           #bind = ["SUPER, TAB, gloview:toggle"];
 
