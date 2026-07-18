@@ -75,7 +75,8 @@
           #inputs.hypr-dynamic-cursors.packages.${pkgs.stdenv.hostPlatform.system}.hypr-dynamic-cursors
           pkgs-unstable.hyprlandPlugins.hypr-dynamic-cursors
           #inputs.gloview.packages.${pkgs.system}.gloview
-          pkgs-unstable.hyprlandPlugins.hyprspace
+          # pkgs-unstable.hyprlandPlugins.hyprspace
+          inputs.Hyprspace.packages.${pkgs.stdenv.hostPlatform.system}.Hyprspace
         ];
         systemd = {
           enable = true;

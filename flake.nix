@@ -121,6 +121,8 @@
 
 
 
+    */
+
     # a hyprland plugin refer: https://github.com/KZDKM/Hyprspace
     Hyprspace = {
       url = "github:KZDKM/Hyprspace";
@@ -128,6 +130,7 @@
       inputs.hyprland.follows = "hyprland";
     };
 
+    /*
     # unofficial hyprexpo alternative
     hyprtasking = {
       url = "github:raybbian/hyprtasking";
