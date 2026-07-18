@@ -74,9 +74,10 @@
           #inputs.hyprland-plugins.packages.${pkgs.stdenv.hostPlatform.system}.hyprbars
           #inputs.hypr-dynamic-cursors.packages.${pkgs.stdenv.hostPlatform.system}.hypr-dynamic-cursors
           pkgs-unstable.hyprlandPlugins.hypr-dynamic-cursors
-          inputs.gloview.packages.${pkgs.stdenv.hostPlatform.system}.default
-          # pkgs-unstable.hyprlandPlugins.hyprspace
-          inputs.Hyprspace.packages.${pkgs.stdenv.hostPlatform.system}.Hyprspace
+          # inputs.gloview.packages.${pkgs.stdenv.hostPlatform.system}.gloview
+          pkgs-unstable.hyprlandPlugins.hyprspace
+          # inputs.Hyprspace.packages.${pkgs.stdenv.hostPlatform.system}.Hyprspace
+          inputs.hyprexpo.packages.${pkgs.stdenv.hostPlatform.system}.hyprexpo
         ];
         systemd = {
           enable = true;
@@ -151,8 +152,8 @@
             #"systemctl --user start hyprpolkitagent"
           ];
           bind = [
-            "SUPER, TAB, gloview:toggle"
-            "CTRL SUPER, TAB, overview:toggle"
+            "SUPER, TAB, hyprexpo:expo, toggle"
+            "CTRL SUPER, TAB, overview:toggle" # supposed to be for hyprspace
           ];
 
           "plugin:dynamic-cursors" = {
@@ -161,6 +162,11 @@
             stretch = {
               limit = 3000;
             };
+          };
+
+          "plugin:hyprexpo" = {
+            preview_mode = "live";
+            window_icon_enable = true;
           };
         };
       };

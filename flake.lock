@@ -416,36 +416,6 @@
         "url": "https://flakehub.com/f/cachix/git-hooks.nix/0.1.941"
       }
     },
-    "gloview": {
-      "inputs": {
-        "hyprland": [
-          "hyprland"
-        ],
-        "nixpkgs": [
-          "gloview",
-          "hyprland",
-          "nixpkgs"
-        ],
-        "systems": [
-          "gloview",
-          "hyprland",
-          "systems"
-        ]
-      },
-      "locked": {
-        "lastModified": 1783970342,
-        "narHash": "sha256-XLc+StuAaVvfWYIjPFtFTf1Rne08wHzHxf85XnUB1kM=",
-        "owner": "fedsfarm",
-        "repo": "gloview",
-        "rev": "375a10893981946b529fcafe5e893b859789fa9d",
-        "type": "github"
-      },
-      "original": {
-        "owner": "fedsfarm",
-        "repo": "gloview",
-        "type": "github"
-      }
-    },
     "gnome-shell": {
       "flake": false,
       "locked": {
@@ -509,6 +479,36 @@
       "original": {
         "owner": "hyprwm",
         "repo": "hyprcursor",
+        "type": "github"
+      }
+    },
+    "hyprexpo": {
+      "inputs": {
+        "hyprland": [
+          "hyprland"
+        ],
+        "nixpkgs": [
+          "hyprexpo",
+          "hyprland",
+          "nixpkgs"
+        ],
+        "systems": [
+          "hyprexpo",
+          "hyprland",
+          "systems"
+        ]
+      },
+      "locked": {
+        "lastModified": 1781186042,
+        "narHash": "sha256-EkpeZgWOafgS4Cz6m42CYcY11JHTFIHq+wL8i4lPjSM=",
+        "owner": "colonelpanic8",
+        "repo": "hyprexpo",
+        "rev": "46f2cdb40811926c113257565f525ee719623a17",
+        "type": "github"
+      },
+      "original": {
+        "owner": "colonelpanic8",
+        "repo": "hyprexpo",
         "type": "github"
       }
     },
@@ -1309,8 +1309,8 @@
         "determinate": "determinate",
         "firefox-addons": "firefox-addons",
         "flake-parts": "flake-parts_2",
-        "gloview": "gloview",
         "home-manager": "home-manager",
+        "hyprexpo": "hyprexpo",
         "hyprland": "hyprland",
         "hyprland-plugins": "hyprland-plugins",
         "import-tree": "import-tree",

@@ -32,21 +32,17 @@
             {
               name = "Basic shortcuts";
               remap = {
-                CTRL-ALT-z.remap = {
-                  t.launch = ["konsole"];
-                  k.launch = ["kitty"];
-                  g.launch = ["ghostty"];
-                  #w.launch = ["warp-terminal"];
-                  #w.remap.p.launch = ["warp-terminal"];
-                  #w.remap.e.launch = ["waveterm"];
-                };
+                Ctrl-Alt-k.launch = ["kitty"];
+                Ctrl-Alt-z.launch = ["zen"];
+                Ctrl-Alt-g.launch = ["ghostty"];
+                Super-e.launch = ["dolphin"];
+
                 Ctrl-Alt-a.remap = {
                   t.launch = ["Telegram"];
                   #f.launch = ["firefox"];
                   c.launch = ["google-chrome-stable"];
                   v.launch = ["code"]; # vscode
                   z.remap.d.launch = ["zeditor"];
-                  z.remap.n.launch = ["zen"];
                 };
 
                 Super-F1.launch = ["wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%-"];
