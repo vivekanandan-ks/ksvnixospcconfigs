@@ -74,7 +74,7 @@
           #inputs.hyprland-plugins.packages.${pkgs.stdenv.hostPlatform.system}.hyprbars
           #inputs.hypr-dynamic-cursors.packages.${pkgs.stdenv.hostPlatform.system}.hypr-dynamic-cursors
           pkgs-unstable.hyprlandPlugins.hypr-dynamic-cursors
-          #inputs.gloview.packages.${pkgs.system}.gloview
+          inputs.gloview.packages.${pkgs.stdenv.hostPlatform.system}.default
           # pkgs-unstable.hyprlandPlugins.hyprspace
           inputs.Hyprspace.packages.${pkgs.stdenv.hostPlatform.system}.Hyprspace
         ];
@@ -150,7 +150,10 @@
             "${lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.ksvNoctalia}"
             #"systemctl --user start hyprpolkitagent"
           ];
-          bind = ["SUPER, TAB, overview:toggle"];
+          bind = [
+            "SUPER, TAB, gloview:toggle"
+            "CTRL SUPER, TAB, overview:toggle"
+          ];
 
           "plugin:dynamic-cursors" = {
             enabled = true;

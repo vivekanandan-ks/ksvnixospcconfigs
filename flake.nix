@@ -104,12 +104,10 @@
     };
     */
 
-    /*
-      gloview = {
+    gloview = {
       url = "github:fedsfarm/gloview";
       inputs.hyprland.follows = "hyprland";
     };
-    */
 
     /*
     hyprland = {
