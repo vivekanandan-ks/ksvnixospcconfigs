@@ -27,6 +27,34 @@
         package = pkgs-unstable.hyprlock;
       };
 
+      programs.hyprland-qt-support = {
+        enable = true;
+        package = pkgs-unstable.hyprland-qt-support;
+      };
+
+      services.hypridle = {
+        enable = true;
+        package = pkgs-unstable.hypridle;
+        settings = {
+          general = {
+            after_sleep_cmd = "hyprctl dispatch dpms on";
+            ignore_dbus_inhibit = false;
+            lock_cmd = "hyprlock";
+          };
+          listener = [
+            {
+              timeout = 300; # 5 mins
+              on-timeout = "hyprctl dispatch dpms off";
+              on-resume = "hyprctl dispatch dpms on";
+            }
+            {
+              timeout = 900; # 15 mins
+              on-timeout = "hyprlock";
+            }
+          ];
+        };
+      };
+
       services.hyprpolkitagent = {
         enable = true;
         package = pkgs-unstable.hyprpolkitagent;
@@ -78,7 +106,6 @@
 
           animations = {
             enabled = true;
-            first_launch_animation = true; # fade in on first launch
             bezier = [
               "smoothOut, 0.36, 0, 0.66, -0.56"
               "smoothIn, 0.25, 1, 0.5, 1"
@@ -108,6 +135,8 @@
               ignore_opacity = true;
               new_optimizations = 1;
               xray = true;
+              popups = true;
+              popups_ignorealpha = 0.2;
               #contrast = 0.7;
               #brightness = 0.8;
               #vibrancy = 0.2;
