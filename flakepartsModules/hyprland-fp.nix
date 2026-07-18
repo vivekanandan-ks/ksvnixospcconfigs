@@ -19,12 +19,22 @@
       lib,
       pkgs,
       self,
-      #pkgs-unstable,
+      pkgs-unstable,
       ...
     }: {
+      programs.hyprlock = {
+        enable = true;
+        package = pkgs-unstable.hyprlock;
+      };
+
+      services.hyprpolkitagent = {
+        enable = true;
+        package = pkgs-unstable.hyprpolkitagent;
+      };
+
       home.packages = [
-        inputs.hyprnix.packages.${pkgs.stdenv.hostPlatform.system}.hyprpolkitagent
-        inputs.hyprnix.packages.${pkgs.stdenv.hostPlatform.system}.hyprlock
+        #inputs.hyprnix.packages.${pkgs.stdenv.hostPlatform.system}.hyprpolkitagent
+        #inputs.hyprnix.packages.${pkgs.stdenv.hostPlatform.system}.hyprlock
       ];
 
       wayland.windowManager.hyprland = {
@@ -106,7 +116,7 @@
           };
           exec-once = [
             "${lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.ksvNoctalia}"
-            "systemctl --user start hyprpolkitagent"
+            #"systemctl --user start hyprpolkitagent"
           ];
           #bind = ["SUPER, TAB, gloview:toggle"];
 
