@@ -49,23 +49,23 @@
                   z.remap.n.launch = ["zen"];
                 };
 
-                #Super-F1.launch = ["wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%-"];
-                #Super-F2.launch = ["wpctl" "set-volume" /*"-l" "1.5"*/ "@DEFAULT_AUDIO_SINK@" "5%+"];
+                Super-F1.launch = ["wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%-"];
+                Super-F2.launch = ["wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%+"];
 
-                Super-F1.launch = ["qdbus" "org.kde.kglobalaccel" "/component/kmix" "invokeShortcut" "decrease_volume"];
-                Super-F2.launch = ["qdbus" "org.kde.kglobalaccel" "/component/kmix" "invokeShortcut" "increase_volume"];
+                #Super-F1.launch = ["qdbus" "org.kde.kglobalaccel" "/component/kmix" "invokeShortcut" "decrease_volume"];
+                #Super-F2.launch = ["qdbus" "org.kde.kglobalaccel" "/component/kmix" "invokeShortcut" "increase_volume"];
 
                 # Option 1: brightnessctl (No OSD)
-                #Super-F3.launch = ["brightnessctl" "set" "5%-"];
-                #Super-F4.launch = ["brightnessctl" "set" "+5%"];
+                Super-F3.launch = ["brightnessctl" "set" "5%-"];
+                Super-F4.launch = ["brightnessctl" "set" "+5%"];
 
                 # Option 2: Direct Key Remap (Triggers Super key menu issue)
                 # Super-F3 = "KEY_BRIGHTNESSDOWN";
                 # Super-F4 = "KEY_BRIGHTNESSUP";
 
                 # Option 3: Invoke KDE Shortcut (Recommended - Triggers internal PowerDevil action)
-                Super-F3.launch = ["qdbus" "org.kde.kglobalaccel" "/component/org_kde_powerdevil" "org.kde.kglobalaccel.Component.invokeShortcut" "Decrease Screen Brightness"];
-                Super-F4.launch = ["qdbus" "org.kde.kglobalaccel" "/component/org_kde_powerdevil" "org.kde.kglobalaccel.Component.invokeShortcut" "Increase Screen Brightness"];
+                #Super-F3.launch = ["qdbus" "org.kde.kglobalaccel" "/component/org_kde_powerdevil" "org.kde.kglobalaccel.Component.invokeShortcut" "Decrease Screen Brightness"];
+                #Super-F4.launch = ["qdbus" "org.kde.kglobalaccel" "/component/org_kde_powerdevil" "org.kde.kglobalaccel.Component.invokeShortcut" "Increase Screen Brightness"];
 
                 Ctrl-Alt-space.launch = ["vicinae" "toggle"];
                 Super-Alt-Delete.launch = ["wlogout" "-s"];
