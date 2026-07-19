@@ -3,7 +3,7 @@
     nixosModules.hyprland = {
       inputs,
       pkgs,
-      #pkgs-unstable,
+      pkgs-unstable,
       ...
     }: {
       programs.hyprland = {
