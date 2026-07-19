@@ -2,12 +2,15 @@
   flake = {
     homeModules.nonDroid.hyprlock = {
       pkgs-unstable,
+      lib,
       ...
     }: {
       programs.hyprlock = {
         enable = true;
         package = pkgs-unstable.hyprlock;
-        settings = {
+      };
+
+      programs.hyprlock.settings = lib.mkForce {
           general = {
             disable_loading_bar = false;
             hide_cursor = false;
@@ -15,10 +18,10 @@
             no_fade_in = false;
           };
 
-          background = [
+          background = lib.mkForce [
             {
               monitor = "";
-              path = "screenshot";
+              path = "${../nixosfpModules/nixosResources/limine-images/Frieren1.jpg}";
               blur_passes = 3;
               blur_size = 8;
               brightness = 0.5;
@@ -104,7 +107,6 @@
             }
           ];
         };
-      };
     };
   };
 }
