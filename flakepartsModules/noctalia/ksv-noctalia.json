@@ -8,13 +8,13 @@
       "density": "default",
       "showOutline": false,
       "showCapsule": true,
-      "capsuleOpacity": 0.5,
+      "capsuleOpacity": 0.8,
       "capsuleColorKey": "none",
       "widgetSpacing": 6,
       "contentPadding": 0,
       "fontScale": 1,
       "enableExclusionZoneInset": true,
-      "backgroundOpacity": 0.5,
+      "backgroundOpacity": 0.7,
       "useSeparateOpacity": true,
       "marginVertical": 4,
       "marginHorizontal": 4,
@@ -90,7 +90,7 @@
             "hideUnoccupied": true,
             "iconScale": 0.8,
             "id": "Workspace",
-            "labelMode": "index+name",
+            "labelMode": "index",
             "occupiedColor": "secondary",
             "pillSize": 0.6,
             "showApplications": true,
@@ -108,7 +108,7 @@
             "onlyActiveWorkspaces": false,
             "onlySameOutput": false,
             "showPinnedApps": true,
-            "showTitle": true,
+            "showTitle": false,
             "smartWidth": true,
             "titleWidth": 120
           }
@@ -201,7 +201,7 @@
           },
           {
             "defaultSettings": {
-              "compactMode": false,
+              "compactMode": true,
               "defaultPeerAction": "copy-ip",
               "hideDisconnected": false,
               "managementUrl": "",
@@ -225,7 +225,7 @@
             "defaultSettings": {
               "autoMount": false,
               "fileBrowser": "yazi",
-              "hideWhenEmpty": false,
+              "hideWhenEmpty": true,
               "iconColor": "none",
               "showBadge": false,
               "showNotifications": true,

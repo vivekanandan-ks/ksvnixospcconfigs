@@ -107,7 +107,7 @@
           };
 
           input = {
-            follow_mouse = 1;
+            follow_mouse = 1; # following mouse is actually helpful :-)
           };
 
           animations = {

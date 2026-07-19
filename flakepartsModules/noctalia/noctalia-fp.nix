@@ -6,6 +6,7 @@
   perSystem = {pkgs, ...}: {
     packages.ksvNoctalia = inputs.wrapper-modules.wrappers.noctalia-shell.wrap {
       inherit pkgs;
+      outOfStoreConfig = "/home/ksvnixospc/.config/noctalia-shell";
       settings = pkgs.lib.recursiveUpdate
         (
           builtins.fromJSON (
@@ -69,4 +70,9 @@
       };
     };
   };
+
+  /*
+    Hot Corners Plugin Configuration Notes:
+    - Top Left Command: `hyprctl dispatch overview:toggle`
+  */
 }

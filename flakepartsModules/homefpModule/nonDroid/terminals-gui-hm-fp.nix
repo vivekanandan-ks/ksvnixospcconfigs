@@ -16,6 +16,7 @@
       settings = {
         background-opacity = 0.8;
         background-blur = true;
+        command = "${pkgs-unstable.zellij}/bin/zellij";
         custom-shader = [
           "${../hmResources/ghostty-shaders/cursor_smear.glsl}"
           #"${../hmResources/ghostty-shaders/cursor_blaze.glsl}"
