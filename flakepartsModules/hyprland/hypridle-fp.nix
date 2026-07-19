@@ -2,6 +2,7 @@
   flake = {
     homeModules.nonDroid.hypridle = {
       pkgs-unstable,
+      lib,
       ...
     }: {
       services.hypridle = {
@@ -25,6 +26,14 @@
             }
           ];
         };
+      };
+
+      systemd.user.services.hypridle = {
+        Unit = {
+          PartOf = lib.mkForce [ "hyprland-session.target" ];
+          After = lib.mkForce [ "hyprland-session.target" ];
+        };
+        Install.WantedBy = lib.mkForce [ "hyprland-session.target" ];
       };
     };
   };
