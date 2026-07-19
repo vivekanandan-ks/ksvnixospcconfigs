@@ -44,7 +44,7 @@
           src = "${inputs.noctalia-legacy-v4-plugins.outPath}/plugin-manager";
         };
         privacy-indicator = {
-          enabled = true;
+          enabled = false;
           src = "${inputs.noctalia-legacy-v4-plugins.outPath}/privacy-indicator";
         };
         screen-shot-and-record = {
@@ -75,4 +75,18 @@
     Hot Corners Plugin Configuration Notes:
     - Top Left Command: `hyprctl dispatch overview:toggle`
   */
+
+  flake = {
+    homeModules.nonDroid.noctalia = { pkgs, lib, self, ... }: {
+      systemd.user.services.noctalia = {
+        Unit = {
+          Description = "Noctalia Shell";
+        };
+        Service = {
+          ExecStart = "${lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.ksvNoctalia}";
+          Restart = "on-failure";
+        };
+      };
+    };
+  };
 }

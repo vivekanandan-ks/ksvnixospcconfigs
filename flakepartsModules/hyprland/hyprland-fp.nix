@@ -124,7 +124,7 @@
             };
           };
           exec-once = [
-            "${lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.ksvNoctalia}"
+            "systemctl --user start noctalia.service"
             #"systemctl --user start hyprpolkitagent"
           ];
           bind = [
