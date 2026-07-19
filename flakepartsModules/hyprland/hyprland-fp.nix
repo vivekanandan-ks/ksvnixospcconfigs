@@ -34,28 +34,7 @@
         package = pkgs-unstable.hyprland-qt-support;
       };
 
-      services.hypridle = {
-        enable = true;
-        package = pkgs-unstable.hypridle;
-        settings = {
-          general = {
-            after_sleep_cmd = "hyprctl dispatch dpms on";
-            ignore_dbus_inhibit = false;
-            lock_cmd = "hyprlock";
-          };
-          listener = [
-            {
-              timeout = 300; # 5 mins
-              on-timeout = "hyprctl dispatch dpms off";
-              on-resume = "hyprctl dispatch dpms on";
-            }
-            {
-              timeout = 900; # 15 mins
-              on-timeout = "hyprlock";
-            }
-          ];
-        };
-      };
+
 
       services.hyprpolkitagent = {
         enable = true;
@@ -75,9 +54,7 @@
         plugins = [
           #inputs.hyprland-plugins.packages.${pkgs.stdenv.hostPlatform.system}.hyprbars
           #inputs.hypr-dynamic-cursors.packages.${pkgs.stdenv.hostPlatform.system}.hypr-dynamic-cursors
-          pkgs-unstable.hyprlandPlugins.hypr-dynamic-cursors
           # inputs.gloview.packages.${pkgs.stdenv.hostPlatform.system}.gloview
-          pkgs-unstable.hyprlandPlugins.hyprspace
           # inputs.Hyprspace.packages.${pkgs.stdenv.hostPlatform.system}.Hyprspace
           #inputs.hyprexpo.packages.${pkgs.stdenv.hostPlatform.system}.hyprexpo
         ];
@@ -119,8 +96,8 @@
             ];
 
             animation = [
-              "windows, 1, 4, overshot, slide"
-              "windowsOut, 1, 4, smoothOut, slide"
+              "windows, 1, 3, overshot, slide"
+              "windowsOut, 1, 3, smoothOut, slide"
               "border,1,10,default"
 
               "fade, 1, 10, smoothIn"
@@ -155,21 +132,14 @@
           ];
           bind = [
             #"SUPER, TAB, hyprexpo:expo, toggle"
-            "CTRL SUPER, TAB, overview:toggle" # supposed to be for hyprspace
           ];
 
-          "plugin:dynamic-cursors" = {
-            enabled = true;
-            mode = "stretch";
-            stretch = {
-              limit = 3000;
-            };
-          };
 
-          "plugin:hyprexpo" = {
+
+          /*"plugin:hyprexpo" = {
             preview_mode = "live";
             window_icon_enable = true;
-          };
+          };*/
         };
       };
     };
