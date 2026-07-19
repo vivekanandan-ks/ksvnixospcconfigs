@@ -111,10 +111,10 @@
     };
     */
 
-    hyprexpo = {
-      url = "github:colonelpanic8/hyprexpo";
-      #inputs.hyprland.follows = "hyprland";
-    };
+    # hyprexpo = {
+    #   url = "github:colonelpanic8/hyprexpo";
+    #   #inputs.hyprland.follows = "hyprland";
+    # };
 
     /*
     hyprland = {

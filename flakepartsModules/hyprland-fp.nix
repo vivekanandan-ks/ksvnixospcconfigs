@@ -79,7 +79,7 @@
           # inputs.gloview.packages.${pkgs.stdenv.hostPlatform.system}.gloview
           pkgs-unstable.hyprlandPlugins.hyprspace
           # inputs.Hyprspace.packages.${pkgs.stdenv.hostPlatform.system}.Hyprspace
-          inputs.hyprexpo.packages.${pkgs.stdenv.hostPlatform.system}.hyprexpo
+          #inputs.hyprexpo.packages.${pkgs.stdenv.hostPlatform.system}.hyprexpo
         ];
         systemd = {
           enable = true;
@@ -154,7 +154,7 @@
             #"systemctl --user start hyprpolkitagent"
           ];
           bind = [
-            "SUPER, TAB, hyprexpo:expo, toggle"
+            #"SUPER, TAB, hyprexpo:expo, toggle"
             "CTRL SUPER, TAB, overview:toggle" # supposed to be for hyprspace
           ];
 
