@@ -85,7 +85,7 @@
     };
 
     # hyprland
-    hyprland.url = "github:hyprwm/Hyprland";
+    #hyprland.url = "github:hyprwm/Hyprland";
 
     #hyprnix = {
     #  url = "github:hyprwm/hyprnix";
@@ -93,10 +93,10 @@
     #};
 
     # hyprland official plugins
-    hyprland-plugins = {
+    /*hyprland-plugins = {
       url = "github:hyprwm/hyprland-plugins";
       inputs.hyprland.follows = "hyprland";
-    };
+    };*/
 
     /*hypr-dynamic-cursors = {
       url = "github:VirtCode/hypr-dynamic-cursors";
@@ -113,7 +113,7 @@
 
     hyprexpo = {
       url = "github:colonelpanic8/hyprexpo";
-      inputs.hyprland.follows = "hyprland";
+      #inputs.hyprland.follows = "hyprland";
     };
 
     /*
@@ -129,11 +129,11 @@
     */
 
     # a hyprland plugin refer: https://github.com/KZDKM/Hyprspace
-    Hyprspace = {
+    /*Hyprspace = {
       url = "github:KZDKM/Hyprspace";
       # Hyprspace uses latest Hyprland. We declare this to keep them in sync.
       inputs.hyprland.follows = "hyprland";
-    };
+    };*/
 
     /*
     # unofficial hyprexpo alternative
