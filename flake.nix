@@ -156,10 +156,10 @@
     };
     */
 
-    kwin-effects-forceblur = {
+    /*kwin-effects-forceblur = {
       url = "github:taj-ny/kwin-effects-forceblur";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
+      };*/
 
     nix-on-droid = {
       url = "github:nix-community/nix-on-droid";
