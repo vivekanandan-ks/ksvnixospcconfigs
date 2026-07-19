@@ -24,10 +24,7 @@
       pkgs-unstable,
       ...
     }: {
-      programs.hyprlock = {
-        enable = true;
-        package = pkgs-unstable.hyprlock;
-      };
+
 
       programs.hyprland-qt-support = {
         enable = true;

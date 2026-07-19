@@ -13,7 +13,8 @@
             enabled = true;
             mode = "stretch";
             stretch = {
-              limit = 3000;
+              limit = 8000;
+              function = "quadratic"; # Makes the stretch scale faster as you move faster
             };
           };
         };
