@@ -33,14 +33,7 @@
         #./unusedHomeModules/niri-hm.nix
         #./unusedHomeModules/hyprland-hm.nix
       ]
-      ++ (lib.optionals (!isDroid) (builtins.attrValues (self.homeModules.nonDroid or {})))
-      ++ lib.optionals (!isDroid) [
-        #./unusedHomeModules/waybar-hm.nix
-
-        #./unusedHomeModules/plasma-manager-hm.nix
-        #inputs.noctalia.homeModules.default
-        #./unusedHomeModules/noctalia-shell-hm.nix
-      ];
+      ++ (lib.optionals (!isDroid) (builtins.attrValues (self.homeModules.nonDroid or {})));
 
     # The home.packages option allows you to install Nix packages into your
     # environment.
