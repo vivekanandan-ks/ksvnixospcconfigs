@@ -237,10 +237,7 @@
             #overlays = [ inputs.foo.overlays.default ];
           };
         };
-        flake = {
-          ksvnixospc = top.self.nixosConfigurations.ksvnixospc;
-          deejunixospc = top.self.nixosConfigurations.deejunixospc;
-        };
+
       }
     );
 }

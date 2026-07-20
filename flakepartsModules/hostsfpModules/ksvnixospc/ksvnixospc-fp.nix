@@ -13,4 +13,5 @@
       ]
       ++ (config.myIsDroidModule false) ++ config.myCommonNixosModules;
   };
+  flake.ksvnixospc = config.flake.nixosConfigurations.ksvnixospc;
 }
