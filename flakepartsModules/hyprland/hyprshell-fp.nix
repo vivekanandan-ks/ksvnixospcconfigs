@@ -32,6 +32,14 @@
           };
         };
       };
+
+      systemd.user.services.hyprshell = {
+        Unit = {
+          PartOf = lib.mkForce [ "hyprland-session.target" ];
+          After = lib.mkForce [ "hyprland-session.target" ];
+        };
+        Install.WantedBy = lib.mkForce [ "hyprland-session.target" ];
+      };
     };
   };
 }

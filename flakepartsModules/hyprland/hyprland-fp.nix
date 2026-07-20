@@ -31,13 +31,6 @@
         package = pkgs-unstable.hyprland-qt-support;
       };
 
-
-
-      services.hyprpolkitagent = {
-        enable = true;
-        package = pkgs-unstable.hyprpolkitagent;
-      };
-
       home.packages = [
         #inputs.hyprnix.packages.${pkgs.stdenv.hostPlatform.system}.hyprpolkitagent
         #inputs.hyprnix.packages.${pkgs.stdenv.hostPlatform.system}.hyprlock
