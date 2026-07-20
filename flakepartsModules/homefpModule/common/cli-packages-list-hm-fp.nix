@@ -13,6 +13,7 @@
       ])
       ++ (with pkgs-unstable; [
         #unstable packages
+        gh
 
         poppler-utils
 

@@ -29,6 +29,16 @@
       */
       systemd.enable = true;
       settings = {
+        # Enable closing Vicinae when it loses focus (e.g. clicking elsewhere).
+        # We also need to set keyboard_interactivity to "on_demand" in layer_shell
+        # because the default "exclusive" interactivity prevents focus loss detection.
+        close_on_focus_loss = true;
+        launcher_window = {
+          layer_shell = {
+            keyboard_interactivity = "on_demand";
+          };
+        };
+
         window = {
           csd = true;
           opacity = 0.85;

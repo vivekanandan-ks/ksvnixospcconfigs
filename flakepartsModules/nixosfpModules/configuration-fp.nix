@@ -20,55 +20,6 @@
       #./nixosModules/peertube.nix
     ];
 
-    home-manager = {
-      extraSpecialArgs = {
-        inherit
-          inputs
-          pkgs
-          pkgs-unstable
-          nix4vscode
-          system
-          isDroid
-          username
-          self
-          ;
-      };
-      #users.ksvnixospc = import ./home.nix;
-      #users.ksvnixospc = {
-      users."${username}" = {
-        imports = [
-          config.flake.homeModules.home
-        ];
-      };
-      backupFileExtension = "backup";
-      # backupFileExtension = lib.mkForce null;
-      # backupCommand = "sh -c 'mv $0 $0.backup-$(date +%s)'";
-      useGlobalPkgs = false;
-      useUserPackages = true;
-      sharedModules = [
-        #inputs.plasma-manager.homeModules.plasma-manager
-        #inputs.xremap-flake.homeManagerModules.default # added in home.nix
-        #inputs.sops-nix.homeManagerModules.sops
-      ];
-    };
-
-    # niri
-    /*
-    programs.niri = {
-      enable = true;
-      package = pkgs-unstable.niri;
-    };
-    */
-
-    # sops
-    /*
-    sops = {
-      defaultSopsFile = ./secrets/secrets.yaml;
-      defaultSopsFormat = "yaml";
-      age.keyFile = "/home/ksvnixospc/.config/sops/age/keys.txt";
-    };
-    */
-
     #fonts
     fonts.packages = with pkgs; [
       nerd-fonts.monofur
@@ -79,53 +30,10 @@
     # If you also want to disable zram (compressed swap in RAM):
     #zramSwap.enable = false;
 
-    # n8n
-    /*
-    services.n8n = {
-      enable = true;
-      #openFirewall = true;
-    };
-    */
-
-    # download buffer size; default size is 16mb (16*1024*1024)
-    #nix.settings.download-buffer-size = 6710886400;
-
-    nix.settings.auto-optimise-store = true; # if set to false(default) then run " nix-store --optimise " periodically to get rid of duplicate files.
-    # Nix GC
-    /*
-    nix.gc = {
-      automatic = true;
-      #persistent = false;
-      dates = "daily";
-      options = "--delete-older-than 7d";
-      #randomizedDelaySec = "30min";
-    };
-    */
-
     # Bootloader.
     # systemd-boot
     #boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;
-
-    # limine boot # this config moved to hosts folder
-    #boot.loader = {
-    #  limine = {
-    #    enable = true;
-    #    style.wallpapers = lib.filesystem.listFilesRecursive ./flakepartsModules/nixosfpModules/nixosResources/limine-images; # list of wallpaper paths
-    #    #style.wallpaperStyle = "centered";
-    #    /*
-    #      extraEntries = ''
-    #        /Windows
-    #          protocol: efi
-    #          path: uuid(1c135138-506a-45ed-8352-6455f45e9fea):/EFI/Microsoft/Boot/bootmgfw.efi
-    #      '';
-    #    */
-    #
-    #    extraConfig = ''
-    #      remember_last_entry: yes
-    #    '';
-    #  };
-    #};
 
     # kde-connect
     programs.kdeconnect =
@@ -158,30 +66,6 @@
     }; # Optionally, set the environment variable
     */
 
-    # cosmic DE
-    #services.displayManager.cosmic-greeter.enable = true; # cosmic login manager
-    #services.desktopManager.cosmic.enable = true;
-
-    # enable Hyprland
-
-    /*
-    programs.hyprland = let
-      hyprland-pkg = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system} ;
-     in {
-      enable = true;
-      package = hyprland-pkg.hyprland;
-      #package = null; # doesn't work in nixos options
-      portalPackage = hyprland-pkg.xdg-desktop-portal-hyprland;
-      #portalPackage = null; # # doesn't work in nixos options
-
-    };
-    */
-
-    #Enable flakes
-    nix.settings.experimental-features = [
-      "nix-command"
-      "flakes"
-    ];
     # enable appimage support
     programs.appimage.enable = true;
     programs.appimage.binfmt = true;
@@ -206,11 +90,11 @@
     networking.networkmanager.enable = true;
 
     #enabling for impala
-    networking.wireless.iwd = {
-      enable = true;
-      package = pkgs-unstable.iwd;
-    };
-    networking.networkmanager.wifi.backend = "iwd";
+    # networking.wireless.iwd = {
+    #   enable = true;
+    #   package = pkgs-unstable.iwd;
+    # };
+    # networking.networkmanager.wifi.backend = "iwd";
 
     # Set your time zone.
     time.timeZone = "Asia/Kolkata";
@@ -240,22 +124,6 @@
       variant = "";
     };
 
-    /*
-    specialisation = {
-      kdeunstable.configuration =
-        let
-          nixpkgs.pkgs = inputs.nixpkgs-unstable;
-        in
-      {
-        # Enable the KDE Plasma Desktop Environment.
-        services.displayManager.sddm.enable = true;
-        services.desktopManager.plasma6.enable = true;
-
-      };
-
-    };
-    */
-
     # Enable the KDE Plasma Desktop Environment.
     services.displayManager.sddm.enable = true;
     services.desktopManager.plasma6.enable = true;
@@ -284,33 +152,8 @@
     # Enable touchpad support (enabled default in most desktopManager).
     # services.xserver.libinput.enable = true;
 
-    users.mutableUsers = false; # this will make all user management only via nixos and
-    #imperative user creations or anything in kde or commands won't persist the nixos-rebuild command.
+    #programs.fish.enable = true;
 
-    programs.fish.enable = true;
-
-    #root password
-    users.users.root.hashedPassword = "$6$/Yo/IR.A6rGbFVr6$a6c7yhjPYGuJOBBkcPXl/SjZ531tEUHtkY3tX3np2dcX6JpZg.Myrwdnz.fhqci0Sg83vU8lDYmdpSAQqD.OF0";
-    # Define a user account
-    users.users."${username}" = {
-      isNormalUser = true;
-      description = username;
-      extraGroups = [
-        "networkmanager"
-        "wheel"
-      ];
-      hashedPassword = "$6$DmrUUL7YWFMar6aA$sAoRlSbFH/GYETfXGTGa6GSTEsBEP1lQ6oRdXlQUsqhRB7OTI2vTmVlx64B2ihcez8B0q0l8/Vx1pO8c82bxm0";
-      shell = pkgs-unstable.nushell;
-      #shell = pkgs-unstable.fish;
-      packages =
-        (with pkgs; [
-          #stable
-        ])
-        ++ (with pkgs-unstable; [
-          #unstable
-          gh
-        ]);
-    };
 
     # Enable automatic login for the user.
     services.displayManager.autoLogin.enable = true;

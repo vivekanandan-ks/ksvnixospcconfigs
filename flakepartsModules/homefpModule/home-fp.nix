@@ -42,16 +42,6 @@
         #./unusedHomeModules/noctalia-shell-hm.nix
       ];
 
-    # sops
-    /*
-    sops = {
-      defaultSopsFile = ./secrets/secrets.yaml;
-      defaultSopsFormat = "yaml";
-      age.keyFile = "/home/ksvnixospc/.config/sops/age/keys.txt";
-    };
-    systemd.user.services.mbsync.unitConfig.After = [ "sops-nix.service" ];  # refer: https://github.com/Mic92/sops-nix#use-with-home-manager
-    */
-
     # The home.packages option allows you to install Nix packages into your
     # environment.
     home.packages =

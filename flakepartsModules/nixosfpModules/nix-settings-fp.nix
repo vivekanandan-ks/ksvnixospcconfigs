@@ -32,6 +32,28 @@
         "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
         "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
       ];
+
+      # download buffer size; default size is 16mb (16*1024*1024)
+      #download-buffer-size = 6710886400;
+
+      auto-optimise-store = true; # if set to false(default) then run " nix-store --optimise " periodically to get rid of duplicate files.
+
+      #Enable flakes
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
     };
+
+    # Nix GC
+    /*
+    nix.gc = {
+      automatic = true;
+      #persistent = false;
+      dates = "daily";
+      options = "--delete-older-than 7d";
+      #randomizedDelaySec = "30min";
+    };
+    */
   };
 }
