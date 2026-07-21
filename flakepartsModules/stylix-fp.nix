@@ -45,6 +45,8 @@
       stylix.targets.zen-browser.profileNames = ["default"];
 
       stylix.targets = {
+        nushell.enable = true;
+
         kitty = {
           enable = true;
           colors.enable = false;
@@ -84,7 +86,6 @@
         mpv.enable = true;
         nvf.enable = true;
         nixos-icons.enable = true;
-        nushell.enable = true;
         opencode.enable = true;
         starship.enable = true;
         yazi.enable = true;
