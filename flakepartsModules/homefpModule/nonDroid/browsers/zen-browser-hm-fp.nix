@@ -130,7 +130,7 @@
           "c5f7fb68-cc75-4df0-8b02-dc9ee13aa773" # Audio TabIcon Plus
           #"664c54f9-d97d-410b-a479-23dd8a08a628" # Better Tab Indicators
           "d8b79d4a-6cba-4495-9ff6-d6d30b0e94fe" # Better Active Tab
-          "72f8f48d-86b9-4487-acea-eb4977b18f21" # Better CtrlTab Panel
+          #"72f8f48d-86b9-4487-acea-eb4977b18f21" # Better CtrlTab Panel
           "f7c71d9a-bce2-420f-ae44-a64bd92975ab" # Better Unloaded Tabs
           "58649066-2b6f-4a5b-af6d-c3d21d16fc00" # Private Mode Highlighting
           "87196c08-8ca1-4848-b13b-7ea41ee830e7" # Tab Preview Enhanced
