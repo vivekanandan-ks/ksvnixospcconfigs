@@ -71,11 +71,6 @@
     };
   };
 
-  /*
-    Hot Corners Plugin Configuration Notes:
-    - Top Left Command: `hyprctl dispatch overview:toggle`
-  */
-
   flake = {
     homeModules.nonDroid.noctalia = { pkgs, lib, self, ... }: {
       systemd.user.services.noctalia = {
@@ -89,4 +84,11 @@
       };
     };
   };
+
+  /*
+    Hot Corners Plugin Configuration Notes:
+    - Top Left Command: `hyprctl dispatch overview:toggle`
+    - Bottom Right: `hyprctl dispatch workspace empty`
+  */
+
 }

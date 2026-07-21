@@ -123,6 +123,9 @@
           bind = [
             #"SUPER, TAB, hyprexpo:expo, toggle"
             "CTRL ALT, Delete, exec, ${lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.ksvNoctalia} ipc call sessionMenu toggle"
+            "ALT, F4, killactive"
+            "SUPER, Page_Up, fullscreen, 0"
+            "SUPER, Page_Down, movetoworkspacesilent, special:minimized"
           ];
 
 
