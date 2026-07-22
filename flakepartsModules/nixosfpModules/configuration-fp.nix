@@ -33,7 +33,7 @@
     # Bootloader.
     # systemd-boot
     #boot.loader.systemd-boot.enable = true;
-    boot.loader.efi.canTouchEfiVariables = true;
+    boot.loader.efi.canTouchEfiVariables = false; # making this to false helps avoid the nixos-rebuild error in akashnixospc
 
     # kde-connect
     programs.kdeconnect =
