@@ -57,7 +57,7 @@
         layout = [
           {
             label = "lock";
-            action = "hyprlock";
+            action = "loginctl lock-session";
             text = "Lock";
             keybind = "l";
           }
@@ -69,7 +69,7 @@
           }
           {
             label = "logout";
-            action = "hyprctl dispatch exit";
+            action = "loginctl terminate-user $USER";
             text = "Logout";
             keybind = "e";
           }
