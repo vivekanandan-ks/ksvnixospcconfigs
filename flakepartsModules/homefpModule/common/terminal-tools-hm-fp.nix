@@ -5,6 +5,7 @@
     #lib,
     #pkgs,
     pkgs-unstable,
+    #self,
     ...
   }: {
     home.packages = [pkgs-unstable.jj-starship];
@@ -19,26 +20,6 @@
       #fish already have it's own features so commenting this for now
     };
 
-    #starship
-    programs.starship = let
-      starship-themes-folder = ../hmResources/starship-themes;
-    in {
-      enable = true;
-      package = pkgs-unstable.starship;
-      #enableInteractive = false; #see HM option page before uncommenting
-      enableNushellIntegration = true;
-      enableFishIntegration = true;
-      enableBashIntegration = true;
-      #uncomment only on eof the following settings
-      settings = builtins.fromTOML (builtins.readFile "${starship-themes-folder}/pastel-powerline.toml");
-      #settings = builtins.fromTOML (builtins.readFile "${starship-themes-folder}/catppuccin_macchiato.toml");
-      #settings = builtins.fromTOML (builtins.readFile "${starship-themes-folder}/catppuccin_frappe.toml");
-      #settings = builtins.fromTOML (builtins.readFile "${starship-themes-folder}/catppuccin_mocha");
-      #settings = builtins.fromTOML (builtins.readFile "${starship-themes-folder}/catppuccin_latte.toml");
-      #settings = builtins.fromTOML (builtins.readFile "${starship-themes-folder}/gruvbox-rainbow.toml);
-      #settings = builtins.fromTOML (builtins.readFile "${starship-themes-folder}/tokyo-night.toml");
-      #settings = builtins.fromTOML (builtins.readFile "${starship-themes-folder}/nerd-font-symbols.toml");
-    };
 
     #atuin - shell history and sync e2ee to my atuin account
     programs.atuin = {
