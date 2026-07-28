@@ -191,58 +191,8 @@
         ...
       }: {
         imports = [
-          {
-            options.flake.homeModules = lib.mkOption {
-              type = lib.types.lazyAttrsOf lib.types.unspecified;
-              default = {};
-            };
-            options.flake.hardwareModules = lib.mkOption {
-              type = lib.types.lazyAttrsOf lib.types.unspecified;
-              default = {};
-            };
-          }
           (inputs.import-tree ./flakepartsModules)
-          # To import an internal flake module: ./other.nix
-          # To import an external flake module:
-          #   1. Add foo to inputs
-          #   2. Add foo as a parameter to the outputs function
-          #   3. Add here: foo.flakeModule
         ];
-        systems = [
-          "x86_64-linux"
-          "aarch64-linux" # Added for Nix-on-Droid
-          #"aarch64-darwin"
-          #"x86_64-darwin"
-        ];
-        perSystem = {
-          config,
-          self',
-          inputs',
-          pkgs,
-          system,
-          ...
-        }: {
-          # Per-system attributes can be defined here. The self' and inputs'
-          # module parameters provide easy access to attributes of the same
-          # system.
-
-          # Equivalent to  inputs'.nixpkgs.legacyPackages.hello;
-          #packages.default = pkgs.hello;
-
-          _module.args.pkgs = import inputs.nixpkgs {
-            inherit system;
-            config.allowUnfree = true;
-            nvidia.acceptLicense = true;
-            #overlays = [ inputs.foo.overlays.default ];
-          };
-
-          _module.args.pkgs-unstable = import inputs.nixpkgs-unstable {
-            inherit system;
-            config.allowUnfree = true;
-            nvidia.acceptLicense = true;
-            #overlays = [ inputs.foo.overlays.default ];
-          };
-        };
 
       }
     );
