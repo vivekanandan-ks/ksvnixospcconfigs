@@ -1,4 +1,8 @@
 Custom pre configured packages of mine:
+can also get the below list by running:
+```bash
+nix eval --json .#packages.x86_64-linux --apply 'builtins.attrNames'
+```
 
 1) ksvNoctalia
 2) ksvStarship
