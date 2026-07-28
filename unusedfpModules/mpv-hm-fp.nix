@@ -7,15 +7,16 @@
     pkgs-unstable,
     ...
   }: {
+    /*
     programs.mpv = {
       enable = true;
       package = pkgs-unstable.mpv;
-      /*
-      package = pkgs-unstable.mpv-unwrapped.wrapper {
-        #mpv = pkgs-unstable.mpv-unwrapped.override { vapoursynthSupport = true; };
-        youtubeSupport = true;
-      };
-      */
+      # block start
+      #package = pkgs-unstable.mpv-unwrapped.wrapper {
+      #  #mpv = pkgs-unstable.mpv-unwrapped.override { vapoursynthSupport = true; };
+      #  youtubeSupport = true;
+      #};
+      # block end
       scripts = with pkgs-unstable.mpvScripts; [
         mpris # MPRIS plugin for mpv
         #mpv-cheatsheet # mpv script for looking up keyboard shortcuts shortcut : ?
@@ -255,5 +256,6 @@
         };
       };
     };
+    */
   };
 }

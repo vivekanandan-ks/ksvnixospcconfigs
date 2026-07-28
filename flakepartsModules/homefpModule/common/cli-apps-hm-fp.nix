@@ -8,11 +8,6 @@
     #isDroid ? false,
     ...
   }: {
-    #btop
-    programs.btop = {
-      enable = true;
-      package = pkgs-unstable.btop;
-    };
 
     # bat # cat modern alternative
     programs.bat = {
