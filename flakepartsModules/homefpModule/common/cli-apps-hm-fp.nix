@@ -38,11 +38,13 @@
     };
 
     # fastfetch
+    /*
     programs.fastfetch = {
       enable = true;
       package = pkgs-unstable.fastfetch;
       settings = builtins.fromJSON (builtins.readFile ../hmResources/fastfetch-settings.json);
     };
+    */
 
     # git
     /*
