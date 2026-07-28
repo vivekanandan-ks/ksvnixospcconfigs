@@ -7,3 +7,6 @@ Custom pre configured packages of mine:
 5) ksvFastfetch
 6) ksvBtop
 7) ksvMpv
+8) ksvHelix
+9) ksvAtuin
+10) ksvKitty

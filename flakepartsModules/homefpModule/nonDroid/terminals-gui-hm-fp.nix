@@ -35,6 +35,7 @@
     };
 
     # kitty
+    /*
     programs.kitty = {
       enable = true;
       package = pkgs-unstable.kitty;
@@ -64,6 +65,7 @@
 
       '';
     };
+    */
 
     /*
     # waveterm - modern terminal app

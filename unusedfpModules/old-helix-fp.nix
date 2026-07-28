@@ -1,14 +1,18 @@
-{
-  self,
-  inputs,
-  ...
-}: {
-  perSystem = {pkgs-unstable, ...}: {
-    packages.ksvHelix = inputs.wrapper-modules.wrappers.helix.wrap {
-      pkgs = pkgs-unstable;
+{...}: {
+  flake.homeModules.common.helix-editor = {
+    #inputs,
+    #config,
+    lib,
+    #pkgs,
+    pkgs-unstable,
+    ...
+  }: {
+    /*
+    programs.helix = {
+      enable = true;
       package = pkgs-unstable.helix;
-
-      runtimePkgs = with pkgs-unstable; [
+      defaultEditor = true;
+      extraPackages = with pkgs-unstable; [
         marksman
         markdown-oxide
 
@@ -99,7 +103,7 @@
       };
 
       settings = {
-        theme = "my-transparent-theme"; # defined below
+        theme = lib.mkForce "my-transparent-theme"; # defined below
 
         editor = {
           mouse = true; # # mouse support (selection, scrolling, clicking)
@@ -115,7 +119,7 @@
           bufferline = "always"; # Show currently open buffers, only when more than one exists.
 
           # block start
-          cursorline = true; # Highlight all lines with a cursor
+          #cursorline = true; # Highlight all lines with a cursor
 
           #line-number = "relative"; # Use relative line numbers
 
@@ -203,7 +207,7 @@
       # This defines a new theme called "my-transparent-theme"
       themes = {
         my-transparent-theme = {
-          "inherits" = "catppuccin_macchiato"; # Replace with your preferred base theme
+          "inherits" = "catppuccin_macchiato"; # Replace "onedark" with your preferred base theme
 
           # 1. TRANSPARENCY: Setting this to an empty set {} removes the background
           "ui.background" = {};
@@ -230,15 +234,6 @@
         };
       };
     };
+    */
   };
-
-  flake = {
-    homeModules.common.helix-editor = { pkgs, self, ... }: {
-    programs.helix = {
-      enable = true;
-      package = self.packages.${pkgs.stdenv.hostPlatform.system}.ksvHelix;
-      defaultEditor = true;
-    };
-  };
-};
 }
