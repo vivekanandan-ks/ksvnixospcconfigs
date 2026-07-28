@@ -45,6 +45,7 @@
     };
 
     # git
+    /*
     programs.git = {
       enable = true;
       package = pkgs-unstable.git;
@@ -56,6 +57,7 @@
         #core.editor = "nano";
       };
     };
+    */
 
     programs.difftastic = {
       enable = true;
