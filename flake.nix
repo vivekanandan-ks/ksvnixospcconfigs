@@ -181,15 +181,9 @@
     };
   };
 
-  outputs = inputs @ {flake-parts, ...}:
-    flake-parts.lib.mkFlake {inherit inputs;} (
-      top @ {
-        config,
-        withSystem,
-        moduleWithSystem,
-        lib,
-        ...
-      }: {
+  outputs = inputs:
+    inputs.flake-parts.lib.mkFlake {inherit inputs;} (
+      {
         imports = [
           (inputs.import-tree ./flakepartsModules)
         ];
