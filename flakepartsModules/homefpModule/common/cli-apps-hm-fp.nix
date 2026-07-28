@@ -132,7 +132,7 @@
     */
 
     # jujutsu
-
+    /*
     programs.jujutsu = {
       enable = true;
       package = pkgs-unstable.jujutsu;
@@ -145,7 +145,7 @@
         ui.default-command = "log";
         snapshot.max-new-file-size = "30MiB"; # https://github.com/jj-vcs/jj/blob/main/docs/config.md#maximum-size-for-new-files
       };
-    };
+    };*/
 
     /*
     # github
