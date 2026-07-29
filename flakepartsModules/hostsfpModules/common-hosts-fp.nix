@@ -16,7 +16,6 @@
     myCommonNixosModules =
       (builtins.attrValues config.flake.nixosModules)
       ++ [
-        inputs.determinate.nixosModules.default
         ({...}: {
           _module.args.pkgs-unstable = withSystem "x86_64-linux" ({pkgs-unstable, ...}: pkgs-unstable);
           _module.args = {
