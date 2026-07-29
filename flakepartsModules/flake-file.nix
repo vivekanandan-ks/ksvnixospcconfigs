@@ -7,8 +7,10 @@
   flake-file.outputs = "inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./flakepartsModules)";
 
   imports = [
-    # necessary for bootstrap
-    inputs.flake-file.flakeModules.default
+    # https://flake-file.denful.dev/guides/flake-modules/
+
+    inputs.flake-file.flakeModules.default # necessary for bootstrap
+    inputs.flake-file.flakeModules.allfollow
   ];
 
   flake-file.inputs = {
