@@ -1,4 +1,8 @@
 {...}: {
+  flake-file.inputs = {
+    xremap-flake.url = "github:xremap/nix-flake";
+  };
+
   flake = {
     nixosModules.xremap = {username, ...}: {
       # for this xremap to work as user , have to add these to the configuration.nix

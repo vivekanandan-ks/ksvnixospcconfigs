@@ -1,4 +1,11 @@
 {...}: {
+  flake-file.inputs = {
+    vicinae-extensions = {
+      url = "github:vicinaehq/extensions";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
+
   flake.nixosModules.substituters = {
     nix.settings = {
       substituters = ["https://vicinae.cachix.org"];

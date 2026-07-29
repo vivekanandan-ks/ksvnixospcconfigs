@@ -1,4 +1,12 @@
 {...}: {
+  flake-file.inputs = {
+    # for vscode extensions
+    nix4vscode = {
+      url = "github:nix-community/nix4vscode";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
+
   flake.homeModules.nonDroid.vscode = {
     inputs,
     pkgs,

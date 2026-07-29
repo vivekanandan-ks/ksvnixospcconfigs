@@ -8,7 +8,6 @@
     #self,
     ...
   }: {
-    home.packages = [pkgs-unstable.jj-starship];
 
     #carapace
     programs.carapace = {

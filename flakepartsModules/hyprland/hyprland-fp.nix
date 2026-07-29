@@ -1,4 +1,48 @@
 {...}: {
+  flake-file.inputs = {
+    # hyprland
+    #hyprland.url = "github:hyprwm/Hyprland";
+    #
+    #     # hyprland official plugins
+    /*
+      hyprland-plugins = {
+      url = "github:hyprwm/hyprland-plugins";
+      inputs.hyprland.follows = "hyprland";
+    };
+    */
+    #hyprnix = {
+    #  url = "github:hyprwm/hyprnix";
+    #  inputs.hyprland.follows = "hyprland";
+    #};
+
+    /*
+      hypr-dynamic-cursors = {
+      url = "github:VirtCode/hypr-dynamic-cursors";
+      inputs.hyprland.follows = "hyprland"; # to make sure that the plugin is built for the correct version of hyprland
+    };
+    */
+
+    /*
+    gloview = {
+      url = "github:fedsfarm/gloview";
+      inputs.hyprland.follows = "hyprland";
+    };
+    */
+
+    # hyprexpo = {
+    #   url = "github:colonelpanic8/hyprexpo";
+    #   #inputs.hyprland.follows = "hyprland";
+    # };
+
+    /*
+    # unofficial hyprexpo alternative
+    hyprtasking = {
+      url = "github:raybbian/hyprtasking";
+      inputs.hyprland.follows = "hyprland";
+    };
+    */
+  };
+
   flake = {
     nixosModules.hyprland = {
       inputs,
@@ -24,8 +68,6 @@
       pkgs-unstable,
       ...
     }: {
-
-
       programs.hyprland-qt-support = {
         enable = true;
         package = pkgs-unstable.hyprland-qt-support;
@@ -54,7 +96,6 @@
         };
 
         settings = {
-
           misc = {
             # Window swallowing
             # (i.e. children window causes parent to be hidden)
@@ -94,7 +135,6 @@
               "fadeDim, 1, 10, smoothIn"
               "workspaces,1,4,overshot,slidevert"
             ];
-
           };
 
           decoration = {
@@ -128,12 +168,12 @@
             "SUPER, Page_Down, movetoworkspacesilent, special:minimized"
           ];
 
-
-
-          /*"plugin:hyprexpo" = {
+          /*
+            "plugin:hyprexpo" = {
             preview_mode = "live";
             window_icon_enable = true;
-          };*/
+          };
+          */
         };
       };
     };

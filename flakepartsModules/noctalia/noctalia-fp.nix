@@ -3,11 +3,24 @@
   inputs,
   ...
 }: {
+  flake-file.inputs = {
+    #noctalia = {
+    #  url = "github:noctalia-dev/noctalia-shell";
+    #  inputs.nixpkgs.follows = "nixpkgs";
+    #};
+
+    noctalia-legacy-v4-plugins = {
+      url = "github:noctalia-dev/legacy-v4-plugins";
+      flake = false;
+    };
+  };
+
   perSystem = {pkgs, ...}: {
     packages.ksvNoctalia = inputs.wrapper-modules.wrappers.noctalia-shell.wrap {
       inherit pkgs;
       outOfStoreConfig = "/home/ksvnixospc/.config/noctalia-shell";
-      settings = pkgs.lib.recursiveUpdate
+      settings =
+        pkgs.lib.recursiveUpdate
         (
           builtins.fromJSON (
             builtins.readFile ./ksv-noctalia.json
@@ -72,7 +85,12 @@
   };
 
   flake = {
-    homeModules.nonDroid.noctalia = { pkgs, lib, self, ... }: {
+    homeModules.nonDroid.noctalia = {
+      pkgs,
+      lib,
+      self,
+      ...
+    }: {
       systemd.user.services.noctalia = {
         Unit = {
           Description = "Noctalia Shell";
@@ -86,9 +104,8 @@
   };
 
   /*
-    Hot Corners Plugin Configuration Notes:
-    - Top Left Command: `hyprctl dispatch overview:toggle`
-    - Bottom Right: `hyprctl dispatch workspace empty`
+  Hot Corners Plugin Configuration Notes:
+  - Top Left Command: `hyprctl dispatch overview:toggle`
+  - Bottom Right: `hyprctl dispatch workspace empty`
   */
-
 }

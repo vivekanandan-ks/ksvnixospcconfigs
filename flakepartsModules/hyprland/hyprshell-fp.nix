@@ -1,4 +1,12 @@
 {...}: {
+  flake-file.inputs = {
+    hyprshell = {
+      url = "github:H3rmt/hyprshell";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
+  };
+
   flake = {
     homeModules.nonDroid.hyprshell = {
       inputs,
@@ -15,7 +23,7 @@
         enable = true;
         package = inputs.hyprshell.packages.${pkgs.stdenv.hostPlatform.system}.default;
         systemd.enable = true;
-        
+
         settings = {
           windows = {
             enable = true;
@@ -23,7 +31,7 @@
               enable = true;
               key = "Tab";
               modifier = "alt";
-              filter_by = [ "current_monitor" ];
+              filter_by = ["current_monitor"];
               switch_workspaces = false;
             };
             overview = {
@@ -35,10 +43,10 @@
 
       systemd.user.services.hyprshell = {
         Unit = {
-          PartOf = lib.mkForce [ "hyprland-session.target" ];
-          After = lib.mkForce [ "hyprland-session.target" ];
+          PartOf = lib.mkForce ["hyprland-session.target"];
+          After = lib.mkForce ["hyprland-session.target"];
         };
-        Install.WantedBy = lib.mkForce [ "hyprland-session.target" ];
+        Install.WantedBy = lib.mkForce ["hyprland-session.target"];
       };
     };
   };

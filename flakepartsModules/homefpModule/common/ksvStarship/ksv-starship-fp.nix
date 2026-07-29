@@ -14,7 +14,14 @@
   };
 
   flake = {
-    homeModules.common.starship = { pkgs, self, ... }: {
+    homeModules.common.starship = {
+      pkgs,
+      pkgs-unstable,
+      self,
+      ...
+    }: {
+      home.packages = [pkgs-unstable.jj-starship];
+
       programs.starship = {
         enable = true;
         package = self.packages.${pkgs.stdenv.hostPlatform.system}.ksvStarship;

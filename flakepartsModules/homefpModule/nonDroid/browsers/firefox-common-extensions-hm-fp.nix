@@ -1,7 +1,19 @@
-{
-  lib,
-  ...
-}: {
+{lib, ...}: {
+  flake-file.inputs = {
+    nur = {
+      url = "github:nix-community/NUR";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-parts.follows = "flake-parts";
+    };
+
+    /*
+      firefox-addons = {
+      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    */
+  };
+
   flake.homeModules.nonDroid.firefox-common-extensions = {
     inputs,
     pkgs,
