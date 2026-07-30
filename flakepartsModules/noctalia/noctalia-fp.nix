@@ -30,8 +30,10 @@
           general.avatarImage = "${./shoyohinata.png}";
           wallpaper.directory = "${./wallpaper}";
           wallpaper.useWallhaven = false;
+          wallpaper.useOriginalImages = true;
           wallpaper.automationEnabled = true;
           wallpaper.randomIntervalSec = 300;
+          wallpaper.showHiddenFiles = true;
         };
 
       preInstalledPlugins = {

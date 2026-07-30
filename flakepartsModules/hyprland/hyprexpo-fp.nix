@@ -6,7 +6,7 @@
     };
   };
   flake = {
-    homeModules.nonDroid.hyprspace = {pkgs, ...}: {
+    homeModules.nonDroid.hyprexpo = {pkgs, ...}: {
       wayland.windowManager.hyprland = {
         plugins = [inputs.hyprexpo.packages.${pkgs.stdenv.hostPlatform.system}.hyprexpo];
         #settings.bind = ["SUPER, TAB, gloview:toggle"];
