@@ -1,5 +1,6 @@
 {inputs, ...}: {
-  flake-file.inputs.hyprglass = {
+  /*
+    flake-file.inputs.hyprglass = {
     url = "github:hyprnux/hyprglass";
     flake = false;
   };
@@ -19,8 +20,8 @@
       src = inputs.hyprglass;
 
       nativeBuildInputs = [pkgs.pkg-config];
-      
-      # mkHyprlandPlugin automatically handles hyprland's own inputs, 
+
+      # mkHyprlandPlugin automatically handles hyprland's own inputs,
       # we just need to add the extra ones required by hyprglass
       buildInputs = [pkgs.pixman pkgs.libdrm];
 
@@ -38,12 +39,10 @@
       installPhase = ''
         mkdir -p $out/lib
         cp hyprglass.so $out/lib/
-      '';
-
-      # Home Manager's hyprland module requires plugins to be prefixed with `lib`
-      postInstall = ''
+        # Home Manager's hyprland module requires plugins to be prefixed with `lib`
         ln -sf hyprglass.so $out/lib/libhyprglass.so
       '';
     };
-  };
+    };
+  */
 }
