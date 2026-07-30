@@ -3,6 +3,20 @@
   inputs,
   ...
 }: {
+  flake = {
+    homeModules.common.git = {
+      pkgs,
+      self,
+      ...
+    }: {
+      programs.git = {
+        enable = true;
+        package = self.packages.${pkgs.stdenv.hostPlatform.system}.ksvGit;
+        signing.format = null;
+      };
+    };
+  };
+
   perSystem = {pkgs-unstable, ...}: {
     packages.ksvGit = inputs.wrapper-modules.wrappers.git.wrap {
       pkgs = pkgs-unstable;
@@ -15,16 +29,6 @@
         init = {
           defaultBranch = "main";
         };
-      };
-    };
-  };
-
-  flake = {
-    homeModules.common.git = { pkgs, self, ... }: {
-      programs.git = {
-        enable = true;
-        package = self.packages.${pkgs.stdenv.hostPlatform.system}.ksvGit;
-        signing.format = null;
       };
     };
   };

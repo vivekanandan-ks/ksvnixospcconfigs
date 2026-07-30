@@ -3,6 +3,16 @@
   inputs,
   ...
 }: {
+
+  flake = {
+    homeModules.nonDroid.mpv = { pkgs, self, ... }: {
+      programs.mpv = {
+        enable = true;
+        package = self.packages.${pkgs.stdenv.hostPlatform.system}.ksvMpv;
+      };
+    };
+  };
+
   perSystem = {pkgs-unstable, ...}: {
     packages.ksvMpv = inputs.wrapper-modules.wrappers.mpv.wrap {
       pkgs = pkgs-unstable;
@@ -40,12 +50,4 @@
     };
   };
 
-  flake = {
-    homeModules.nonDroid.mpv = { pkgs, self, ... }: {
-      programs.mpv = {
-        enable = true;
-        package = self.packages.${pkgs.stdenv.hostPlatform.system}.ksvMpv;
-      };
-    };
-  };
 }

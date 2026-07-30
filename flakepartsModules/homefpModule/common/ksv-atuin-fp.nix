@@ -3,6 +3,22 @@
   inputs,
   ...
 }: {
+  flake = {
+    homeModules.common.atuin = {
+      pkgs,
+      self,
+      ...
+    }: {
+      programs.atuin = {
+        enable = true;
+        package = self.packages.${pkgs.stdenv.hostPlatform.system}.ksvAtuin;
+        enableNushellIntegration = true;
+        enableFishIntegration = true;
+        enableBashIntegration = true;
+      };
+    };
+  };
+
   perSystem = {pkgs-unstable, ...}: {
     packages.ksvAtuin = inputs.wrapper-modules.wrappers.atuin.wrap {
       pkgs = pkgs-unstable;
@@ -27,18 +43,6 @@
           name = "marine"; # options are ""(default) or "autumn" or "marine"(good out of the three)
           debug = true;
         };
-      };
-    };
-  };
-
-  flake = {
-    homeModules.common.atuin = { pkgs, self, ... }: {
-      programs.atuin = {
-        enable = true;
-        package = self.packages.${pkgs.stdenv.hostPlatform.system}.ksvAtuin;
-        enableNushellIntegration = true;
-        enableFishIntegration = true;
-        enableBashIntegration = true;
       };
     };
   };

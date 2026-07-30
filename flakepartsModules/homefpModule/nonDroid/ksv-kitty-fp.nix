@@ -3,6 +3,16 @@
   inputs,
   ...
 }: {
+
+  flake = {
+    homeModules.nonDroid.kitty = { pkgs, self, ... }: {
+      programs.kitty = {
+        enable = true;
+        package = self.packages.${pkgs.stdenv.hostPlatform.system}.ksvKitty;
+      };
+    };
+  };
+
   perSystem = {pkgs, pkgs-unstable, ...}: {
     packages.ksvKitty = inputs.wrapper-modules.wrappers.kitty.wrap {
       pkgs = pkgs-unstable;
@@ -32,15 +42,6 @@
         window_alert_on_bell yes
         bell_on_tab "🔔 "
       '';
-    };
-  };
-
-  flake = {
-    homeModules.nonDroid.kitty = { pkgs, self, ... }: {
-      programs.kitty = {
-        enable = true;
-        package = self.packages.${pkgs.stdenv.hostPlatform.system}.ksvKitty;
-      };
     };
   };
 }

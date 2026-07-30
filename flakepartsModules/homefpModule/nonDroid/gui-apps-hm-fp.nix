@@ -14,7 +14,7 @@
         #enable = true;
         package = pkgs-unstable.firefox;
         configPath = "${config.xdg.configHome}/mozilla/firefox";
-        nativeMessagingHosts = [ pkgs-unstable.firefoxpwa ];
+        #nativeMessagingHosts = [ pkgs-unstable.firefoxpwa ];
       };
       # to make sure the package is both in the PATH and in the Firefox's nativeMessagingHosts.
       home.packages = [

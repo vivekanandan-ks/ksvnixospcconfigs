@@ -3,6 +3,16 @@
   inputs,
   ...
 }: {
+
+  flake = {
+    homeModules.common.fastfetch = { pkgs, self, ... }: {
+      programs.fastfetch = {
+        enable = true;
+        package = self.packages.${pkgs.stdenv.hostPlatform.system}.ksvFastfetch;
+      };
+    };
+  };
+
   perSystem = {pkgs-unstable, ...}: {
     packages.ksvFastfetch = inputs.wrapper-modules.wrappers.fastfetch.wrap {
       pkgs = pkgs-unstable;
@@ -13,12 +23,4 @@
     };
   };
 
-  flake = {
-    homeModules.common.fastfetch = { pkgs, self, ... }: {
-      programs.fastfetch = {
-        enable = true;
-        package = self.packages.${pkgs.stdenv.hostPlatform.system}.ksvFastfetch;
-      };
-    };
-  };
 }
