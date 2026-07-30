@@ -25,10 +25,13 @@
           builtins.fromJSON (
             builtins.readFile ./ksv-noctalia.json
           )
-        ).settings
+        )
         {
           general.avatarImage = "${./shoyohinata.png}";
-          wallpaper.directory = "${../nixosfpModules/nixosResources/limine-images}";
+          wallpaper.directory = "${./wallpaper}";
+          wallpaper.useWallhaven = false;
+          wallpaper.automationEnabled = true;
+          wallpaper.randomIntervalSec = 300;
         };
 
       preInstalledPlugins = {
