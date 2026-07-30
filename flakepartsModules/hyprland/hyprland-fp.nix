@@ -15,24 +15,6 @@
     #  inputs.hyprland.follows = "hyprland";
     #};
 
-    /*
-      hypr-dynamic-cursors = {
-      url = "github:VirtCode/hypr-dynamic-cursors";
-      inputs.hyprland.follows = "hyprland"; # to make sure that the plugin is built for the correct version of hyprland
-    };
-    */
-
-    /*
-    gloview = {
-      url = "github:fedsfarm/gloview";
-      inputs.hyprland.follows = "hyprland";
-    };
-    */
-
-    # hyprexpo = {
-    #   url = "github:colonelpanic8/hyprexpo";
-    #   #inputs.hyprland.follows = "hyprland";
-    # };
 
     /*
     # unofficial hyprexpo alternative
@@ -87,7 +69,6 @@
           #inputs.hyprland-plugins.packages.${pkgs.stdenv.hostPlatform.system}.hyprbars
           #inputs.hypr-dynamic-cursors.packages.${pkgs.stdenv.hostPlatform.system}.hypr-dynamic-cursors
           # inputs.gloview.packages.${pkgs.stdenv.hostPlatform.system}.gloview
-          #inputs.hyprexpo.packages.${pkgs.stdenv.hostPlatform.system}.hyprexpo
         ];
         systemd = {
           enable = true;
