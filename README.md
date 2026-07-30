@@ -14,3 +14,4 @@ nix eval --json .#packages.x86_64-linux --apply 'builtins.attrNames'
 8) ksvHelix
 9) ksvAtuin
 10) ksvKitty
+11) ksvSpicetify

@@ -87,7 +87,6 @@
           #inputs.hyprland-plugins.packages.${pkgs.stdenv.hostPlatform.system}.hyprbars
           #inputs.hypr-dynamic-cursors.packages.${pkgs.stdenv.hostPlatform.system}.hypr-dynamic-cursors
           # inputs.gloview.packages.${pkgs.stdenv.hostPlatform.system}.gloview
-          # inputs.Hyprspace.packages.${pkgs.stdenv.hostPlatform.system}.Hyprspace
           #inputs.hyprexpo.packages.${pkgs.stdenv.hostPlatform.system}.hyprexpo
         ];
         systemd = {

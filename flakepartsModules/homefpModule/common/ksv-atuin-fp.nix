@@ -15,6 +15,9 @@
         enableNushellIntegration = true;
         enableFishIntegration = true;
         enableBashIntegration = true;
+        flags = [
+          "--disable-up-arrow"
+        ];
       };
     };
   };
@@ -23,8 +26,6 @@
     packages.ksvAtuin = inputs.wrapper-modules.wrappers.atuin.wrap {
       pkgs = pkgs-unstable;
       package = pkgs-unstable.atuin;
-
-      flags."--disable-up-arrow" = true;
 
       settings = {
         auto_sync = true;
