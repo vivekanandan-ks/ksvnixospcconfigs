@@ -13,10 +13,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     hyprexpo.url = "github:colonelpanic8/hyprexpo";
-    hyprglass = {
-      url = "github:hyprnux/hyprglass";
-      flake = false;
-    };
     hyprshell = {
       url = "github:H3rmt/hyprshell";
       inputs = {
