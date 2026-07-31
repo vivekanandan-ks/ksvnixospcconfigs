@@ -18,7 +18,7 @@
   perSystem = {pkgs, ...}: {
     packages.ksvNoctalia = inputs.wrapper-modules.wrappers.noctalia-shell.wrap {
       inherit pkgs;
-      outOfStoreConfig = "/home/ksvnixospc/.config/noctalia-shell";
+      # outOfStoreConfig = "/home/ksvnixospc/.config/noctalia-shell";
       settings =
         pkgs.lib.recursiveUpdate
         (
