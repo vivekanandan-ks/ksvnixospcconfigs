@@ -76,6 +76,8 @@
         };
 
         settings = {
+          "$mainMod" = "SUPER";
+
           misc = {
             # Window swallowing
             # (i.e. children window causes parent to be hidden)
@@ -147,6 +149,18 @@
             "ALT, F4, killactive"
             "SUPER, Page_Up, fullscreen, 0"
             "SUPER, Page_Down, movetoworkspacesilent, special:minimized"
+
+            # Switch workspaces with mainMod + [0-9]
+            "$mainMod, 1, workspace, 1"
+            "$mainMod, 2, workspace, 2"
+            "$mainMod, 3, workspace, 3"
+            "$mainMod, 4, workspace, 4"
+
+            # Move active window to a workspace with mainMod + SHIFT + [0-9]
+            "$mainMod SHIFT, 1, movetoworkspace, 1"
+            "$mainMod SHIFT, 2, movetoworkspace, 2"
+            "$mainMod SHIFT, 3, movetoworkspace, 3"
+            "$mainMod SHIFT, 4, movetoworkspace, 4"
           ];
 
           /*
