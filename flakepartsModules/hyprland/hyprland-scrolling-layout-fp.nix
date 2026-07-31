@@ -8,7 +8,7 @@
           };
 
           scrolling = {
-            column_width = 0.5;
+            column_width = 1.0;
             focus_fit_method = 1;
             direction = "right";
             # New 0.56 options

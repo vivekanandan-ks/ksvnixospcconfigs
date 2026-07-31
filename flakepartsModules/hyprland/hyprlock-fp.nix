@@ -16,17 +16,18 @@
             hide_cursor = false;
             grace = 0;
             no_fade_in = false;
+            fractional_scaling = 0; # Fixes the zoomed-in UI bug
           };
 
           background = lib.mkForce [
             {
               monitor = "";
-              path = "${../nixosfpModules/nixosResources/limine-images/Frieren1.jpg}";
+              path = "screenshot";
               blur_passes = 3;
               blur_size = 8;
-              brightness = 0.5;
+              brightness = 0.8;
               vibrancy = 0.2;
-              vibrancy_darkness = 0.2;
+              vibrancy_darkness = 0.0;
             }
           ];
 
@@ -34,7 +35,7 @@
             {
               monitor = "";
               path = "${../noctalia/shoyohinata.png}";
-              size = 150;
+              size = 250;
               border_size = 4;
               border_color = "rgb(255, 255, 255)";
               rounding = -1; # Circle
