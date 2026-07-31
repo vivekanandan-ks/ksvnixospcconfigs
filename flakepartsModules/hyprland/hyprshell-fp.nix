@@ -35,7 +35,7 @@
               switch_workspaces = false;
             };
             overview = {
-              enable = true;
+              enable = false;
             };
           };
         };

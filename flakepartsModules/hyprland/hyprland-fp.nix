@@ -15,7 +15,6 @@
     #  inputs.hyprland.follows = "hyprland";
     #};
 
-
     /*
     # unofficial hyprexpo alternative
     hyprtasking = {
@@ -32,6 +31,9 @@
       pkgs-unstable,
       ...
     }: {
+
+      #services.displayManager.defaultSession = "hyprland"; # this sets hyprland as default auto-login session
+
       programs.hyprland = {
         enable = true;
         xwayland.enable = true; # default true
@@ -76,6 +78,11 @@
         };
 
         settings = {
+          env = [
+            "QT_QPA_PLATFORMTHEME,kde"
+            "QT_STYLE_OVERRIDE,breeze"
+          ];
+
           "$mainMod" = "SUPER";
 
           misc = {
