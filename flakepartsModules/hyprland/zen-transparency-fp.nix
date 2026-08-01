@@ -1,5 +1,5 @@
 {...}: {
-  flake = {
+  /*flake = {
     homeModules.nonDroid.zen-transparency = {
       wayland.windowManager.hyprland.settings = {
         windowrulev2 = [
@@ -7,5 +7,5 @@
         ];
       };
     };
-  };
+  };*/
 }
