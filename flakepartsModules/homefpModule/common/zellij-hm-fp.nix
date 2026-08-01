@@ -14,7 +14,7 @@
       enableFishIntegration = true;
 
       settings = {
-        default_mode = "locked";
+        default_mode = "normal";
         #theme = "custom";
         #themes.custom.fg = "#ffffff";
 

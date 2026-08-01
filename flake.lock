@@ -375,6 +375,22 @@
         "url": "https://flakehub.com/f/cachix/git-hooks.nix/0.1.941"
       }
     },
+    "gloview": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1785058365,
+        "narHash": "sha256-9c9OXbz7g9FzV4KV25LPmjuTDSAxNe8Mt4WwaI9XwAk=",
+        "owner": "fedsfarm",
+        "repo": "gloview",
+        "rev": "2cf8f02e41a51e0d8cec74f2c43928f0e709a9d4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "fedsfarm",
+        "repo": "gloview",
+        "type": "github"
+      }
+    },
     "gnome-shell": {
       "flake": false,
       "locked": {
@@ -892,6 +908,7 @@
         "determinate": "determinate",
         "flake-file": "flake-file",
         "flake-parts": "flake-parts_2",
+        "gloview": "gloview",
         "home-manager": "home-manager",
         "hyprshell": "hyprshell",
         "import-tree": "import-tree",
