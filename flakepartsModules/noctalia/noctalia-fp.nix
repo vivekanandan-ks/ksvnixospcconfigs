@@ -62,11 +62,12 @@
             name = "hot-corners-with-settings";
             paths = [
               "${inputs.noctalia-legacy-v4-plugins.outPath}/hot-corners"
+              # Previous implementation: "BottomLeft": "hyprctl -i 0 dispatch gloview:allworkspaces",
               (pkgs.writeTextDir "settings.json" ''
                 {
                   "corners": {
                     "TopLeft": "hyprctl -i 0 dispatch gloview:toggle",
-                    "BottomLeft": "hyprctl -i 0 dispatch gloview:allworkspaces",
+                    "BottomLeft": "hyprctl -i 0 dispatch scrolloverview:overview toggle",
                     "BottomRight": "hyprctl -i 0 dispatch workspace empty"
                   }
                 }

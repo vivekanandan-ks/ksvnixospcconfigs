@@ -52,6 +52,10 @@
       url = "github:NotAShelf/nvf";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    scrolloverview = {
+      url = "github:yayuuu/hyprland-scroll-overview";
+      flake = false;
+    };
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
     stylix = {
       url = "github:nix-community/stylix";

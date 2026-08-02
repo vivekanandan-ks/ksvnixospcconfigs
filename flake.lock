@@ -919,12 +919,29 @@
         "noctalia-legacy-v4-plugins": "noctalia-legacy-v4-plugins",
         "nur": "nur",
         "nvf": "nvf",
+        "scrolloverview": "scrolloverview",
         "spicetify-nix": "spicetify-nix",
         "stylix": "stylix",
         "vicinae-extensions": "vicinae-extensions",
         "wrapper-modules": "wrapper-modules",
         "xremap-flake": "xremap-flake",
         "zen-browser": "zen-browser"
+      }
+    },
+    "scrolloverview": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1785626878,
+        "narHash": "sha256-dk9fNF8HCs9tsQsisAK89iITjKBS1NVCjJl8UjqZffA=",
+        "owner": "yayuuu",
+        "repo": "hyprland-scroll-overview",
+        "rev": "34f297c481daf63ee732c0fbdda5bae7677d3e09",
+        "type": "github"
+      },
+      "original": {
+        "owner": "yayuuu",
+        "repo": "hyprland-scroll-overview",
+        "type": "github"
       }
     },
     "scss-reset": {
