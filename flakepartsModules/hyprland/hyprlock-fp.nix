@@ -14,9 +14,9 @@
           general = {
             disable_loading_bar = false;
             hide_cursor = false;
-            grace = 0;
+            #grace = 0;
             no_fade_in = false;
-            fractional_scaling = 0; # Fixes the zoomed-in UI bug
+            #fractional_scaling = 0; # Fixes the zoomed-in UI bug
           };
 
           background = lib.mkForce [
@@ -39,7 +39,7 @@
               border_size = 4;
               border_color = "rgb(255, 255, 255)";
               rounding = -1; # Circle
-              position = "0, 150";
+              position = "0, 0";
               halign = "center";
               valign = "center";
             }
@@ -50,14 +50,14 @@
               monitor = "";
               size = "250, 50";
               outline_thickness = 3;
-              dots_size = 0.26; 
+              dots_size = 0.26;
               dots_spacing = 0.15;
               dots_center = true;
               dots_rounding = -1;
               outer_color = "rgba(255, 255, 255, 0.1)";
               inner_color = "rgba(255, 255, 255, 0.1)";
               font_color = "rgb(255, 255, 255)";
-              fade_on_empty = false; # Let's keep it visible since it's styled nicely
+              fade_on_empty = false;
               fade_timeout = 1000;
               placeholder_text = "<i>Enter Password...</i>";
               hide_input = false;
@@ -66,7 +66,7 @@
               fail_color = "rgb(204, 34, 34)";
               fail_text = "<i>$FAIL <b>($ATTEMPTS)</b></i>";
               capslock_color = "rgb(34, 136, 204)";
-              position = "0, -70";
+              position = "0, -180";
               halign = "center";
               valign = "center";
             }
@@ -80,9 +80,9 @@
               color = "rgba(255, 255, 255, 1.0)";
               font_size = 100;
               font_family = "Inter Display Bold";
-              position = "0, 100";
+              position = "0, 300";
               halign = "center";
-              valign = "top";
+              valign = "center";
             }
             # Date
             {
@@ -91,18 +91,7 @@
               color = "rgba(255, 255, 255, 1.0)";
               font_size = 22;
               font_family = "Inter";
-              position = "0, 50";
-              halign = "center";
-              valign = "top";
-            }
-            # Greeting
-            {
-              monitor = "";
-              text = "Welcome back, $USER";
-              color = "rgba(255, 255, 255, 1.0)";
-              font_size = 20;
-              font_family = "Inter Medium";
-              position = "0, 20";
+              position = "0, 200";
               halign = "center";
               valign = "center";
             }
