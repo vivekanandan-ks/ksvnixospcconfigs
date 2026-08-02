@@ -54,6 +54,7 @@
               dots_spacing = 0.15;
               dots_center = true;
               dots_rounding = -1;
+              dots_text_format = "🫣";
               outer_color = "rgba(255, 255, 255, 0.1)";
               inner_color = "rgba(255, 255, 255, 0.1)";
               font_color = "rgb(255, 255, 255)";
@@ -76,9 +77,9 @@
             # Time
             {
               monitor = "";
-              text = "$TIME";
+              text = "cmd[update:1000] echo \"$(date +'%H:%M:%S')\"";
               color = "rgba(255, 255, 255, 1.0)";
-              font_size = 100;
+              font_size = 80;
               font_family = "Inter Display Bold";
               position = "0, 300";
               halign = "center";
@@ -87,7 +88,7 @@
             # Date
             {
               monitor = "";
-              text = "cmd[update:1000] echo \"<b>$(date +'%A, %B %d')</b>\"";
+              text = "cmd[update:1000] echo \"<b>$(date +'%A, %B %d, %Y')</b>\"";
               color = "rgba(255, 255, 255, 1.0)";
               font_size = 22;
               font_family = "Inter";
