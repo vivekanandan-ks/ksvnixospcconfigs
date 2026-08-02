@@ -43,7 +43,18 @@
         };
         catwalk = {
           enabled = true;
-          src = "${inputs.noctalia-legacy-v4-plugins.outPath}/catwalk";
+          src = pkgs.symlinkJoin {
+            name = "catwalk-with-settings";
+            paths = [
+              "${inputs.noctalia-legacy-v4-plugins.outPath}/catwalk"
+              (pkgs.writeTextDir "settings.json" ''
+                {
+                  "minimumThreshold": 50,
+                  "hideBackground": true
+                }
+              '')
+            ];
+          };
         };
         hot-corners = {
           enabled = true;
@@ -54,7 +65,9 @@
               (pkgs.writeTextDir "settings.json" ''
                 {
                   "corners": {
-                    "TopLeft": "hyprctl -i 0 dispatch gloview:toggle"
+                    "TopLeft": "hyprctl -i 0 dispatch gloview:toggle",
+                    "BottomLeft": "hyprctl -i 0 dispatch gloview:allworkspaces",
+                    "BottomRight": "hyprctl -i 0 dispatch workspace empty"
                   }
                 }
               '')
@@ -63,7 +76,19 @@
         };
         netbird = {
           enabled = true;
-          src = "${inputs.noctalia-legacy-v4-plugins.outPath}/netbird";
+          src = pkgs.symlinkJoin {
+            name = "netbird-with-settings";
+            paths = [
+              "${inputs.noctalia-legacy-v4-plugins.outPath}/netbird"
+              (pkgs.writeTextDir "settings.json" ''
+                {
+                  "refreshInterval": 30000,
+                  "compactMode": true,
+                  "showPing": true
+                }
+              '')
+            ];
+          };
         };
         network-indicator = {
           enabled = true;

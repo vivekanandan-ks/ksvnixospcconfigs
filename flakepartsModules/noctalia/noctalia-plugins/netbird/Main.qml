@@ -1,1 +1,0 @@
-/nix/store/3g5y1b734sxg5198r0psy5crnnrhn8v4-source/netbird/Main.qml
