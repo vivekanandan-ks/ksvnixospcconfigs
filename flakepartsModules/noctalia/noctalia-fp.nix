@@ -114,7 +114,7 @@
 
   /*
   Hot Corners Plugin Configuration Notes:
-  - Top Left Command: `hyprctl dispatch overview:toggle`
-  - Bottom Right: `hyprctl dispatch workspace empty`
+  - Top Left Command: `hyprctl dispatch gloview:toggle`
+  - Bottom Right: `hyprctl -i 0 dispatch workspace empty`
   */
 }
