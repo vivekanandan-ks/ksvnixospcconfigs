@@ -47,7 +47,19 @@
         };
         hot-corners = {
           enabled = true;
-          src = "${inputs.noctalia-legacy-v4-plugins.outPath}/hot-corners";
+          src = pkgs.symlinkJoin {
+            name = "hot-corners-with-settings";
+            paths = [
+              "${inputs.noctalia-legacy-v4-plugins.outPath}/hot-corners"
+              (pkgs.writeTextDir "settings.json" ''
+                {
+                  "corners": {
+                    "TopLeft": "hyprctl -i 0 dispatch gloview:toggle"
+                  }
+                }
+              '')
+            ];
+          };
         };
         netbird = {
           enabled = true;
