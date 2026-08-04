@@ -42,11 +42,6 @@
 
       stylix.polarity = "dark";
 
-      stylix.cursor = {
-        package = pkgs-unstable.bibata-cursors-translucent;
-        name = "Bibata Ghost";
-        size = 24;
-      };
 
       stylix.fonts.sizes = {
         applications = 10;
