@@ -58,7 +58,7 @@
 
         kitty = {
           enable = true;
-          colors.enable = true;
+          colors.enable = false;
         };
 
         ghostty = {
@@ -66,7 +66,7 @@
           colors.enable = false;
         };
 
-        zellij.enable = true;
+        #zellij.enable = true;
 
         vscode = {
           enable = false;
