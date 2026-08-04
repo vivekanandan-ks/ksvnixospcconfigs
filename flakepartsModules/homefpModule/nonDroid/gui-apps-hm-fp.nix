@@ -23,7 +23,7 @@
 
       # obs-studio
       programs.obs-studio = {
-        #enable = true;
+        enable = true;
         package = pkgs-unstable.obs-studio;
         plugins = with pkgs-unstable.obs-studio-plugins; [
           obs-composite-blur

@@ -58,13 +58,15 @@
 
         kitty = {
           enable = true;
-          colors.enable = false;
+          colors.enable = true;
         };
 
         ghostty = {
           enable = true;
           colors.enable = false;
         };
+
+        zellij.enable = true;
 
         vscode = {
           enable = false;
@@ -99,7 +101,7 @@
         starship.enable = true;
         yazi.enable = true;
         zed.enable = true;
-        zellij.enable = true;
+
         zen-browser.enable = true;
         kde.enable = true;
         gtk.enable = true;
