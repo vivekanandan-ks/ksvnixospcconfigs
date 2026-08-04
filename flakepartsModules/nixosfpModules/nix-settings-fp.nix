@@ -22,6 +22,16 @@
         "https://hyprland.cachix.org"
         "https://devenv.cachix.org"
         "https://hydra.nix-community.org"
+
+        /*# status: https://mirrors.nju.edu.cn/
+        "https://mirrors.nju.edu.cn/nix-channels/store"
+
+        # status: https://mirror.sjtu.edu.cn/
+        "https://mirror.sjtu.edu.cn/nix-channels/store"
+
+        # status: https://mirrors.tuna.tsinghua.edu.cn/
+        "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
+        */
       ];
 
       extra-trusted-public-keys = [
