@@ -40,6 +40,7 @@
                 Ctrl-Alt-z.launch = ["zen"];
                 Ctrl-Alt-g.launch = ["ghostty"];
                 Super-e.launch = ["dolphin"];
+                Super-s.launch = ["kitty" "superfile"];
 
                 Ctrl-Alt-a.remap = {
                   t.launch = ["Telegram"];
