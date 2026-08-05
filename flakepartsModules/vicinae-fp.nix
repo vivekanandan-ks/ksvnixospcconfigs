@@ -44,13 +44,16 @@
           layer_shell = {
             keyboard_interactivity = "on_demand";
           };
-        };
-
-        window = {
-          csd = true;
-          opacity = 0.85;
-          blur = true;
+          opacity = lib.mkForce 0.75;
+          blur = {
+            enabled = true;
+          };
+          material = "blur";
           rounding = 10;
+          client_side_decorations = {
+            enabled = true;
+            rounding = 10;
+          };
         };
       };
 
