@@ -13,7 +13,7 @@
             enabled = true;
             mode = "stretch";
             stretch = {
-              limit = 500;
+              limit = 1000;
               function = "negative_quadratic"; # Makes the stretch scale faster as you move faster
             };
           };

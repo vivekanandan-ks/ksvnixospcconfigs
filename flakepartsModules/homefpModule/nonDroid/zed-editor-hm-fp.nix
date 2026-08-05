@@ -79,7 +79,7 @@
       */
 
       userSettings = {
-        #helix_mode = true;
+        helix_mode = true;
         indent_guides = {
           background_coloring = "disabled";
           coloring = "indent_aware";
