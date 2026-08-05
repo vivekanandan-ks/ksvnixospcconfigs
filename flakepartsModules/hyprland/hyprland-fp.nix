@@ -32,7 +32,7 @@
       ...
     }: {
 
-      #services.displayManager.defaultSession = "hyprland"; # this sets hyprland as default auto-login session
+      services.displayManager.defaultSession = "hyprland"; # this sets hyprland as default auto-login session
 
       programs.hyprland = {
         enable = true;

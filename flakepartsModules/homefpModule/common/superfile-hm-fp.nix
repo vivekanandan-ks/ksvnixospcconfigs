@@ -25,7 +25,7 @@
         #enable_file_preview_border = true;
         ignore_missing_fields = true;
 
-        #code_previewer = "bat";
+        code_previewer = "bat";
       };
 
     };
