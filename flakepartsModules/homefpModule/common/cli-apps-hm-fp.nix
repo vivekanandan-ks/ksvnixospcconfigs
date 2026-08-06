@@ -90,13 +90,6 @@
       };
     };
 
-    programs.antigravity-cli = {
-      enable = true;
-      package = pkgs-unstable.antigravity-cli;
-      defaultModel = "gemini-3.1-pro-preview";
-      enableMcpIntegration = true;
-    };
-
     /*
       programs.nix-index = {
       enable = true;
