@@ -1,14 +1,18 @@
-{inputs, ...}: {
+{
+  inputs,
+  lib,
+  ...
+}: {
   flake-file.inputs.git-hooks-nix = {
     url = "github:cachix/git-hooks.nix";
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  imports = [
+  imports = lib.optionals (inputs ? git-hooks-nix) [
     inputs.git-hooks-nix.flakeModule
   ];
 
-  perSystem = _: {
+  perSystem = lib.optionalAttrs (inputs ? git-hooks-nix) {
     pre-commit = {
       check.enable = true; # Adds security checks to `nix flake check`
 

@@ -1,4 +1,8 @@
-{inputs, ...}: {
+{
+  inputs,
+  lib,
+  ...
+}: {
   flake-file.inputs = {
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
@@ -6,9 +10,11 @@
     };
   };
 
-  imports = [inputs.treefmt-nix.flakeModule];
+  imports = lib.optionals (inputs ? treefmt-nix) [
+    inputs.treefmt-nix.flakeModule
+  ];
 
-  perSystem = {
+  perSystem = lib.optionalAttrs (inputs ? treefmt-nix) {
     treefmt = {
       projectRootFile = "flake.nix";
       flakeFormatter = true;
