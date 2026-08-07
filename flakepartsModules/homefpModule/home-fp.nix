@@ -11,7 +11,6 @@ _: {
     inputs,
     #config,
     lib,
-    pkgs,
     pkgs-unstable,
     isDroid ? false,
     username,
@@ -37,12 +36,14 @@ _: {
 
     # The home.packages option allows you to install Nix packages into your
     # environment.
+    /*
     home.packages =
-      (with pkgs; [
-        #stable packages
-      ])
-      ++ (lib.optionals (!isDroid) (with pkgs-unstable; [
-          ]));
+    (with pkgs; [
+      #stable packages
+    ])
+    ++ (lib.optionals (!isDroid) (with pkgs-unstable; [
+        ]));
+    */
 
     programs = {
       # nix garbage collection

@@ -2,15 +2,17 @@ _: {
   flake.homeModules.common.cli-packages-list = {
     #inputs,
     #lib,
-    pkgs,
     pkgs-unstable,
     ...
   }: {
     home.packages =
+      /*
       (with pkgs; [
         # stable packages
       ])
-      ++ (with pkgs-unstable; [
+      ++
+      */
+      with pkgs-unstable; [
         #unstable packages
         gh
 
@@ -43,7 +45,7 @@ _: {
         wakatime-cli
         nix-output-monitor
         #devenv
-      ]);
+      ];
     #++
     #(lib.optionals (!isDroid) (with pkgs-unstable; [
     #

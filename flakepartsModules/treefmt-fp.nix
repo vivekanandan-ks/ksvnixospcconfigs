@@ -20,7 +20,6 @@
         flakeCheck = true;
 
         programs = {
-          # --- Nix Files ---
           alejandra.enable = true; # Fast Nix formatter
 
           deadnix = {
@@ -32,6 +31,15 @@
 
           statix.enable = true; # Nix anti-pattern linter
 
+          nixf-diagnose = {
+            enable = true;
+            autoFix = false; # Diagnostic checks without modifying files
+            ignore = [
+              #"sema-extra-with"
+              "sema-primop-removed-prefix"
+            ];
+          };
+
           # --- Shell Scripts ---
           shfmt = {
             enable = true;
@@ -39,7 +47,7 @@
           };
 
           # --- Markdown & JSON ---
-          prettier = {
+          oxfmt = {
             enable = true;
             includes = [
               "*.md"
@@ -49,16 +57,27 @@
 
           # --- TOML Files ---
           taplo.enable = true;
+
+          # --- Image Optimization ---
+          oxipng = {
+            enable = true;
+            opt = 4;
+            strip = "safe";
+            alpha = true;
+          };
         };
 
-        # --- File Exclusions based on codebase scan ---
-        settings.excludes = [
+        settings = {
+          # Log paths that did not match any formatter
+          on-unmatched = "warn";
+
+          # --- File Exclusions based on codebase scan ---
+          excludes = [
           # Auto-generated flake files
           "flake.nix"
           "flake.lock"
 
           # Media & Font assets
-          "*.png"
           "*.jpg"
           "*.flf"
 
@@ -72,4 +91,5 @@
         ];
       };
     };
+  };
 }

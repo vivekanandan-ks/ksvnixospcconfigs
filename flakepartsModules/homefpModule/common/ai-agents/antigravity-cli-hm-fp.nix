@@ -4,7 +4,7 @@ _: {
       programs.antigravity-cli = {
         enable = true;
         package = pkgs-unstable.antigravity-cli;
-        defaultModel = "gemini-3.1-pro-preview";
+        defaultModel = "gemini-3.6-flash";
         enableMcpIntegration = true;
 
         context = {

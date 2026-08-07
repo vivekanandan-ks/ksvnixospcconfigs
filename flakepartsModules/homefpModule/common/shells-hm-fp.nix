@@ -62,7 +62,8 @@ _: {
         {
           enable = true;
           package = pkgs-unstable.nushell;
-          plugins = with pkgs-unstable.nushellPlugins; [
+          /*
+            plugins = with pkgs-unstable.nushellPlugins; [
             #gstat
             #net
             #hcl
@@ -70,6 +71,7 @@ _: {
             #query
             #highlight
           ];
+          */
           settings = {
             show_banner = false;
             highlight_resolved_externals = true;
