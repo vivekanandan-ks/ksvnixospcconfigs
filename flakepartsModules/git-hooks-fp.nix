@@ -20,17 +20,22 @@
         default_stages = ["manual"];
 
         hooks = {
-          # Prevent committing private keys, tokens, and secret passwords
+          # --- Secret & Credential Protection ---
           ripsecrets.enable = true;
+          detect-private-keys.enable = true;
+          detect-aws-credentials.enable = true;
+          trufflehog.enable = true;
+          pre-commit-hook-ensure-sops.enable = true;
 
-          # Prevent committing files with git merge conflict markers (<<<<<<< HEAD)
+          # --- Nix & Flake Health ---
+          flake-checker.enable = true;
+
+          # --- Git Hygiene & File Sanity ---
           check-merge-conflicts.enable = true;
-
-          # Detect broken relative symlinks
           check-symlinks.enable = true;
-
-          # Prevent adding git submodules by accident
           forbid-new-submodules.enable = true;
+          check-added-large-files.enable = true;
+          check-case-conflicts.enable = true;
         };
       };
     };

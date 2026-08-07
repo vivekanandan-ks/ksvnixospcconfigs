@@ -2,26 +2,29 @@ This is my personal config, each step is taken towards a scalable way to maintai
 
 And the flake-file of this project is also crucial as it makes me group aspects in same file. Dont want something? Just move the file out of the import-tree folder (flakepartsModules in this case). No need to hardcode any path as everything is a top level flake-parts module. This way simplifies tons of things and reduce some config efforts debt later.
 
-The configs are guardailed with treefmt(which inclused deadnix, statix, nixf-diagnose, alejandra formatting and formatting for other file formats too, etc), githooks(for some submodules protection, avoid symlinks, secrets leak, etc). 
+The configs are guardailed with treefmt(which inclused deadnix, statix, nixf-diagnose, alejandra formatting and formatting for other file formats too, etc), githooks(for some submodules protection, avoid symlinks, secrets leak, etc).
 
 Treefmt give both a formatter and a checker and githooks give a checker.
-So configured in a way that running 
+So configured in a way that running
+
 ```bash
 nix fmt
 ```
-will format with treefmt and running 
+
+will format with treefmt and running
+
 ```bash
 nix flake check
-``` 
+```
+
 will do treefmt check and githook's check too along with the usual flake check.
 
 So Finally the workflow for the configs will be like:
- 1) nix run .#write-flake
- 2) nix fmt
- 3) nix flake check
- 4) whatever command like nh os boot, nix develop etc etc
 
-
+1.  nix run .#write-flake
+2.  nix fmt
+3.  nix flake check
+4.  whatever command like nh os boot, nix develop etc etc
 
 This config also have custom pre configured packages of mine:
 can also get the below list by running:
