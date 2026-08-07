@@ -1,7 +1,4 @@
-{
-  inputs,
-  ...
-}: {
+{inputs, ...}: {
   flake = {
     homeModules.common.btop = {
       pkgs,

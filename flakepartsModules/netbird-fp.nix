@@ -1,9 +1,6 @@
 _: {
   flake = {
-    nixosModules.netbird = {
-      pkgs-unstable,
-      ...
-    }: {
+    nixosModules.netbird = {pkgs-unstable, ...}: {
       services.netbird = {
         enable = true;
         package = pkgs-unstable.netbird;

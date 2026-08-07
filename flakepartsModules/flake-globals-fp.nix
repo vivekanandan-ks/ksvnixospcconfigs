@@ -19,10 +19,7 @@
       "aarch64-linux" # Added for Nix-on-Droid
     ];
 
-    perSystem = {
-      system,
-      ...
-    }: {
+    perSystem = {system, ...}: {
       # Per-system attributes can be defined here. The self' and inputs'
       # module parameters provide easy access to attributes of the same
       # system.

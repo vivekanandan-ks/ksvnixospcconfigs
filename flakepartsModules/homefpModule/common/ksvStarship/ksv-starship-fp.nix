@@ -1,8 +1,5 @@
 _: {
-  flake.homeModules.common.starship = {
-    pkgs-unstable,
-    ...
-  }: {
+  flake.homeModules.common.starship = {pkgs-unstable, ...}: {
     home.packages = [pkgs-unstable.jj-starship];
 
     programs.starship = let

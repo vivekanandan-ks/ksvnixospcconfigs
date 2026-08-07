@@ -25,10 +25,7 @@ _: {
   };
 
   flake = {
-    nixosModules.hyprland = {
-      pkgs-unstable,
-      ...
-    }: {
+    nixosModules.hyprland = {pkgs-unstable, ...}: {
       services.displayManager.defaultSession = "hyprland"; # this sets hyprland as default auto-login session
 
       programs.hyprland = {
