@@ -138,6 +138,18 @@ _: {
         theme = "Catppuccin Mocha";
         ui_font_family = "DejaVu Sans";
         ui_font_size = 13.333333333333334;
+        lsp = {
+          nil = {
+            initializationOptions = {
+              nix = {
+                flake = {
+                  autoArchive = true;
+                  autoEvalInputs = true;
+                };
+              };
+            };
+          };
+        };
         languages = {
           Nix = {
             formatter = {
