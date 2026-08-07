@@ -61,7 +61,7 @@
           # --- Image Optimization ---
           oxipng = {
             enable = true;
-            opt = 4;
+            opt = "4";
             strip = "safe";
             alpha = true;
           };
