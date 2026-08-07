@@ -1,5 +1,5 @@
-{ lib, ... }: {
-  flake.homeModules.nonDroid.vscode-common-settings = { ... }: {
+{lib, ...}: {
+  flake.homeModules.nonDroid.vscode-common-settings = _: {
     options.myEditor.vscode.userSettings = lib.mkOption {
       type = lib.types.attrs;
       default = {

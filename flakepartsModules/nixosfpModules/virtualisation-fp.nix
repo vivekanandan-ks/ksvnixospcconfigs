@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake.nixosModules.virtualisation = {
     #inputs,
     #config,

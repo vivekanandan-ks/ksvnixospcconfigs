@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake.homeModules.common."cli-apps" = {
     #inputs,
     config,
@@ -8,7 +8,6 @@
     #isDroid ? false,
     ...
   }: {
-
     # bat # cat modern alternative
     programs.bat = {
       enable = true;
@@ -137,7 +136,8 @@
         ui.default-command = "log";
         snapshot.max-new-file-size = "30MiB"; # https://github.com/jj-vcs/jj/blob/main/docs/config.md#maximum-size-for-new-files
       };
-    };*/
+    };
+    */
 
     /*
     # github

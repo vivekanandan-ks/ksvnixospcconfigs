@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake.homeModules.common.micro-editor = {
     #inputs,
     #config,
@@ -33,21 +33,7 @@
         diffgutter = true;
       };
     };
-    home.packages = let
-      /*
-      microPluginsRepoText = pkgs-unstable.writers.writeText "microPluginsRepo" ''
-        sparques/micro-quoter
-        priner/micro-aspell-plugin
-        a11ce/micro-autofmt
-        wakatime/micro-wakatime
-        AndCake/micro-plugin-lsp # not added yet
-        NicolaiSoeborg/manipulator-plugin
-        terokarvinen/micro-jump
-        terokarvinen/micro-run
-        dmaluka/micro-detectindent
-      '';
-      */
-    in [
+    home.packages = [
       pkgs-unstable.wl-clipboard # for micro editor external clipboard integration
       # shell script to auto download the plugins (yet to implement the correct symlinking to the micro plugins path)
       /*

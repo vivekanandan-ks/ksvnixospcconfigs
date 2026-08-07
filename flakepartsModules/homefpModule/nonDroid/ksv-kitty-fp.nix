@@ -1,9 +1,6 @@
-{
-  ...
-}: {
-
+_: {
   flake = {
-    homeModules.nonDroid.kitty = { pkgs-unstable, ... }: {
+    homeModules.nonDroid.kitty = {pkgs-unstable, ...}: {
       programs.kitty = {
         enable = true;
         package = pkgs-unstable.kitty;

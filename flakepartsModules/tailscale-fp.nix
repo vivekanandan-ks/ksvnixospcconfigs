@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake.nixosModules.tailscale = {username, ...}: {
     # 1. Enable Tailscale
     #services.tailscale.enable = true;

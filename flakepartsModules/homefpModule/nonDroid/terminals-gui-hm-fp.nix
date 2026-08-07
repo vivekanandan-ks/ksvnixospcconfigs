@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake.homeModules.nonDroid.terminals-gui = {
     #inputs,
     #config,

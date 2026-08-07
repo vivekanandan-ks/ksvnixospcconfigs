@@ -1,6 +1,6 @@
-{...}: {
+_: {
   flake = {
-    nixosModules.hypr-dolph-fix = { pkgs, ... }: {
+    nixosModules.hypr-dolph-fix = {pkgs, ...}: {
       xdg.menus.enable = true;
       xdg.mime.enable = true;
       environment.etc."xdg/menus/applications.menu" = {
@@ -8,7 +8,11 @@
       };
     };
 
-    homeModules.nonDroid.hypr-dolph-fix = { lib, pkgs, ... }: {
+    homeModules.nonDroid.hypr-dolph-fix = {
+      lib,
+      pkgs,
+      ...
+    }: {
       home.activation.rebuildKDECache = lib.hm.dag.entryAfter ["writeBoundary"] ''
         rm -rf ~/.cache/ksycoca*
         ${pkgs.kdePackages.kservice}/bin/kbuildsycoca6 --noincremental

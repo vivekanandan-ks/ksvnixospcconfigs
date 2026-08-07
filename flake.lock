@@ -922,6 +922,7 @@
         "scrolloverview": "scrolloverview",
         "spicetify-nix": "spicetify-nix",
         "stylix": "stylix",
+        "treefmt-nix": "treefmt-nix",
         "vicinae-extensions": "vicinae-extensions",
         "wrapper-modules": "wrapper-modules",
         "xremap-flake": "xremap-flake",
@@ -1135,6 +1136,26 @@
       "original": {
         "owner": "tinted-theming",
         "repo": "base16-zed",
+        "type": "github"
+      }
+    },
+    "treefmt-nix": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1785945821,
+        "narHash": "sha256-NLSyTCW4K4ofhNBllt3omPasm6QpralXH1DBZOc91Dw=",
+        "owner": "numtide",
+        "repo": "treefmt-nix",
+        "rev": "ae7910970dddc408fe6ab1c8e4b277bb21d72dc0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "treefmt-nix",
         "type": "github"
       }
     },

@@ -4,7 +4,11 @@
   };
 
   flake = {
-    homeModules.nonDroid.spicetify = { pkgs, self, ... }: {
+    homeModules.nonDroid.spicetify = {
+      pkgs,
+      self,
+      ...
+    }: {
       home.packages = [
         self.packages.${pkgs.stdenv.hostPlatform.system}.ksvSpicetify
       ];
@@ -21,7 +25,7 @@
     in
       inputs.spicetify-nix.lib.mkSpicetify pkgs {
         #theme = spicePkgs.themes.catppuccin; # hazy
-        theme = spicePkgs.themes.hazy ;
+        theme = spicePkgs.themes.hazy;
         #colorScheme = "mocha";
 
         enabledExtensions = with spicePkgs.extensions; [

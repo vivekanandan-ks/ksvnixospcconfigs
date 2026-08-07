@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake.homeModules.common.zellij = {
     #inputs,
     #config,

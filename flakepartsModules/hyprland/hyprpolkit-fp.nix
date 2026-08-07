@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake = {
     homeModules.nonDroid.hyprpolkit = {
       pkgs-unstable,
@@ -12,10 +12,10 @@
 
       systemd.user.services.hyprpolkitagent = {
         Unit = {
-          PartOf = lib.mkForce [ "hyprland-session.target" ];
-          After = lib.mkForce [ "hyprland-session.target" ];
+          PartOf = lib.mkForce ["hyprland-session.target"];
+          After = lib.mkForce ["hyprland-session.target"];
         };
-        Install.WantedBy = lib.mkForce [ "hyprland-session.target" ];
+        Install.WantedBy = lib.mkForce ["hyprland-session.target"];
       };
     };
   };

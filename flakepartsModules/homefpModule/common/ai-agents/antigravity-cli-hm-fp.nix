@@ -1,9 +1,6 @@
-{...}: {
+_: {
   flake.homeModules.common = {
-    antigravity-cli = {
-      pkgs-unstable,
-      ...
-    }: {
+    antigravity-cli = {pkgs-unstable, ...}: {
       programs.antigravity-cli = {
         enable = true;
         package = pkgs-unstable.antigravity-cli;
@@ -16,7 +13,7 @@
         };
 
         settings = {
-          context.fileName = [ "GEMINI.md" "CONTEXT.md" ];
+          context.fileName = ["GEMINI.md" "CONTEXT.md"];
         };
       };
     };

@@ -16,20 +16,20 @@
     myCommonNixosModules =
       (builtins.attrValues config.flake.nixosModules)
       ++ [
-        ({...}: {
+        (_: {
           _module.args.pkgs-unstable = withSystem "x86_64-linux" ({pkgs-unstable, ...}: pkgs-unstable);
           _module.args = {
-            inputs = inputs;
+            inherit inputs;
             username = "ksvnixospc";
-            nix4vscode = inputs.nix4vscode;
+            inherit (inputs) nix4vscode;
             system = "x86_64-linux";
-            self = inputs.self;
+            inherit (inputs) self;
           };
         })
       ];
 
     myIsDroidModule = option: [
-      ({...}: {_module.args.isDroid = option;})
+      (_: {_module.args.isDroid = option;})
     ];
   };
 }

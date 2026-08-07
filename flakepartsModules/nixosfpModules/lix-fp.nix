@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake.nixosModules.lix = {pkgs, ...}: {
     /*
     nixpkgs.overlays = [ (final: prev: {

@@ -27,7 +27,7 @@
         pkgs.cmake
       ];
 
-      buildInputs = [ pkgs.lua5_4 ];
+      buildInputs = [pkgs.lua5_4];
 
       meta = with pkgs.lib; {
         description = "An overview plugin like niri for Hyprland";
@@ -46,7 +46,7 @@
         cp build/libscrolloverview.so $out/lib/scrolloverview.so
         ln -sf scrolloverview.so $out/lib/libscrolloverview.so
       '';
-      
+
       dontUseCmakeConfigure = true;
     };
   };

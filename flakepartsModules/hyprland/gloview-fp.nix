@@ -31,7 +31,7 @@
         pkgs.cmake
       ];
 
-      buildInputs = [ pkgs.luajit ];
+      buildInputs = [pkgs.luajit];
 
       meta = with pkgs.lib; {
         description = "A better macOS Mission Control-style overview plugin for Hyprland";
@@ -50,7 +50,7 @@
         cp build/gloview.so $out/lib/
         ln -sf gloview.so $out/lib/libgloview.so
       '';
-      
+
       dontUseCmakeConfigure = true;
     };
   };

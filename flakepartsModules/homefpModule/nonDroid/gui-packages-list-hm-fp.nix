@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake.homeModules.nonDroid.gui-packages-list = {
     inputs,
     config,

@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake-file.inputs = {
     stylix = {
       url = "github:nix-community/stylix";
@@ -41,7 +41,6 @@
       };
 
       stylix.polarity = "dark";
-
 
       stylix.fonts.sizes = {
         applications = 10;

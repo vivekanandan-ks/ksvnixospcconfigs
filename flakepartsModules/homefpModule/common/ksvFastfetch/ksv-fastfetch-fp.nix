@@ -3,9 +3,12 @@
   inputs,
   ...
 }: {
-
   flake = {
-    homeModules.common.fastfetch = { pkgs, self, ... }: {
+    homeModules.common.fastfetch = {
+      pkgs,
+      self,
+      ...
+    }: {
       programs.fastfetch = {
         enable = true;
         package = self.packages.${pkgs.stdenv.hostPlatform.system}.ksvFastfetch;
@@ -22,5 +25,4 @@
       );
     };
   };
-
 }

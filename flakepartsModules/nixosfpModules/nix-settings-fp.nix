@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake.nixosModules.nix-settings = {
     nix.settings = {
       /*
@@ -23,7 +23,8 @@
         "https://devenv.cachix.org"
         "https://hydra.nix-community.org"
 
-        /*# status: https://mirrors.nju.edu.cn/
+        /*
+          # status: https://mirrors.nju.edu.cn/
         "https://mirrors.nju.edu.cn/nix-channels/store"
 
         # status: https://mirror.sjtu.edu.cn/

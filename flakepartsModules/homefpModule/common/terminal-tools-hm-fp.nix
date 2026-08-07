@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake.homeModules.common.terminal-tools = {
     #inputs,
     #config,
@@ -8,7 +8,6 @@
     #self,
     ...
   }: {
-
     #carapace
     programs.carapace = {
       enable = true;
@@ -18,7 +17,6 @@
       # enableFishIntegration = true;
       #fish already have it's own features so commenting this for now
     };
-
 
     #atuin - shell history and sync e2ee to my atuin account
     /*

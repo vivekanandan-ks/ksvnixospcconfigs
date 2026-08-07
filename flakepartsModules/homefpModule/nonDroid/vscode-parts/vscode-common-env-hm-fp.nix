@@ -1,5 +1,5 @@
-{...}: {
-  flake.homeModules.nonDroid.vscode-common-env = { pkgs-unstable, ... }: {
+_: {
+  flake.homeModules.nonDroid.vscode-common-env = {pkgs-unstable, ...}: {
     home.packages = with pkgs-unstable; [
       #nixfmt
       alejandra

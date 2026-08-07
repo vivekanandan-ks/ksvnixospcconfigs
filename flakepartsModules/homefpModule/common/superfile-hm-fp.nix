@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake.homeModules.common.superfile = {
     #inputs,
     #config,
@@ -27,7 +27,6 @@
 
         code_previewer = "bat";
       };
-
     };
   };
 }

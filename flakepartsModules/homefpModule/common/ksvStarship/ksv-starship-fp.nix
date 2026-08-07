@@ -1,6 +1,4 @@
-{
-  ...
-}: {
+_: {
   flake.homeModules.common.starship = {
     pkgs,
     pkgs-unstable,

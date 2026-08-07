@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake-file.inputs = {
     # nvf - modern, reproducible, portable, declarative neovim framework
     #obsidian-nvim.url = "github:epwalsh/obsidian.nvim";

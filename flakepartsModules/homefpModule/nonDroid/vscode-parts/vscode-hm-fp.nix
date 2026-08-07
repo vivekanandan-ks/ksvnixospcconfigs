@@ -1,5 +1,9 @@
-{...}: {
-  flake.homeModules.nonDroid.vscode-code = { config, pkgs-unstable, ... }: {
+_: {
+  flake.homeModules.nonDroid.vscode-code = {
+    config,
+    pkgs-unstable,
+    ...
+  }: {
     # vscode
     # https://unix.stackexchange.com/questions/768678/configure-vscode-in-nixos
     # https://discourse.nixos.org/t/home-manager-vscode-extension-settings-mutableextensionsdir-false/33878

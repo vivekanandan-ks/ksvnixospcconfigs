@@ -1,6 +1,6 @@
-{...}: {
+_: {
   flake = {
-    homeModules.nonDroid.hyprland-scrolling-layout = {...}: {
+    homeModules.nonDroid.hyprland-scrolling-layout = _: {
       wayland.windowManager.hyprland = {
         settings = {
           general = {

@@ -1,5 +1,6 @@
 {inputs, ...}: {
- /* flake-file.inputs = {
+  /*
+    flake-file.inputs = {
     hyprexpo = {
       url = "github:colonelpanic8/hyprexpo";
       #inputs.hyprland.follows = "hyprland";
@@ -18,5 +19,6 @@
         };
       };
     };
-    };*/
+    };
+  */
 }

@@ -1,9 +1,6 @@
-{...}: {
+_: {
   flake = {
-    homeModules.nonDroid.hyprland-dynamic-cursors = {
-      pkgs-unstable,
-      ...
-    }: {
+    homeModules.nonDroid.hyprland-dynamic-cursors = {pkgs-unstable, ...}: {
       wayland.windowManager.hyprland = {
         plugins = [
           pkgs-unstable.hyprlandPlugins.hypr-dynamic-cursors

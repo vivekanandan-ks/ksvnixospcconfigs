@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake-file.inputs = {
     vicinae-extensions = {
       url = "github:vicinaehq/extensions";

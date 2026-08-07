@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake-file.inputs = {
     home-manager = {
       #url = "github:nix-community/home-manager/release-25.05";
@@ -33,14 +33,6 @@
 
     imports =
       (builtins.attrValues (self.homeModules.common or {}))
-      ++ [
-        #inputs.sops-nix.homeManagerModules.sops # for standalone home manager (not for nixos HM integration)
-
-        #./unusedHomeModules/pay-respects-hm.nix
-        # WMs
-        #./unusedHomeModules/niri-hm.nix
-        #./unusedHomeModules/hyprland-hm.nix
-      ]
       ++ (lib.optionals (!isDroid) (builtins.attrValues (self.homeModules.nonDroid or {})));
 
     # The home.packages option allows you to install Nix packages into your

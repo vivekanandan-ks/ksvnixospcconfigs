@@ -24,10 +24,10 @@
         config.flake.hardwareModules.ksv-nix-on-droid
         ({pkgs, ...}: {
           _module.args = {
-            inputs = inputs;
+            inherit inputs;
             system = "aarch64-linux";
             pkgs-unstable = withSystem "aarch64-linux" ({pkgs-unstable, ...}: pkgs-unstable);
-            self = inputs.self;
+            inherit (inputs) self;
             username = "nix-on-droid";
           };
         })

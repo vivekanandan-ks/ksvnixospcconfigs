@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake-file.inputs = {
     hyprshell = {
       url = "github:H3rmt/hyprshell";

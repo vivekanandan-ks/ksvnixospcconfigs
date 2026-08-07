@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake.homeModules.nonDroid.zed-editor = {
     #inputs,
     #config,

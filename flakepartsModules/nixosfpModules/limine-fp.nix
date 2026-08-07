@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake.nixosModules.limine = {
     config,
     lib,
@@ -16,9 +16,11 @@
             path: uuid(1c135138-506a-45ed-8352-6455f45e9fea):/EFI/Microsoft/Boot/bootmgfw.efi
         '';
 
-        /*extraConfig = ''
+        /*
+          extraConfig = ''
           remember_last_entry: yes
-        '';*/
+        '';
+        */
       };
     };
   };

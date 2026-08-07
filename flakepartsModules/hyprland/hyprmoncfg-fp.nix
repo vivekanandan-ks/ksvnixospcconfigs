@@ -1,7 +1,6 @@
-{...}: {
+_: {
   flake = {
-    homeModules.nonDroid.hyprmoncfg = { pkgs-unstable, ... }: {
-      
+    homeModules.nonDroid.hyprmoncfg = {pkgs-unstable, ...}: {
       home.packages = [
         pkgs-unstable.hyprmoncfg
         pkgs-unstable.hyprmon
@@ -17,8 +16,8 @@
       systemd.user.services.hyprmoncfgd = {
         Unit = {
           Description = "Hyprmoncfg Monitor Daemon";
-          PartOf = [ "hyprland-session.target" ];
-          After = [ "hyprland-session.target" ];
+          PartOf = ["hyprland-session.target"];
+          After = ["hyprland-session.target"];
         };
         Service = {
           ExecStart = "${pkgs-unstable.hyprmoncfg}/bin/hyprmoncfgd";
@@ -26,10 +25,9 @@
           Restart = "no";
         };
         Install = {
-          WantedBy = [ "hyprland-session.target" ];
+          WantedBy = ["hyprland-session.target"];
         };
       };
-
     };
   };
 }

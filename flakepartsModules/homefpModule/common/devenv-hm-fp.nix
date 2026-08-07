@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake.homeModules.common.devenv = {pkgs-unstable, ...}: {
     programs.devenv = {
       enable = true;

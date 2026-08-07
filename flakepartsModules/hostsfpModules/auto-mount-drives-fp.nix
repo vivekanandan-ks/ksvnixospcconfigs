@@ -1,7 +1,5 @@
-{...}: {
-
-  flake.nixosModules.auto-mount-drives = { ... }: {
-
+_: {
+  flake.nixosModules.auto-mount-drives = _: {
     services.udisks2.enable = true;
 
     security.polkit.extraConfig = ''
@@ -13,12 +11,9 @@
         }
       });
     '';
-
   };
 
-
-  flake.homeModules.nonDroid.auto-mount-drives = { ... }: {
-
+  flake.homeModules.nonDroid.auto-mount-drives = _: {
     services.udiskie = {
       enable = true;
       automount = false;
@@ -39,7 +34,5 @@
         ];
       };
     };
-
   };
-
 }

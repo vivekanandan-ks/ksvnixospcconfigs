@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake-file.inputs = {
     # hyprland
     #hyprland.url = "github:hyprwm/Hyprland";
@@ -31,7 +31,6 @@
       pkgs-unstable,
       ...
     }: {
-
       services.displayManager.defaultSession = "hyprland"; # this sets hyprland as default auto-login session
 
       programs.hyprland = {
