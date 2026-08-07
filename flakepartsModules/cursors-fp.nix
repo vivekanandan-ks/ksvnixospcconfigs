@@ -2,7 +2,6 @@ _: {
   flake = {
     homeModules.nonDroid.cursors = {
       config,
-      pkgs,
       pkgs-unstable,
       ...
     }: {

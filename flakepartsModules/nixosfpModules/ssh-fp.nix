@@ -1,15 +1,5 @@
 _: {
-  flake.nixosModules.ssh = {
-    #inputs,
-    #config,
-    pkgs,
-    #pkgs-unstable,
-    #lib,
-    #nix4vscode,
-    #system,
-    username,
-    ...
-  }: {
+  flake.nixosModules.ssh = _: {
     # 3. Enable SSH Server
     services.openssh = {
       enable = true;

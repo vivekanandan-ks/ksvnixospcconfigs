@@ -22,7 +22,7 @@
     modules =
       [
         config.flake.hardwareModules.ksv-nix-on-droid
-        ({pkgs, ...}: {
+        (_: {
           _module.args = {
             inherit inputs;
             system = "aarch64-linux";

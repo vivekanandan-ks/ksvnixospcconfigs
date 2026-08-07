@@ -16,7 +16,6 @@ _: {
     config,
     #lib,
     pkgs,
-    pkgs-unstable,
     #username,
     ...
   }: {

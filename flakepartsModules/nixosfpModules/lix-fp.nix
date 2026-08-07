@@ -1,5 +1,5 @@
 _: {
-  flake.nixosModules.lix = {pkgs, ...}: {
+  flake.nixosModules.lix = _: {
     /*
     nixpkgs.overlays = [ (final: prev: {
       inherit (prev.lixPackageSets.stable)

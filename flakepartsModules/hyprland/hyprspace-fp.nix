@@ -1,4 +1,4 @@
-{inputs, ...}: {
+_: {
   flake-file.inputs = {
     # a hyprland plugin refer: https://github.com/KZDKM/Hyprspace
     /*
@@ -10,7 +10,7 @@
     */
   };
   flake = {
-    homeModules.nonDroid.hyprspace = {pkgs, ...}: {
+    homeModules.nonDroid.hyprspace = _: {
       wayland.windowManager.hyprland = {
         plugins = [
           #pkgs-unstable.hyprlandPlugins.hyprspace

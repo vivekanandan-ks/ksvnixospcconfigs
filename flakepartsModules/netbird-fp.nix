@@ -1,7 +1,6 @@
 _: {
   flake = {
     nixosModules.netbird = {
-      pkgs,
       pkgs-unstable,
       ...
     }: {

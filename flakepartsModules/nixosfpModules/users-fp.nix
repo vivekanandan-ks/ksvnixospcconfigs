@@ -1,13 +1,8 @@
-{config, ...}: {
+_: {
   flake.nixosModules.users = {
-    inputs,
     pkgs,
     pkgs-unstable,
-    nix4vscode,
-    system,
-    isDroid ? false,
     username,
-    self,
     ...
   }: {
     users.mutableUsers = false; # this will make all user management only via nixos and

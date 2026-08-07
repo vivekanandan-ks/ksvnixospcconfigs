@@ -1,15 +1,10 @@
-{config, ...}: {
+_: {
   flake.nixosModules.configuration = {
-    inputs,
     #config,
     pkgs,
     pkgs-unstable,
     lib,
-    nix4vscode,
-    system,
-    isDroid ? false,
     username,
-    self,
     ...
   }: {
     imports = [

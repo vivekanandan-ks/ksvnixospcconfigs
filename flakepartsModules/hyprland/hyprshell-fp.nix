@@ -12,7 +12,6 @@ _: {
       inputs,
       lib,
       pkgs,
-      pkgs-unstable,
       ...
     }: {
       imports = [

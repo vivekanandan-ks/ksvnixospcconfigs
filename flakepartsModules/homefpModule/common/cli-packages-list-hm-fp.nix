@@ -1,7 +1,6 @@
 _: {
   flake.homeModules.common.cli-packages-list = {
     #inputs,
-    config,
     #lib,
     pkgs,
     pkgs-unstable,

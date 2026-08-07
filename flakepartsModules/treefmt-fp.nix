@@ -3,7 +3,6 @@
   lib,
   ...
 }: {
-  # Declare treefmt-nix input for flake-file auto-generation
   flake-file.inputs = {
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
@@ -11,10 +10,9 @@
     };
   };
 
-  # Import treefmt-nix flakeModule once input exists
-  imports = lib.optional (inputs ? treefmt-nix) inputs.treefmt-nix.flakeModule;
+  imports = [inputs.treefmt-nix.flakeModule];
 
-  perSystem = {pkgs, ...}:
+  perSystem = _:
     lib.optionalAttrs (inputs ? treefmt-nix) {
       treefmt = {
         projectRootFile = "flake.nix";
@@ -27,9 +25,9 @@
 
           deadnix = {
             enable = true;
-            no-lambda-arg = true; # Preserve unused function arguments
-            no-lambda-pattern-names = true; # Prevent breaking callPackage patterns
-            no-underscore = true; # Preserve _prefixed variables
+            #no-lambda-arg = true; # Preserve unused function arguments
+            #no-lambda-pattern-names = true; # Prevent breaking callPackage patterns
+            #no-underscore = true; # Preserve _prefixed variables
           };
 
           statix.enable = true; # Nix anti-pattern linter

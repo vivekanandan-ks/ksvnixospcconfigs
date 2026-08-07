@@ -26,8 +26,6 @@ _: {
 
   flake = {
     nixosModules.hyprland = {
-      inputs,
-      pkgs,
       pkgs-unstable,
       ...
     }: {
@@ -44,7 +42,6 @@ _: {
     };
 
     homeModules.nonDroid.hyprland = {
-      inputs,
       lib,
       pkgs,
       self,

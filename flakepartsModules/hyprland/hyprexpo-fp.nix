@@ -1,4 +1,4 @@
-{inputs, ...}: {
+_: {
   /*
     flake-file.inputs = {
     hyprexpo = {
