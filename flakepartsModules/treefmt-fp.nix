@@ -73,23 +73,26 @@
 
           # --- File Exclusions based on codebase scan ---
           excludes = [
-          # Auto-generated flake files
-          "flake.nix"
-          "flake.lock"
+            # Auto-generated flake files
+            "flake.nix"
+            "flake.lock"
 
-          # Media & Font assets
-          "*.jpg"
-          "*.flf"
+            # Media, Font & Config assets without formatters
+            "*.jpg"
+            "*.jpeg"
+            "*.flf"
+            "*.txt"
+            "*.conf"
 
-          # GLSL Shaders (Ghostty)
-          "*.glsl"
-          "**/ghostty-shaders/*"
+            # GLSL Shaders (Ghostty)
+            "*.glsl"
+            "**/ghostty-shaders/*"
 
-          # Archival folders
-          "unusedHomeModules/*"
-          "unusedfpModules/*"
-        ];
+            # Archival folders
+            "unusedHomeModules/*"
+            "unusedfpModules/*"
+          ];
+        };
       };
     };
-  };
 }
