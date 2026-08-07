@@ -8,6 +8,10 @@
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
     flake-file.url = "github:vic/flake-file";
     flake-parts.url = "github:hercules-ci/flake-parts";
+    git-hooks-nix = {
+      url = "github:cachix/git-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     gloview = {
       url = "github:fedsfarm/gloview";
       flake = false;
