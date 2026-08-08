@@ -1,8 +1,5 @@
 _: {
-  flake.nixosModules.podman = {
-    username,
-    ...
-  }: {
+  flake.nixosModules.podman = {username, ...}: {
     # Podman
     # Enable common container config files in /etc/containers
     virtualisation.containers.enable = true;
@@ -34,12 +31,6 @@ _: {
           volume_path = "$HOME/.local/share/containers/storage/volumes";  # Custom volume path
         };
       */
-
-      # Default network settings
-      defaultNetwork.settings = {
-        dns_enabled = true; # Enable DNS server for containers
-        #network_interface = "podman0";  # Default network interface name
-      };
     };
   };
 }

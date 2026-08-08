@@ -1,5 +1,5 @@
 _: {
-  flake.nixosModules.docker = { ... }: {
+  flake.nixosModules.docker = _: {
     #Docker
     #if u are changing the config from root to rootless mode,
     #follow this: https://discourse.nixos.org/t/docker-rootless-containers-are-running-but-not-showing-in-docker-ps/47717
