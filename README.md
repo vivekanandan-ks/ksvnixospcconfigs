@@ -48,3 +48,14 @@ nix eval --json .#packages.x86_64-linux --apply 'builtins.attrNames'
 7. ksvHelix
 8. ksvAtuin
 9. ksvSpicetify
+
+
+
+Generating nixos-facter json file for each host:
+
+```nu
+sudo nix run nixpkgs#nixos-facter | save -f ksvnixospc.facter.json
+```
+```bash
+sudo nix run nixpkgs#nixos-facter > ksvnixospc.facter.json
+```
