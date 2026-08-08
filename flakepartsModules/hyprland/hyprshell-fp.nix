@@ -4,6 +4,7 @@ _: {
       url = "github:H3rmt/hyprshell";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
+      inputs.flake-parts.follows = "flake-parts";
     };
   };
 

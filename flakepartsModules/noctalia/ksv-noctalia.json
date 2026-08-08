@@ -267,7 +267,7 @@
             "recordingNotifications": true,
             "recordingSavePath": "~/Videos",
             "savePath": "~/Pictures/Screenshots",
-            "screenshotEditor": "swappy"
+            "screenshotEditor": "satty"
           },
           "id": "plugin:screen-shot-and-record"
         },

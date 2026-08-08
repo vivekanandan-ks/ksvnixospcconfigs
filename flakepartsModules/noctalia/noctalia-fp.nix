@@ -126,12 +126,18 @@
   flake = {
     homeModules.nonDroid.noctalia = {
       pkgs,
+      pkgs-unstable,
       lib,
       self,
       ...
     }: {
       # declarative plugin settings management, for now just add the changes to the .config/noctalia/plugins directory and sync them to here, as like a backup
       #xdg.configFile."noctalia-shell/plugins".source = ./noctalia-plugins;
+
+      programs.satty = {
+        enable = true;
+        package = pkgs-unstable.satty;
+      };
 
       systemd.user.services.noctalia = {
         Unit = {

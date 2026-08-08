@@ -4,8 +4,15 @@
   outputs =
     inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./flakepartsModules);
 
+  nixConfig = {
+    allow-import-from-derivation = false;
+  };
+
   inputs = {
-    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
+    determinate = {
+      url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     flake-file.url = "github:vic/flake-file";
     flake-parts.url = "github:hercules-ci/flake-parts";
     git-hooks-nix = {
@@ -23,6 +30,7 @@
     hyprshell = {
       url = "github:H3rmt/hyprshell";
       inputs = {
+        flake-parts.follows = "flake-parts";
         home-manager.follows = "home-manager";
         nixpkgs.follows = "nixpkgs";
       };
@@ -60,10 +68,17 @@
       url = "github:yayuuu/hyprland-scroll-overview";
       flake = false;
     };
-    spicetify-nix.url = "github:Gerg-L/spicetify-nix";
+    spicetify-nix = {
+      url = "github:Gerg-L/spicetify-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     stylix = {
       url = "github:nix-community/stylix";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        flake-parts.follows = "flake-parts";
+        nixpkgs.follows = "nixpkgs";
+        nur.follows = "nur";
+      };
     };
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
@@ -73,8 +88,17 @@
       url = "github:vicinaehq/extensions";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    wrapper-modules.url = "github:BirdeeHub/nix-wrapper-modules";
-    xremap-flake.url = "github:xremap/nix-flake";
+    wrapper-modules = {
+      url = "github:BirdeeHub/nix-wrapper-modules";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    xremap-flake = {
+      url = "github:xremap/nix-flake";
+      inputs = {
+        flake-parts.follows = "flake-parts";
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
     zen-browser = {
       url = "github:0xc000022070/zen-browser-flake";
       inputs = {

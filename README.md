@@ -26,6 +26,12 @@ So Finally the workflow for the configs will be like:
 3.  nix flake check
 4.  whatever command like nh os boot, nix develop etc etc
 
+Also u can try the whole config without applying in ur nixos system, with this single command:
+
+```bash
+nix run .#nixosConfigurations.ksvnixospc.config.system.build.vm
+```
+
 This config also have custom pre configured packages of mine:
 can also get the below list by running:
 
