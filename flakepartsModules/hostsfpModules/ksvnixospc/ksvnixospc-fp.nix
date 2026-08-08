@@ -11,7 +11,7 @@
         inputs.home-manager.nixosModules.home-manager
         {
           networking.hostName = "ksvnixospc";
-          hardware.facter.reportPath = ./ksvnixospc-facter.json;
+          # hardware.facter.reportPath = ./ksvnixospc-facter.json;
         }
       ]
       ++ (config.myIsDroidModule false) ++ config.myCommonNixosModules;
