@@ -149,7 +149,8 @@ _: {
             "CTRL ALT, Delete, exec, ${lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.ksvNoctalia} ipc call sessionMenu toggle"
             "ALT, F4, killactive"
             "SUPER, Page_Up, fullscreen, 0"
-            "SUPER, Page_Down, movetoworkspacesilent, special:minimized"
+            "SUPER, Page_Down, movetoworkspacesilent, empty"
+            "SUPER SHIFT, Page_Down, togglespecialworkspace, minimized"
 
             # Switch workspaces with mainMod + [0-9]
             "$mainMod, 1, workspace, 1"
