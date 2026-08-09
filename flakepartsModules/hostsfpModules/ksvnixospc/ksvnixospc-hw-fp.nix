@@ -12,9 +12,12 @@ _: {
 
     # Dynamic extraction of fileSystems from hardware configuration (Method 2):
     # (Requires updating module arguments to `{ config, lib, modulesPath, ... }:`)
-    inherit ((import ../../../hosts/ksvnixospc/hardware-configuration-ksvnixospc.nix {
+    inherit
+      ((import ../../../hosts/ksvnixospc/hardware-configuration-ksvnixospc.nix {
         inherit config lib modulesPath;
-      })) fileSystems;
+      }))
+      fileSystems
+      ;
 
     # File system mounts (exact UUIDs from hardware-configuration)
     /*

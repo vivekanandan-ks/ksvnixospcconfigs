@@ -9,6 +9,10 @@
   };
 
   inputs = {
+    base16-schemes = {
+      url = "github:tinted-theming/schemes";
+      flake = false;
+    };
     determinate = {
       url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
       inputs.nixpkgs.follows = "nixpkgs";

@@ -1,5 +1,9 @@
 _: {
   flake-file.inputs = {
+    base16-schemes = {
+      url = "github:tinted-theming/schemes";
+      flake = false;
+    };
     stylix = {
       url = "github:nix-community/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -16,11 +20,7 @@ _: {
       # imports = [ inputs.stylix.nixosModules.stylix ];
     };
 
-    homeModules.common.stylix = {
-      inputs,
-      pkgs,
-      ...
-    }: {
+    homeModules.common.stylix = {inputs, ...}: {
       imports = [
         inputs.stylix.homeModules.stylix
       ];
@@ -31,7 +31,8 @@ _: {
       #stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-latte.yaml"; # light theme
       #stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-frappe.yaml";
       #stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-macchiato.yaml";
-      stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
+      #stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
+      stylix.base16Scheme = "${inputs.base16-schemes}/base16/catppuccin-mocha.yaml";
       #stylix.image = ./homefpModule/hmResources/frieren.png;
 
       stylix.opacity = {
