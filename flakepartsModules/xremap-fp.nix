@@ -33,6 +33,7 @@ _: {
       services.xremap = {
         enable = true;
         withKDE = true;
+        watch = true;
         #serviceMode = "user";
         #userName = username;
         config = {
