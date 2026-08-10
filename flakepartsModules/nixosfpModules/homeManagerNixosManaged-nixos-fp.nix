@@ -31,8 +31,7 @@
         ];
       };
       backupFileExtension = "backup";
-      # backupFileExtension = lib.mkForce null;
-      # backupCommand = "sh -c 'mv $0 $0.backup-$(date +%s)'";
+      backupCommand = "rm -f $1.backup && mv $1 $1.backup";
       useGlobalPkgs = false;
       useUserPackages = true;
       sharedModules = [
