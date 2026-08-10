@@ -52,6 +52,20 @@
                       mountpoint = "/";
                     };
                   };
+                  data524G = {
+                    size = "488.3G";
+                    content = {
+                      type = "filesystem";
+                      format = "ntfs";
+                    };
+                  };
+                  data237G = {
+                    size = "100%";
+                    content = {
+                      type = "filesystem";
+                      format = "ntfs";
+                    };
+                  };
                 };
               };
             };
