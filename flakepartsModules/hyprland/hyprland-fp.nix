@@ -139,6 +139,9 @@ _: {
               #special = true; # expensive, but helps distinguish special workspaces
             };
           };
+          layerrule = [
+            "noanim, match:namespace noctalia-shell:regionSelector"
+          ];
           exec-once = [
             "systemctl --user start noctalia.service"
             #"systemctl --user start hyprpolkitagent"

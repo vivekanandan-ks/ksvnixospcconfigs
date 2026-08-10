@@ -11,9 +11,25 @@
     };
   };
 
-  perSystem = {pkgs, ...}: {
+  perSystem = {
+    pkgs,
+    pkgs-unstable,
+    ...
+  }: {
     packages.ksvNoctalia = inputs.wrapper-modules.wrappers.noctalia-shell.wrap {
       inherit pkgs;
+      runtimePkgs = [
+        pkgs-unstable.grim
+        pkgs-unstable.slurp
+        pkgs-unstable.wl-clipboard
+        pkgs-unstable.satty
+        pkgs-unstable.libnotify
+        pkgs-unstable.imagemagick
+        pkgs-unstable.tesseract
+        pkgs-unstable.wf-recorder
+        pkgs-unstable.jq
+        pkgs-unstable.xdg-utils
+      ];
       # outOfStoreConfig = "/home/ksvnixospc/.config/noctalia-shell";
       settings =
         pkgs.lib.recursiveUpdate
