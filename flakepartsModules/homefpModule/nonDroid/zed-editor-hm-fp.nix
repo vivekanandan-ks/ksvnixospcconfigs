@@ -140,7 +140,7 @@ _: {
         ui_font_size = 13.333333333333334;
         lsp = {
           nil = {
-            initializationOptions = {
+            initialization_options = {
               nix = {
                 flake = {
                   autoArchive = true;
@@ -148,10 +148,24 @@ _: {
                 };
               };
             };
+            settings = {
+              nil = {
+                nix = {
+                  flake = {
+                    autoArchive = true;
+                    autoEvalInputs = true;
+                  };
+                };
+              };
+            };
           };
         };
         languages = {
           Nix = {
+            language_servers = [
+              "nil"
+              "!nixd"
+            ];
             formatter = {
               external = {
                 command = "alejandra";
