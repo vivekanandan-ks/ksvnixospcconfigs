@@ -14,6 +14,10 @@
     inputs.disko.flakeModules.default
   ];
 
+  # Disko's default declarative mode mounts partitions via /dev/disk/by-partlabel/disk-main-root. Because your existing disk lacked PARTLABEL
+  # headers, Linux couldn't locate /dev/disk/by-partlabel/disk-main-root during boot.
+  # sudo nix shell nixpkgs#gptfdisk --command sgdisk --change-name=1:disk-main-ESP --change-name=2:disk-main-root /dev/sda
+
   flake = lib.optionalAttrs (inputs ? disko) {
     # Disko Configurations flake output (used by disko & disko-install CLI)
     diskoConfigurations = {
