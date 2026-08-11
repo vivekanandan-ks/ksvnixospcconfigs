@@ -39,6 +39,7 @@ _: {
     };
 
     homeModules.nonDroid.hyprland = {
+      config,
       lib,
       pkgs,
       self,
@@ -147,9 +148,8 @@ _: {
             #"systemctl --user start hyprpolkitagent"
           ];
           bind = [
-            # Old live command: ", Print, exec, sh -c 'grim -g \"$(slurp)\" - | satty --filename -'"
-            ", Print, exec, sh -c 'file=/tmp/ss.png; grim \"$file\" && G=\$(slurp) && [ -n \"\$G\" ] && magick \"$file\" -crop \"\$G\" +repage \"$file\" && satty --filename \"$file\"'"
-            "SUPER, Print, exec, sh -c 'mkdir -p ~/Pictures/Screenshots && file=~/Pictures/Screenshots/screenshot_\$(date +%Y-%m-%d_%H-%M-%S).png && grim \"\$file\" && notify-send -a \"Screenshot\" \"Screenshot Saved\" \"\$file\"'"
+            ", Print, exec, ${config.myScreenshotCmds.regionCmd}"
+            "SUPER, Print, exec, ${config.myScreenshotCmds.fullCmd}"
             #"SUPER, TAB, hyprexpo:expo, toggle"
             "SUPER, TAB, exec, ${lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.ksvNoctalia} ipc call plugin:workspace-overview toggle"
             "CTRL ALT, Delete, exec, ${lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.ksvNoctalia} ipc call sessionMenu toggle"
