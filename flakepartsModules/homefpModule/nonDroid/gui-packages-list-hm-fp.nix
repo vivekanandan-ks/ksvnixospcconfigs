@@ -13,6 +13,10 @@ _: {
         kdePackages.partitionmanager
       ])
       ++ (with pkgs-unstable; [
+        grim
+        slurp
+        satty
+        wl-clipboard
         #unstable packages
         #kdePackages.kate
         kdePackages.filelight

@@ -117,7 +117,22 @@
         };
         screen-shot-and-record = {
           enabled = true;
-          src = "${inputs.noctalia-legacy-v4-plugins.outPath}/screen-shot-and-record";
+          # src = "${inputs.noctalia-legacy-v4-plugins.outPath}/screen-shot-and-record";
+          src = pkgs.symlinkJoin {
+            name = "screen-shot-and-record-with-settings";
+            paths = [
+              "${inputs.noctalia-legacy-v4-plugins.outPath}/screen-shot-and-record"
+              (pkgs.writeTextDir "settings.json" ''
+                {
+                  "screenshotEditor": "satty",
+                  "savePath": "~/Pictures/Screenshots",
+                  "keepSourceScreenshot": false,
+                  "enableCross": true,
+                  "enableWindowsSelection": true
+                }
+              '')
+            ];
+          };
         };
         usb-drive-manager = {
           enabled = true;
@@ -149,11 +164,6 @@
     }: {
       # declarative plugin settings management, for now just add the changes to the .config/noctalia/plugins directory and sync them to here, as like a backup
       #xdg.configFile."noctalia-shell/plugins".source = ./noctalia-plugins;
-
-      programs.satty = {
-        enable = true;
-        package = pkgs-unstable.satty;
-      };
 
       systemd.user.services.noctalia = {
         Unit = {

@@ -147,6 +147,8 @@ _: {
             #"systemctl --user start hyprpolkitagent"
           ];
           bind = [
+            ", Print, exec, sh -c 'grim -g \"$(slurp)\" - | satty --filename -'"
+            "SUPER, Print, exec, sh -c 'mkdir -p ~/Pictures/Screenshots && file=~/Pictures/Screenshots/screenshot_\$(date +%Y-%m-%d_%H-%M-%S).png && grim \"\$file\" && notify-send -a \"Screenshot\" \"Screenshot Saved\" \"\$file\"'"
             #"SUPER, TAB, hyprexpo:expo, toggle"
             "SUPER, TAB, exec, ${lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.ksvNoctalia} ipc call plugin:workspace-overview toggle"
             "CTRL ALT, Delete, exec, ${lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.ksvNoctalia} ipc call sessionMenu toggle"

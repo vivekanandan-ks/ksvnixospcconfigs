@@ -19,15 +19,13 @@ _: {
         #themes.custom.fg = "#ffffff";
 
         show_startup_tips = false;
-        pane_frames = false;
-        /*
+        pane_frames = true;
         ui = {
           pane_frames = {
             rounded_corners = true;
             #hide_session_name = false;
           };
         };
-        */
       };
     };
   };
