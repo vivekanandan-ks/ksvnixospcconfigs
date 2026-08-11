@@ -37,10 +37,12 @@ _: {
       {
         name = "Screenshot shortcuts";
         remap = {
+          # Old live command:
+          # "Ctrl-PRINT".launch = [ "sh" "-c" "grim -g \"$(slurp)\" - | satty --filename -" ];
           "Ctrl-PRINT".launch = [
             "sh"
             "-c"
-            "grim -g \"$(slurp)\" - | satty --filename -"
+            "file=/tmp/ss.png; grim \"$file\" && G=\$(slurp) && [ -n \"\$G\" ] && magick \"\$file\" -crop \"\$G\" +repage \"\$file\" && satty --filename \"\$file\""
           ];
           "Ctrl-Super-PRINT".launch = [
             "sh"
