@@ -120,7 +120,6 @@ _: {
     };
 
     # Enable the KDE Plasma Desktop Environment.
-    services.displayManager.sddm.enable = true;
     services.desktopManager.plasma6.enable = true;
 
     #security.pam.services.sddm.enableKwallet = true;
@@ -144,26 +143,6 @@ _: {
       #media-session.enable = true;
     };
 
-    # Enable touchpad support (enabled default in most desktopManager).
-    # services.xserver.libinput.enable = true;
-
-    #programs.fish.enable = true;
-
-    # Enable automatic login for the user.
-    services.displayManager.autoLogin.enable = true;
-    services.displayManager.autoLogin.user = username;
-
-    # List packages installed in system profile. To search, run:
-    # $ nix search wget
-    /*
-    environment.systemPackages =
-    (with pkgs; [
-      #stable
-    ])
-    ++ (with pkgs-unstable; [
-      #unstable
-    ]);
-    */
 
     # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     # Some programs need SUID wrappers, can be configured further or are
