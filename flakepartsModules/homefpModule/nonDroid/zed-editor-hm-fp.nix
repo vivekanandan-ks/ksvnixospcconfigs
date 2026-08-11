@@ -143,8 +143,8 @@ _: {
             initialization_options = {
               nix = {
                 flake = {
-                  autoArchive = true;
-                  autoEvalInputs = true;
+                  autoArchive = false;
+                  autoEvalInputs = false;
                 };
               };
             };

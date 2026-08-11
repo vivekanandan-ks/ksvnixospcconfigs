@@ -1,10 +1,13 @@
 _: {
-  flake.nixosModules.displayManager = {username, ...}: {
+  flake.nixosModules.displayManager = {username, pkgs-unstable, ...}: {
     # Default display manager: ly TUI login manager
     services.displayManager.ly = {
       enable = true;
+      package = pkgs-unstable.ly ;
       settings = {
-        animation = "doom";
+        animation = "dur_file";
+        dur_file_path = "${./blackhole.dur}";
+        dur_offset_alignment = "center";
         save = true;
       };
     };
