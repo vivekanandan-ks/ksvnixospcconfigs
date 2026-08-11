@@ -148,8 +148,6 @@ _: {
             #"systemctl --user start hyprpolkitagent"
           ];
           bind = [
-            ", Print, exec, ${config.myScreenshotCmds.regionCmd}"
-            "SUPER, Print, exec, ${config.myScreenshotCmds.fullCmd}"
             #"SUPER, TAB, hyprexpo:expo, toggle"
             "SUPER, TAB, exec, ${lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.ksvNoctalia} ipc call plugin:workspace-overview toggle"
             "CTRL ALT, Delete, exec, ${lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.ksvNoctalia} ipc call sessionMenu toggle"

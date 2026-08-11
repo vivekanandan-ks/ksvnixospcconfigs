@@ -156,12 +156,37 @@
 
   flake = {
     homeModules.nonDroid.noctalia = {
+      config,
       pkgs,
       pkgs-unstable,
       lib,
       self,
       ...
     }: {
+      # Noctalia screenshot & recording plugin dependencies
+      home.packages = with pkgs-unstable; [
+        grim
+        slurp
+        satty
+        wl-clipboard
+        imagemagick
+        tesseract
+        wf-recorder
+        jq
+      ];
+
+      # Configure Satty settings & output directory for Noctalia plugin
+      programs.satty = {
+        enable = true;
+        package = pkgs-unstable.satty;
+        settings = {
+          general = {
+            output-filename = "${config.xdg.userDirs.pictures}/sattyScreenshots/satty-%Y-%m-%d_%H:%M:%S.png";
+            save-after-copy = true;
+          };
+        };
+      };
+
       # declarative plugin settings management, for now just add the changes to the .config/noctalia/plugins directory and sync them to here, as like a backup
       #xdg.configFile."noctalia-shell/plugins".source = ./noctalia-plugins;
 
