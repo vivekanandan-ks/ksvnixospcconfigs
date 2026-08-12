@@ -5,9 +5,18 @@ _: {
       enable = true;
       package = pkgs-unstable.ly ;
       settings = {
-        animation = "dur_file";
-        dur_file_path = "${./blackhole.dur}";
-        dur_offset_alignment = "center";
+        # Active animation: John Conway's Game of Life
+        #animation = "gameoflife";
+        #gameoflife_fg = "0x0000FF00";        # Green cells
+        #gameoflife_initial_density = 0.4;    # Balanced cell density
+        #gameoflife_entropy_interval = 10;   # Prevents animation stabilization/stalling
+
+        # Other available animations (uncomment to use):
+        # animation = "doom";
+        animation = "matrix";
+        # animation = "colormix";
+        # animation = "none";
+
         save = true;
       };
     };
