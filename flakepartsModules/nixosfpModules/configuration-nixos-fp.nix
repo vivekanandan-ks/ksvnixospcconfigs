@@ -4,7 +4,6 @@ _: {
     pkgs,
     pkgs-unstable,
     lib,
-    username,
     ...
   }: {
     imports = [
@@ -142,7 +141,6 @@ _: {
       # no need to redefine it in your config for now)
       #media-session.enable = true;
     };
-
 
     # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     # Some programs need SUID wrappers, can be configured further or are

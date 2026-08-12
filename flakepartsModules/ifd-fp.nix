@@ -1,8 +1,10 @@
 _: {
   # 1. Top-level Flake nixConfig setting (via flake-file)
-  flake-file.nixConfig = {
+  /*
+    flake-file.nixConfig = {
     allow-import-from-derivation = false;
   };
+  */
 
   # 2. NixOS System-level setting
   flake.nixosModules.ifd = {

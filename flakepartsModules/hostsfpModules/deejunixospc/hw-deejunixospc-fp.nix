@@ -1,0 +1,26 @@
+_: {
+  flake.hardwareModules.deejunixospc = {lib, ...}: {
+    fileSystems."/" = {
+      device = "/dev/disk/by-uuid/1da28acd-f352-4c3f-a9fa-15360c2bfa35";
+      fsType = "ext4";
+    };
+
+    fileSystems."/boot" = {
+      device = "/dev/disk/by-uuid/CE1C-432E";
+      fsType = "vfat";
+      options = ["fmask=0077" "dmask=0077"];
+    };
+
+    swapDevices = [
+      {device = "/dev/disk/by-uuid/1ecdd4a4-53d2-4493-9326-4d17c336ac55";}
+    ];
+
+    # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
+    # (the default) this is the recommended approach. When using systemd-networkd it's
+    # still possible to use this option, but it's recommended to use it in conjunction
+    # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
+    networking.useDHCP = lib.mkDefault true;
+    # networking.interfaces.enp2s0.useDHCP = lib.mkDefault true;
+    # networking.interfaces.wlp3s0.useDHCP = lib.mkDefault true;
+  };
+}

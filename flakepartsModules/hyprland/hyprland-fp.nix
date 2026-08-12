@@ -39,7 +39,6 @@ _: {
     };
 
     homeModules.nonDroid.hyprland = {
-      config,
       lib,
       pkgs,
       self,

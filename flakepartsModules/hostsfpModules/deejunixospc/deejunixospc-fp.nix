@@ -9,6 +9,10 @@
     modules =
       [
         config.flake.hardwareModules.deejunixospc
+        {
+          hardware.facter.reportPath = ./deejunixospc-facter.json;
+        }
+
         inputs.home-manager.nixosModules.home-manager
         {
           networking.hostName = "deejunixospc";
@@ -17,6 +21,14 @@
           services.displayManager.sddm.enable = lib.mkForce true;
         }
       ]
+      /*
+        ++ (lib.optionals (inputs ? disko) [
+        inputs.disko.nixosModules.disko
+        {
+          disko.devices = config.flake.diskoConfigurations.deejunixospc.disko.devices;
+        }
+      ])
+      */
       ++ (config.myIsDroidModule false) ++ config.myCommonNixosModules;
   };
   flake.deejunixospc = config.flake.nixosConfigurations.deejunixospc;

@@ -1,9 +1,13 @@
 _: {
-  flake.nixosModules.displayManager = {username, pkgs-unstable, ...}: {
+  flake.nixosModules.displayManager = {
+    username,
+    pkgs-unstable,
+    ...
+  }: {
     # Default display manager: ly TUI login manager
     services.displayManager.ly = {
       enable = true;
-      package = pkgs-unstable.ly ;
+      package = pkgs-unstable.ly;
       settings = {
         # Active animation: John Conway's Game of Life
         #animation = "gameoflife";

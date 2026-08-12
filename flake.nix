@@ -4,10 +4,6 @@
   outputs =
     inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./flakepartsModules);
 
-  nixConfig = {
-    allow-import-from-derivation = false;
-  };
-
   inputs = {
     base16-schemes = {
       url = "github:tinted-theming/schemes";
