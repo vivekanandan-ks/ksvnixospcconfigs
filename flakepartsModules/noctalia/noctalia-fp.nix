@@ -105,7 +105,19 @@
         };
         network-indicator = {
           enabled = true;
-          src = "${inputs.noctalia-legacy-v4-plugins.outPath}/network-indicator";
+          src = pkgs.symlinkJoin {
+            name = "network-indicator-with-settings";
+            paths = [
+              "${inputs.noctalia-legacy-v4-plugins.outPath}/network-indicator"
+              (pkgs.writeTextDir "settings.json" ''
+                {
+                  "fontSizeModifier": 1.25,
+                  "useCustomColors": true,
+                  "colorText": "#ffffff"
+                }
+              '')
+            ];
+          };
         };
         plugin-manager = {
           enabled = true;
