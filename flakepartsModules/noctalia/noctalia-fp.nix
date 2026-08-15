@@ -26,7 +26,7 @@
         pkgs-unstable.libnotify
         pkgs-unstable.imagemagick
         pkgs-unstable.tesseract
-        pkgs-unstable.wf-recorder
+        #pkgs-unstable.wf-recorder
         pkgs-unstable.jq
         pkgs-unstable.xdg-utils
       ];
@@ -183,7 +183,7 @@
         wl-clipboard
         imagemagick
         tesseract
-        wf-recorder
+        #wf-recorder
         jq
       ];
 
