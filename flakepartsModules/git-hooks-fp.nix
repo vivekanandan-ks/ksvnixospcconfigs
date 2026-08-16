@@ -12,7 +12,11 @@
     inputs.git-hooks-nix.flakeModule
   ];
 
-  perSystem = {pkgs, ...}:
+  perSystem = {
+    pkgs,
+    config,
+    ...
+  }:
     lib.optionalAttrs (inputs ? git-hooks-nix) {
       pre-commit = {
         check.enable = true; # Adds security checks to `nix flake check`
@@ -24,6 +28,13 @@
           default_stages = ["manual"];
 
           hooks = {
+            # --- Code Formatting ---
+            treefmt = {
+              enable = true;
+              package = config.treefmt.build.wrapper;
+              stages = ["pre-commit"];
+            };
+
             # --- Secret & Credential Protection ---
             ripsecrets.enable = true;
             detect-private-keys.enable = true;

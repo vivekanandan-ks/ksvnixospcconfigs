@@ -30,11 +30,11 @@
         nvidia.acceptLicense = true;
       };
 
-      _module.args.pkgs-unstable = import inputs.nixpkgs-unstable {
-        inherit system;
-        config.allowUnfree = true;
-        nvidia.acceptLicense = true;
-      };
+      # _module.args.pkgs-unstable = import inputs.nixpkgs-unstable {
+      #   inherit system;
+      #   config.allowUnfree = true;
+      #   nvidia.acceptLicense = true;
+      # };
     };
   };
 }

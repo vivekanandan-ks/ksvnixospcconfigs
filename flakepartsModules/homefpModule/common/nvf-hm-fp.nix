@@ -209,7 +209,7 @@ _: {
 
           minimap = {
             minimap-vim.enable = true; # changed
-            codewindow.enable = true; # maximal # lighter, faster, and uses lua for configuration
+            # codewindow.enable = true; # maximal # lighter, faster, and uses lua for configuration (deprecated upstream)
           };
 
           dashboard = {

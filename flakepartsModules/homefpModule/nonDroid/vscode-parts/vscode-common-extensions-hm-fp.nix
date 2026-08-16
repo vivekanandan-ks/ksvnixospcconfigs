@@ -9,6 +9,7 @@
 
   flake.homeModules.nonDroid.vscode-common-extensions = {
     inputs,
+    pkgs,
     pkgs-unstable,
     system,
     ...
@@ -80,7 +81,7 @@
           ])
         ++
         */
-        (pkgs-unstable.vscode-utils.extensionsFromVscodeMarketplace [
+        (pkgs.vscode-utils.extensionsFromVscodeMarketplace [
           {
             # Python Indent https://marketplace.visualstudio.com/items?itemName=KevinRose.vsc-python-indent&ssr=true
             name = "vsc-python-indent";

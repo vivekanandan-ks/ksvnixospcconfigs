@@ -12,9 +12,13 @@
     };
   };
 
-  perSystem = {pkgs-unstable, ...}: {
+  perSystem = {
+    pkgs,
+    pkgs-unstable,
+    ...
+  }: {
     packages.ksvMpv = inputs.wrapper-modules.wrappers.mpv.wrap {
-      pkgs = pkgs-unstable;
+      inherit pkgs;
       package = pkgs-unstable.mpv;
       "mpv.conf".path = ./mpv.conf;
       "mpv.input".path = ./input.conf;

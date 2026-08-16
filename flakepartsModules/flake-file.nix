@@ -17,7 +17,7 @@
   flake-file.inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     #nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0"; # stable release
-    nixpkgs-unstable.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    # nixpkgs-unstable.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     flake-file.url = lib.mkDefault "github:vic/flake-file";
     #nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-25.05";
 

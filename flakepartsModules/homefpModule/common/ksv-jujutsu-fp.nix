@@ -12,9 +12,13 @@
     };
   };
 
-  perSystem = {pkgs-unstable, ...}: {
+  perSystem = {
+    pkgs,
+    pkgs-unstable,
+    ...
+  }: {
     packages.ksvJujutsu = inputs.wrapper-modules.wrappers.jujutsu.wrap {
-      pkgs = pkgs-unstable;
+      inherit pkgs;
       package = pkgs-unstable.jujutsu;
       settings = {
         user = {

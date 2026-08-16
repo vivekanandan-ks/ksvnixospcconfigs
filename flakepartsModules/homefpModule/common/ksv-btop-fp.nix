@@ -12,9 +12,13 @@
     };
   };
 
-  perSystem = {pkgs-unstable, ...}: {
+  perSystem = {
+    pkgs,
+    pkgs-unstable,
+    ...
+  }: {
     packages.ksvBtop = inputs.wrapper-modules.wrappers.btop.wrap {
-      pkgs = pkgs-unstable;
+      inherit pkgs;
       package = pkgs-unstable.btop;
       settings = {};
     };

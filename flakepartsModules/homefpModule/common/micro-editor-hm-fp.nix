@@ -3,7 +3,6 @@ _: {
     #inputs,
     #config,
     #lib,
-    #pkgs,
     pkgs-unstable,
     ...
   }: {
@@ -37,7 +36,7 @@ _: {
       pkgs-unstable.wl-clipboard # for micro editor external clipboard integration
       # shell script to auto download the plugins (yet to implement the correct symlinking to the micro plugins path)
       /*
-      (pkgs-unstable.writers.writeNuBin
+      (pkgs.writers.writeNuBin
         # name
         "microPluginsAutoInstall"
         # other options

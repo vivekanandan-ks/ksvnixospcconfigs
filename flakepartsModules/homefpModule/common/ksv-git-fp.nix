@@ -13,9 +13,13 @@
     };
   };
 
-  perSystem = {pkgs-unstable, ...}: {
+  perSystem = {
+    pkgs,
+    pkgs-unstable,
+    ...
+  }: {
     packages.ksvGit = inputs.wrapper-modules.wrappers.git.wrap {
-      pkgs = pkgs-unstable;
+      inherit pkgs;
       package = pkgs-unstable.git;
       settings = {
         user = {

@@ -18,9 +18,13 @@
     };
   };
 
-  perSystem = {pkgs-unstable, ...}: {
+  perSystem = {
+    pkgs,
+    pkgs-unstable,
+    ...
+  }: {
     packages.ksvAtuin = inputs.wrapper-modules.wrappers.atuin.wrap {
-      pkgs = pkgs-unstable;
+      inherit pkgs;
       package = pkgs-unstable.atuin;
 
       settings = {

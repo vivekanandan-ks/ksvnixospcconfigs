@@ -40,6 +40,7 @@
       };
     };
     import-tree.url = "github:vic/import-tree";
+    multiverse.url = "github:fzakaria/nixpkgs-multiverse";
     nix-on-droid = {
       url = "github:nix-community/nix-on-droid";
       inputs = {
@@ -52,7 +53,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     noctalia-legacy-v4-plugins = {
       url = "github:noctalia-dev/legacy-v4-plugins";
       flake = false;

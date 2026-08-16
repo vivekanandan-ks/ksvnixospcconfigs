@@ -13,9 +13,13 @@
     };
   };
 
-  perSystem = {pkgs-unstable, ...}: {
+  perSystem = {
+    pkgs,
+    pkgs-unstable,
+    ...
+  }: {
     packages.ksvHelix = inputs.wrapper-modules.wrappers.helix.wrap {
-      pkgs = pkgs-unstable;
+      inherit pkgs;
       package = pkgs-unstable.helix;
 
       runtimePkgs = with pkgs-unstable; [

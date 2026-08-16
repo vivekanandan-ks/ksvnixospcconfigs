@@ -12,9 +12,13 @@
     };
   };
 
-  perSystem = {pkgs-unstable, ...}: {
+  perSystem = {
+    pkgs,
+    pkgs-unstable,
+    ...
+  }: {
     packages.ksvFastfetch = inputs.wrapper-modules.wrappers.fastfetch.wrap {
-      pkgs = pkgs-unstable;
+      inherit pkgs;
       package = pkgs-unstable.fastfetch;
       settings = builtins.fromJSON (
         builtins.readFile ./fastfetch-settings.json
