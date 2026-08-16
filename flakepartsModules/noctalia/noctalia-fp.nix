@@ -175,17 +175,17 @@
       self,
       ...
     }: {
-      # Noctalia screenshot & recording plugin dependencies
-      home.packages = with pkgs-unstable; [
-        grim
-        slurp
-        satty
-        wl-clipboard
-        imagemagick
-        tesseract
-        #wf-recorder
-        jq
-      ];
+      # Noctalia screenshot & recording plugin dependencies (commented out to rely solely on Noctalia's runtimePkgs wrapper)
+      # home.packages = with pkgs-unstable; [
+      #   grim
+      #   slurp
+      #   satty
+      #   wl-clipboard
+      #   imagemagick
+      #   tesseract
+      #   #wf-recorder
+      #   jq
+      # ];
 
       # Configure Satty settings & output directory for Noctalia plugin
       programs.satty = {
