@@ -48,6 +48,7 @@
     _module.args = {
       inherit mv;
       pkgs = mv.tip;
+      pkgs-global = mv.tip;
       # 1. Unstable Native: For complex NixOS/HM modules, login shells, and services
       pkgs-unstable = mv.tip;
 

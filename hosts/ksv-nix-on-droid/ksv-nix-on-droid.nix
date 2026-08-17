@@ -1,5 +1,7 @@
 {
   inputs,
+  pkgs,
+  pkgs-global,
   pkgs-stable,
   pkgs-unstable,
   pkgs-mv-fast-tip,
@@ -79,10 +81,11 @@
     # Reason: Resolves "You have set either `nixpkgs.config` or `nixpkgs.overlays` while using `home-manager.useGlobalPkgs`" warning.
     # Pros: Allows modules (like Stylix) to configure nixpkgs options without conflict.
     # Cons: Home Manager instantiates its own pkgs set, which may increase evaluation time and duplicate package instances.
-    useGlobalPkgs = false;
+    #useGlobalPkgs = false;
+    useGlobalPkgs = true;
     useUserPackages = true;
     extraSpecialArgs = {
-      inherit inputs pkgs-unstable pkgs-mv-fast-tip pkgs-stable isDroid username self;
+      inherit inputs pkgs pkgs-global pkgs-unstable pkgs-mv-fast-tip pkgs-stable isDroid username self;
     };
     sharedModules = [
       #inputs.nvf.homeManagerModules.default

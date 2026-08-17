@@ -31,6 +31,8 @@
           _module.args = {
             inherit inputs;
             system = "aarch64-linux";
+            pkgs = withSystem "aarch64-linux" ({pkgs, ...}: pkgs);
+            pkgs-global = withSystem "aarch64-linux" ({pkgs-global, ...}: pkgs-global);
             pkgs-unstable = withSystem "aarch64-linux" ({pkgs-unstable, ...}: pkgs-unstable);
             pkgs-mv-fast-tip = withSystem "aarch64-linux" ({pkgs-mv-fast-tip, ...}: pkgs-mv-fast-tip);
             pkgs-stable = withSystem "aarch64-linux" ({pkgs-stable, ...}: pkgs-stable);

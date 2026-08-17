@@ -1,10 +1,14 @@
 _: {
   flake.nixosModules.configuration = {
     #config,
+    pkgs-global,
     pkgs-unstable,
     lib,
     ...
   }: {
+    # Tell NixOS to use our unified global pkgs payload
+    nixpkgs.pkgs = pkgs-global;
+
     imports = [
       #./hardware-configuration.nix # Include the results of the hardware scan.
       #inputs.home-manager.nixosModules.home-manager
@@ -63,9 +67,9 @@ _: {
     programs.appimage.enable = true;
     programs.appimage.binfmt = true;
 
-    # enable unfree services
-    nixpkgs.config.allowUnfree = true;
-    nixpkgs.config.nvidia.acceptLicense = true;
+    # enable unfree services (configured in multiverse-fp.nix when creating pkgs)
+    #nixpkgs.config.allowUnfree = true;
+    #nixpkgs.config.nvidia.acceptLicense = true;
     /*
     nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
       "warp-terminal"

@@ -36,7 +36,8 @@
       };
       backupFileExtension = "backup";
       backupCommand = "rm -f $1.backup && mv $1 $1.backup";
-      useGlobalPkgs = false;
+      #useGlobalPkgs = false;
+      useGlobalPkgs = true;
       useUserPackages = true;
       sharedModules = [
         #inputs.plasma-manager.homeModules.plasma-manager
