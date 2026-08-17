@@ -11,9 +11,9 @@
     inputs,
     pkgs,
     pkgs-unstable,
-    system,
     ...
   }: let
+    /*
     pkgs-vscode = import inputs.nixpkgs {
       inherit system;
       config.allowUnfree = true;
@@ -21,6 +21,10 @@
         inputs.nix4vscode.overlays.default
       ];
     };
+    */
+    pkgs-vscode = pkgs-unstable.appendOverlays [
+      inputs.nix4vscode.overlays.default
+    ];
   in {
     options.myEditor.vscode.extensions = lib.mkOption {
       type = lib.types.listOf lib.types.package;

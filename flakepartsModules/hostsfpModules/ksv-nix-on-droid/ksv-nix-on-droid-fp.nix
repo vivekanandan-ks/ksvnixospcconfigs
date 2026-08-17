@@ -14,11 +14,16 @@
   };
 
   flake.nixOnDroidConfigurations.default = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
+    /*
     pkgs = import inputs.nixpkgs {
       system = "aarch64-linux";
       config.allowUnfree = true;
       overlays = [inputs.nix-on-droid.overlays.default];
     };
+    */
+    pkgs = (withSystem "aarch64-linux" ({pkgs-unstable, ...}: pkgs-unstable)).appendOverlays [
+      inputs.nix-on-droid.overlays.default
+    ];
     modules =
       [
         config.flake.hardwareModules.ksv-nix-on-droid

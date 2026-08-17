@@ -4,6 +4,11 @@
     multiverse.url = "github:fzakaria/nixpkgs-multiverse";
   };
 
+  # Auto-registered Home Manager module for the `mv` CLI registry
+  flake.homeModules.common.multiverse-registry = {inputs, ...}: {
+    nix.registry.mv.flake = inputs.multiverse;
+  };
+
   # Configure per-system module arguments
   perSystem = {system, ...}: let
     mv = inputs.multiverse.lib.mkMultiverse {
@@ -42,6 +47,7 @@
   in {
     _module.args = {
       inherit mv;
+      pkgs = mv.tip;
       # 1. Unstable Native: For complex NixOS/HM modules, login shells, and services
       pkgs-unstable = mv.tip;
 
