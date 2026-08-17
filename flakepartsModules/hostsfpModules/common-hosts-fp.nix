@@ -1,6 +1,7 @@
 {
   lib,
   config,
+  self,
   inputs,
   withSystem,
   ...
@@ -16,19 +17,17 @@
     myCommonNixosModules =
       (builtins.attrValues config.flake.nixosModules)
       ++ [
-        (_: {
-          _module.args.pkgs-global = withSystem "x86_64-linux" ({pkgs-global, ...}: pkgs-global);
-          _module.args.pkgs-unstable = withSystem "x86_64-linux" ({pkgs-unstable, ...}: pkgs-unstable);
-          _module.args.pkgs-mv-fast-tip = withSystem "x86_64-linux" ({pkgs-mv-fast-tip, ...}: pkgs-mv-fast-tip);
-          _module.args.pkgs-stable = withSystem "x86_64-linux" ({pkgs-stable, ...}: pkgs-stable);
-          _module.args = {
-            inherit inputs;
-            username = "ksvnixospc";
-            inherit (inputs) nix4vscode;
-            system = "x86_64-linux";
-            inherit (inputs) self;
-          };
-        })
+        (
+          {config, ...}:
+            withSystem config.nixpkgs.hostPlatform.system (perSys: {
+              _module.args =
+                (builtins.removeAttrs perSys ["pkgs"])
+                // {
+                  inherit self inputs;
+                  username = "ksvnixospc";
+                };
+            })
+        )
       ];
 
     myIsDroidModule = option: [

@@ -9,6 +9,7 @@ _: {
 
   flake.homeModules.home = {
     inputs,
+    pkgs,
     #config,
     lib,
     pkgs-unstable,
@@ -27,7 +28,8 @@ _: {
     home.homeDirectory = lib.mkDefault "/home/${username}";
 
     # For legacy Nix commands (<nixpkgs>, nix-shell -p ..., nix-build)
-    nix.nixPath = ["nixpkgs=${inputs.nixpkgs}"];
+    #nix.nixPath = ["nixpkgs=${inputs.nixpkgs}"];
+    nix.nixPath = ["nixpkgs=${pkgs.path}"];
 
     # For modern Flake commands (nix run nixpkgs#..., nix shell ...)
     nix.registry = {
