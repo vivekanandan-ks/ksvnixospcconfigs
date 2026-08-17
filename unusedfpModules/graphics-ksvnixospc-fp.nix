@@ -1,6 +1,6 @@
 _: {
   flake.nixosModules.ksvnixospcGraphics = {pkgs, ...}: {
-    # Enable Intel & NVIDIA Dual-GPU hardware acceleration and PRIME offloading
+    # Enable hardware graphics acceleration
     hardware.graphics = {
       enable = true;
       extraPackages = with pkgs; [
@@ -8,9 +8,18 @@ _: {
       ];
     };
 
+    # Keep desktop UI & Wayland compositor on Intel iGPU for smooth 60fps and zero-latency cursor,
+    # while enabling VA-API hardware video acceleration.
     environment.sessionVariables = {
       LIBVA_DRIVER_NAME = "i965";
-      DRI_PRIME = "1"; # Offload 3D/OpenGL rendering to NVIDIA dGPU globally by default
     };
+
+    # Provide a system-wide 'nvrun' utility to easily offload heavy apps/games to NVIDIA GPU on demand
+    # Usage: nvrun <application> (e.g., nvrun blender, nvrun steam, nvrun glxgears)
+    environment.systemPackages = with pkgs; [
+      (writeShellScriptBin "nvrun" ''
+        exec env DRI_PRIME=1 "$@"
+      '')
+    ];
   };
 }
