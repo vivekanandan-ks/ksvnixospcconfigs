@@ -44,14 +44,12 @@
       then builtins.mapAttrs addLazyOverride mv.fast.tip
       else {};
     */
-  in {
-    _module.args = {
+    globalModuleArgs = {
       inherit mv;
-      pkgs = mv.tip;
+      # 0. Global System Package Set (feeds nixpkgs.pkgs)
       pkgs-global = mv.tip;
       # 1. Unstable Native: For complex NixOS/HM modules, login shells, and services
       pkgs-unstable = mv.tip;
-
       # 2. Fast-Mode Unstable: 0 ms instant store paths + full nested sets for apps across the codebase
       # pkgs-mv-fast-tip =
       #   mv.tip
@@ -61,9 +59,15 @@
       #     else {}
       #   );
       pkgs-mv-fast-tip = mv.tip;
-
       # 3. Stable Channel: Access official stable packages on-demand with zero flake inputs
       pkgs-stable = mv.at "26.05";
     };
+  in {
+    _module.args =
+      globalModuleArgs
+      // {
+        pkgs = mv.tip;
+        inherit globalModuleArgs;
+      };
   };
 }

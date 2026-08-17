@@ -28,9 +28,9 @@
     modules =
       [
         config.flake.hardwareModules.ksv-nix-on-droid
-        (withSystem "aarch64-linux" (perSys: {
+        (withSystem "aarch64-linux" ({globalModuleArgs, ...}: {
           _module.args =
-            perSys
+            globalModuleArgs
             // {
               inherit inputs self;
               username = "nix-on-droid";

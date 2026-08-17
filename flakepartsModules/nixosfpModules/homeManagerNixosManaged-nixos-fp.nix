@@ -1,30 +1,24 @@
 {config, ...}: {
   flake.nixosModules.homeManagerNixosManaged = {
+    globalModuleArgs,
     inputs,
-    pkgs,
-    pkgs-global,
-    pkgs-stable,
-    pkgs-unstable,
-    pkgs-mv-fast-tip,
     isDroid ? false,
     username,
     self,
     ...
   }: {
     home-manager = {
-      extraSpecialArgs = {
-        inherit
-          inputs
-          pkgs
-          pkgs-global
-          pkgs-stable
-          pkgs-unstable
-          pkgs-mv-fast-tip
-          isDroid
-          username
-          self
-          ;
-      };
+      extraSpecialArgs =
+        globalModuleArgs
+        // {
+          inherit
+            globalModuleArgs
+            inputs
+            isDroid
+            username
+            self
+            ;
+        };
       #users.ksvnixospc = import ./home.nix;
       #users.ksvnixospc = {
       users."${username}" = {

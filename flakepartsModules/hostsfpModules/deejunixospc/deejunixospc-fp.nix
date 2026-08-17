@@ -3,14 +3,17 @@
   inputs,
   lib,
   ...
-}: {
+}: let
+  facterFile = ./deejunixospc-facter.json;
+  inherit ((builtins.fromJSON (builtins.readFile facterFile))) system;
+in {
   flake.nixosConfigurations.deejunixospc = inputs.nixpkgs.lib.nixosSystem {
-    system = "x86_64-linux";
+    inherit system;
     modules =
       [
         config.flake.hardwareModules.deejunixospc
         {
-          hardware.facter.reportPath = ./deejunixospc-facter.json;
+          hardware.facter.reportPath = facterFile;
         }
 
         inputs.home-manager.nixosModules.home-manager
@@ -29,7 +32,8 @@
         }
       ])
       */
-      ++ (config.myIsDroidModule false) ++ config.myCommonNixosModules;
+      ++ (config.myIsDroidModule false)
+      ++ (config.myCommonNixosModules system);
   };
   flake.deejunixospc = config.flake.nixosConfigurations.deejunixospc;
 }

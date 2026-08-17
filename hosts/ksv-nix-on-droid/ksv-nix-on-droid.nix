@@ -1,15 +1,13 @@
 {
+  globalModuleArgs,
   inputs,
-  pkgs,
-  pkgs-global,
-  pkgs-stable,
-  pkgs-unstable,
-  pkgs-mv-fast-tip,
   isDroid,
   self,
   username,
   ...
-}: {
+}: let
+  inherit (globalModuleArgs) pkgs-unstable pkgs-stable;
+in {
   android-integration.termux-setup-storage.enable = true;
   android-integration.am.enable = true;
   android-integration.termux-open.enable = true;
@@ -84,9 +82,11 @@
     #useGlobalPkgs = false;
     useGlobalPkgs = true;
     useUserPackages = true;
-    extraSpecialArgs = {
-      inherit inputs pkgs pkgs-global pkgs-unstable pkgs-mv-fast-tip pkgs-stable isDroid username self;
-    };
+    extraSpecialArgs =
+      globalModuleArgs
+      // {
+        inherit inputs isDroid username self;
+      };
     sharedModules = [
       #inputs.nvf.homeManagerModules.default
     ];
