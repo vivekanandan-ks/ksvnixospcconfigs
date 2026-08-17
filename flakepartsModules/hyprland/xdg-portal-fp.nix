@@ -3,7 +3,7 @@
     # Enable XDG Desktop Portals for GTK File Pickers & Dialogs under Hyprland
     xdg.portal = {
       enable = true;
-      extraPortals = lib.mkForce [
+      extraPortals = /*lib.mkForce*/ [
         pkgs-unstable.xdg-desktop-portal-gtk
         pkgs-unstable.xdg-desktop-portal-hyprland
       ];

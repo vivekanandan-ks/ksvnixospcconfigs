@@ -15,7 +15,7 @@
       fastFallback = "eval"; # Seamless fallback for unfree packages
     };
 
-    addLazyOverride = name: pkg:
+    /*addLazyOverride = name: pkg:
       if builtins.isAttrs pkg && pkg ? eval
       then
         if builtins.elem name ["carapace" "zoxide" "starship"]
@@ -37,12 +37,12 @@
     fastTip =
       if system == "x86_64-linux"
       then builtins.mapAttrs addLazyOverride mv.fast.tip
-      else {};
+      else {};*/
   in {
     _module.args = {
       inherit mv;
       # Fast mode for top-level packages (right side wins), with fallback for nested sets like kdePackages
-      pkgs-unstable = mv.tip // fastTip;
+      pkgs-unstable = mv.tip; #// fastTip;
     };
   };
 }
