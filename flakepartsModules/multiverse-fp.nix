@@ -14,8 +14,8 @@
       };
       fastFallback = "eval"; # Seamless fallback for unfree packages
     };
-
-    /*addLazyOverride = name: pkg:
+    /*
+      addLazyOverride = name: pkg:
       if builtins.isAttrs pkg && pkg ? eval
       then
         if builtins.elem name ["carapace" "zoxide" "starship"]
@@ -37,12 +37,26 @@
     fastTip =
       if system == "x86_64-linux"
       then builtins.mapAttrs addLazyOverride mv.fast.tip
-      else {};*/
+      else {};
+    */
   in {
     _module.args = {
       inherit mv;
-      # Fast mode for top-level packages (right side wins), with fallback for nested sets like kdePackages
-      pkgs-unstable = mv.tip; #// fastTip;
+      # 1. Unstable Native: For complex NixOS/HM modules, login shells, and services
+      pkgs-unstable = mv.tip;
+
+      # 2. Fast-Mode Unstable: 0 ms instant store paths + full nested sets for apps across the codebase
+      # pkgs-mv-fast-tip =
+      #   mv.tip
+      #   // (
+      #     if system == "x86_64-linux"
+      #     then mv.fast.tip
+      #     else {}
+      #   );
+      pkgs-mv-fast-tip = mv.tip;
+
+      # 3. Stable Channel: Access official stable packages on-demand with zero flake inputs
+      pkgs-stable = mv.at "26.05";
     };
   };
 }

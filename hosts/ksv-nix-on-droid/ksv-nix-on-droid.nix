@@ -1,7 +1,8 @@
 {
-  pkgs,
   inputs,
+  pkgs-stable,
   pkgs-unstable,
+  pkgs-mv-fast-tip,
   isDroid,
   self,
   username,
@@ -17,10 +18,10 @@
   android-integration.xdg-open.enable = true;
 
   # default shell for nix-on-droid
-  user.shell = "${pkgs.nushell}/bin/nu";
+  user.shell = "${pkgs-unstable.nushell}/bin/nu";
 
   # Simply install just the packages
-  environment.packages = with pkgs; [
+  environment.packages = with pkgs-stable; [
     # User-facing stuff that you really really want to have
     vim # or some other editor, e.g. nano or neovim
 
@@ -64,7 +65,7 @@
   # terminal font
   #terminal.font = "${pkgs.nerd-fonts.fira-code}/share/fonts/truetype/NerdFonts/FiraCode/FiraCodeNerdFont-Regular.ttf";
   terminal.font = let
-    jetbrains = pkgs.nerd-fonts.jetbrains-mono; #pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; };
+    jetbrains = pkgs-unstable.nerd-fonts.jetbrains-mono; #pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; };
     fontPath = "share/fonts/truetype/NerdFonts/JetBrainsMono/JetBrainsMonoNerdFontMono-Regular.ttf";
   in "${jetbrains}/${fontPath}";
 
@@ -81,7 +82,7 @@
     useGlobalPkgs = false;
     useUserPackages = true;
     extraSpecialArgs = {
-      inherit inputs pkgs-unstable isDroid username self;
+      inherit inputs pkgs-unstable pkgs-mv-fast-tip pkgs-stable isDroid username self;
     };
     sharedModules = [
       #inputs.nvf.homeManagerModules.default

@@ -18,6 +18,8 @@
       ++ [
         (_: {
           _module.args.pkgs-unstable = withSystem "x86_64-linux" ({pkgs-unstable, ...}: pkgs-unstable);
+          _module.args.pkgs-mv-fast-tip = withSystem "x86_64-linux" ({pkgs-mv-fast-tip, ...}: pkgs-mv-fast-tip);
+          _module.args.pkgs-stable = withSystem "x86_64-linux" ({pkgs-stable, ...}: pkgs-stable);
           _module.args = {
             inherit inputs;
             username = "ksvnixospc";

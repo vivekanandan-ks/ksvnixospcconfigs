@@ -2,17 +2,18 @@ _: {
   flake.homeModules.common.cli-packages-list = {
     #inputs,
     #lib,
-    pkgs-unstable,
+    #pkgs-stable,
+    pkgs-mv-fast-tip,
     ...
   }: {
     home.packages =
       /*
-      (with pkgs; [
+      (with pkgs-stable; [
         # stable packages
       ])
       ++
       */
-      with pkgs-unstable; [
+      with pkgs-mv-fast-tip; [
         #unstable packages
         gh
 

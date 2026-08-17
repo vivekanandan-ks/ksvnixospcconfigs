@@ -13,22 +13,22 @@
 
   perSystem = {
     pkgs,
-    pkgs-unstable,
+    pkgs-mv-fast-tip,
     ...
   }: {
     packages.ksvNoctalia = inputs.wrapper-modules.wrappers.noctalia-shell.wrap {
       inherit pkgs;
-      runtimePkgs = [
-        pkgs-unstable.grim
-        pkgs-unstable.slurp
-        pkgs-unstable.wl-clipboard
-        pkgs-unstable.satty
-        pkgs-unstable.libnotify
-        pkgs-unstable.imagemagick
-        pkgs-unstable.tesseract
-        #pkgs-unstable.wf-recorder
-        pkgs-unstable.jq
-        pkgs-unstable.xdg-utils
+      runtimePkgs = with pkgs-mv-fast-tip; [
+        grim
+        slurp
+        wl-clipboard
+        satty
+        libnotify
+        imagemagick
+        tesseract
+        #wf-recorder
+        jq
+        xdg-utils
       ];
       # outOfStoreConfig = "/home/ksvnixospc/.config/noctalia-shell";
       settings =

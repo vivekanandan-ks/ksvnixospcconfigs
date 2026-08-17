@@ -2,7 +2,9 @@
   flake.nixosModules.homeManagerNixosManaged = {
     inputs,
     pkgs,
+    pkgs-stable,
     pkgs-unstable,
+    pkgs-mv-fast-tip,
     nix4vscode,
     system,
     isDroid ? false,
@@ -15,7 +17,9 @@
         inherit
           inputs
           pkgs
+          pkgs-stable
           pkgs-unstable
+          pkgs-mv-fast-tip
           nix4vscode
           system
           isDroid

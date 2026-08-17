@@ -1,7 +1,6 @@
 _: {
   flake.nixosModules.configuration = {
     #config,
-    pkgs,
     pkgs-unstable,
     lib,
     ...
@@ -15,7 +14,7 @@ _: {
     ];
 
     #fonts
-    fonts.packages = with pkgs; [
+    fonts.packages = with pkgs-unstable; [
       nerd-fonts.monofur
     ];
 

@@ -38,7 +38,7 @@ _: {
     # environment.
     /*
     home.packages =
-    (with pkgs; [
+    (with pkgs-stable; [
       #stable packages
     ])
     ++ (lib.optionals (!isDroid) (with pkgs-unstable; [

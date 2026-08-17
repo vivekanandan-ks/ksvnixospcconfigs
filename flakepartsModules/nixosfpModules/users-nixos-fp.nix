@@ -23,7 +23,7 @@ _: {
       #shell = pkgs-unstable.fish;
       /*
        packages =
-      (with pkgs; [
+      (with pkgs-stable; [
         #stable
       ])
       ++ (with pkgs-unstable; [

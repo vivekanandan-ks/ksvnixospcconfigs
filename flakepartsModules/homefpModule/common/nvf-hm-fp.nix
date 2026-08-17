@@ -16,7 +16,6 @@ _: {
 
   flake.homeModules.common.nvf = {
     inputs,
-    pkgs,
     pkgs-unstable,
     ...
   }: {
@@ -36,8 +35,7 @@ _: {
       #the default settings can also be seen here: https://github.com/NotAShelf/nvf/blob/main/configuration.nix
       settings = {
         vim = {
-          #package = pkgs-unstable.neovim-unwrapped;
-          package = pkgs.neovim-unwrapped;
+          package = pkgs-unstable.neovim-unwrapped;
           viAlias = false; # changed
           vimAlias = false; # changed
           debugMode = {

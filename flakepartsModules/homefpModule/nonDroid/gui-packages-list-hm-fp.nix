@@ -1,18 +1,17 @@
 _: {
   flake.homeModules.nonDroid.gui-packages-list = {
-    #lib,
-    pkgs,
-    pkgs-unstable,
+    pkgs-stable,
+    pkgs-mv-fast-tip,
     ...
   }: {
     home.packages =
-      (with pkgs; [
+      (with pkgs-stable; [
         # stable packages
         #warp-terminal
         #vesktop
         kdePackages.partitionmanager
       ])
-      ++ (with pkgs-unstable; [
+      ++ (with pkgs-mv-fast-tip; [
         #unstable packages
         #kdePackages.kate
         kdePackages.filelight

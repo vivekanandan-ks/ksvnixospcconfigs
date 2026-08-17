@@ -5,6 +5,7 @@ _: {
     #lib,
     pkgs,
     pkgs-unstable,
+    pkgs-mv-fast-tip,
     ...
   }: let
     globalShellInit = let
@@ -312,8 +313,8 @@ _: {
     #'';
 
     home.packages = [
-      pkgs-unstable.glow # for nushell displayoutput hook to highlight markdown
-      #pkgs-unstable.inshellisense
+      pkgs-mv-fast-tip.glow # for nushell displayoutput hook to highlight markdown
+      #pkgs-mv-fast-tip.inshellisense
     ];
     home.shell.enableNushellIntegration = true;
   };

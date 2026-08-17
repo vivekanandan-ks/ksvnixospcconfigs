@@ -3,13 +3,13 @@ _: {
     #inputs,
     #config,
     #lib,
-    pkgs,
     pkgs-unstable,
+    pkgs-mv-fast-tip,
     ...
   }: {
     programs.zed-editor = {
       enable = true;
-      package = pkgs.zed-editor;
+      package = pkgs-unstable.zed-editor;
       extensions = [
         # get the names from here : https://zed.dev/extensions
         "nix"
@@ -55,7 +55,7 @@ _: {
         "gemini"
       ];
 
-      extraPackages = with pkgs-unstable; [
+      extraPackages = with pkgs-mv-fast-tip; [
         nixd
         nil
         alejandra

@@ -16,6 +16,7 @@ _: {
     config,
     #lib,
     pkgs,
+    pkgs-unstable,
     #username,
     ...
   }: {
@@ -56,7 +57,7 @@ _: {
           privateDefault = "ddg";
 
           engines = let
-            nixSnowflakeIcon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+            nixSnowflakeIcon = "${pkgs-unstable.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
           in {
             "Nix Packages" = {
               urls = [
