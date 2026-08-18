@@ -25,7 +25,12 @@ will do treefmt check and githook's check too along with the usual flake check.
 
 So Finally the workflow for the configs will be like:
 
-1.  nix run .#write-flake
+# Important:
+DONT UPDATE THE FLAKE WITH PROGRAM?COMMANDS LIKE -u FLAG in nh or update flag in nixos-rebuild
+
+0. nix flake update
+# important after flake update as inputs.nixpkgs in fetched dynamically using mv
+1.  nix run .#write-flake 
 2.  nix fmt
 3.  nix flake check
 4.  whatever command like nh os boot, nix develop etc etc
