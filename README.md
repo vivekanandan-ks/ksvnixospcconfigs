@@ -2,6 +2,10 @@ This is my personal config, each step is taken towards a scalable way to maintai
 
 And the flake-file of this project is also crucial as it makes me group aspects in same file. Dont want something? Just move the file out of the import-tree folder (flakepartsModules in this case). No need to hardcode any path as everything is a top level flake-parts module. This way simplifies tons of things and reduce some config efforts debt later.
 
+I have adopted nix multiverse project for this config. Feel free to DM me on migration help.
+And with flake-file's help, it's possible to ditch the nixpkgs inputs url and replace it with mv gewnerated rev. so your workflow should never do flake update and then run the command. 
+ur workflow is, update flake, run write-flake and then build command and then commit. This order is important
+
 The configs are guardailed with treefmt(which inclused deadnix, statix, nixf-diagnose, alejandra formatting and formatting for other file formats too, etc), githooks(for some submodules protection, avoid symlinks, secrets leak, etc).
 
 Treefmt give both a formatter and a checker and githooks give a checker.

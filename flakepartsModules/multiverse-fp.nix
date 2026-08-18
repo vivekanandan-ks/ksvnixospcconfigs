@@ -2,6 +2,14 @@
   # Define the multiverse input for flake-file
   flake-file.inputs = {
     multiverse.url = "github:fzakaria/nixpkgs-multiverse";
+
+    # Dynamic Nixpkgs Flake URL from Multiverse tip (architecture-agnostic):
+    # Uncommenting this sets `inputs.nixpkgs.url` dynamically to the exact commit hash of Multiverse tip.
+    # When enabled, run `nix run .#write-flake` to update flake.nix automatically.
+    # Note: Remember to comment out the static `nixpkgs.url` in `flakepartsModules/flake-file.nix` if enabling this here.
+    # nixpkgs.url = let
+    #   mv = builtins.head (builtins.attrValues inputs.multiverse.multiverse);
+    # in "github:nixos/nixpkgs/${(mv.flakeAt "tip").rev}";
   };
 
   # Auto-registered Home Manager module for the `mv` CLI registry
@@ -61,6 +69,8 @@
       pkgs-mv-fast-tip = mv.tip;
       # 3. Stable Channel: Access official stable packages on-demand with zero flake inputs
       pkgs-stable = mv.at "26.05";
+      # 4. Flake Tip: Synthesized flake object (.lib.nixosSystem, .legacyPackages, etc.)
+      # flake-tip = mv.flakeAt "tip";
     };
   in {
     _module.args =
