@@ -2,6 +2,8 @@
   flake.nixosModules.homeManagerNixosManaged = {
     globalModuleArgs,
     username,
+    lib,
+    pkgs,
     ...
   }: {
     home-manager = {
@@ -18,8 +20,9 @@
           config.flake.homeModules.home
         ];
       };
-      backupFileExtension = "backup";
-      backupCommand = "rm -f $1.backup && mv $1 $1.backup";
+      #backupFileExtension = "backup";
+      #backupCommand = "rm -f $1.backup && mv $1 $1.backup";
+      backupCommand = lib.getExe' pkgs.trash-cli "trash-put";
       #useGlobalPkgs = false;
       useGlobalPkgs = true;
       useUserPackages = true;
