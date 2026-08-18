@@ -3,13 +3,12 @@
   flake-file.inputs = {
     multiverse.url = "github:fzakaria/nixpkgs-multiverse";
 
-    # Dynamic Nixpkgs Flake URL from Multiverse tip (architecture-agnostic):
-    # Uncommenting this sets `inputs.nixpkgs.url` dynamically to the exact commit hash of Multiverse tip.
-    # When enabled, run `nix run .#write-flake` to update flake.nix automatically.
-    # Note: Remember to comment out the static `nixpkgs.url` in `flakepartsModules/flake-file.nix` if enabling this here.
-    # nixpkgs.url = let
-    #   mv = builtins.head (builtins.attrValues inputs.multiverse.multiverse);
-    # in "github:nixos/nixpkgs/${(mv.flakeAt "tip").rev}";
+    # Dynamic Nixpkgs Flake URL derived from Multiverse tip:
+    # Keeps `inputs.nixpkgs` and all downstream `follows = "nixpkgs"` in sync with Multiverse,
+    # preventing duplicate nixpkgs trees, saving disk/eval time, and ensuring 100% store deduplication.
+    nixpkgs.url = let
+      mv = builtins.head (builtins.attrValues inputs.multiverse.multiverse);
+    in "github:nixos/nixpkgs/${(mv.flakeAt "tip").rev}";
   };
 
   # Auto-registered Home Manager module for the `mv` CLI registry

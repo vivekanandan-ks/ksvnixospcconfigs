@@ -6,7 +6,7 @@
   username,
   ...
 }: let
-  inherit (globalModuleArgs) pkgs-unstable pkgs-stable;
+  inherit (globalModuleArgs) pkgs-global pkgs-unstable pkgs-stable;
 in {
   android-integration.termux-setup-storage.enable = true;
   android-integration.am.enable = true;
@@ -55,6 +55,7 @@ in {
   system.stateVersion = "24.05";
 
   # Set up nix for flakes
+  nix.package = pkgs-global.nix;
   nix.extraOptions = ''
     experimental-features = nix-command flakes
   '';
@@ -67,7 +68,8 @@ in {
   terminal.font = let
     jetbrains = pkgs-unstable.nerd-fonts.jetbrains-mono; #pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; };
     fontPath = "share/fonts/truetype/NerdFonts/JetBrainsMono/JetBrainsMonoNerdFontMono-Regular.ttf";
-  in "${jetbrains}/${fontPath}";
+  in
+    jetbrains + "/${fontPath}";
 
   # Configure home-manager
   home-manager = {
