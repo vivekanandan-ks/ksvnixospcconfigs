@@ -3,7 +3,9 @@
   inputs,
   withSystem,
   ...
-}: {
+}: let
+  system = "aarch64-linux";
+in {
   flake-file.inputs = {
     nix-on-droid = {
       url = "github:nix-community/nix-on-droid";
@@ -13,7 +15,7 @@
     };
   };
 
-  flake.nixOnDroidConfigurations.default = withSystem "aarch64-linux" ({
+  flake.nixOnDroidConfigurations.default = withSystem system ({
     globalModuleArgs,
     pkgs-unstable,
     ...
