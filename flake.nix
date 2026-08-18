@@ -52,7 +52,7 @@
       url = "github:nix-community/nix4vscode";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixpkgs.url = "github:nixos/nixpkgs/e5bdc4a41d4c072fe1e3787eaa0320a384741d44";
+    nixpkgs.url = "github:nixos/nixpkgs/ec2d622de0773551768cf98f3fc50cbcc003b9c5";
     noctalia-legacy-v4-plugins = {
       url = "github:noctalia-dev/legacy-v4-plugins";
       flake = false;
