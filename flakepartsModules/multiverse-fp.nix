@@ -12,7 +12,7 @@
   };
 
   # Auto-registered Home Manager module for the `mv` CLI registry
-  flake.homeModules.common.multiverse-registry = {inputs, ...}: {
+  flake.homeModules.common.multiverse-registry = _: {
     nix.registry.mv.flake = inputs.multiverse;
   };
 

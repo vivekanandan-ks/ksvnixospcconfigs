@@ -1,10 +1,10 @@
-{inputs, ...}: {
+{
+  inputs,
+  self,
+  ...
+}: {
   flake = {
-    homeModules.common.git = {
-      pkgs,
-      self,
-      ...
-    }: {
+    homeModules.common.git = {pkgs, ...}: {
       programs.git = {
         enable = true;
         package = self.packages.${pkgs.stdenv.hostPlatform.system}.ksvGit;

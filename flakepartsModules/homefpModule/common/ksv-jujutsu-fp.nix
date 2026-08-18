@@ -1,10 +1,10 @@
-{inputs, ...}: {
+{
+  inputs,
+  self,
+  ...
+}: {
   flake = {
-    homeModules.common.jujutsu = {
-      pkgs,
-      self,
-      ...
-    }: {
+    homeModules.common.jujutsu = {pkgs, ...}: {
       programs.jujutsu = {
         enable = true;
         package = self.packages.${pkgs.stdenv.hostPlatform.system}.ksvJujutsu;

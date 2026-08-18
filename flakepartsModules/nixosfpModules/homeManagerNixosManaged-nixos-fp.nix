@@ -1,10 +1,7 @@
 {config, ...}: {
   flake.nixosModules.homeManagerNixosManaged = {
     globalModuleArgs,
-    inputs,
-    isDroid ? false,
     username,
-    self,
     ...
   }: {
     home-manager = {
@@ -13,14 +10,9 @@
         // {
           inherit
             globalModuleArgs
-            inputs
-            isDroid
             username
-            self
             ;
         };
-      #users.ksvnixospc = import ./home.nix;
-      #users.ksvnixospc = {
       users."${username}" = {
         imports = [
           config.flake.homeModules.home

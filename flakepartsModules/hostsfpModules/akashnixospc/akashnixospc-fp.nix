@@ -13,7 +13,6 @@ in {
         inputs.home-manager.nixosModules.home-manager
         {networking.hostName = "akashnixospc";}
       ]
-      ++ (config.myIsDroidModule false)
       ++ (config.myCommonNixosModules system);
   };
   flake.akashnixospc = config.flake.nixosConfigurations.akashnixospc;

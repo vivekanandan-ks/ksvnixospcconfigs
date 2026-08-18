@@ -1,4 +1,4 @@
-_: {
+{inputs, ...}: {
   flake-file.inputs = {
     zen-browser = {
       url = "github:0xc000022070/zen-browser-flake";
@@ -12,7 +12,6 @@ _: {
   };
 
   flake.homeModules.nonDroid.zen-browser = {
-    inputs,
     config,
     #lib,
     pkgs,

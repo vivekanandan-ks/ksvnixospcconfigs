@@ -1,4 +1,4 @@
-_: {
+{inputs, ...}: {
   flake-file.inputs = {
     base16-schemes = {
       url = "github:tinted-theming/schemes";
@@ -20,7 +20,7 @@ _: {
       # imports = [ inputs.stylix.nixosModules.stylix ];
     };
 
-    homeModules.common.stylix = {inputs, ...}: {
+    homeModules.common.stylix = _: {
       imports = [
         inputs.stylix.homeModules.stylix
       ];

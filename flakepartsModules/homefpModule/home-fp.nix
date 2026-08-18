@@ -1,4 +1,4 @@
-_: {
+{self, ...}: {
   flake-file.inputs = {
     home-manager = {
       #url = "github:nix-community/home-manager/release-25.05";
@@ -7,13 +7,15 @@ _: {
     };
   };
 
+  flake.homeModules.common.base = {lib, ...}: {
+    home.stateVersion = lib.mkDefault "24.11";
+    programs.home-manager.enable = lib.mkDefault true;
+  };
+
   flake.homeModules.home = {
     #config,
-    lib,
-    pkgs-unstable,
-    isDroid ? false,
-    username,
-    self,
+    #isDroid ? false,
+    #username,
     ...
   }: {
     #targets.genericLinux.enable = true ; # enable this on non NixOS distro
@@ -21,15 +23,18 @@ _: {
     # Home Manager needs a bit of information about you and the paths it should
     # manage.
     #home.username = "ksvnixospc";
-    home.username = lib.mkDefault username;
+    #home.username = lib.mkDefault username;
     #home.homeDirectory = "/home/ksvnixospc";
-    home.homeDirectory = lib.mkDefault "/home/${username}";
+    #home.homeDirectory = lib.mkDefault "/home/${username}";
 
     #imports = pkgs-unstable.lib.filesystem.listFilesRecursive ./homeModules;
 
+    #imports =
+    #  (builtins.attrValues (self.homeModules.common or {}))
+    #  ++ (lib.optionals (!isDroid) (builtins.attrValues (self.homeModules.nonDroid or {})));
     imports =
       (builtins.attrValues (self.homeModules.common or {}))
-      ++ (lib.optionals (!isDroid) (builtins.attrValues (self.homeModules.nonDroid or {})));
+      ++ (builtins.attrValues (self.homeModules.nonDroid or {}));
 
     # The home.packages option allows you to install Nix packages into your
     # environment.
@@ -63,21 +68,6 @@ _: {
         enable = true;
         frequency = "daily";
         timestamp = "-3 days";
-      };
-
-      # tldr-update
-      # tldr package actually declared above
-      # this particular below package is for running the update
-      tldr-update = {
-        enable = true;
-        package = pkgs-unstable.tldr;
-        period = "weekly"; # default is weekly
-      };
-
-      # this program persist the clipboard contents from wayland apps even if the apps are closed
-      wl-clip-persist = {
-        enable = true;
-        package = pkgs-unstable.wl-clip-persist;
       };
     };
 

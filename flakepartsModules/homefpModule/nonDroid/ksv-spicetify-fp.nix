@@ -1,4 +1,8 @@
-{inputs, ...}: {
+{
+  inputs,
+  self,
+  ...
+}: {
   flake-file.inputs = {
     spicetify-nix = {
       url = "github:Gerg-L/spicetify-nix";
@@ -7,11 +11,7 @@
   };
 
   flake = {
-    homeModules.nonDroid.spicetify = {
-      pkgs,
-      self,
-      ...
-    }: {
+    homeModules.nonDroid.spicetify = {pkgs, ...}: {
       home.packages = [
         self.packages.${pkgs.stdenv.hostPlatform.system}.ksvSpicetify
       ];

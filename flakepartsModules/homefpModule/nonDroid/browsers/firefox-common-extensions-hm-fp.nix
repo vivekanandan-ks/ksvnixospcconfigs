@@ -1,4 +1,8 @@
-{lib, ...}: {
+{
+  lib,
+  inputs,
+  ...
+}: {
   flake-file.inputs = {
     nur = {
       url = "github:nix-community/NUR";
@@ -14,11 +18,7 @@
     */
   };
 
-  flake.homeModules.nonDroid.firefox-common-extensions = {
-    inputs,
-    pkgs,
-    ...
-  }: {
+  flake.homeModules.nonDroid.firefox-common-extensions = {pkgs, ...}: {
     options.myBrowser.firefox-common-extensions = lib.mkOption {
       type = lib.types.listOf lib.types.package;
       default = with inputs.nur.legacyPackages.${pkgs.stdenv.hostPlatform.system}.repos.rycee.firefox-addons; [

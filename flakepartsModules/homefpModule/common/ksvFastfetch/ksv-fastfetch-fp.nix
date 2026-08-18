@@ -1,10 +1,10 @@
-{inputs, ...}: {
+{
+  inputs,
+  self,
+  ...
+}: {
   flake = {
-    homeModules.common.fastfetch = {
-      pkgs,
-      self,
-      ...
-    }: {
+    homeModules.common.fastfetch = {pkgs, ...}: {
       programs.fastfetch = {
         enable = true;
         package = self.packages.${pkgs.stdenv.hostPlatform.system}.ksvFastfetch;

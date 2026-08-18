@@ -1,4 +1,4 @@
-_: {
+{inputs, ...}: {
   flake-file.inputs = {
     vicinae-extensions = {
       url = "github:vicinaehq/extensions";
@@ -14,7 +14,6 @@ _: {
   };
 
   flake.homeModules.nonDroid.vicinae = {
-    inputs,
     #config,
     lib,
     pkgs,

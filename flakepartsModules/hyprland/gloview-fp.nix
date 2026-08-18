@@ -1,4 +1,8 @@
-{inputs, ...}: {
+{
+  inputs,
+  self,
+  ...
+}: {
   flake-file.inputs.gloview = {
     url = "github:fedsfarm/gloview";
     flake = false;
@@ -7,7 +11,7 @@
   flake.homeModules.nonDroid.gloview = {pkgs, ...}: {
     wayland.windowManager.hyprland = {
       plugins = [
-        inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.gloview
+        self.packages.${pkgs.stdenv.hostPlatform.system}.gloview
       ];
       settings.bind = [
         "SUPER, G, gloview:toggle"

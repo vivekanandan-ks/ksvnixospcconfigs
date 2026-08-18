@@ -23,7 +23,6 @@ in {
           disko.devices = config.flake.diskoConfigurations.ksvnixospc.disko.devices;
         }
       ])
-      ++ (config.myIsDroidModule false)
       ++ (config.myCommonNixosModules system);
   };
   flake.ksvnixospc = config.flake.nixosConfigurations.ksvnixospc;

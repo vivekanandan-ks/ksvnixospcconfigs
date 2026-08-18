@@ -1,4 +1,8 @@
-{lib, ...}: {
+{
+  lib,
+  inputs,
+  ...
+}: {
   flake-file.inputs = {
     # for vscode extensions
     nix4vscode = {
@@ -8,7 +12,6 @@
   };
 
   flake.homeModules.nonDroid.vscode-common-extensions = {
-    inputs,
     pkgs,
     pkgs-unstable,
     ...

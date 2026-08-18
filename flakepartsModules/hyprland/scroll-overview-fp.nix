@@ -1,4 +1,8 @@
-{inputs, ...}: {
+{
+  inputs,
+  self,
+  ...
+}: {
   flake-file.inputs.scrolloverview = {
     url = "github:yayuuu/hyprland-scroll-overview";
     flake = false;
@@ -7,7 +11,7 @@
   flake.homeModules.nonDroid.scrolloverview = {pkgs, ...}: {
     wayland.windowManager.hyprland = {
       plugins = [
-        inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.scrolloverview
+        self.packages.${pkgs.stdenv.hostPlatform.system}.scrolloverview
       ];
       settings.bind = [
         "SUPER, s, scrolloverview:overview, toggle"

@@ -1,4 +1,4 @@
-_: {
+{inputs, ...}: {
   flake-file.inputs = {
     hyprshell = {
       url = "github:H3rmt/hyprshell";
@@ -10,7 +10,6 @@ _: {
 
   flake = {
     homeModules.nonDroid.hyprshell = {
-      inputs,
       lib,
       pkgs,
       ...

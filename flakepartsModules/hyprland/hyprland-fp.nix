@@ -1,4 +1,4 @@
-_: {
+{self, ...}: {
   flake-file.inputs = {
     # hyprland
     #hyprland.url = "github:hyprwm/Hyprland";
@@ -41,7 +41,6 @@ _: {
     homeModules.nonDroid.hyprland = {
       lib,
       pkgs,
-      self,
       pkgs-unstable,
       ...
     }: {

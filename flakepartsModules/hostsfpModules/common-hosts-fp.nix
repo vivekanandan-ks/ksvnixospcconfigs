@@ -9,9 +9,6 @@
   options.myCommonNixosModules = lib.mkOption {
     type = lib.types.unspecified;
   };
-  options.myIsDroidModule = lib.mkOption {
-    type = lib.types.unspecified;
-  };
 
   config = {
     myCommonNixosModules = system:
@@ -26,9 +23,5 @@
             };
         }))
       ];
-
-    myIsDroidModule = option: [
-      (_: {_module.args.isDroid = option;})
-    ];
   };
 }

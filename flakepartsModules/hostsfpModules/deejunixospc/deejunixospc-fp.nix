@@ -32,7 +32,6 @@ in {
         }
       ])
       */
-      ++ (config.myIsDroidModule false)
       ++ (config.myCommonNixosModules system);
   };
   flake.deejunixospc = config.flake.nixosConfigurations.deejunixospc;

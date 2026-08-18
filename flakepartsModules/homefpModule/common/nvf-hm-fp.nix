@@ -1,4 +1,4 @@
-_: {
+{inputs, ...}: {
   flake-file.inputs = {
     # nvf - modern, reproducible, portable, declarative neovim framework
     #obsidian-nvim.url = "github:epwalsh/obsidian.nvim";
@@ -14,11 +14,7 @@ _: {
     };
   };
 
-  flake.homeModules.common.nvf = {
-    inputs,
-    pkgs-unstable,
-    ...
-  }: {
+  flake.homeModules.common.nvf = {pkgs-unstable, ...}: {
     #importing the nvf module
     imports = [
       inputs.nvf.homeManagerModules.default

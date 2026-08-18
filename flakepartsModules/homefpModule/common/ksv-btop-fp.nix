@@ -1,10 +1,10 @@
-{inputs, ...}: {
+{
+  inputs,
+  self,
+  ...
+}: {
   flake = {
-    homeModules.common.btop = {
-      pkgs,
-      self,
-      ...
-    }: {
+    homeModules.common.btop = {pkgs, ...}: {
       programs.btop = {
         enable = true;
         package = self.packages.${pkgs.stdenv.hostPlatform.system}.ksvBtop;

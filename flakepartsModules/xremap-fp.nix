@@ -1,4 +1,4 @@
-_: {
+{inputs, ...}: {
   flake-file.inputs = {
     xremap-flake = {
       url = "github:xremap/nix-flake";
@@ -15,11 +15,7 @@ _: {
       users.groups.input.members = [username];
     };
 
-    homeModules.nonDroid.xremap = {
-      inputs,
-      pkgs-unstable,
-      ...
-    }: {
+    homeModules.nonDroid.xremap = {pkgs-unstable, ...}: {
       imports = [
         inputs.xremap-flake.homeManagerModules.default
       ];

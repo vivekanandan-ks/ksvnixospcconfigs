@@ -1,10 +1,10 @@
-{inputs, ...}: {
+{
+  inputs,
+  self,
+  ...
+}: {
   flake = {
-    homeModules.common.atuin = {
-      pkgs,
-      self,
-      ...
-    }: {
+    homeModules.common.atuin = {pkgs, ...}: {
       programs.atuin = {
         enable = true;
         package = self.packages.${pkgs.stdenv.hostPlatform.system}.ksvAtuin;

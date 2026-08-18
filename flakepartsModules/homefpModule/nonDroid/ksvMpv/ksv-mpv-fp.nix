@@ -1,10 +1,10 @@
-{inputs, ...}: {
+{
+  inputs,
+  self,
+  ...
+}: {
   flake = {
-    homeModules.nonDroid.mpv = {
-      pkgs,
-      self,
-      ...
-    }: {
+    homeModules.nonDroid.mpv = {pkgs, ...}: {
       programs.mpv = {
         enable = true;
         package = self.packages.${pkgs.stdenv.hostPlatform.system}.ksvMpv;

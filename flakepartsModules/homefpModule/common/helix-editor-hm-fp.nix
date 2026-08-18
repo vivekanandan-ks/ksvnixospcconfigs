@@ -1,10 +1,10 @@
-{inputs, ...}: {
+{
+  inputs,
+  self,
+  ...
+}: {
   flake = {
-    homeModules.common.helix-editor = {
-      pkgs,
-      self,
-      ...
-    }: {
+    homeModules.common.helix-editor = {pkgs, ...}: {
       programs.helix = {
         enable = true;
         package = self.packages.${pkgs.stdenv.hostPlatform.system}.ksvHelix;

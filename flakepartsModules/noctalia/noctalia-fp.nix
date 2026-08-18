@@ -1,4 +1,8 @@
-{inputs, ...}: {
+{
+  inputs,
+  self,
+  ...
+}: {
   flake-file.inputs = {
     #noctalia = {
     #  url = "github:noctalia-dev/noctalia-shell";
@@ -172,7 +176,6 @@
       pkgs,
       pkgs-unstable,
       lib,
-      self,
       ...
     }: {
       # Noctalia screenshot & recording plugin dependencies (commented out to rely solely on Noctalia's runtimePkgs wrapper)
