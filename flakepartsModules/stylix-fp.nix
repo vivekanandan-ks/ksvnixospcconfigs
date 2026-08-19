@@ -39,7 +39,7 @@
         #applications = 0.7;
         terminal = 0.7;
         #desktop = 0.7;
-        #popups = 0.7;
+        popups = 0.8;
       };
 
       stylix.polarity = "dark";

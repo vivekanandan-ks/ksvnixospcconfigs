@@ -71,13 +71,13 @@
           blur_params_saturation = 1.2;
 
           shadows = 1;
-          layer_shadows = 1;
+          layer_shadows = 0; # Disable compositor shadows on layer surfaces (prevents black boxes behind DMS popups)
           shadow_only_floating = 1;
           shadows_size = 12;
           shadows_blur = 16;
 
           border_radius = 12;
-          borderpx = 2;
+          borderpx = 0; # Borderless windows (no orange/colored borders)
           gappih = 5;
           gappiv = 5;
           gappoh = 5;
