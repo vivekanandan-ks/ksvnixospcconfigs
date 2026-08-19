@@ -15,6 +15,9 @@ _: {
     }: {
       home.sessionVariables = {
         XDG_MENU_PREFIX = "plasma-";
+        QT_QPA_PLATFORM = "wayland;xcb";
+        QT_QPA_PLATFORMTHEME = "kde";
+        QT_STYLE_OVERRIDE = "breeze";
       };
 
       home.activation.rebuildKDECache = lib.hm.dag.entryAfter ["writeBoundary"] ''

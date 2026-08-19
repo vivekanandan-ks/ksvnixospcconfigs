@@ -31,14 +31,33 @@
 
       wayland.windowManager.mango = {
         enable = true;
-        systemd.enable = true; # Starts mango-session.target for DMS / notifications
-        autostart_sh = "# Mango session init";
+        systemd = {
+          enable = true; # Starts mango-session.target for DMS / notifications
+          variables = [
+            "DISPLAY"
+            "WAYLAND_DISPLAY"
+            "XDG_CURRENT_DESKTOP"
+            "XDG_SESSION_TYPE"
+            "NIXOS_OZONE_WL"
+            "XCURSOR_THEME"
+            "XCURSOR_SIZE"
+            "QT_QPA_PLATFORM"
+            "QT_QPA_PLATFORMTHEME"
+            "QT_STYLE_OVERRIDE"
+            "XDG_MENU_PREFIX"
+          ];
+        };
+        autostart_sh = ''
+          export QT_QPA_PLATFORM="wayland;xcb"
+          export QT_QPA_PLATFORMTHEME="kde"
+          export QT_STYLE_OVERRIDE="breeze"
+          export XDG_MENU_PREFIX="plasma-"
+        '';
 
         settings = {
-          # --- Visuals & Scenefx (Frosted Glass & Shadows) ---
           blur = 1;
           blur_layer = 1;
-          blur_optimized = 1; # X-Ray background caching (70-80% GPU savings)
+          blur_optimized = 0; # Full scene blur (ensures fullscreen & stacked windows have frosted glass blur)
           blur_params_radius = 6;
           blur_params_num_passes = 2;
           blur_params_noise = 0.02;
@@ -80,8 +99,11 @@
           animation_curve_move = "0.46,1.0,0.29,0.99";
           tag_animation_direction = 1;
 
-          # --- Scroller Layout Options ---
+          # --- Scroller Layout Options (Full Screen Height, No Empty Space) ---
+          scroller_structs = 0;
+          scroller_default_proportion = 1.0;
           scroller_default_proportion_single = 1.0;
+          scroller_ignore_proportion_single = 0;
 
           # --- Layout Rules (Default to Scroller) ---
           tagrule = [
