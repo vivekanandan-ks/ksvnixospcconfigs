@@ -1,12 +1,13 @@
 {
   "currentThemeName": "dynamic",
   "currentThemeCategory": "dynamic",
+  "customThemeFile": "/nix/store/4aj4ir7z51pqjv88h50hlkf5gsrj8z5g-dankMaterialShell-stylix-color-theme.json",
   "registryThemeVariants": {},
   "matugenScheme": "scheme-tonal-spot",
   "matugenContrast": 0,
   "runUserMatugenTemplates": true,
   "matugenTargetMonitor": "",
-  "popupTransparency": 0.75,
+  "popupTransparency": 0.5,
   "dockTransparency": 0.25,
   "widgetBackgroundColor": "sc",
   "widgetBackgroundCustomColor": "#6750A4",
@@ -28,7 +29,7 @@
   "mangoLayoutRadiusOverride": -1,
   "mangoLayoutBorderSize": -1,
   "mangoTrackpadNaturalScrolling": true,
-  "firstDayOfWeek": -1,
+  "firstDayOfWeek": 1,
   "showWeekNumber": false,
   "calendarBackend": "auto",
   "clockFormat": "24h",
@@ -157,7 +158,7 @@
   ],
   "showWorkspaceIndex": true,
   "showWorkspaceName": false,
-  "showWorkspacePadding": true,
+  "showWorkspacePadding": false,
   "workspaceScrolling": false,
   "showWorkspaceApps": true,
   "workspaceDragReorder": true,
@@ -200,7 +201,7 @@
   "scrollTitleEnabled": true,
   "mediaAdaptiveWidthEnabled": true,
   "audioVisualizerEnabled": true,
-  "mediaUseAlbumArtAccent": false,
+  "mediaUseAlbumArtAccent": true,
   "audioScrollMode": "volume",
   "audioWheelScrollAmount": 5,
   "audioDeviceScrollVolumeEnabled": true,
@@ -255,7 +256,7 @@
     }
   ],
   "centeringMode": "index",
-  "clockDateFormat": "",
+  "clockDateFormat": "ddd MMM d",
   "lockDateFormat": "",
   "greeterRememberLastSession": true,
   "greeterRememberLastUser": true,
@@ -288,41 +289,41 @@
   "appDrawerSectionViewModes": {},
   "niriOverviewOverlayEnabled": true,
   "niriOverviewLauncherStyle": "full",
-  "dankLauncherV2Size": "compact",
+  "dankLauncherV2Size": "micro",
   "dankLauncherV2ShowSourceBadges": true,
   "dankLauncherV2BorderEnabled": false,
   "dankLauncherV2BorderThickness": 2,
   "dankLauncherV2BorderColor": "primary",
   "dankLauncherV2ShowFooter": true,
-  "dankLauncherV2UnloadOnClose": false,
+  "dankLauncherV2UnloadOnClose": true,
   "dankLauncherV2IncludeFilesInAll": true,
   "dankLauncherV2IncludeFoldersInAll": true,
   "launcherUseOverlayLayer": true,
-  "launcherStyle": "spotlight",
+  "launcherStyle": "full",
   "spotlightBarShowModeChips": true,
   "keybindsFloatingWindow": false,
   "useAutoLocation": true,
   "weatherEnabled": true,
   "dashTabs": [
     {
-      "enabled": true,
-      "id": "overview"
+      "id": "overview",
+      "enabled": true
     },
     {
-      "enabled": true,
-      "id": "media"
+      "id": "media",
+      "enabled": true
     },
     {
-      "enabled": true,
-      "id": "wallpaper"
+      "id": "weather",
+      "enabled": true
     },
     {
-      "enabled": true,
-      "id": "weather"
+      "id": "wallpaper",
+      "enabled": true
     },
     {
-      "enabled": true,
-      "id": "settings"
+      "id": "settings",
+      "enabled": true
     }
   ],
   "networkPreference": "auto",
@@ -489,7 +490,7 @@
   "notificationPopupShadowEnabled": false,
   "notificationPopupPrivacyMode": false,
   "notificationForegroundLayers": true,
-  "modalDarkenBackground": true,
+  "modalDarkenBackground": false,
   "lockScreenShowPowerActions": true,
   "lockScreenShowSystemIcons": true,
   "lockScreenShowTime": true,
@@ -524,8 +525,8 @@
   "notificationShowTimeoutBar": true,
   "notificationDedupeEnabled": true,
   "notificationPopupPosition": 0,
-  "notificationAnimationSpeed": 1,
-  "notificationCustomAnimationDuration": 400,
+  "notificationAnimationSpeed": 2,
+  "notificationCustomAnimationDuration": 800,
   "notificationHistoryEnabled": true,
   "notificationHistoryMaxCount": 50,
   "notificationHistoryMaxAgeDays": 7,
@@ -593,9 +594,9 @@
     {
       "attachToScreenEdge": false,
       "autoHide": false,
-      "barInsetPadding": 4,
+      "barInsetPadding": 0,
       "borderEnabled": false,
-      "bottomGap": -9,
+      "bottomGap": -6,
       "centerWidgets": [
         "capsLockIndicator"
       ],
@@ -604,7 +605,7 @@
       "gothCornersEnabled": false,
       "hoverPopouts": false,
       "id": "default",
-      "innerPadding": 4,
+      "innerPadding": 2,
       "leftWidgets": [
         "launcherButton",
         {
@@ -672,7 +673,7 @@
       "scrollEnabled": true,
       "shadowIntensity": 0,
       "shadowOpacity": 0,
-      "spacing": 2,
+      "spacing": 0,
       "squareCorners": false,
       "transparency": 0.5,
       "useOverlayLayer": false,
@@ -680,8 +681,8 @@
       "widgetOutlineEnabled": false,
       "widgetOutlineOpacity": 0.5,
       "widgetOutlineThickness": 1,
-      "widgetPadding": 8,
-      "widgetTransparency": 0.85
+      "widgetPadding": 6,
+      "widgetTransparency": 0.76
     }
   ],
   "desktopClockEnabled": false,
@@ -780,6 +781,44 @@
         }
       },
       "widgetType": "desktopClock"
+    },
+    {
+      "id": "dw_1787180498674_smrfxuhbo",
+      "widgetType": "systemMonitor",
+      "name": "System Monitor",
+      "enabled": false,
+      "config": {
+        "showHeader": true,
+        "transparency": 0.8,
+        "colorMode": "primary",
+        "customColor": "#ffffff",
+        "showCpu": true,
+        "showCpuGraph": true,
+        "showCpuTemp": true,
+        "showGpuTemp": false,
+        "gpuPciId": "",
+        "showMemory": true,
+        "showMemoryGraph": true,
+        "showNetwork": true,
+        "showNetworkGraph": true,
+        "showDisk": true,
+        "showTopProcesses": false,
+        "topProcessCount": 3,
+        "topProcessSortBy": "cpu",
+        "layoutMode": "auto",
+        "graphInterval": 60,
+        "displayPreferences": [
+          "all"
+        ]
+      },
+      "positions": {
+        "eDP-1": {
+          "width": 320,
+          "height": 480,
+          "x": 931.33984375,
+          "y": 288
+        }
+      }
     }
   ],
   "desktopWidgetGroups": [],
