@@ -1,4 +1,8 @@
-{inputs, ...}: {
+{
+  inputs,
+  self,
+  ...
+}: {
   flake-file.inputs = {
     dms-shell = {
       url = "github:AvengeMedia/DankMaterialShell/stable";
@@ -6,10 +10,14 @@
     };
   };
 
-  flake.homeModules.nonDroid.dms = { ...}: {
+  flake.homeModules.nonDroid.dms = {lib, ...}: {
     imports = [
       inputs.dms-shell.homeModules.default
     ];
+
+    home.file.".face".source = self.personas.ksv.avatar;
+    home.file.".face.icon".source = self.personas.ksv.avatar;
+    home.file."Pictures/Wallpapers".source = self.personas.ksv.currentWallpaperSet;
 
     programs.dank-material-shell = {
       enable = true;
@@ -23,70 +31,7 @@
       enableVPN = true;
       enableCalendarEvents = true;
 
-      settings = {
-        cornerRadius = 12;
-        barElevationEnabled = true;
-        m3ElevationIntensity = 8;
-        runDmsMatugenTemplates = false;
-        showDock = false;
-
-        # Live status icons on the control center bar button
-        controlCenterShowNetworkIcon = true;
-        controlCenterShowBluetoothIcon = true;
-        controlCenterShowAudioIcon = true;
-        controlCenterShowAudioPercent = true;
-        controlCenterShowVpnIcon = true;
-
-        # Scroll to adjust master volume
-        audioScrollMode = "volume";
-        audioWheelScrollAmount = 5;
-        audioDeviceScrollVolumeEnabled = true;
-
-        barConfigs = [
-          {
-            id = "default";
-            name = "Main Bar";
-            enabled = true;
-            position = 1; # Bottom bar
-            attachToScreenEdge = false;
-            bottomGap = 4;
-            spacing = 4;
-            innerPadding = 4;
-            widgetPadding = 8;
-            transparency = 0.0;
-            widgetTransparency = 0.8;
-            squareCorners = false;
-            noBackground = true;
-            scrollEnabled = true;
-
-            # Left Widgets (Music placed last on left side)
-            leftWidgets = [
-              "launcherButton"
-              "focusedWindow"
-              "workspaceSwitcher"
-              "music"
-            ];
-
-            # Center Widgets
-            centerWidgets = [
-              "capsLockIndicator"
-            ];
-
-            # Right Widgets (Network speed, CPU, RAM, Battery, Tray, Notifs, Clipboard, Clock, Status Icons)
-            rightWidgets = [
-              "network_speed_monitor"
-              "cpuUsage"
-              "memUsage"
-              "battery"
-              "systemTray"
-              "notificationButton"
-              "clipboard"
-              "clock"
-              "controlCenterButton"
-            ];
-          }
-        ];
-      };
+      settings = lib.mapAttrs (_: lib.mkForce) (builtins.fromJSON (builtins.readFile ./dms-settings.json));
     };
   };
 }

@@ -56,18 +56,18 @@
           borderpx = 2;
           gappih = 5;
           gappiv = 5;
-          gappoh = 10;
-          gappov = 10;
+          gappoh = 5;
+          gappov = 5;
           focused_opacity = 1.0;
           unfocused_opacity = 0.92;
 
-          # --- Animations ---
+          # --- Animations (Smooth Zoom & Fade, No Slide) ---
           animations = 1;
           layer_animations = 1;
           animation_type_open = "zoom";
-          animation_type_close = "slide";
-          layer_animation_type_open = "slide";
-          layer_animation_type_close = "slide";
+          animation_type_close = "zoom";
+          layer_animation_type_open = "zoom";
+          layer_animation_type_close = "zoom";
           animation_fade_in = 1;
           animation_fade_out = 1;
           fadein_begin_opacity = 0.4;
@@ -79,6 +79,9 @@
           animation_curve_open = "0.46,1.0,0.29,0.99";
           animation_curve_move = "0.46,1.0,0.29,0.99";
           tag_animation_direction = 1;
+
+          # --- Scroller Layout Options ---
+          scroller_default_proportion_single = 1.0;
 
           # --- Layout Rules (Default to Scroller) ---
           tagrule = [
