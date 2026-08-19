@@ -48,6 +48,10 @@
       };
     };
     import-tree.url = "github:vic/import-tree";
+    mango = {
+      url = "github:mangowm/mango";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     multiverse.url = "github:fzakaria/nixpkgs-multiverse";
     nix-on-droid = {
       url = "github:nix-community/nix-on-droid";

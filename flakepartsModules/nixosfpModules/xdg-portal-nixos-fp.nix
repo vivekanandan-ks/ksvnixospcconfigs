@@ -11,7 +11,6 @@ _: {
       config = {
         common.default = ["gtk"];
         hyprland.default = ["hyprland" "gtk"];
-        mango.default = ["wlr" "gtk"];
         niri.default = ["gnome" "gtk"];
         sway.default = ["wlr" "gtk"];
       };
