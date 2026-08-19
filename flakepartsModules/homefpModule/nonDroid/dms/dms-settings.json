@@ -1,6 +1,6 @@
 {
-  "currentThemeName": "custom",
-  "currentThemeCategory": "generic",
+  "currentThemeName": "dynamic",
+  "currentThemeCategory": "dynamic",
   "registryThemeVariants": {},
   "matugenScheme": "scheme-tonal-spot",
   "matugenContrast": 0,
@@ -37,8 +37,8 @@
   "useFahrenheit": false,
   "windSpeedUnit": "ms",
   "nightModeEnabled": false,
-  "animationSpeed": 1,
-  "customAnimationDuration": 4000,
+  "animationSpeed": 2,
+  "customAnimationDuration": 500,
   "syncComponentAnimationSpeeds": true,
   "popoutAnimationSpeed": 1,
   "popoutCustomAnimationDuration": 150,
@@ -57,9 +57,9 @@
   "popoutElevationEnabled": false,
   "barElevationEnabled": false,
   "blurEnabled": true,
-  "blurForegroundLayers": false,
+  "blurForegroundLayers": true,
   "blurLayerOutlineOpacity": 0.12,
-  "blurBorderEnabled": false,
+  "blurBorderEnabled": true,
   "blurBorderColor": "outline",
   "blurBorderCustomColor": "#ffffff",
   "blurBorderOpacity": 0.35,
@@ -115,43 +115,43 @@
   "privacyShowScreenShareIcon": false,
   "controlCenterWidgets": [
     {
+      "enabled": true,
       "id": "volumeSlider",
-      "enabled": true,
       "width": 50
     },
     {
+      "enabled": true,
       "id": "brightnessSlider",
-      "enabled": true,
       "width": 50
     },
     {
+      "enabled": true,
       "id": "wifi",
-      "enabled": true,
       "width": 50
     },
     {
+      "enabled": true,
       "id": "bluetooth",
-      "enabled": true,
       "width": 50
     },
     {
+      "enabled": true,
       "id": "audioOutput",
-      "enabled": true,
       "width": 50
     },
     {
+      "enabled": true,
       "id": "audioInput",
-      "enabled": true,
       "width": 50
     },
     {
+      "enabled": true,
       "id": "nightMode",
-      "enabled": true,
       "width": 50
     },
     {
-      "id": "darkMode",
       "enabled": true,
+      "id": "darkMode",
       "width": 50
     }
   ],
@@ -305,24 +305,24 @@
   "weatherEnabled": true,
   "dashTabs": [
     {
-      "id": "overview",
-      "enabled": true
+      "enabled": true,
+      "id": "overview"
     },
     {
-      "id": "media",
-      "enabled": true
+      "enabled": true,
+      "id": "media"
     },
     {
-      "id": "wallpaper",
-      "enabled": true
+      "enabled": true,
+      "id": "wallpaper"
     },
     {
-      "id": "weather",
-      "enabled": true
+      "enabled": true,
+      "id": "weather"
     },
     {
-      "id": "settings",
-      "enabled": true
+      "enabled": true,
+      "id": "settings"
     }
   ],
   "networkPreference": "auto",
@@ -331,23 +331,23 @@
   "iconThemePerMode": false,
   "lastAppliedIconTheme": "",
   "cursorSettings": {
-    "theme": "Bibata_Spirit",
-    "size": 24,
-    "niri": {
-      "hideWhenTyping": false,
-      "hideAfterInactiveMs": 0
+    "dwl": {
+      "cursorHideTimeout": 0
     },
     "hyprland": {
       "hideOnKeyPress": false,
       "hideOnTouch": false,
       "inactiveTimeout": 0
     },
-    "dwl": {
-      "cursorHideTimeout": 0
-    },
     "mango": {
       "cursorHideTimeout": 0
-    }
+    },
+    "niri": {
+      "hideAfterInactiveMs": 0,
+      "hideWhenTyping": false
+    },
+    "size": 24,
+    "theme": "Bibata_Spirit"
   },
   "launcherLogoMode": "os",
   "launcherLogoCustomPath": "",
@@ -415,7 +415,7 @@
   "qtThemingEnabled": false,
   "syncModeWithPortal": true,
   "terminalsAlwaysDark": false,
-  "muxType": "tmux",
+  "muxType": "zellij",
   "muxUseCustomCommand": false,
   "muxCustomCommand": "",
   "muxSessionFilter": "",
@@ -488,8 +488,8 @@
   "notificationOverlayEnabled": false,
   "notificationPopupShadowEnabled": false,
   "notificationPopupPrivacyMode": false,
-  "notificationForegroundLayers": false,
-  "modalDarkenBackground": false,
+  "notificationForegroundLayers": true,
+  "modalDarkenBackground": true,
   "lockScreenShowPowerActions": true,
   "lockScreenShowSystemIcons": true,
   "lockScreenShowTime": true,
@@ -576,7 +576,9 @@
   "updaterIgnoredPackages": [],
   "displayNameMode": "system",
   "screenPreferences": {
-    "wallpaper": ["all"]
+    "wallpaper": [
+      "all"
+    ]
   },
   "showOnLastDisplay": {},
   "niriOutputSettings": {},
@@ -590,94 +592,96 @@
   "barConfigs": [
     {
       "attachToScreenEdge": false,
+      "autoHide": false,
+      "barInsetPadding": 4,
+      "borderEnabled": false,
       "bottomGap": -9,
-      "centerWidgets": ["capsLockIndicator"],
+      "centerWidgets": [
+        "capsLockIndicator"
+      ],
+      "clickThrough": false,
       "enabled": true,
+      "gothCornersEnabled": false,
+      "hoverPopouts": false,
       "id": "default",
       "innerPadding": 4,
       "leftWidgets": [
         "launcherButton",
         {
-          "id": "focusedWindow",
           "enabled": true,
-          "focusedWindowSize": 1,
           "focusedWindowCompactMode": false,
-          "focusedWindowShowIcon": true
+          "focusedWindowShowIcon": true,
+          "focusedWindowSize": 1,
+          "id": "focusedWindow"
         },
         "workspaceSwitcher",
         {
-          "id": "music",
           "enabled": true,
+          "id": "music",
           "mediaSize": 1
         }
       ],
+      "maximizeDetection": true,
+      "maximizeWidgetIcons": false,
+      "maximizeWidgetText": false,
       "name": "Main Bar",
       "noBackground": true,
+      "popupGapsAuto": true,
+      "popupGapsManual": 4,
       "position": 0,
+      "removeWidgetPadding": false,
       "rightWidgets": [
         "network_speed_monitor",
         {
-          "id": "cpuUsage",
           "enabled": true,
+          "id": "cpuUsage",
           "minimumWidth": false
         },
         {
-          "id": "memUsage",
           "enabled": true,
+          "id": "memUsage",
           "minimumWidth": false,
-          "showSwap": true,
-          "showInGb": false
+          "showInGb": false,
+          "showSwap": true
         },
         "battery",
         {
-          "id": "systemTray",
           "enabled": true,
-          "trayUseInlineExpansion": false,
-          "trayPopupSingleLine": true,
+          "id": "systemTray",
           "trayAutoOverflow": false,
-          "trayMaxVisibleItems": 1
+          "trayMaxVisibleItems": 1,
+          "trayPopupSingleLine": true,
+          "trayUseInlineExpansion": false
         },
         "notificationButton",
         "clipboard",
         "clock",
         {
-          "id": "controlCenterButton",
           "enabled": true,
+          "id": "controlCenterButton",
+          "showBatteryIcon": false,
           "showBrightnessIcon": false,
           "showBrightnessPercent": false,
+          "showDoNotDisturbIcon": false,
+          "showIdleInhibitorIcon": true,
           "showMicIcon": false,
           "showMicPercent": false,
-          "showBatteryIcon": false,
-          "showPrinterIcon": false,
-          "showIdleInhibitorIcon": true,
-          "showDoNotDisturbIcon": false
+          "showPrinterIcon": false
         }
       ],
       "scrollEnabled": true,
+      "shadowIntensity": 0,
+      "shadowOpacity": 0,
       "spacing": 2,
       "squareCorners": false,
       "transparency": 0.5,
-      "widgetPadding": 8,
-      "widgetTransparency": 0.85,
-      "barInsetPadding": 4,
-      "popupGapsAuto": true,
-      "popupGapsManual": 4,
-      "maximizeWidgetIcons": false,
-      "maximizeWidgetText": false,
-      "removeWidgetPadding": false,
-      "gothCornersEnabled": false,
-      "borderEnabled": false,
-      "widgetOutlineEnabled": false,
-      "widgetOutlineThickness": 1,
-      "widgetOutlineOpacity": 0.5,
-      "widgetOutlineColor": "primary",
-      "shadowIntensity": 0,
-      "shadowOpacity": 0,
-      "autoHide": false,
-      "clickThrough": false,
       "useOverlayLayer": false,
-      "hoverPopouts": false,
-      "maximizeDetection": true
+      "widgetOutlineColor": "primary",
+      "widgetOutlineEnabled": false,
+      "widgetOutlineOpacity": 0.5,
+      "widgetOutlineThickness": 1,
+      "widgetPadding": 8,
+      "widgetTransparency": 0.85
     }
   ],
   "desktopClockEnabled": false,
@@ -704,7 +708,9 @@
   "desktopClockY": -1,
   "desktopClockWidth": 280,
   "desktopClockHeight": 180,
-  "desktopClockDisplayPreferences": ["all"],
+  "desktopClockDisplayPreferences": [
+    "all"
+  ],
   "systemMonitorEnabled": false,
   "systemMonitorShowHeader": true,
   "systemMonitorTransparency": 0.8,
@@ -741,51 +747,59 @@
   "systemMonitorY": -1,
   "systemMonitorWidth": 320,
   "systemMonitorHeight": 480,
-  "systemMonitorDisplayPreferences": ["all"],
+  "systemMonitorDisplayPreferences": [
+    "all"
+  ],
   "systemMonitorVariants": [],
   "desktopWidgetPositions": {},
   "desktopWidgetGridSettings": {},
   "desktopWidgetInstances": [
     {
-      "id": "dw_1787172953502_yoh8c2vln",
-      "widgetType": "desktopClock",
-      "name": "Desktop Clock",
-      "enabled": true,
       "config": {
-        "style": "digital",
-        "transparency": 0.8,
         "colorMode": "primary",
         "customColor": "#ffffff",
-        "showDate": true,
+        "displayPreferences": [
+          "all"
+        ],
         "showAnalogNumbers": false,
         "showAnalogSeconds": true,
-        "displayPreferences": ["all"],
-        "showDigitalSeconds": true
+        "showDate": true,
+        "showDigitalSeconds": true,
+        "style": "digital",
+        "transparency": 0.8
       },
+      "enabled": true,
+      "id": "dw_1787172953502_yoh8c2vln",
+      "name": "Desktop Clock",
       "positions": {
         "eDP-1": {
-          "width": 200,
           "height": 200,
+          "width": 200,
           "x": 1136.4609375,
           "y": 54.7109375
         }
-      }
+      },
+      "widgetType": "desktopClock"
     }
   ],
   "desktopWidgetGroups": [],
   "builtInPluginSettings": {
-    "dms_settings_search": {
-      "trigger": "?"
-    },
     "dms_clipboard_search": {
       "trigger": "cb"
+    },
+    "dms_settings_search": {
+      "trigger": "?"
     }
   },
   "clipboardClickToPaste": false,
   "clipboardEnterToPaste": false,
   "clipboardRememberTypeFilter": false,
   "clipboardTypeFilter": "all",
-  "clipboardVisibleEntryActions": ["pin", "edit", "delete"],
+  "clipboardVisibleEntryActions": [
+    "pin",
+    "edit",
+    "delete"
+  ],
   "launcherPluginVisibility": {},
   "launcherPluginOrder": [],
   "frameEnabled": false,
@@ -793,7 +807,9 @@
   "frameRounding": 23,
   "frameColor": "",
   "frameOpacity": 1,
-  "frameScreenPreferences": ["all"],
+  "frameScreenPreferences": [
+    "all"
+  ],
   "frameBarSize": 40,
   "frameShowOnOverview": false,
   "frameBlurEnabled": true,
