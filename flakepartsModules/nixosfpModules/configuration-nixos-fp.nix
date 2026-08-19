@@ -73,6 +73,9 @@ _: {
     programs.appimage.enable = true;
     programs.appimage.binfmt = true;
 
+    # Global XWayland compatibility layer for legacy apps and games
+    programs.xwayland.enable = true;
+
     # enable unfree services (configured in multiverse-fp.nix when creating pkgs)
     #nixpkgs.config.allowUnfree = true;
     #nixpkgs.config.nvidia.acceptLicense = true;
