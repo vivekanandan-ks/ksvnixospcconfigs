@@ -32,6 +32,7 @@
       wayland.windowManager.mango = {
         enable = true;
         systemd.enable = true; # Starts mango-session.target for DMS / notifications
+        autostart_sh = "# Mango session init";
 
         settings = {
           # --- Visuals & Scenefx (Frosted Glass & Shadows) ---
