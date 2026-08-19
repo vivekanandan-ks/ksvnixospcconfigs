@@ -22,10 +22,16 @@ _: {
       nerd-fonts.monofur
     ];
 
-    #SWAP
+    #SWAP & Memory Management
     swapDevices = lib.mkForce [];
     # If you also want to disable zram (compressed swap in RAM):
     #zramSwap.enable = false;
+
+    # OOM protection against system lockups during heavy builds
+    services.earlyoom.enable = true;
+
+    # Firmware update daemon (UEFI/BIOS & hardware peripherals via fwupdmgr)
+    #services.fwupd.enable = true;
 
     # Bootloader.
     # systemd-boot

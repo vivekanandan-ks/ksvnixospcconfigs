@@ -13,7 +13,10 @@
 
     programs.dank-material-shell = {
       enable = true;
-      systemd.enable = true;
+      systemd = {
+        enable = true;
+        target = "hyprland-session.target";
+      };
 
       enableSystemMonitoring = true;
       enableDynamicTheming = false; # Stylix handles system and app theming
