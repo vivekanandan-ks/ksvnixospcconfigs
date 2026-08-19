@@ -46,6 +46,11 @@
             "QT_STYLE_OVERRIDE"
             "XDG_MENU_PREFIX"
           ];
+          extraCommands = [
+            "systemctl --user reset-failed"
+            "systemctl --user start mango-session.target"
+            "systemctl --user restart xremap || true"
+          ];
         };
         autostart_sh = ''
           export QT_QPA_PLATFORM="wayland;xcb"
