@@ -10,6 +10,7 @@
 
   flake = {
     homeModules.nonDroid.hyprshell = {
+      config,
       lib,
       pkgs,
       ...
@@ -19,7 +20,7 @@
       ];
 
       programs.hyprshell = {
-        enable = true;
+        enable = config.wayland.windowManager.hyprland.enable;
         package = inputs.hyprshell.packages.${pkgs.stdenv.hostPlatform.system}.default;
         systemd.enable = true;
 

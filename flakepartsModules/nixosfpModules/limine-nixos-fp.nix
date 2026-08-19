@@ -8,7 +8,7 @@
     boot.loader = {
       limine = {
         enable = true;
-        style.wallpapers = lib.filesystem.listFilesRecursive self.personas.ksv.wallpaperSet;
+        style.wallpapers = lib.filesystem.listFilesRecursive self.personas.ksv.currentWallpaperSet;
 
         extraEntries = lib.mkIf (config.networking.hostName == "deejunixospc") ''
           /Windows

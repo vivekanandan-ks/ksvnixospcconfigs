@@ -10,6 +10,6 @@ _: {
     # --- Visual Assets ---
     avatar = ./shoyohinata.png;
     wallpapers = ./wallpapers; # Root directory containing all wallpaper sets
-    wallpaperSet = ./wallpapers/frieren; # Active wallpaper set
+    currentWallpaperSet = ./wallpapers/frieren; # Active wallpaper set
   };
 }

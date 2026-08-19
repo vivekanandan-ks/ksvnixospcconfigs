@@ -44,7 +44,7 @@
         )
         {
           general.avatarImage = "${self.personas.ksv.avatar}";
-          wallpaper.directory = "${self.personas.ksv.wallpaperSet}";
+          wallpaper.directory = "${self.personas.ksv.currentWallpaperSet}";
           wallpaper.useWallhaven = false;
           wallpaper.useOriginalImages = true;
           wallpaper.automationEnabled = true;

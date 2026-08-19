@@ -1,12 +1,13 @@
 _: {
   flake = {
     homeModules.nonDroid.hypridle = {
+      config,
       pkgs-unstable,
       lib,
       ...
     }: {
       services.hypridle = {
-        enable = true;
+        enable = config.wayland.windowManager.hyprland.enable;
         package = pkgs-unstable.hypridle;
         settings = {
           general = {

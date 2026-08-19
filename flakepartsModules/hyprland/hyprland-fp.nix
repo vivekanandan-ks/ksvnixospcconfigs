@@ -39,13 +39,14 @@
     };
 
     homeModules.nonDroid.hyprland = {
+      config,
       lib,
       pkgs,
       pkgs-unstable,
       ...
     }: {
       programs.hyprland-qt-support = {
-        enable = true;
+        enable = config.wayland.windowManager.hyprland.enable;
         package = pkgs-unstable.hyprland-qt-support;
       };
 

@@ -1,7 +1,12 @@
 _: {
   flake = {
-    homeModules.nonDroid.hyprmoncfg = {pkgs-unstable, ...}: {
-      home.packages = [
+    homeModules.nonDroid.hyprmoncfg = {
+      config,
+      lib,
+      pkgs-unstable,
+      ...
+    }: {
+      home.packages = lib.optionals config.wayland.windowManager.hyprland.enable [
         pkgs-unstable.hyprmoncfg
         pkgs-unstable.hyprmon
       ];
@@ -13,7 +18,7 @@ _: {
         ];
       };
 
-      systemd.user.services.hyprmoncfgd = {
+      systemd.user.services.hyprmoncfgd = lib.mkIf config.wayland.windowManager.hyprland.enable {
         Unit = {
           Description = "Hyprmoncfg Monitor Daemon";
           PartOf = ["hyprland-session.target"];

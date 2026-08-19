@@ -1,12 +1,13 @@
 {self, ...}: {
   flake = {
     homeModules.nonDroid.hyprlock = {
+      config,
       pkgs-unstable,
       lib,
       ...
     }: {
       programs.hyprlock = {
-        enable = true;
+        enable = config.wayland.windowManager.hyprland.enable;
         package = pkgs-unstable.hyprlock;
       };
 

@@ -1,6 +1,6 @@
 _: {
   flake = {
-    nixosModules.hypr-dolph-fix = {pkgs-unstable, ...}: {
+    nixosModules.dolphin-fix = {pkgs-unstable, ...}: {
       xdg.menus.enable = true;
       xdg.mime.enable = true;
       environment.etc."xdg/menus/applications.menu" = {
@@ -8,21 +8,19 @@ _: {
       };
     };
 
-    homeModules.nonDroid.hypr-dolph-fix = {
+    homeModules.nonDroid.dolphin-fix = {
       lib,
       pkgs-unstable,
       ...
     }: {
+      home.sessionVariables = {
+        XDG_MENU_PREFIX = "plasma-";
+      };
+
       home.activation.rebuildKDECache = lib.hm.dag.entryAfter ["writeBoundary"] ''
         rm -rf ~/.cache/ksycoca*
         ${pkgs-unstable.kdePackages.kservice}/bin/kbuildsycoca6 --noincremental
       '';
-
-      wayland.windowManager.hyprland.settings = {
-        env = [
-          "XDG_MENU_PREFIX,plasma-"
-        ];
-      };
     };
   };
 }

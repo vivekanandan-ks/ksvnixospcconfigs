@@ -1,12 +1,13 @@
 _: {
   flake = {
     homeModules.nonDroid.hyprpolkit = {
+      config,
       pkgs-unstable,
       lib,
       ...
     }: {
       services.hyprpolkitagent = {
-        enable = true;
+        enable = config.wayland.windowManager.hyprland.enable;
         package = pkgs-unstable.hyprpolkitagent;
       };
 

@@ -1,7 +1,7 @@
 {inputs, ...}: {
   flake-file.inputs = {
     dms-shell = {
-      url = "github:AvengeMedia/DankMaterialShell";
+      url = "github:AvengeMedia/DankMaterialShell/stable";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -12,8 +12,7 @@
     ];
 
     programs.dank-material-shell = {
-      # Inactive / disabled by default
-      enable = false;
+      enable = true;
       systemd.enable = true;
 
       enableSystemMonitoring = true;
@@ -45,7 +44,7 @@
             id = "default";
             name = "Main Bar";
             enabled = true;
-            position = 0; # Top bar
+            position = 1; # Bottom bar
             attachToScreenEdge = false;
             bottomGap = 4;
             spacing = 4;
