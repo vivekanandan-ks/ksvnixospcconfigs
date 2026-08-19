@@ -6,7 +6,7 @@
     };
   };
 
-  flake.homeModules.nonDroid.dms = {config, ...}: {
+  flake.homeModules.nonDroid.dms = { ...}: {
     imports = [
       inputs.dms-shell.homeModules.default
     ];
@@ -15,10 +15,7 @@
       enable = true;
       systemd = {
         enable = true;
-        target =
-          if (config.wayland.windowManager.mango.enable or false)
-          then "mango-session.target"
-          else "hyprland-session.target";
+        target = "mango-session.target";
       };
 
       enableSystemMonitoring = true;
