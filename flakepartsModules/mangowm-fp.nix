@@ -104,6 +104,9 @@
           animation_curve_move = "0.46,1.0,0.29,0.99";
           tag_animation_direction = 1;
 
+          # --- Layout Options & Cycling ---
+          circle_layout = "scroller,tile,dwindle,grid,monocle,deck,center_tile,vertical_scroller,right_tile";
+
           # --- Scroller Layout Options (Full Screen Height, No Empty Space) ---
           scroller_structs = 0;
           scroller_default_proportion = 1.0;
@@ -125,6 +128,20 @@
 
           # --- Keybindings ---
           bind = [
+            # Layout switching (Direct: Alt + Shift + 1-9)
+            "ALT+SHIFT, 1, setlayout, scroller"
+            "ALT+SHIFT, 2, setlayout, tile"
+            "ALT+SHIFT, 3, setlayout, dwindle"
+            "ALT+SHIFT, 4, setlayout, grid"
+            "ALT+SHIFT, 5, setlayout, monocle"
+            "ALT+SHIFT, 6, setlayout, deck"
+            "ALT+SHIFT, 7, setlayout, center_tile"
+            "ALT+SHIFT, 8, setlayout, vertical_scroller"
+            "ALT+SHIFT, 9, setlayout, right_tile"
+
+            # Layout cycling (Super + \)
+            "SUPER, backslash, switch_layout"
+
             # Close window
             "ALT, F4, killclient"
 
