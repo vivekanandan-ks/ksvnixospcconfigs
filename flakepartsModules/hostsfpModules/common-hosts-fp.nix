@@ -19,7 +19,7 @@
             globalModuleArgs
             // {
               inherit globalModuleArgs self inputs;
-              username = "ksvnixospc";
+              username = self.personas.ksv.username;
             };
         }))
       ];

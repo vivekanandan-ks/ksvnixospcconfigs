@@ -23,8 +23,8 @@
       package = pkgs-unstable.git;
       settings = {
         user = {
-          name = "vivekanandan-ks";
-          email = "ksvdevksv@gmail.com";
+          name = self.personas.ksv.gitUsername;
+          email = self.personas.ksv.gitEmail;
         };
         init = {
           defaultBranch = "main";

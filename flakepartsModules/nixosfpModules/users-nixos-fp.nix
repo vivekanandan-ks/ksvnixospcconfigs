@@ -1,4 +1,4 @@
-_: {
+{self, ...}: {
   flake.nixosModules.users = {
     pkgs-unstable,
     username,
@@ -12,7 +12,7 @@ _: {
     # Define a user account
     users.users."${username}" = {
       isNormalUser = true;
-      description = username;
+      description = self.personas.ksv.personalName;
       extraGroups = [
         "networkmanager"
         "wheel"

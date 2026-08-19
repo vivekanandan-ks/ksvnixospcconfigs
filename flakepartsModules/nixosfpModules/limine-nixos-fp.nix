@@ -1,4 +1,4 @@
-_: {
+{self, ...}: {
   flake.nixosModules.limine = {
     config,
     lib,
@@ -8,7 +8,7 @@ _: {
     boot.loader = {
       limine = {
         enable = true;
-        style.wallpapers = lib.filesystem.listFilesRecursive ./nixosResources/limine-images;
+        style.wallpapers = lib.filesystem.listFilesRecursive self.personas.ksv.wallpaperSet;
 
         extraEntries = lib.mkIf (config.networking.hostName == "deejunixospc") ''
           /Windows

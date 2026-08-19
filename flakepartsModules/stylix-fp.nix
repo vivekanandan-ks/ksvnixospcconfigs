@@ -34,7 +34,6 @@
       #stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-macchiato.yaml";
       #stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
       stylix.base16Scheme = "${inputs.base16-schemes}/base16/catppuccin-mocha.yaml";
-      #stylix.image = ./homefpModule/hmResources/frieren.png;
 
       stylix.opacity = {
         #applications = 0.7;

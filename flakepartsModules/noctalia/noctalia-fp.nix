@@ -43,8 +43,8 @@
           )
         )
         {
-          general.avatarImage = "${./shoyohinata.png}";
-          wallpaper.directory = "${./wallpaper}";
+          general.avatarImage = "${self.personas.ksv.avatar}";
+          wallpaper.directory = "${self.personas.ksv.wallpaperSet}";
           wallpaper.useWallhaven = false;
           wallpaper.useOriginalImages = true;
           wallpaper.automationEnabled = true;

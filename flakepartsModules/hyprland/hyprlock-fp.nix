@@ -1,4 +1,4 @@
-_: {
+{self, ...}: {
   flake = {
     homeModules.nonDroid.hyprlock = {
       pkgs-unstable,
@@ -34,7 +34,7 @@ _: {
         image = [
           {
             monitor = "";
-            path = "${../noctalia/shoyohinata.png}";
+            path = "${self.personas.ksv.avatar}";
             size = 250;
             border_size = 4;
             border_color = "rgb(255, 255, 255)";

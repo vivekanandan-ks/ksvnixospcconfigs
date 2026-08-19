@@ -22,8 +22,8 @@
       package = pkgs-unstable.jujutsu;
       settings = {
         user = {
-          email = "ksvdevksv@gmail.com";
-          name = "vivekanandan-ks";
+          name = self.personas.ksv.gitUsername;
+          email = self.personas.ksv.gitEmail;
         };
         ui.default-command = "log";
         snapshot.max-new-file-size = "30MiB";
