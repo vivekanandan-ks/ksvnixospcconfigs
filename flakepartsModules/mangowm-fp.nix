@@ -104,6 +104,9 @@
             # Shell / Spotlight launcher
             "SUPER, Space, spawn, dms ipc call spotlight toggle"
 
+            # Power menu (Ctrl + Alt + Del)
+            "CTRL+ALT, Delete, spawn, dms ipc call powermenu toggle"
+
             # Window overview (Mission control)
             "SUPER, Tab, toggleoverview"
 
