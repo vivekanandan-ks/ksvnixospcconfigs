@@ -587,6 +587,22 @@
         "type": "github"
       }
     },
+    "ksv-personal-artifacts": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1787259433,
+        "narHash": "sha256-CW0j9mZmvW+SzFQs3ecUiq5lSy+A3lObL+mSt/gC1zY=",
+        "owner": "vivekanandan-ks",
+        "repo": "ksv-personal-artifacts",
+        "rev": "427554d039a40545f540b771ad5e2695849d0fae",
+        "type": "github"
+      },
+      "original": {
+        "owner": "vivekanandan-ks",
+        "repo": "ksv-personal-artifacts",
+        "type": "github"
+      }
+    },
     "mango": {
       "inputs": {
         "flake-parts": "flake-parts_3",
@@ -992,6 +1008,7 @@
         "home-manager": "home-manager",
         "hyprshell": "hyprshell",
         "import-tree": "import-tree",
+        "ksv-personal-artifacts": "ksv-personal-artifacts",
         "mango": "mango",
         "multiverse": "multiverse",
         "nix-on-droid": "nix-on-droid",
