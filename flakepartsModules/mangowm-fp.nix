@@ -33,19 +33,7 @@
         enable = true;
         systemd = {
           enable = true; # Starts mango-session.target for DMS / notifications
-          variables = [
-            "DISPLAY"
-            "WAYLAND_DISPLAY"
-            "XDG_CURRENT_DESKTOP"
-            "XDG_SESSION_TYPE"
-            "NIXOS_OZONE_WL"
-            "XCURSOR_THEME"
-            "XCURSOR_SIZE"
-            "QT_QPA_PLATFORM"
-            "QT_QPA_PLATFORMTHEME"
-            "QT_STYLE_OVERRIDE"
-            "XDG_MENU_PREFIX"
-          ];
+          variables = ["--all"];
           extraCommands = [
             "systemctl --user reset-failed"
             "systemctl --user start mango-session.target"
