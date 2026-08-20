@@ -1,4 +1,9 @@
-_: {
+{inputs, ...}: {
+  flake-file.inputs.ksv-personal-artifacts = {
+    url = "github:vivekanandan-ks/ksv-personal-artifacts";
+    flake = false;
+  };
+
   flake.personas.ksv = {
     # --- Identity & Display ---
     username = "ksvnixospc";
@@ -9,7 +14,7 @@ _: {
 
     # --- Visual Assets ---
     avatar = ./shoyohinata.png;
-    wallpapers = ./wallpapers; # Root directory containing all wallpaper sets
-    currentWallpaperSet = ./wallpapers/frieren; # Active wallpaper set
+    wallpapers = "${inputs.ksv-personal-artifacts}/wallpapers"; # Root directory containing all wallpaper sets
+    currentWallpaperSet = "${inputs.ksv-personal-artifacts}/wallpapers/andreasrochaWallpapers"; # Active wallpaper set
   };
 }

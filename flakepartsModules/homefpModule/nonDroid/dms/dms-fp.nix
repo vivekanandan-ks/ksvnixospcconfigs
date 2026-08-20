@@ -33,14 +33,14 @@
 
       settings = lib.mapAttrs (_: lib.mkForce) (
         lib.recursiveUpdate
-          (builtins.fromJSON (builtins.readFile ./dms-settings.json))
-          {
-            blurForegroundLayers = false;
-            notificationForegroundLayers = false;
-            modalDarkenBackground = false;
-            blurBorderEnabled = false;
-            customAnimationDuration = 4000;
-          }
+        (builtins.fromJSON (builtins.readFile ./dms-settings.json))
+        {
+          blurForegroundLayers = false;
+          notificationForegroundLayers = false;
+          modalDarkenBackground = false;
+          blurBorderEnabled = false;
+          customAnimationDuration = 4000;
+        }
       );
     };
   };

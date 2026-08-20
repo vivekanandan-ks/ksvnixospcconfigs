@@ -48,6 +48,10 @@
       };
     };
     import-tree.url = "github:vic/import-tree";
+    ksv-personal-artifacts = {
+      url = "github:vivekanandan-ks/ksv-personal-artifacts";
+      flake = false;
+    };
     mango = {
       url = "github:mangowm/mango";
       inputs.nixpkgs.follows = "nixpkgs";

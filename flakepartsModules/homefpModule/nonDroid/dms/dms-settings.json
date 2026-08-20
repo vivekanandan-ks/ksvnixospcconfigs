@@ -577,9 +577,7 @@
   "updaterIgnoredPackages": [],
   "displayNameMode": "system",
   "screenPreferences": {
-    "wallpaper": [
-      "all"
-    ]
+    "wallpaper": ["all"]
   },
   "showOnLastDisplay": {},
   "niriOutputSettings": {},
@@ -597,9 +595,7 @@
       "barInsetPadding": 0,
       "borderEnabled": false,
       "bottomGap": -6,
-      "centerWidgets": [
-        "capsLockIndicator"
-      ],
+      "centerWidgets": ["capsLockIndicator"],
       "clickThrough": false,
       "enabled": true,
       "gothCornersEnabled": false,
@@ -709,9 +705,7 @@
   "desktopClockY": -1,
   "desktopClockWidth": 280,
   "desktopClockHeight": 180,
-  "desktopClockDisplayPreferences": [
-    "all"
-  ],
+  "desktopClockDisplayPreferences": ["all"],
   "systemMonitorEnabled": false,
   "systemMonitorShowHeader": true,
   "systemMonitorTransparency": 0.8,
@@ -748,9 +742,7 @@
   "systemMonitorY": -1,
   "systemMonitorWidth": 320,
   "systemMonitorHeight": 480,
-  "systemMonitorDisplayPreferences": [
-    "all"
-  ],
+  "systemMonitorDisplayPreferences": ["all"],
   "systemMonitorVariants": [],
   "desktopWidgetPositions": {},
   "desktopWidgetGridSettings": {},
@@ -759,9 +751,7 @@
       "config": {
         "colorMode": "primary",
         "customColor": "#ffffff",
-        "displayPreferences": [
-          "all"
-        ],
+        "displayPreferences": ["all"],
         "showAnalogNumbers": false,
         "showAnalogSeconds": true,
         "showDate": true,
@@ -807,9 +797,7 @@
         "topProcessSortBy": "cpu",
         "layoutMode": "auto",
         "graphInterval": 60,
-        "displayPreferences": [
-          "all"
-        ]
+        "displayPreferences": ["all"]
       },
       "positions": {
         "eDP-1": {
@@ -834,11 +822,7 @@
   "clipboardEnterToPaste": false,
   "clipboardRememberTypeFilter": false,
   "clipboardTypeFilter": "all",
-  "clipboardVisibleEntryActions": [
-    "pin",
-    "edit",
-    "delete"
-  ],
+  "clipboardVisibleEntryActions": ["pin", "edit", "delete"],
   "launcherPluginVisibility": {},
   "launcherPluginOrder": [],
   "frameEnabled": false,
@@ -846,9 +830,7 @@
   "frameRounding": 23,
   "frameColor": "",
   "frameOpacity": 1,
-  "frameScreenPreferences": [
-    "all"
-  ],
+  "frameScreenPreferences": ["all"],
   "frameBarSize": 40,
   "frameShowOnOverview": false,
   "frameBlurEnabled": true,
