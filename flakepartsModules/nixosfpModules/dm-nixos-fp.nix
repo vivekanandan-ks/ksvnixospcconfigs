@@ -34,5 +34,8 @@ _: {
       enable = true;
       user = username;
     };
+
+    # Default session for display manager and auto-login
+    services.displayManager.defaultSession = "mango";
   };
 }

@@ -10,7 +10,10 @@
     };
   };
 
-  flake.homeModules.nonDroid.dms = {lib, ...}: {
+  flake.homeModules.nonDroid.dms = {lib, ...}: let
+    wallpapers = builtins.attrNames (builtins.readDir self.personas.ksv.currentWallpaperSet);
+    defaultWallpaper = builtins.head wallpapers;
+  in {
     imports = [
       inputs.dms-shell.homeModules.default
     ];
@@ -30,6 +33,10 @@
       enableDynamicTheming = false; # Stylix handles system and app theming
       enableVPN = true;
       enableCalendarEvents = true;
+
+      session = {
+        wallpaperPath = "${self.personas.ksv.currentWallpaperSet}/${defaultWallpaper}";
+      };
 
       settings = lib.mapAttrs (_: lib.mkForce) (
         lib.recursiveUpdate
