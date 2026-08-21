@@ -1,8 +1,4 @@
-{
-  inputs,
-  self,
-  ...
-}: {
+{inputs, ...}: {
   flake-file.inputs = {
     mango = {
       url = "github:mangowm/mango";
@@ -44,22 +40,6 @@
             "systemctl --user restart xremap || true"
           ];
         };
-        autostart_sh = ''
-          export QT_QPA_PLATFORM="wayland;xcb"
-          export QT_QPA_PLATFORMTHEME="kde"
-          export QT_STYLE_OVERRIDE="breeze"
-          export XDG_MENU_PREFIX="plasma-"
-
-          # Pick a random wallpaper from the flake wallpaper set on login (retrying until DMS IPC is ready)
-          (
-            for i in $(seq 1 20); do
-              if dms ipc call wallpaper set "$(shuf -n 1 -e ${self.personas.ksv.currentWallpaperSet}/*)" >/dev/null 2>&1; then
-                break
-              fi
-              sleep 0.5
-            done
-          ) &
-        '';
 
         settings = {
           blur = 1;
