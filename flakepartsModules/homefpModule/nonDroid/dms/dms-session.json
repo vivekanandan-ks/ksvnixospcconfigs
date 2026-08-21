@@ -1,5 +1,6 @@
 {
   "wallpaperCyclingEnabled": true,
   "wallpaperCyclingMode": "interval",
-  "wallpaperCyclingInterval": 120
+  "wallpaperCyclingInterval": 120,
+  "wallpaperTransition": "portal"
 }
