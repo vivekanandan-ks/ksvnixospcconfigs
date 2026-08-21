@@ -66,10 +66,10 @@
 
           border_radius = 12;
           borderpx = 0; # Borderless windows (no orange/colored borders)
-          gappih = 5;
-          gappiv = 5;
-          gappoh = 5;
-          gappov = 5;
+          gappih = 0;
+          gappiv = 0;
+          gappoh = 0;
+          gappov = 0;
           focused_opacity = 1.0;
           unfocused_opacity = 0.92;
 
