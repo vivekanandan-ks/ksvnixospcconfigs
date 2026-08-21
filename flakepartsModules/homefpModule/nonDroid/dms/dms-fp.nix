@@ -34,11 +34,13 @@
       enableVPN = true;
       enableCalendarEvents = true;
 
-      session = lib.recursiveUpdate
-        (builtins.fromJSON (builtins.readFile ./dms-session.json))
-        {
-          wallpaperPath = "${self.personas.ksv.currentWallpaperSet}/${defaultWallpaper}";
-        };
+      session = builtins.fromJSON (builtins.readFile ./dms-session.json);
+      # wallpaperPath override commented out to let DMS persist cycling state across logins:
+      # session = lib.recursiveUpdate
+      #   (builtins.fromJSON (builtins.readFile ./dms-session.json))
+      #   {
+      #     wallpaperPath = "${self.personas.ksv.currentWallpaperSet}/${defaultWallpaper}";
+      #   };
 
       settings = lib.mapAttrs (name: value:
         if name == "barConfigs" then value else lib.mkForce value
