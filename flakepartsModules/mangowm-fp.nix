@@ -50,8 +50,15 @@
           export QT_STYLE_OVERRIDE="breeze"
           export XDG_MENU_PREFIX="plasma-"
 
-          # Pick a random wallpaper from the flake wallpaper set on login
-          (sleep 0.5 && dms ipc call wallpaper set "$(shuf -n 1 -e ${self.personas.ksv.currentWallpaperSet}/*)") &
+          # Pick a random wallpaper from the flake wallpaper set on login (retrying until DMS IPC is ready)
+          (
+            for i in $(seq 1 20); do
+              if dms ipc call wallpaper set "$(shuf -n 1 -e ${self.personas.ksv.currentWallpaperSet}/*)" >/dev/null 2>&1; then
+                break
+              fi
+              sleep 0.5
+            done
+          ) &
         '';
 
         settings = {
