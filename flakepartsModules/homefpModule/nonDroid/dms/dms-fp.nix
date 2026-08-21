@@ -36,6 +36,9 @@
 
       session = {
         wallpaperPath = "${self.personas.ksv.currentWallpaperSet}/${defaultWallpaper}";
+        wallpaperCyclingEnabled = true;
+        wallpaperCyclingMode = "interval";
+        wallpaperCyclingInterval = 120;
       };
 
       settings = lib.mapAttrs (_: lib.mkForce) (
