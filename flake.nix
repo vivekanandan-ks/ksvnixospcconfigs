@@ -17,6 +17,34 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    dms-plugin-battery-plus = {
+      url = "github:arcatva/dms-battery-plus";
+      flake = false;
+    };
+    dms-plugin-hidden-bar = {
+      url = "github:hthienloc/dms-hidden-bar";
+      flake = false;
+    };
+    dms-plugin-network-indicator = {
+      url = "github:gemb0-0/Network-Indicator";
+      flake = false;
+    };
+    dms-plugin-usb-manager = {
+      url = "github:NordicsSys/dms-usb-manager";
+      flake = false;
+    };
+    dms-plugin-wallpaper-carousel = {
+      url = "github:motor-dev/wallpaperCarousel";
+      flake = false;
+    };
+    dms-plugins-avengemedia = {
+      url = "github:AvengeMedia/dms-plugins";
+      flake = false;
+    };
+    dms-plugins-dadangdut33 = {
+      url = "github:Dadangdut33/dms-plugins";
+      flake = false;
+    };
     dms-shell = {
       url = "github:AvengeMedia/DankMaterialShell/stable";
       inputs.nixpkgs.follows = "nixpkgs";

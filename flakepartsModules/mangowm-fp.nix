@@ -136,6 +136,9 @@
             # Shell / Spotlight launcher
             "SUPER, Space, spawn, dms ipc call spotlight toggle"
 
+            # Wallpaper Carousel
+            "SUPER+SHIFT, w, spawn, dms ipc wallpaperCarousel toggle"
+
             # Power menu (Ctrl + Alt + Del)
             "CTRL+ALT, Delete, spawn, dms ipc call powermenu toggle"
 

@@ -41,7 +41,7 @@
         wallpaperCyclingInterval = 120;
       };
 
-      settings = lib.mapAttrs (_: lib.mkForce) (
+      settings =
         lib.recursiveUpdate
         (builtins.fromJSON (builtins.readFile ./dms-settings.json))
         {
@@ -50,8 +50,7 @@
           modalDarkenBackground = false;
           blurBorderEnabled = false;
           customAnimationDuration = 4000;
-        }
-      );
+        };
     };
   };
 }

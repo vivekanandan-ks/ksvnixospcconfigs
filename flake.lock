@@ -193,6 +193,118 @@
         "type": "github"
       }
     },
+    "dms-plugin-battery-plus": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1783424950,
+        "narHash": "sha256-XEAvnTisFTPs55+uVCDeHXSJthtkE0CU6No29TDyAYY=",
+        "owner": "arcatva",
+        "repo": "dms-battery-plus",
+        "rev": "4e653d09174e1edc260f279c42ec2477b6fb2e24",
+        "type": "github"
+      },
+      "original": {
+        "owner": "arcatva",
+        "repo": "dms-battery-plus",
+        "type": "github"
+      }
+    },
+    "dms-plugin-hidden-bar": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1783028647,
+        "narHash": "sha256-gCmK9oIdz9lUCrUJqyDCkZgNG5XfmqUWqe8xRz7MgJw=",
+        "owner": "hthienloc",
+        "repo": "dms-hidden-bar",
+        "rev": "21b127f44bb5ee42621df94f509a0410ec803e55",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hthienloc",
+        "repo": "dms-hidden-bar",
+        "type": "github"
+      }
+    },
+    "dms-plugin-network-indicator": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1786809020,
+        "narHash": "sha256-YUFCzEO/8GkfvwzXBZsylw0vwYw+AnIs+cKHXWnt0qo=",
+        "owner": "gemb0-0",
+        "repo": "Network-Indicator",
+        "rev": "81d948dbabceba0f446a0441f3901a4d6b6b2f3a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "gemb0-0",
+        "repo": "Network-Indicator",
+        "type": "github"
+      }
+    },
+    "dms-plugin-usb-manager": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1781932583,
+        "narHash": "sha256-al6/8gFMcy3Vv4867SB7OUNqwCZ3n0ygweg5FvG1xPk=",
+        "owner": "NordicsSys",
+        "repo": "dms-usb-manager",
+        "rev": "4dd61c1aa277a280fc05131342bc1cf3936a2a86",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NordicsSys",
+        "repo": "dms-usb-manager",
+        "type": "github"
+      }
+    },
+    "dms-plugin-wallpaper-carousel": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1787207834,
+        "narHash": "sha256-/LoehTfSeeqkgIXw46Ll/PrxeEDhg4RZI5BXib6yEnI=",
+        "owner": "motor-dev",
+        "repo": "wallpaperCarousel",
+        "rev": "761ecd1b7f347beee9f17909f8334d987c935a1a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "motor-dev",
+        "repo": "wallpaperCarousel",
+        "type": "github"
+      }
+    },
+    "dms-plugins-avengemedia": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1786677582,
+        "narHash": "sha256-ygsn92Yt4e5YHutGnkTzb5rAuoiB5STYAQaORUjlqRk=",
+        "owner": "AvengeMedia",
+        "repo": "dms-plugins",
+        "rev": "3ad0e7845b62a9aca56f7959dd086b2a85655079",
+        "type": "github"
+      },
+      "original": {
+        "owner": "AvengeMedia",
+        "repo": "dms-plugins",
+        "type": "github"
+      }
+    },
+    "dms-plugins-dadangdut33": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1785512664,
+        "narHash": "sha256-/iIqBej8dFwOQpvO9PXFvnDwZMSA7IykzaQjl5xoJUs=",
+        "owner": "Dadangdut33",
+        "repo": "dms-plugins",
+        "rev": "63fe6b87c497f1f7c2ea61432716817db1c5c3a4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Dadangdut33",
+        "repo": "dms-plugins",
+        "type": "github"
+      }
+    },
     "dms-shell": {
       "inputs": {
         "flake-compat": "flake-compat_2",
@@ -999,6 +1111,13 @@
         "base16-schemes": "base16-schemes",
         "determinate": "determinate",
         "disko": "disko",
+        "dms-plugin-battery-plus": "dms-plugin-battery-plus",
+        "dms-plugin-hidden-bar": "dms-plugin-hidden-bar",
+        "dms-plugin-network-indicator": "dms-plugin-network-indicator",
+        "dms-plugin-usb-manager": "dms-plugin-usb-manager",
+        "dms-plugin-wallpaper-carousel": "dms-plugin-wallpaper-carousel",
+        "dms-plugins-avengemedia": "dms-plugins-avengemedia",
+        "dms-plugins-dadangdut33": "dms-plugins-dadangdut33",
         "dms-shell": "dms-shell",
         "fast-nix-gc": "fast-nix-gc",
         "flake-file": "flake-file",
