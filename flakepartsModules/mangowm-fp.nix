@@ -1,4 +1,8 @@
-{inputs, ...}: {
+{
+  inputs,
+  self,
+  ...
+}: {
   flake-file.inputs = {
     mango = {
       url = "github:mangowm/mango";
@@ -45,6 +49,9 @@
           export QT_QPA_PLATFORMTHEME="kde"
           export QT_STYLE_OVERRIDE="breeze"
           export XDG_MENU_PREFIX="plasma-"
+
+          # Pick a random wallpaper from the flake wallpaper set on login
+          (sleep 0.5 && dms ipc call wallpaper set "$(shuf -n 1 -e ${self.personas.ksv.currentWallpaperSet}/*)") &
         '';
 
         settings = {
