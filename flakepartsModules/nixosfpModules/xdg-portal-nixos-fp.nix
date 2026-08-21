@@ -1,5 +1,9 @@
 _: {
-  flake.nixosModules.xdg-portal = {pkgs-unstable, ...}: {
+  flake.nixosModules.xdg-portal = {
+    lib,
+    pkgs-unstable,
+    ...
+  }: {
     # System-wide XDG Desktop Portals for file pickers, dialogs, and screen sharing
     xdg.portal = {
       enable = true;
@@ -10,6 +14,7 @@ _: {
       ];
       config = {
         common.default = ["gtk"];
+        mango.default = lib.mkForce ["wlr" "gtk"];
         hyprland.default = ["hyprland" "gtk"];
         niri.default = ["gnome" "gtk"];
         sway.default = ["wlr" "gtk"];
