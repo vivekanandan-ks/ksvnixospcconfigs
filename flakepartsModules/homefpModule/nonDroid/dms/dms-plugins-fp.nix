@@ -53,7 +53,6 @@
       # Dadangdut33 Collection
       MediaControlPlus.src = "${inputs.dms-plugins-dadangdut33}/MediaControlPlus";
       SimpleAudioControl.src = "${inputs.dms-plugins-dadangdut33}/SimpleAudioControl";
-      NetbirdStatus.src = "${inputs.dms-plugins-dadangdut33}/NetbirdStatus";
       ClipboardPlus.src = "${inputs.dms-plugins-dadangdut33}/ClipboardPlus";
       SystemMonitorPlus.src = "${inputs.dms-plugins-dadangdut33}/SystemMonitorPlus";
 

@@ -646,7 +646,6 @@
         },
         "batteryPlus",
         "usbManager",
-        "netbirdStatus",
         "simpleAudioControl",
         {
           "enabled": true,
