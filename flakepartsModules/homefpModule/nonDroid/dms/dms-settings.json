@@ -39,7 +39,7 @@
   "windSpeedUnit": "ms",
   "nightModeEnabled": false,
   "animationSpeed": 2,
-  "customAnimationDuration": 500,
+  "customAnimationDuration": 4000,
   "syncComponentAnimationSpeeds": true,
   "popoutAnimationSpeed": 1,
   "popoutCustomAnimationDuration": 150,
@@ -60,7 +60,7 @@
   "blurEnabled": true,
   "blurForegroundLayers": true,
   "blurLayerOutlineOpacity": 0.12,
-  "blurBorderEnabled": true,
+  "blurBorderEnabled": false,
   "blurBorderColor": "outline",
   "blurBorderCustomColor": "#ffffff",
   "blurBorderOpacity": 0.35,
@@ -69,10 +69,10 @@
   "blurWallpaperOnOverview": false,
   "wallpaperBackgroundColorMode": "black",
   "wallpaperBackgroundCustomColor": "#000000",
-  "showLauncherButton": true,
+  "showLauncherButton": false,
   "showWorkspaceSwitcher": true,
   "showFocusedWindow": true,
-  "showWeather": true,
+  "showWeather": false,
   "showMusic": true,
   "showClipboard": true,
   "showCpuUsage": true,
@@ -157,7 +157,7 @@
     }
   ],
   "showWorkspaceIndex": true,
-  "showWorkspaceName": false,
+  "showWorkspaceName": true,
   "showWorkspacePadding": false,
   "workspaceScrolling": false,
   "showWorkspaceApps": true,
@@ -206,7 +206,7 @@
   "audioWheelScrollAmount": 5,
   "audioDeviceScrollVolumeEnabled": true,
   "mediaExcludePlayers": [],
-  "clockCompactMode": false,
+  "clockCompactMode": true,
   "focusedWindowCompactMode": false,
   "focusedWindowSize": 1,
   "focusedWindowShowIcon": true,
@@ -306,24 +306,24 @@
   "weatherEnabled": true,
   "dashTabs": [
     {
-      "id": "overview",
-      "enabled": true
+      "enabled": true,
+      "id": "overview"
     },
     {
-      "id": "media",
-      "enabled": true
+      "enabled": true,
+      "id": "media"
     },
     {
-      "id": "weather",
-      "enabled": true
+      "enabled": true,
+      "id": "weather"
     },
     {
-      "id": "wallpaper",
-      "enabled": true
+      "enabled": true,
+      "id": "wallpaper"
     },
     {
-      "id": "settings",
-      "enabled": true
+      "enabled": true,
+      "id": "settings"
     }
   ],
   "networkPreference": "auto",
@@ -577,7 +577,9 @@
   "updaterIgnoredPackages": [],
   "displayNameMode": "system",
   "screenPreferences": {
-    "wallpaper": ["all"]
+    "wallpaper": [
+      "all"
+    ]
   },
   "showOnLastDisplay": {},
   "niriOutputSettings": {},
@@ -595,7 +597,9 @@
       "barInsetPadding": 0,
       "borderEnabled": false,
       "bottomGap": -6,
-      "centerWidgets": ["capsLockIndicator"],
+      "centerWidgets": [
+        "capsLockIndicator"
+      ],
       "clickThrough": false,
       "enabled": true,
       "gothCornersEnabled": false,
@@ -603,7 +607,6 @@
       "id": "default",
       "innerPadding": 2,
       "leftWidgets": [
-        "launcherButton",
         {
           "enabled": true,
           "focusedWindowCompactMode": false,
@@ -708,7 +711,9 @@
   "desktopClockY": -1,
   "desktopClockWidth": 280,
   "desktopClockHeight": 180,
-  "desktopClockDisplayPreferences": ["all"],
+  "desktopClockDisplayPreferences": [
+    "all"
+  ],
   "systemMonitorEnabled": false,
   "systemMonitorShowHeader": true,
   "systemMonitorTransparency": 0.8,
@@ -745,71 +750,69 @@
   "systemMonitorY": -1,
   "systemMonitorWidth": 320,
   "systemMonitorHeight": 480,
-  "systemMonitorDisplayPreferences": ["all"],
+  "systemMonitorDisplayPreferences": [
+    "all"
+  ],
   "systemMonitorVariants": [],
   "desktopWidgetPositions": {},
   "desktopWidgetGridSettings": {},
   "desktopWidgetInstances": [
     {
       "config": {
-        "colorMode": "primary",
-        "customColor": "#ffffff",
-        "displayPreferences": ["all"],
-        "showAnalogNumbers": false,
-        "showAnalogSeconds": true,
-        "showDate": true,
-        "showDigitalSeconds": true,
-        "style": "digital",
-        "transparency": 0.8
+        "displayPreferences": [
+          "all"
+        ]
       },
       "enabled": true,
-      "id": "dw_1787172953502_yoh8c2vln",
-      "name": "Desktop Clock",
+      "id": "dw_modern_clock",
+      "name": "Modern Clock",
       "positions": {
         "eDP-1": {
-          "height": 200,
-          "width": 200,
-          "x": 1136.4609375,
-          "y": 54.7109375
+          "height": 180,
+          "width": 380,
+          "x": 1050,
+          "y": 60
         }
       },
-      "widgetType": "desktopClock"
+      "widgetType": "modernClock"
     },
     {
-      "id": "dw_1787180498674_smrfxuhbo",
-      "widgetType": "systemMonitor",
-      "name": "System Monitor",
-      "enabled": false,
       "config": {
-        "showHeader": true,
-        "transparency": 0.8,
         "colorMode": "primary",
         "customColor": "#ffffff",
+        "displayPreferences": [
+          "all"
+        ],
+        "gpuPciId": "",
+        "graphInterval": 60,
+        "layoutMode": "auto",
         "showCpu": true,
         "showCpuGraph": true,
         "showCpuTemp": true,
+        "showDisk": true,
         "showGpuTemp": false,
-        "gpuPciId": "",
+        "showHeader": true,
         "showMemory": true,
         "showMemoryGraph": true,
         "showNetwork": true,
         "showNetworkGraph": true,
-        "showDisk": true,
         "showTopProcesses": false,
         "topProcessCount": 3,
         "topProcessSortBy": "cpu",
-        "layoutMode": "auto",
-        "graphInterval": 60,
-        "displayPreferences": ["all"]
+        "transparency": 0.8
       },
+      "enabled": false,
+      "id": "dw_1787180498674_smrfxuhbo",
+      "name": "System Monitor",
       "positions": {
         "eDP-1": {
-          "width": 320,
           "height": 480,
+          "width": 320,
           "x": 931.33984375,
           "y": 288
         }
-      }
+      },
+      "widgetType": "systemMonitor"
     }
   ],
   "desktopWidgetGroups": [],
@@ -825,7 +828,11 @@
   "clipboardEnterToPaste": false,
   "clipboardRememberTypeFilter": false,
   "clipboardTypeFilter": "all",
-  "clipboardVisibleEntryActions": ["pin", "edit", "delete"],
+  "clipboardVisibleEntryActions": [
+    "pin",
+    "edit",
+    "delete"
+  ],
   "launcherPluginVisibility": {},
   "launcherPluginOrder": [],
   "frameEnabled": false,
@@ -833,7 +840,9 @@
   "frameRounding": 23,
   "frameColor": "",
   "frameOpacity": 1,
-  "frameScreenPreferences": ["all"],
+  "frameScreenPreferences": [
+    "all"
+  ],
   "frameBarSize": 40,
   "frameShowOnOverview": false,
   "frameBlurEnabled": true,

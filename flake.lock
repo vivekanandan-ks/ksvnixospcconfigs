@@ -225,6 +225,22 @@
         "type": "github"
       }
     },
+    "dms-plugin-modern-clock": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1786288127,
+        "narHash": "sha256-cD8Ho8PG8GqRBPFtgub02uIMgXVsd0P8AzTNuVYccEk=",
+        "owner": "beefsizzle",
+        "repo": "ModernClockDMS",
+        "rev": "0d11d9fb560547a2589d59e456598f7c94847bae",
+        "type": "github"
+      },
+      "original": {
+        "owner": "beefsizzle",
+        "repo": "ModernClockDMS",
+        "type": "github"
+      }
+    },
     "dms-plugin-network-indicator": {
       "flake": false,
       "locked": {
@@ -1113,6 +1129,7 @@
         "disko": "disko",
         "dms-plugin-battery-plus": "dms-plugin-battery-plus",
         "dms-plugin-hidden-bar": "dms-plugin-hidden-bar",
+        "dms-plugin-modern-clock": "dms-plugin-modern-clock",
         "dms-plugin-network-indicator": "dms-plugin-network-indicator",
         "dms-plugin-usb-manager": "dms-plugin-usb-manager",
         "dms-plugin-wallpaper-carousel": "dms-plugin-wallpaper-carousel",

@@ -25,6 +25,10 @@
       url = "github:hthienloc/dms-hidden-bar";
       flake = false;
     };
+    dms-plugin-modern-clock = {
+      url = "github:beefsizzle/ModernClockDMS";
+      flake = false;
+    };
     dms-plugin-network-indicator = {
       url = "github:gemb0-0/Network-Indicator";
       flake = false;

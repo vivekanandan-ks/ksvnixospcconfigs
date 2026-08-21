@@ -24,6 +24,10 @@
       url = "github:NordicsSys/dms-usb-manager";
       flake = false;
     };
+    dms-plugin-modern-clock = {
+      url = "github:beefsizzle/ModernClockDMS";
+      flake = false;
+    };
 
     # Plugin Collections (Monorepos)
     dms-plugins-avengemedia = {
@@ -44,6 +48,7 @@
       networkIndicator.src = inputs.dms-plugin-network-indicator;
       batteryPlus.src = inputs.dms-plugin-battery-plus;
       usbManager.src = inputs.dms-plugin-usb-manager;
+      ModernClock.src = inputs.dms-plugin-modern-clock;
 
       # Dadangdut33 Collection
       MediaControlPlus.src = "${inputs.dms-plugins-dadangdut33}/MediaControlPlus";

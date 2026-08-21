@@ -42,17 +42,7 @@
 
       settings = lib.mapAttrs (name: value:
         if name == "barConfigs" then value else lib.mkForce value
-      ) (
-        lib.recursiveUpdate
-        (builtins.fromJSON (builtins.readFile ./dms-settings.json))
-        {
-          blurForegroundLayers = true;
-          notificationForegroundLayers = true;
-          modalDarkenBackground = false;
-          blurBorderEnabled = false;
-          customAnimationDuration = 4000;
-        }
-      );
+      ) (builtins.fromJSON (builtins.readFile ./dms-settings.json));
     };
   };
 }
