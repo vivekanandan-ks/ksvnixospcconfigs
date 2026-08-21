@@ -81,6 +81,7 @@
         };
 
         zed.enable = false;
+        zen-browser.enable = false;
 
         /*
           bat.enable = true;

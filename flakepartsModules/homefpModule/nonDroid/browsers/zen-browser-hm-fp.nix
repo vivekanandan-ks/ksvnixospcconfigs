@@ -165,6 +165,9 @@
             urlbar.behavior = "float";
           };
 
+          "widget.wayland.opaque-region" = false;
+          "layout.css.backdrop-filter.enabled" = true;
+
           #"browser.download.panel.shown" = false;
           # Since this is a json value, it can be nixified and translated by home-manager;
           browser = {
