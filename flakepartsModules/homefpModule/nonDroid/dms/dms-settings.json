@@ -98,8 +98,8 @@
   "showCapsLockIndicator": true,
   "controlCenterShowNetworkIcon": true,
   "controlCenterShowBluetoothIcon": true,
-  "controlCenterShowAudioIcon": true,
-  "controlCenterShowAudioPercent": true,
+  "controlCenterShowAudioIcon": false,
+  "controlCenterShowAudioPercent": false,
   "controlCenterShowVpnIcon": true,
   "controlCenterShowBrightnessIcon": false,
   "controlCenterShowBrightnessPercent": false,
@@ -116,7 +116,7 @@
   "privacyShowScreenShareIcon": false,
   "controlCenterWidgets": [
     {
-      "enabled": true,
+      "enabled": false,
       "id": "volumeSlider",
       "width": 50
     },
@@ -136,12 +136,12 @@
       "width": 50
     },
     {
-      "enabled": true,
+      "enabled": false,
       "id": "audioOutput",
       "width": 50
     },
     {
-      "enabled": true,
+      "enabled": false,
       "id": "audioInput",
       "width": 50
     },
@@ -628,7 +628,7 @@
       "position": 0,
       "removeWidgetPadding": false,
       "rightWidgets": [
-        "network_speed_monitor",
+        "networkIndicator",
         {
           "enabled": true,
           "id": "cpuUsage",
@@ -641,7 +641,10 @@
           "showInGb": false,
           "showSwap": true
         },
-        "battery",
+        "batteryPlus",
+        "usbManager",
+        "netbirdStatus",
+        "simpleAudioControl",
         {
           "enabled": true,
           "id": "systemTray",
@@ -651,7 +654,7 @@
           "trayUseInlineExpansion": false
         },
         "notificationButton",
-        "clipboard",
+        "clipboardPlus",
         "clock",
         {
           "enabled": true,

@@ -16,20 +16,13 @@ _: {
         widgetTransparency = 0.76;
         leftWidgets = [
           "mediaControlPlus"
-          "simpleAudioControl"
           "dankActions"
         ];
         centerWidgets = [
           "hiddenBar"
           "systemMonitorPlus"
         ];
-        rightWidgets = [
-          "networkIndicator"
-          "usbManager"
-          "batteryPlus"
-          "netbirdStatus"
-          "clipboardPlus"
-        ];
+        rightWidgets = [];
       }
     ];
   };
