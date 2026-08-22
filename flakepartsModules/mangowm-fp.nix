@@ -31,15 +31,18 @@
 
       wayland.windowManager.mango = {
         enable = true;
-        systemd = {
-          enable = true; # Starts mango-session.target for DMS / notifications
-          variables = ["--all"];
-          extraCommands = [
-            "systemctl --user reset-failed"
-            "systemctl --user start mango-session.target"
-            "systemctl --user restart xremap || true"
-          ];
-        };
+        systemd.enable = true; # Creates mango-session.target for DMS / notifications
+
+        autostart_sh = ''
+          # Import Wayland environment into systemd & D-Bus
+          systemctl --user import-environment WAYLAND_DISPLAY DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE
+          dbus-update-activation-environment --systemd WAYLAND_DISPLAY DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE
+
+          # Start session targets
+          systemctl --user reset-failed
+          systemctl --user start mango-session.target
+          systemctl --user restart xremap || true
+        '';
 
         settings = {
           blur = 1;

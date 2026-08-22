@@ -1,11 +1,11 @@
 {
   "currentThemeName": "dynamic",
   "currentThemeCategory": "dynamic",
-  "customThemeFile": "/nix/store/4aj4ir7z51pqjv88h50hlkf5gsrj8z5g-dankMaterialShell-stylix-color-theme.json",
+  "customThemeFile": "",
   "registryThemeVariants": {},
   "matugenScheme": "scheme-tonal-spot",
   "matugenContrast": 0,
-  "runUserMatugenTemplates": true,
+  "runUserMatugenTemplates": false,
   "matugenTargetMonitor": "",
   "popupTransparency": 0.5,
   "dockTransparency": 0.25,
@@ -577,9 +577,7 @@
   "updaterIgnoredPackages": [],
   "displayNameMode": "system",
   "screenPreferences": {
-    "wallpaper": [
-      "all"
-    ]
+    "wallpaper": ["all"]
   },
   "showOnLastDisplay": {},
   "niriOutputSettings": {},
@@ -597,9 +595,7 @@
       "barInsetPadding": 0,
       "borderEnabled": false,
       "bottomGap": -6,
-      "centerWidgets": [
-        "capsLockIndicator"
-      ],
+      "centerWidgets": ["capsLockIndicator"],
       "clickThrough": false,
       "enabled": true,
       "gothCornersEnabled": false,
@@ -710,9 +706,7 @@
   "desktopClockY": -1,
   "desktopClockWidth": 280,
   "desktopClockHeight": 180,
-  "desktopClockDisplayPreferences": [
-    "all"
-  ],
+  "desktopClockDisplayPreferences": ["all"],
   "systemMonitorEnabled": false,
   "systemMonitorShowHeader": true,
   "systemMonitorTransparency": 0.8,
@@ -749,28 +743,24 @@
   "systemMonitorY": -1,
   "systemMonitorWidth": 320,
   "systemMonitorHeight": 480,
-  "systemMonitorDisplayPreferences": [
-    "all"
-  ],
+  "systemMonitorDisplayPreferences": ["all"],
   "systemMonitorVariants": [],
   "desktopWidgetPositions": {},
   "desktopWidgetGridSettings": {},
   "desktopWidgetInstances": [
     {
       "config": {
-        "displayPreferences": [
-          "all"
-        ]
+        "displayPreferences": ["all"]
       },
       "enabled": true,
       "id": "dw_modern_clock",
       "name": "Modern Clock",
       "positions": {
         "eDP-1": {
-          "height": 180,
-          "width": 380,
-          "x": 1050,
-          "y": 60
+          "height": 136.31640625,
+          "width": 543.546875,
+          "x": 795.8828125,
+          "y": 64.6484375
         }
       },
       "widgetType": "modernClock"
@@ -779,9 +769,7 @@
       "config": {
         "colorMode": "primary",
         "customColor": "#ffffff",
-        "displayPreferences": [
-          "all"
-        ],
+        "displayPreferences": ["all"],
         "gpuPciId": "",
         "graphInterval": 60,
         "layoutMode": "auto",
@@ -827,11 +815,7 @@
   "clipboardEnterToPaste": false,
   "clipboardRememberTypeFilter": false,
   "clipboardTypeFilter": "all",
-  "clipboardVisibleEntryActions": [
-    "pin",
-    "edit",
-    "delete"
-  ],
+  "clipboardVisibleEntryActions": ["pin", "edit", "delete"],
   "launcherPluginVisibility": {},
   "launcherPluginOrder": [],
   "frameEnabled": false,
@@ -839,9 +823,7 @@
   "frameRounding": 23,
   "frameColor": "",
   "frameOpacity": 1,
-  "frameScreenPreferences": [
-    "all"
-  ],
+  "frameScreenPreferences": ["all"],
   "frameBarSize": 40,
   "frameShowOnOverview": false,
   "frameBlurEnabled": true,

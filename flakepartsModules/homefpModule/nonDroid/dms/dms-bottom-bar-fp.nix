@@ -1,5 +1,5 @@
 _: {
-  flake.homeModules.nonDroid.dms-bottom-bar = {lib, ...}: {
+  flake.homeModules.nonDroid.dms-bottom-bar = _: {
     # Bottom bar commented out
     # programs.dank-material-shell.settings.barConfigs = lib.mkAfter [
     #   {

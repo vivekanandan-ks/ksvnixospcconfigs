@@ -30,18 +30,22 @@
       };
 
       enableSystemMonitoring = true;
-      enableDynamicTheming = false; # Stylix handles system and app theming
+      enableDynamicTheming = true;
       enableVPN = true;
       enableCalendarEvents = true;
 
-      session = lib.recursiveUpdate
+      session =
+        lib.recursiveUpdate
         (builtins.fromJSON (builtins.readFile ./dms-session.json))
         {
           wallpaperPath = "${self.personas.ksv.currentWallpaperSet}/${defaultWallpaper}";
         };
 
-      settings = lib.mapAttrs (name: value:
-        if name == "barConfigs" then value else lib.mkForce value
+      settings = lib.mapAttrs (
+        name: value:
+          if name == "barConfigs"
+          then value
+          else lib.mkForce value
       ) (builtins.fromJSON (builtins.readFile ./dms-settings.json));
     };
   };

@@ -1,7 +1,4 @@
-{
-  inputs,
-  ...
-}: {
+{inputs, ...}: {
   flake-file.inputs = {
     # Standalone Plugins
     dms-plugin-wallpaper-carousel = {

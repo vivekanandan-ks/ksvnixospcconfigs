@@ -23,7 +23,19 @@ _: {
       home.activation.rebuildKDECache = lib.hm.dag.entryAfter ["writeBoundary"] ''
         rm -rf ~/.cache/ksycoca*
         ${pkgs-unstable.kdePackages.kservice}/bin/kbuildsycoca6 --noincremental
+        ${pkgs-unstable.kdePackages.kconfig}/bin/kwriteconfig6 --file ~/.config/kdeglobals --group General --key TerminalApplication kitty
+        ${pkgs-unstable.kdePackages.kconfig}/bin/kwriteconfig6 --file ~/.config/kdeglobals --group General --key TerminalService kitty.desktop
       '';
+
+      xdg.configFile."xdg-terminals.list".text = "kitty.desktop\n";
+
+      xdg.mimeApps = {
+        enable = true;
+        defaultApplications = {
+          "x-scheme-handler/terminal" = ["kitty.desktop"];
+          "terminal-emulator.desktop" = ["kitty.desktop"];
+        };
+      };
     };
   };
 }

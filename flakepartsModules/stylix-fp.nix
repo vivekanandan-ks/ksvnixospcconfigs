@@ -52,7 +52,6 @@
       };
 
       stylix.targets.firefox.profileNames = ["default"];
-      stylix.targets.zen-browser.profileNames = ["default"];
 
       stylix.targets = {
         nushell.enable = true;

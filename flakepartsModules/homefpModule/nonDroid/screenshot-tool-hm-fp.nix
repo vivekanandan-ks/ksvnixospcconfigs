@@ -19,6 +19,11 @@ _: {
       };
     };
 
+    systemd.user.services.flameshot.Unit = {
+      After = ["mango-session.target" "graphical-session.target"];
+      PartOf = ["mango-session.target" "graphical-session.target"];
+    };
+
     # Hyprland screenshot bindings
     wayland.windowManager.hyprland.settings.bind = lib.mkAfter [
       ", Print, exec, flameshot gui"

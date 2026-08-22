@@ -80,7 +80,12 @@
       ];
     };
 
-    # Override the systemd service to fix the executable path
+    systemd.user.services.vicinae = {
+      Unit = {
+        After = ["mango-session.target" "graphical-session.target"];
+        PartOf = ["mango-session.target" "graphical-session.target"];
+      };
+    };
 
     /*
       systemd.user.services.vicinae = {
