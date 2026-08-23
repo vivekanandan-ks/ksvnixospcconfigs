@@ -20,12 +20,20 @@
       # imports = [ inputs.stylix.nixosModules.stylix ];
     };
 
-    homeModules.common.stylix = _: {
+    homeModules.common.stylix = {pkgs, ...}: {
       imports = [
         inputs.stylix.homeModules.stylix
       ];
 
       stylix.enable = true;
+
+      stylix.icons = {
+        enable = true;
+        package = pkgs.fluent-icon-theme;
+        dark = "Fluent-dark";
+        light = "Fluent-light";
+      };
+
       stylix.overlays.enable = false;
       #stylix.autoEnable = false;
 
