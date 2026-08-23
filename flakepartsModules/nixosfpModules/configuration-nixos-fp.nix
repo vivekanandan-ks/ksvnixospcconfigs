@@ -49,7 +49,10 @@ _: {
       };
 
     # Enable bluetooth
-    hardware.bluetooth.enable = true;
+    hardware.bluetooth = {
+      enable = true;
+      powerOnBoot = true;
+    };
 
     /*
     # Enable intel graphics harware acceleration (this is supposed to solve the CPUoverheating issues while using camera)

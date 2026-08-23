@@ -116,16 +116,6 @@
   "privacyShowScreenShareIcon": false,
   "controlCenterWidgets": [
     {
-      "enabled": false,
-      "id": "volumeSlider",
-      "width": 50
-    },
-    {
-      "enabled": true,
-      "id": "brightnessSlider",
-      "width": 50
-    },
-    {
       "enabled": true,
       "id": "wifi",
       "width": 50
@@ -136,18 +126,60 @@
       "width": 50
     },
     {
-      "enabled": false,
-      "id": "audioOutput",
-      "width": 50
-    },
-    {
-      "enabled": false,
-      "id": "audioInput",
+      "enabled": true,
+      "id": "brightnessSlider",
       "width": 50
     },
     {
       "enabled": true,
       "id": "nightMode",
+      "width": 50
+    },
+    {
+      "enabled": true,
+      "id": "volumeSlider",
+      "width": 50
+    },
+    {
+      "enabled": true,
+      "id": "audioOutput",
+      "width": 50
+    },
+    {
+      "enabled": true,
+      "id": "inputVolumeSlider",
+      "width": 50
+    },
+    {
+      "enabled": true,
+      "id": "audioInput",
+      "width": 50
+    },
+    {
+      "enabled": true,
+      "id": "idleInhibitor",
+      "width": 50
+    },
+    {
+      "enabled": true,
+      "id": "doNotDisturb",
+      "width": 50
+    },
+    {
+      "enabled": true,
+      "id": "battery",
+      "width": 50
+    },
+    {
+      "enabled": true,
+      "id": "diskUsage",
+      "instanceId": "default",
+      "mountPath": "/",
+      "width": 50
+    },
+    {
+      "enabled": true,
+      "id": "plugin_dankKDEConnect",
       "width": 50
     },
     {
