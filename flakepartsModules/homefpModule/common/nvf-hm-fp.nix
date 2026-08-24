@@ -144,6 +144,10 @@
           statusline = {
             lualine = {
               enable = true;
+              integrations.breadcrumbs = {
+                nvim-navic.enable = true;
+                navbuddy.enable = true;
+              };
               #theme = "catppuccin";
             };
           };
@@ -265,10 +269,6 @@
             colorizer.enable = true;
             modes-nvim.enable = false; # the theme looks terrible with catppuccin
             illuminate.enable = true; # default false
-            breadcrumbs = {
-              enable = true; # maximal
-              navbuddy.enable = true; # maximal
-            };
             smartcolumn = {
               enable = true;
               setupOpts.custom_colorcolumn = {
