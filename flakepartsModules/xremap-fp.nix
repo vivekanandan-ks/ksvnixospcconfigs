@@ -22,6 +22,7 @@
 
       home.packages = with pkgs-unstable; [
         brightnessctl
+        wdisplays
       ];
       # key names link:
       # https://github.com/xremap/xremap
@@ -42,6 +43,7 @@
                 Ctrl-Alt-g.launch = ["ghostty"];
                 Super-e.launch = ["dolphin"];
                 Super-s.launch = ["kitty" "superfile"];
+                Super-p.launch = ["wdisplays"];
 
                 Ctrl-Alt-a.remap = {
                   t.launch = ["Telegram"];

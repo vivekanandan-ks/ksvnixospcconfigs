@@ -7,10 +7,18 @@ _: {
     # System-wide XDG Desktop Portals for file pickers, dialogs, and screen sharing
     xdg.portal = {
       enable = true;
+      wlr = {
+        enable = true;
+        settings = {
+          screencast = {
+            chooser_type = "dmenu";
+            chooser_cmd = "${pkgs-unstable.wofi}/bin/wofi --dmenu --prompt 'Select Screen to Share'";
+          };
+        };
+      };
       extraPortals = [
         pkgs-unstable.xdg-desktop-portal-gtk
         pkgs-unstable.xdg-desktop-portal-hyprland
-        pkgs-unstable.xdg-desktop-portal-wlr
       ];
       config = {
         common.default = ["gtk"];
