@@ -10,6 +10,7 @@ in {
     modules =
       [
         config.flake.hardwareModules.akashnixospc
+        config.flake.hardwareModules.akashnixospc-gpu
         inputs.home-manager.nixosModules.home-manager
         {networking.hostName = "akashnixospc";}
       ]
