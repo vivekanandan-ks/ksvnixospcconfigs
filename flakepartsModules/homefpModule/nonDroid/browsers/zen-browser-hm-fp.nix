@@ -153,29 +153,51 @@
         ];
 
         settings = {
-          #"browser.tabs.warnOnClose" = true;
-          #"browser.tabs.hoverPreview.enabled" = true;
+          # --- Zen Layout & UI (Serialized JSON for Zen Core UI) ---
           zen = {
-            workspaces.continue-where-left-off = true;
-            workspaces.natural-scroll = true;
-            view.compact.hide-tabbar = true;
-            view.compact.hide-toolbar = true;
-            view.compact.animate-sidebar = true;
+            workspaces = {
+              continue-where-left-off = true;
+              natural-scroll = true;
+            };
+            view = {
+              use-single-toolbar = false; # Top toolbar + vertical tab sidebar
+              compact = {
+                hide-toolbar = true;      # Auto-hides top URL toolbar (shows on hover)
+                hide-tabbar = true;       # Auto-hides vertical tab sidebar (shows on hover)
+                animate-sidebar = true;   # Smooth slide animations on hover
+                enable-at-startup = true; # Launch directly into compact mode
+                toolbar-flash-popup = true;
+              };
+            };
             welcome-screen.seen = true;
             urlbar.behavior = "float";
           };
 
+          # --- Native Zen & Wayland Window Flags ---
+          "zen.view.use-single-toolbar" = false;
+          "zen.widget.linux.transparency" = true;
           "widget.wayland.opaque-region" = false;
           "layout.css.backdrop-filter.enabled" = true;
 
-          #"browser.download.panel.shown" = false;
-          # Since this is a json value, it can be nixified and translated by home-manager;
-          browser = {
-            tabs.warnOnClose = false;
-            tabs.hoverPreview.enabled = true;
-            #download.panel.shown = false;
-          };
-          # Find all settings in about:config
+          # --- Browser & Tab Behaviors ---
+          "browser.tabs.warnOnClose" = true;
+          "browser.tabs.hoverPreview.enabled" = true;
+          "browser.tabs.allow_transparent_browser" = true;
+
+          # --- Transparent Zen Mod Preferences ---
+          "mod.sameerasw.zen_transparent_sidebar_enabled" = true;
+          "mod.sameerasw.zen_transparent_glance_enabled" = true;
+          "mod.sameerasw.zen_tab_switch_anim" = true;
+          "mod.sameerasw_zen_animations" = "1";
+          "mod.sameerasw_zen_light_tint" = "2";
+          "mod.sameerasw_zen_compact_sidebar_type" = "2"; # Mask mode
+
+          # --- Better Find Bar Mod Preferences ---
+          "theme.better_find_bar.transparent_background" = true;
+          "theme.better_find_bar.textbox_width" = "800";
+
+          # --- Custom Cursor Mod Preferences ---
+          "theme.customcursor.preset" = "Silver";
         };
 
         bookmarks = {

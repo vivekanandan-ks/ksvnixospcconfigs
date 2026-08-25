@@ -132,22 +132,17 @@
     },
     {
       "enabled": true,
-      "id": "nightMode",
-      "width": 50
+      "id": "darkMode",
+      "width": 25
     },
     {
       "enabled": true,
-      "id": "volumeSlider",
-      "width": 50
+      "id": "nightMode",
+      "width": 25
     },
     {
       "enabled": true,
       "id": "audioOutput",
-      "width": 50
-    },
-    {
-      "enabled": true,
-      "id": "inputVolumeSlider",
       "width": 50
     },
     {
@@ -158,12 +153,12 @@
     {
       "enabled": true,
       "id": "idleInhibitor",
-      "width": 50
+      "width": 25
     },
     {
       "enabled": true,
       "id": "doNotDisturb",
-      "width": 50
+      "width": 25
     },
     {
       "enabled": true,
@@ -180,11 +175,6 @@
     {
       "enabled": true,
       "id": "plugin_dankKDEConnect",
-      "width": 50
-    },
-    {
-      "enabled": true,
-      "id": "darkMode",
       "width": 50
     }
   ],
