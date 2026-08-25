@@ -34,9 +34,9 @@
         systemd.enable = true; # Creates mango-session.target for DMS / notifications
 
         autostart_sh = ''
-          # Import Wayland environment into systemd & D-Bus
-          systemctl --user import-environment WAYLAND_DISPLAY DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE
-          dbus-update-activation-environment --systemd WAYLAND_DISPLAY DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE
+          # Import Wayland & Qt/KDE session environment into systemd & D-Bus
+          systemctl --user import-environment WAYLAND_DISPLAY DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE QT_QPA_PLATFORMTHEME QT_STYLE_OVERRIDE XDG_MENU_PREFIX
+          dbus-update-activation-environment --systemd WAYLAND_DISPLAY DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE QT_QPA_PLATFORMTHEME QT_STYLE_OVERRIDE XDG_MENU_PREFIX
 
           # Start session targets
           systemctl --user reset-failed
