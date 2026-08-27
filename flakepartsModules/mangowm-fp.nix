@@ -31,12 +31,22 @@
 
       wayland.windowManager.mango = {
         enable = true;
-        systemd.enable = true; # Creates mango-session.target for DMS / notifications
+        systemd = {
+          enable = true; # Creates mango-session.target for DMS / notifications
+          variables = ["--all"];
+        };
 
         autostart_sh = ''
-          # Import Wayland & Qt/KDE session environment into systemd & D-Bus
-          systemctl --user import-environment WAYLAND_DISPLAY DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE QT_QPA_PLATFORMTHEME QT_STYLE_OVERRIDE XDG_MENU_PREFIX
-          dbus-update-activation-environment --systemd WAYLAND_DISPLAY DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE QT_QPA_PLATFORMTHEME QT_STYLE_OVERRIDE XDG_MENU_PREFIX
+          # Source Home Manager session environment (contains EDITOR=hx, VISUAL=hx, etc.)
+          if [ -f "/etc/profiles/per-user/$USER/etc/profile.d/hm-session-vars.sh" ]; then
+            . "/etc/profiles/per-user/$USER/etc/profile.d/hm-session-vars.sh"
+          elif [ -f "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" ]; then
+            . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+          fi
+
+          # Import all session environment variables into systemd & D-Bus
+          systemctl --user import-environment
+          dbus-update-activation-environment --systemd --all
 
           # Start session targets
           systemctl --user reset-failed
