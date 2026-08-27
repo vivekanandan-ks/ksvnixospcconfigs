@@ -4,20 +4,12 @@ _: {
       # Active Theme: Black base with vibrant pastel accents and frosted blur
       theme = "Catppuccin Espresso (Blur) [Light]";
 
-      /*
-      # Fine-grained panel overrides (uncomment if you wish to customize individual surfaces)
       "experimental.theme_overrides" = {
-        "background.appearance" = "blurred";
-        "editor.background" = "#1e1e2e";
-        "panel.background" = "#18182590";
-        "status_bar.background" = "#18182590";
-        "title_bar.background" = "#18182590";
-        "tab_bar.background" = "#18182590";
-        "tab.active_background" = "#1e1e2eb0";
+        # Solid, distinct active tab
+        "tab.active_background" = "#24273a";
         "tab.inactive_background" = "#00000000";
-        "surface.background" = "#18182590";
+        "tab_bar.background" = "#00000000";
       };
-      */
     };
   };
 }

@@ -633,6 +633,7 @@
           "id": "focusedWindow"
         },
         "workspaceSwitcher",
+        "layout",
         {
           "enabled": true,
           "id": "music",
