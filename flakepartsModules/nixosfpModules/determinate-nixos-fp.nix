@@ -6,19 +6,19 @@
     };
   };
 
+  flake-file.nixConfig = {
+    extra-substituters = [
+      "https://install.determinate.systems"
+    ];
+    extra-trusted-public-keys = [
+      "determinate.systems:2f5mBvfSEjPpdnsbvY+JnsrWvSAUVM+HxFpYr0WXB44="
+      "cache.flakehub.com-3:hJuILl5sVK4iKm86JzgdXW12Y2Hwd5G07qKtHTOcDCM="
+    ];
+  };
+
   flake.nixosModules.determinate = {...}: {
     imports = [
       inputs.determinate.nixosModules.default # sets detsys nix as the default nix
     ];
-
-    nix.settings = {
-      extra-substituters = [
-        "https://install.determinate.systems"
-      ];
-
-      extra-trusted-public-keys = [
-        "cache.flakehub.com-3:hJuILl5sVK4iKm86JzgdXW12Y2Hwd5G07qKtHTOcDCM="
-      ];
-    };
   };
 }

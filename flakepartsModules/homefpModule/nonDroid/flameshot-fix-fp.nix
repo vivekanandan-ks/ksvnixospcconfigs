@@ -1,9 +1,6 @@
 _: {
   flake = {
-    homeModules.nonDroid.flameshot-fix = {
-      lib,
-      ...
-    }: {
+    homeModules.nonDroid.flameshot-fix = {lib, ...}: {
       # 1. Configure Flameshot service with proper session target dependencies & Wayland environment
       systemd.user.services.flameshot = {
         Unit = {

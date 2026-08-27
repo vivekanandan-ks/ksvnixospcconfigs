@@ -162,9 +162,9 @@
             view = {
               use-single-toolbar = false; # Top toolbar + vertical tab sidebar
               compact = {
-                hide-toolbar = true;      # Auto-hides top URL toolbar (shows on hover)
-                hide-tabbar = true;       # Auto-hides vertical tab sidebar (shows on hover)
-                animate-sidebar = true;   # Smooth slide animations on hover
+                hide-toolbar = true; # Auto-hides top URL toolbar (shows on hover)
+                hide-tabbar = true; # Auto-hides vertical tab sidebar (shows on hover)
+                animate-sidebar = true; # Smooth slide animations on hover
                 enable-at-startup = true; # Launch directly into compact mode
                 toolbar-flash-popup = true;
               };

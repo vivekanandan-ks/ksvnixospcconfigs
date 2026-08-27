@@ -6,15 +6,15 @@
     };
   };
 
+  flake-file.nixConfig = {
+    extra-substituters = ["https://cache.thalheim.io"];
+    extra-trusted-public-keys = ["cache.thalheim.io-1:R7msbosLEZKrxk/lKxf9BTjOOH7Ax3H0Qj0/6wiHOgc="];
+  };
+
   flake.nixosModules.fast-nix-gc = {
     imports = [
       inputs.fast-nix-gc.nixosModules.default
     ];
-
-    nix.settings = {
-      extra-substituters = ["https://cache.thalheim.io"];
-      extra-trusted-public-keys = ["cache.thalheim.io-1:R7msbosLEZKrxk/lKxf9BTjOOH7Ax3H0Qj0/6wiHOgc="];
-    };
 
     # High-performance multi-threaded Nix GC and store deduplication
     services.fast-nix-gc = {
