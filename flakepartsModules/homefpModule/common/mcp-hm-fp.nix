@@ -36,10 +36,10 @@ _: {
           args = [];
         };
 
-        github = {
-          command = lib.getExe pkgs-unstable.github-mcp-server;
-          args = [];
-        };
+        # github = {
+        #   command = lib.getExe pkgs-unstable.github-mcp-server;
+        #   args = [];
+        # };
       };
     };
   };

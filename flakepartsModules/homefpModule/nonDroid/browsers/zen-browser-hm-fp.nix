@@ -181,6 +181,10 @@
 
           # --- Browser & Tab Behaviors ---
           "browser.tabs.warnOnClose" = true;
+          "browser.tabs.warnOnCloseOtherTabs" = true;
+          "browser.warnOnQuit" = true;
+          "browser.warnOnQuitShortcut" = true;
+          "browser.sessionstore.warnOnQuit" = true;
           "browser.tabs.hoverPreview.enabled" = true;
           "browser.tabs.allow_transparent_browser" = true;
 

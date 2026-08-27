@@ -135,7 +135,6 @@ _: {
         };
         buffer_font_family = "DejaVu Sans Mono";
         buffer_font_size = 14.666666666666666;
-        theme = "Catppuccin Mocha";
         ui_font_family = "DejaVu Sans";
         ui_font_size = 13.333333333333334;
         lsp = {
