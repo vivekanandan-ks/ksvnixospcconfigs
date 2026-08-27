@@ -70,6 +70,11 @@
           focused_opacity = 1.0;
           unfocused_opacity = 0.92;
 
+          # --- Native Hot Corner ---
+          enable_hotarea = 1;
+          hotarea_corner = 2; # 0: top-left, 1: top-right, 2: bottom-left, 3: bottom-right
+          hotarea_size = 10;
+
           # --- Animations (Smooth Zoom & Fade, No Slide) ---
           animations = 1;
           layer_animations = 1;
@@ -141,6 +146,7 @@
 
             # Window overview (Mission control)
             "SUPER, Tab, toggleoverview"
+            "SUPER+SHIFT, Tab, togglejump"
 
             # Window cycling (Alt + Tab)
             "ALT, Tab, focusstack, next"
