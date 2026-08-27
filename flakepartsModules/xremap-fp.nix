@@ -29,7 +29,7 @@
       # https://github.com/emberian/evdev/blob/main/src/scancodes.rs
       services.xremap = {
         enable = true;
-        withKDE = true;
+        withWlroots = true;
         watch = true;
         #serviceMode = "user";
         #userName = username;
@@ -75,6 +75,19 @@
                 Super-Alt-Delete.launch = ["wlogout" "-s"];
               };
             }
+          ];
+        };
+      };
+
+      systemd.user.services.xremap = {
+        Unit = {
+          After = ["graphical-session.target" "mango-session.target"];
+          PartOf = ["graphical-session.target"];
+        };
+        Service = {
+          Environment = [
+            "WAYLAND_DISPLAY=wayland-0"
+            "DISPLAY=:0"
           ];
         };
       };
