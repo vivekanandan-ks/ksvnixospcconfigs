@@ -18,7 +18,7 @@
       nativeBuildInputs = [pkgs.makeWrapper];
       postBuild = ''
         wrapProgram $out/bin/mango \
-          --run "[ -f /etc/profile ] && . /etc/profile; unset SHLVL"
+          --run "[ -f /etc/profile ] && . /etc/profile"
       '';
       passthru = {
         providedSessions = ["mango"];
