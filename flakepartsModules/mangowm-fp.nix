@@ -116,6 +116,11 @@
             "id:9,layout_name:scroller"
           ];
 
+          # --- Window Rules ---
+          windowrule = [
+            "focused_opacity:0.90,unfocused_opacity:0.75,appid:.*dolphin.*"
+          ];
+
           # --- Keybindings ---
           bind = [
             # Layout switching (Direct: Alt + Shift + 1-9 & symbols)
