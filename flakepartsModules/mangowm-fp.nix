@@ -38,19 +38,21 @@
 
         autostart_sh = ''
           # Source Home Manager session environment (contains EDITOR=hx, VISUAL=hx, etc.)
-          if [ -f "/etc/profiles/per-user/$USER/etc/profile.d/hm-session-vars.sh" ]; then
-            . "/etc/profiles/per-user/$USER/etc/profile.d/hm-session-vars.sh"
-          elif [ -f "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" ]; then
-            . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
-          fi
+          . "${config.home.profileDirectory}/etc/profile.d/hm-session-vars.sh"
+          # Old path fallback check:
+          # if [ -f "/etc/profiles/per-user/$USER/etc/profile.d/hm-session-vars.sh" ]; then
+          #   . "/etc/profiles/per-user/$USER/etc/profile.d/hm-session-vars.sh"
+          # elif [ -f "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" ]; then
+          #   . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+          # fi
 
           # Import all session environment variables into systemd & D-Bus
-          systemctl --user import-environment
+          # systemctl --user import-environment
           dbus-update-activation-environment --systemd --all
 
-          # Start session targets
-          systemctl --user reset-failed
-          systemctl --user start mango-session.target
+          # Start session targets (already handled by systemd.enable = true in mango module)
+          # systemctl --user reset-failed
+          # systemctl --user start mango-session.target
           systemctl --user restart xremap || true
         '';
 
