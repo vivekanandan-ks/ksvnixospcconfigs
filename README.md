@@ -3,7 +3,7 @@ This is my personal config, each step is taken towards a scalable way to maintai
 And the flake-file of this project is also crucial as it makes me group aspects in same file. Dont want something? Just move the file out of the import-tree folder (flakepartsModules in this case). No need to hardcode any path as everything is a top level flake-parts module. This way simplifies tons of things and reduce some config efforts debt later.
 
 I have adopted nix multiverse project for this config. Feel free to DM me on migration help.
-And with flake-file's help, it's possible to ditch the nixpkgs inputs url and replace it with mv gewnerated rev. so your workflow should never do flake update and then run the command.
+And with flake-file's help, it's possible to ditch the nixpkgs inputs url and replace it with mv generated rev. so your workflow should never do flake update and then run the command.
 ur workflow is, update flake, run write-flake and then build command and then commit. This order is important
 
 The configs are guardailed with treefmt(which inclused deadnix, statix, nixf-diagnose, alejandra formatting and formatting for other file formats too, etc), githooks(for some submodules protection, avoid symlinks, secrets leak, etc).
@@ -11,14 +11,16 @@ The configs are guardailed with treefmt(which inclused deadnix, statix, nixf-dia
 Treefmt give both a formatter and a checker and githooks give a checker.
 So configured in a way that running
 
+# Note:
+Always use `--accept-flake-config` while running any nix commnads for this nixos system config because I have simplified the config to reuse same substituters for nixos and home manager etc
 ```bash
-nix fmt
+nix fmt --accept-flake-config
 ```
 
 will format with treefmt and running
 
 ```bash
-nix flake check
+nix flake check --accept-flake-config
 ```
 
 will do treefmt check and githook's check too along with the usual flake check.
@@ -29,19 +31,28 @@ So Finally the workflow for the configs will be like:
 
 DONT UPDATE THE FLAKE WITH PROGRAM?COMMANDS LIKE -u FLAG in nh or update flag in nixos-rebuild
 
-0. nix flake update
+```bash
+0.  nix flake update --accept-flake-config
+```
 
 # important after flake update as inputs.nixpkgs in fetched dynamically using mv
-
-1.  nix run .#write-flake
-2.  nix fmt
-3.  nix flake check
+```bash
+1.  nix run .#write-flake --accept-flake-config
+2.  nix fmt --accept-flake-config
+3.  nix flake check --accept-flake-config
 4.  whatever command like nh os boot, nix develop etc etc
+
+# basically if u want to update the system , u would the following:
+nix flake update --accept-flake-config ; nix run .#write-flake --accept-flake-config ; nh os boot -a /home/ksvnixospc/Documents/ksvnixospcconfigs#ksvnixospc --accept-flake-config
+# nushell syntax above for bash u have to use && instead of ;
+```
+
 
 Also u can try the whole config without applying in ur nixos system, with this single command:
 
 ```bash
-nix run .#nixosConfigurations.ksvnixospc.config.system.build.vm
+nix run .#nixosConfigurations.ksvnixospc.config.system.build.vm --accept-flake-config 
+
 ```
 
 This config also have custom pre configured packages of mine:

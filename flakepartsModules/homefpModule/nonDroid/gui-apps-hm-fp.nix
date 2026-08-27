@@ -29,7 +29,7 @@ _: {
         obs-pipewire-audio-capture
         #droidcam-obs
         obs-advanced-masks
-        obs-move-transition
+        #obs-move-transition
         obs-multi-rtmp
         input-overlay
       ];
