@@ -174,6 +174,7 @@ _: {
             };
           };
         };
+        /*
         context_servers = {
           git = {
             args = [];
@@ -200,6 +201,7 @@ _: {
             command = "/nix/store/kd0jkxgkqa600kby1v5px5f6fpb3qz5l-github-mcp-server-1.5.0/bin/github-mcp-server";
           };
         };
+        */
       };
     };
   };
