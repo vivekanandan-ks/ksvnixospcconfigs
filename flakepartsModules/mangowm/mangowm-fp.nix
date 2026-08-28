@@ -18,7 +18,8 @@
       nativeBuildInputs = [pkgs.makeWrapper];
       postBuild = ''
         wrapProgram $out/bin/mango \
-          --run "[ -f /etc/profile ] && . /etc/profile"
+          --run "[ -f /etc/profile ] && . /etc/profile" \
+          --run "[ -f /etc/profiles/per-user/\$USER/etc/profile.d/hm-session-vars.sh ] && . /etc/profiles/per-user/\$USER/etc/profile.d/hm-session-vars.sh"
       '';
       passthru = {
         providedSessions = ["mango"];
@@ -61,8 +62,6 @@
           variables = ["--all"]; # Broadcasts WAYLAND_DISPLAY, DISPLAY, etc. to systemd/dbus
         };
 
-        # Environment variables are loaded by the package wrapper, and mango-session.target
-        # is automatically triggered by systemd.enable, starting DMS, cliphist, and xremap.
         # autostart_sh = ''
         #   systemctl --user restart xremap || true
         # '';

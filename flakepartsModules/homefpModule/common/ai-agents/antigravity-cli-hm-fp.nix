@@ -13,6 +13,7 @@ _: {
         };
 
         settings = {
+          agentMode = "accept-edits";
           context.fileName = ["GEMINI.md" "CONTEXT.md"];
         };
       };
