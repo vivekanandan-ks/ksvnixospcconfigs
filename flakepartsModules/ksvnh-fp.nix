@@ -27,20 +27,15 @@
         exec nix run ".#nixosConfigurations.$(hostname).config.system.build.vm" --accept-flake-config "$@"
       fi
 
-      # 4. Binary Cache Weather & Build Size: ksvnh -w
-      if [[ "''${1:-}" =~ ^(-w|--weather)$ ]]; then
+      # 4. Download & Install Size: -w (current), --uw (simulated update)
+      if [[ "''${1:-}" =~ ^(-w|--weather|--uw)$ ]]; then
+        LOCK_OPTS=()
+        [[ "$1" == "--uw" ]] && LOCK_OPTS=(--recreate-lock-file --no-write-lock-file)
         shift
-        echo ":: Checking binary cache & build statistics for $(hostname)..."
-        output=$(nix build ".#nixosConfigurations.$(hostname).config.system.build.toplevel" --dry-run --accept-flake-config 2>&1)
-        built=$(echo "$output" | grep -oE '[0-9]+ derivations? will be built' || true)
-        fetched=$(echo "$output" | grep -oE '[0-9]+ paths? will be fetched \([^)]+\)' || true)
 
-        if [[ -n "$built" || -n "$fetched" ]]; then
-          [[ -n "$built" ]] && echo "• Build:   $built"
-          [[ -n "$fetched" ]] && echo "• Fetch:   $fetched"
-        else
-          echo "• System is already up-to-date (0 download, 0 build needed)!"
-        fi
+        echo ":: Checking size statistics for $(hostname)..."
+        output=$(nix build ".#nixosConfigurations.$(hostname).config.system.build.toplevel" --dry-run --accept-flake-config "''${LOCK_OPTS[@]}" 2>&1)
+        echo "$output" | grep -E 'will be built|will be fetched' || echo "• System is up-to-date (0 download, 0 build needed)!"
         exit 0
       fi
 
@@ -84,7 +79,8 @@
         echo "       ksvnh -c                                                        # format & flake check"
         echo "       ksvnh --wf                                                      # write-flake"
         echo "       ksvnh --vm                                                      # run in VM"
-        echo "       ksvnh -w                                                        # download & install size"
+        echo "       ksvnh -w                                                        # current download & install size"
+        echo "       ksvnh --uw                                                      # simulated update download & install size"
         echo "       ksvnh --gc | --optimise | --gco                                 # cleanup & optimise"
         exit 1
       fi
