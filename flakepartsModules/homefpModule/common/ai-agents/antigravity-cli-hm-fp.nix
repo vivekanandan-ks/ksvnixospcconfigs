@@ -13,7 +13,7 @@ _: {
         };
 
         settings = {
-          agentMode = "accept-edits";
+          toolPermission = "always-proceed";
           context.fileName = ["GEMINI.md" "CONTEXT.md"];
         };
       };
