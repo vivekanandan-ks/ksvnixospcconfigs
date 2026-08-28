@@ -63,6 +63,7 @@
       # 6. Flake Update: ksvnh -u <switch|boot|test|build|dry-activate>
       if [[ "''${1:-}" =~ ^(-u|--update)$ ]]; then
         shift
+        nix run .#write-flake --accept-flake-config
         nix flake update --accept-flake-config
       fi
 
@@ -73,7 +74,7 @@
       if [[ $# -gt 0 ]]; then
         action="$1"
         shift
-        exec nh os "$action" --accept-flake-config "$@"
+        exec nh os "$action" -a --accept-flake-config "$@"
       else
         echo "Usage: ksvnh [-u] <switch|boot|test|build|dry-activate> [flags...]   # nh os actions"
         echo "       ksvnh -c                                                        # format & flake check"
