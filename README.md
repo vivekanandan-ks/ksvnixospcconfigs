@@ -12,7 +12,9 @@ Treefmt give both a formatter and a checker and githooks give a checker.
 So configured in a way that running
 
 # Note:
+
 Always use `--accept-flake-config` while running any nix commnads for this nixos system config because I have simplified the config to reuse same substituters for nixos and home manager etc
+
 ```bash
 nix fmt --accept-flake-config
 ```
@@ -36,6 +38,7 @@ DONT UPDATE THE FLAKE WITH PROGRAM?COMMANDS LIKE -u FLAG in nh or update flag in
 ```
 
 # important after flake update as inputs.nixpkgs in fetched dynamically using mv
+
 ```bash
 1.  nix run .#write-flake --accept-flake-config
 2.  nix fmt --accept-flake-config
@@ -47,11 +50,40 @@ nix flake update --accept-flake-config ; nix run .#write-flake --accept-flake-co
 # nushell syntax above for bash u have to use && instead of ;
 ```
 
+## `ksvnh` (KSV Nix Helper)
+
+To automate and speed up everyday NixOS workflows, use `ksvnh` (available directly in your system packages and as `nix run .#ksvnh`):
+
+### Equivalent Commands Reference
+
+| Action                            | Long-Form Command                                                                                                                         | `ksvnh` Shortcut                |
+| :-------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------ |
+| **Update & Rebuild**              | `nix flake update --accept-flake-config ; nix run .#write-flake --accept-flake-config ; nh os <boot\|switch\|test> --accept-flake-config` | `ksvnh -u <boot\|switch\|test>` |
+| **Rebuild System**                | `nix run .#write-flake --accept-flake-config ; nh os <boot\|switch\|test> --accept-flake-config`                                          | `ksvnh <boot\|switch\|test>`    |
+| **Format & Check**                | `nix run .#write-flake --accept-flake-config ; nix fmt --accept-flake-config ; nix flake check --accept-flake-config`                     | `ksvnh -c`                      |
+| **Sync Flake Only**               | `nix run .#write-flake --accept-flake-config`                                                                                             | `ksvnh --wf`                    |
+| **Check Download & Install Size** | `nix build ... --dry-run --accept-flake-config`                                                                                           | `ksvnh -w`                      |
+| **Test in VM**                    | `nix run .#nixosConfigurations.$(hostname).config.system.build.vm --accept-flake-config`                                                  | `ksvnh --vm`                    |
+| **Fast Garbage Collection**       | `fast-nix-gc`                                                                                                                             | `ksvnh --gc`                    |
+| **Store Optimisation**            | `nix store optimise --accept-flake-config`                                                                                                | `ksvnh --optimise`              |
+| **GC + Optimise**                 | `fast-nix-gc && nix store optimise --accept-flake-config`                                                                                 | `ksvnh --gco`                   |
+| **Ephemeral Run**                 | `nix run .#ksvnh -- [flags...]`                                                                                                           | `nix run .#ksvnh -- -c`         |
+
+### Passthrough Flags Examples
+
+Any additional `nh` or `nix` flags are passed directly down:
+
+```bash
+ksvnh switch --ask                # Ask for confirmation before activation
+ksvnh switch --dry-run            # Dry activation / test build
+ksvnh -u boot -- --show-trace     # Pass trace flag to nix
+ksvnh --gc --older-than 7d        # Pass flags directly to fast-nix-gc
+```
 
 Also u can try the whole config without applying in ur nixos system, with this single command:
 
 ```bash
-nix run .#nixosConfigurations.ksvnixospc.config.system.build.vm --accept-flake-config 
+nix run .#nixosConfigurations.ksvnixospc.config.system.build.vm --accept-flake-config
 
 ```
 
@@ -71,6 +103,7 @@ nix eval --json .#packages.x86_64-linux --apply 'builtins.attrNames'
 7. ksvHelix
 8. ksvAtuin
 9. ksvSpicetify
+10. ksvnh
 
 Generating nixos-facter json file for each host:
 https://github.com/nix-community/nixos-facter

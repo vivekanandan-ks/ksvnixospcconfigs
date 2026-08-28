@@ -12,21 +12,23 @@
 
   perSystem = {pkgs, ...}: {
     # Wrap mango so it always launches with /etc/profile loaded
-    packages.ksvMango = (pkgs.symlinkJoin {
-      name = "mango-wrapped";
-      paths = [inputs.mango.packages.${pkgs.stdenv.hostPlatform.system}.mango];
-      nativeBuildInputs = [pkgs.makeWrapper];
-      postBuild = ''
-        wrapProgram $out/bin/mango \
-          --run "[ -f /etc/profile ] && . /etc/profile" \
-          --run "[ -f /etc/profiles/per-user/\$USER/etc/profile.d/hm-session-vars.sh ] && . /etc/profiles/per-user/\$USER/etc/profile.d/hm-session-vars.sh"
-      '';
-      passthru = {
+    packages.ksvMango =
+      (pkgs.symlinkJoin {
+        name = "mango-wrapped";
+        paths = [inputs.mango.packages.${pkgs.stdenv.hostPlatform.system}.mango];
+        nativeBuildInputs = [pkgs.makeWrapper];
+        postBuild = ''
+          wrapProgram $out/bin/mango \
+            --run "[ -f /etc/profile ] && . /etc/profile" \
+            --run "[ -f /etc/profiles/per-user/\$USER/etc/profile.d/hm-session-vars.sh ] && . /etc/profiles/per-user/\$USER/etc/profile.d/hm-session-vars.sh"
+        '';
+        passthru = {
+          providedSessions = ["mango"];
+        };
+      })
+      // {
         providedSessions = ["mango"];
       };
-    }) // {
-      providedSessions = ["mango"];
-    };
   };
 
   flake = {
