@@ -9,6 +9,8 @@ _: {
           package = pkgs-unstable.netbird-ui;
         };
       };
+
+      networking.firewall.trustedInterfaces = ["wt0"];
     };
 
     homeModules.nonDroid.netbird-ui = {pkgs-unstable, ...}: {
