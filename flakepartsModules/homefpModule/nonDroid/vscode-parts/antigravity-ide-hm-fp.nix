@@ -1,6 +1,7 @@
 {self, ...}: {
   flake.homeModules.nonDroid.antigravity-ide = {
     config,
+    lib,
     pkgs-unstable,
     ...
   }: {
@@ -38,17 +39,11 @@
       };
     };
 
-    # Pure in-store links to bridge Home Manager directory names to Antigravity IDE
-    home.file.".antigravity-ide/extensions".source =
-      config.home.file.".antigravity/extensions".source;
+    # Bridge directory names so Antigravity IDE reads the Home Manager paths:
+    home.file.".antigravity-ide".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.antigravity";
 
-    home.file.".antigravity-ide/argv.json".source =
-      config.home.file.".antigravity/argv.json".source;
-
-    xdg.configFile."Antigravity IDE/User/settings.json".source =
-      config.xdg.configFile."Antigravity/User/settings.json".source;
-
-    xdg.configFile."Antigravity IDE/User/mcp.json".source =
-      config.xdg.configFile."Antigravity/User/mcp.json".source;
+    xdg.configFile."Antigravity IDE".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.xdg.configHome}/Antigravity";
   };
 }
