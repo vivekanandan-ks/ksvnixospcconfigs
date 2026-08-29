@@ -38,7 +38,7 @@ _: {
         "python-requirements"
         "fish"
         "nginx"
-        "wakatime"
+        #"wakatime"
         "helm"
         "python-snippets"
         "caddyfile"
@@ -128,7 +128,7 @@ _: {
           terraform = true;
           toml = true;
           "vscode-dark-modern" = true;
-          wakatime = true;
+          #wakatime = true;
           yaml = true;
           gemini = true;
           haskell = true;

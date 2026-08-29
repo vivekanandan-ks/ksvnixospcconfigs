@@ -15,19 +15,27 @@
         exec nix flake check --accept-flake-config "$@"
       fi
 
-      # 2. Write Flake Only: ksvnh --wf
+      # 2. Flake Check (No Build) & Format: ksvnh -co
+      if [[ "''${1:-}" =~ ^(-co|--co|--check-only)$ ]]; then
+        shift
+        nix run .#write-flake --accept-flake-config
+        nix fmt --accept-flake-config
+        exec nix flake check --no-build --accept-flake-config "$@"
+      fi
+
+      # 3. Write Flake Only: ksvnh --wf
       if [[ "''${1:-}" == "--wf" ]]; then
         shift
         exec nix run .#write-flake --accept-flake-config "$@"
       fi
 
-      # 3. VM: ksvnh --vm
+      # 4. VM: ksvnh --vm
       if [[ "''${1:-}" == "--vm" ]]; then
         shift
         exec nix run ".#nixosConfigurations.$(hostname).config.system.build.vm" --accept-flake-config "$@"
       fi
 
-      # 4. Download & Install Size: -w (current), --uw (simulated update)
+      # 5. Download & Install Size: -w (current), --uw (simulated update)
       if [[ "''${1:-}" =~ ^(-w|--weather|--uw)$ ]]; then
         LOCK_OPTS=()
         [[ "$1" == "--uw" ]] && LOCK_OPTS=(--recreate-lock-file --no-write-lock-file)
@@ -39,7 +47,7 @@
         exit 0
       fi
 
-      # 5. Garbage Collection & Store Optimisation
+      # 6. Garbage Collection & Store Optimisation
       if [[ "''${1:-}" == "--gc" ]]; then
         shift
         echo ":: Running fast-nix-gc..."
@@ -60,7 +68,7 @@
         exec nix store optimise --accept-flake-config
       fi
 
-      # 6. Flake Update: ksvnh -u <switch|boot|test|build|dry-activate>
+      # 7. Flake Update: ksvnh -u <switch|boot|test|build|dry-activate>
       if [[ "''${1:-}" =~ ^(-u|--update)$ ]]; then
         shift
         nix run .#write-flake --accept-flake-config
@@ -70,7 +78,7 @@
       # Always sync flake
       nix run .#write-flake --accept-flake-config
 
-      # 7. nh OS Action (explicit action required)
+      # 8. nh OS Action (explicit action required)
       if [[ $# -gt 0 ]]; then
         action="$1"
         shift
@@ -78,6 +86,7 @@
       else
         echo "Usage: ksvnh [-u] <switch|boot|test|build|dry-activate> [flags...]   # nh os actions"
         echo "       ksvnh -c                                                        # format & flake check"
+        echo "       ksvnh -co                                                       # format & flake check (no build)"
         echo "       ksvnh --wf                                                      # write-flake"
         echo "       ksvnh --vm                                                      # run in VM"
         echo "       ksvnh -w                                                        # current download & install size"

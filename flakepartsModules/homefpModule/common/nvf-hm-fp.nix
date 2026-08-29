@@ -225,7 +225,7 @@
 
           utility = {
             ccc.enable = false;
-            vim-wakatime.enable = true; # changed
+            #vim-wakatime.enable = true; # changed
             diffview-nvim.enable = true;
             yanky-nvim.enable = false;
             icon-picker.enable = isMaximal;

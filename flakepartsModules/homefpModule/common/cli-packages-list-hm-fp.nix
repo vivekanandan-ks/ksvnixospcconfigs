@@ -43,7 +43,7 @@ _: {
         #gg-jj
         #nix-index
         #micro
-        wakatime-cli
+        #wakatime-cli
         nix-output-monitor
         #devenv
       ];

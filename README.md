@@ -61,6 +61,7 @@ To automate and speed up everyday NixOS workflows, use `ksvnh` (available direct
 | **Update & Rebuild**              | `nix flake update --accept-flake-config ; nix run .#write-flake --accept-flake-config ; nh os <boot\|switch\|test> --accept-flake-config` | `ksvnh -u <boot\|switch\|test>` |
 | **Rebuild System**                | `nix run .#write-flake --accept-flake-config ; nh os <boot\|switch\|test> --accept-flake-config`                                          | `ksvnh <boot\|switch\|test>`    |
 | **Format & Check**                | `nix run .#write-flake --accept-flake-config ; nix fmt --accept-flake-config ; nix flake check --accept-flake-config`                     | `ksvnh -c`                      |
+| **Format & Check (No Build)**     | `nix run .#write-flake --accept-flake-config ; nix fmt --accept-flake-config ; nix flake check --no-build --accept-flake-config`          | `ksvnh -co`                     |
 | **Sync Flake Only**               | `nix run .#write-flake --accept-flake-config`                                                                                             | `ksvnh --wf`                    |
 | **Check Download & Install Size** | `nix build ... --dry-run --accept-flake-config`                                                                                           | `ksvnh -w`                      |
 | **Simulated Update Size**         | `nix build ... --recreate-lock-file --no-write-lock-file --dry-run --accept-flake-config`                                                 | `ksvnh --uw`                    |
