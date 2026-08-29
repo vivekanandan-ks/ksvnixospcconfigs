@@ -14,7 +14,6 @@
       "https://cache.nixos.org"
       "https://nix-community.cachix.org"
       "https://hydra.nix-community.org"
-      "https://hyprland.cachix.org"
       "https://devenv.cachix.org"
     ];
     extra-trusted-public-keys = [
@@ -26,7 +25,6 @@
       "chaotic-nyx.cachix.org-1:HfnXSw4pj95iI/n17rIDy40agHj12WfF+Gqk6SonIT8="
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-      "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
       "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
     ];
   };
@@ -91,21 +89,9 @@
       url = "github:cachix/git-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    gloview = {
-      url = "github:fedsfarm/gloview";
-      flake = false;
-    };
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-    hyprshell = {
-      url = "github:H3rmt/hyprshell";
-      inputs = {
-        flake-parts.follows = "flake-parts";
-        home-manager.follows = "home-manager";
-        nixpkgs.follows = "nixpkgs";
-      };
     };
     import-tree.url = "github:vic/import-tree";
     ksv-personal-artifacts = {
@@ -147,10 +133,6 @@
     nvf = {
       url = "github:NotAShelf/nvf";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-    scrolloverview = {
-      url = "github:yayuuu/hyprland-scroll-overview";
-      flake = false;
     };
     spicetify-nix = {
       url = "github:Gerg-L/spicetify-nix";

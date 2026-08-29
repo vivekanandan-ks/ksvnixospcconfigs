@@ -107,21 +107,6 @@
     },
     "crane": {
       "locked": {
-        "lastModified": 1780099841,
-        "narHash": "sha256-EVZd2RsbpreRUDSi9rBwPY+ZxoyMaiEBbZxxhljbaS4=",
-        "owner": "ipetkov",
-        "repo": "crane",
-        "rev": "0532eb17955225173906d671fb36306bdeb1e2dc",
-        "type": "github"
-      },
-      "original": {
-        "owner": "ipetkov",
-        "repo": "crane",
-        "type": "github"
-      }
-    },
-    "crane_2": {
-      "locked": {
         "lastModified": 1785782307,
         "narHash": "sha256-MPaRdVkf6zZP5fCPxYCi8Dr4pZzgmXzg8T9nVEbp3Mw=",
         "owner": "ipetkov",
@@ -688,22 +673,6 @@
         "type": "github"
       }
     },
-    "gloview": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1786710539,
-        "narHash": "sha256-HAYQkQknXcs4nPSuRnLaO3g4lnjSjUIE9qNqRYQqOjw=",
-        "owner": "fedsfarm",
-        "repo": "gloview",
-        "rev": "06111f2a1b5297c0000313e17bee127448b08a6d",
-        "type": "github"
-      },
-      "original": {
-        "owner": "fedsfarm",
-        "repo": "gloview",
-        "type": "github"
-      }
-    },
     "gnome-shell": {
       "flake": false,
       "locked": {
@@ -761,33 +730,6 @@
       "original": {
         "owner": "nix-community",
         "repo": "home-manager",
-        "type": "github"
-      }
-    },
-    "hyprshell": {
-      "inputs": {
-        "crane": "crane",
-        "flake-parts": [
-          "flake-parts"
-        ],
-        "home-manager": [
-          "home-manager"
-        ],
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1781132855,
-        "narHash": "sha256-GXegc0W2xiRuSCjMpVc5mmKP5YFCYn87M/POTalISCA=",
-        "owner": "H3rmt",
-        "repo": "hyprshell",
-        "rev": "61ddaa30563c1f091ca5fbe5d7203c19f42b519c",
-        "type": "github"
-      },
-      "original": {
-        "owner": "H3rmt",
-        "repo": "hyprshell",
         "type": "github"
       }
     },
@@ -1286,9 +1228,7 @@
         "flake-file": "flake-file",
         "flake-parts": "flake-parts_2",
         "git-hooks-nix": "git-hooks-nix_2",
-        "gloview": "gloview",
         "home-manager": "home-manager_2",
-        "hyprshell": "hyprshell",
         "import-tree": "import-tree",
         "ksv-personal-artifacts": "ksv-personal-artifacts",
         "mango": "mango",
@@ -1300,7 +1240,6 @@
         "noctalia-legacy-v4-plugins": "noctalia-legacy-v4-plugins",
         "nur": "nur",
         "nvf": "nvf",
-        "scrolloverview": "scrolloverview",
         "spicetify-nix": "spicetify-nix",
         "stylix": "stylix",
         "treefmt-nix": "treefmt-nix_3",
@@ -1330,22 +1269,6 @@
       "original": {
         "owner": "wlrfx",
         "repo": "scenefx",
-        "type": "github"
-      }
-    },
-    "scrolloverview": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1786156682,
-        "narHash": "sha256-SEa8XQtrNg90AUeZFE9+lGvYEWd0T2ht/+sKx+kWUak=",
-        "owner": "yayuuu",
-        "repo": "hyprland-scroll-overview",
-        "rev": "f9248ab6bee770e9d68813b48cc6ca12b3271254",
-        "type": "github"
-      },
-      "original": {
-        "owner": "yayuuu",
-        "repo": "hyprland-scroll-overview",
         "type": "github"
       }
     },
@@ -1713,7 +1636,7 @@
     },
     "xremap-flake": {
       "inputs": {
-        "crane": "crane_2",
+        "crane": "crane",
         "flake-parts": [
           "flake-parts"
         ],
