@@ -7,14 +7,12 @@ _: {
           Description = "Flameshot screenshot tool";
           After = lib.mkAfter [
             "mango-session.target"
-            "hyprland-session.target"
             "graphical-session.target"
             "xdg-desktop-portal.service"
             "tray.target"
           ];
           PartOf = lib.mkAfter [
             "mango-session.target"
-            "hyprland-session.target"
           ];
           Wants = lib.mkAfter [
             "xdg-desktop-portal.service"
@@ -30,7 +28,6 @@ _: {
         Install = {
           WantedBy = lib.mkForce [
             "mango-session.target"
-            "hyprland-session.target"
           ];
         };
       };

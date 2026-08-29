@@ -26,12 +26,6 @@ _: {
       PartOf = ["mango-session.target" "graphical-session.target"];
     };
 
-    # Hyprland screenshot bindings
-    wayland.windowManager.hyprland.settings.bind = lib.mkAfter [
-      ", Print, exec, flameshot gui"
-      "SUPER, Print, exec, flameshot full -c -p ${saveDir}"
-    ];
-
     # MangoWM screenshot bindings
     wayland.windowManager.mango.settings.bind = lib.mkAfter [
       "NONE, Print, spawn, flameshot gui"

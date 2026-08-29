@@ -18,12 +18,10 @@ _: {
       };
       extraPortals = [
         pkgs-unstable.xdg-desktop-portal-gtk
-        pkgs-unstable.xdg-desktop-portal-hyprland
       ];
       config = {
         common.default = ["gtk"];
         mango.default = lib.mkForce ["wlr" "gtk"];
-        hyprland.default = ["hyprland" "gtk"];
         niri.default = ["gnome" "gtk"];
         sway.default = ["wlr" "gtk"];
       };
