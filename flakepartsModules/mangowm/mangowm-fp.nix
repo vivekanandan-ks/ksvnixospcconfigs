@@ -64,9 +64,9 @@
           variables = ["--all"]; # Broadcasts WAYLAND_DISPLAY, DISPLAY, etc. to systemd/dbus
         };
 
-        # autostart_sh = ''
-        #   systemctl --user restart xremap || true
-        # '';
+        autostart_sh = lib.mkAfter ''
+          systemctl --user restart xremap || true
+        '';
       };
 
       # Systemd-managed clipboard history daemon bound to mango-session.target
