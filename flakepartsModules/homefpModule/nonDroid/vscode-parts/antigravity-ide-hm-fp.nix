@@ -1,13 +1,22 @@
 {self, ...}: {
   flake.homeModules.nonDroid.antigravity-ide = {
     config,
-    lib,
     pkgs-unstable,
     ...
-  }: {
+  }: let
+    wrappedAntigravity = pkgs-unstable.symlinkJoin {
+      name = "antigravity-ide-wrapped";
+      paths = [pkgs-unstable.antigravity-ide-fhs];
+      buildInputs = [pkgs-unstable.makeWrapper];
+      postBuild = ''
+        wrapProgram $out/bin/antigravity-ide \
+          --add-flags "--extensions-dir ~/.antigravity/extensions --user-data-dir ~/.config/Antigravity"
+      '';
+    };
+  in {
     programs.antigravity = {
       enable = true;
-      package = pkgs-unstable.antigravity-ide-fhs;
+      package = wrappedAntigravity;
       mutableExtensionsDir = false;
 
       argvSettings = {
@@ -38,12 +47,5 @@
           };
       };
     };
-
-    # Bridge directory names so Antigravity IDE reads the Home Manager paths:
-    home.file.".antigravity-ide".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.antigravity";
-
-    xdg.configFile."Antigravity IDE".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.xdg.configHome}/Antigravity";
   };
 }
