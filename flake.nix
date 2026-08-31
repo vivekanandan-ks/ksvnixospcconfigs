@@ -51,12 +51,20 @@
       url = "github:hthienloc/dms-hidden-bar";
       flake = false;
     };
+    dms-plugin-material-player = {
+      url = "github:notsopreety/materialPlayer";
+      flake = false;
+    };
     dms-plugin-modern-clock = {
       url = "github:beefsizzle/ModernClockDMS";
       flake = false;
     };
     dms-plugin-network-indicator = {
       url = "github:gemb0-0/Network-Indicator";
+      flake = false;
+    };
+    dms-plugin-pure-lyrics = {
+      url = "github:lildengzi/pureLyrics";
       flake = false;
     };
     dms-plugin-usb-manager = {
@@ -119,10 +127,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs.url = "github:nixos/nixpkgs/9fbb54b33e91ee4ca368e35a78e0613c720600b3";
-    noctalia-legacy-v4-plugins = {
-      url = "github:noctalia-dev/legacy-v4-plugins";
-      flake = false;
-    };
     nur = {
       url = "github:nix-community/NUR";
       inputs = {

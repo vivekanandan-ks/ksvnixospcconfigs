@@ -96,16 +96,15 @@ can also get the below list by running:
 nix eval --json .#packages.x86_64-linux --apply 'builtins.attrNames'
 ```
 
-1. ksvNoctalia
-2. ksvJujutsu
-3. ksvGit
-4. ksvFastfetch
-5. ksvBtop
-6. ksvMpv
-7. ksvHelix
-8. ksvAtuin
-9. ksvSpicetify
-10. ksvnh
+1. ksvJujutsu
+2. ksvGit
+3. ksvFastfetch
+4. ksvBtop
+5. ksvMpv
+6. ksvHelix
+7. ksvAtuin
+8. ksvSpicetify
+9. ksvnh
 
 Generating nixos-facter json file for each host:
 https://github.com/nix-community/nixos-facter

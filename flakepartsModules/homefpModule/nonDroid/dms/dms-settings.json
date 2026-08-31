@@ -688,7 +688,8 @@
           "showMicIcon": false,
           "showMicPercent": false,
           "showPrinterIcon": false
-        }
+        },
+        "materialPlayer"
       ],
       "scrollEnabled": true,
       "shadowIntensity": 0,
@@ -823,6 +824,43 @@
         }
       },
       "widgetType": "systemMonitor"
+    },
+    {
+      "config": {
+        "colorMode": "primary",
+        "displayPreferences": ["all"],
+        "showLyrics": false,
+        "showVisualizer": true
+      },
+      "enabled": true,
+      "id": "dw_material_player",
+      "name": "Material Player",
+      "positions": {
+        "eDP-1": {
+          "height": 190,
+          "width": 543.546875,
+          "x": 795.8828125,
+          "y": 220
+        }
+      },
+      "widgetType": "materialPlayer"
+    },
+    {
+      "config": {
+        "displayPreferences": ["all"]
+      },
+      "enabled": true,
+      "id": "dw_pure_lyrics",
+      "name": "Pure Lyrics",
+      "positions": {
+        "eDP-1": {
+          "height": 280,
+          "width": 543.546875,
+          "x": 795.8828125,
+          "y": 430
+        }
+      },
+      "widgetType": "pureLyrics"
     }
   ],
   "desktopWidgetGroups": [],

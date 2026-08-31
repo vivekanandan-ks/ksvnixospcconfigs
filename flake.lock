@@ -252,6 +252,22 @@
         "type": "github"
       }
     },
+    "dms-plugin-material-player": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1786629749,
+        "narHash": "sha256-E2pbFyjNaVf3UES1UEVLDrjhjcBNT7uKISfkUbH66QY=",
+        "owner": "notsopreety",
+        "repo": "materialPlayer",
+        "rev": "0305afcd246e91c19cc03b44dc4f354ab78621c3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "notsopreety",
+        "repo": "materialPlayer",
+        "type": "github"
+      }
+    },
     "dms-plugin-modern-clock": {
       "flake": false,
       "locked": {
@@ -281,6 +297,22 @@
       "original": {
         "owner": "gemb0-0",
         "repo": "Network-Indicator",
+        "type": "github"
+      }
+    },
+    "dms-plugin-pure-lyrics": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1787035389,
+        "narHash": "sha256-qKh+AUsh+dBU/aGLGvXdrmWGzegSm0mFwTQ3xuDFK7M=",
+        "owner": "lildengzi",
+        "repo": "pureLyrics",
+        "rev": "6a803e11110a858779da0be20eeb2f724ed28441",
+        "type": "github"
+      },
+      "original": {
+        "owner": "lildengzi",
+        "repo": "pureLyrics",
         "type": "github"
       }
     },
@@ -1148,22 +1180,6 @@
         "type": "gitlab"
       }
     },
-    "noctalia-legacy-v4-plugins": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1784742359,
-        "narHash": "sha256-M+7SLW+wI3KvDMj8dSrW/uUmpPiYhsXA2jpbbgL5imk=",
-        "owner": "noctalia-dev",
-        "repo": "legacy-v4-plugins",
-        "rev": "ea21cb63d063075bc0acd72d8b946ce2c5eef00d",
-        "type": "github"
-      },
-      "original": {
-        "owner": "noctalia-dev",
-        "repo": "legacy-v4-plugins",
-        "type": "github"
-      }
-    },
     "nur": {
       "inputs": {
         "flake-parts": [
@@ -1217,8 +1233,10 @@
         "disko": "disko",
         "dms-plugin-battery-plus": "dms-plugin-battery-plus",
         "dms-plugin-hidden-bar": "dms-plugin-hidden-bar",
+        "dms-plugin-material-player": "dms-plugin-material-player",
         "dms-plugin-modern-clock": "dms-plugin-modern-clock",
         "dms-plugin-network-indicator": "dms-plugin-network-indicator",
+        "dms-plugin-pure-lyrics": "dms-plugin-pure-lyrics",
         "dms-plugin-usb-manager": "dms-plugin-usb-manager",
         "dms-plugin-wallpaper-carousel": "dms-plugin-wallpaper-carousel",
         "dms-plugins-avengemedia": "dms-plugins-avengemedia",
@@ -1237,7 +1255,6 @@
         "nix4vscode": "nix4vscode",
         "nixos-telemetry": "nixos-telemetry",
         "nixpkgs": "nixpkgs_3",
-        "noctalia-legacy-v4-plugins": "noctalia-legacy-v4-plugins",
         "nur": "nur",
         "nvf": "nvf",
         "spicetify-nix": "spicetify-nix",

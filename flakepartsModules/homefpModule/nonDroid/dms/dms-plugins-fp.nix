@@ -25,6 +25,14 @@
       url = "github:beefsizzle/ModernClockDMS";
       flake = false;
     };
+    dms-plugin-pure-lyrics = {
+      url = "github:lildengzi/pureLyrics";
+      flake = false;
+    };
+    dms-plugin-material-player = {
+      url = "github:notsopreety/materialPlayer";
+      flake = false;
+    };
 
     # Plugin Collections (Monorepos)
     dms-plugins-avengemedia = {
@@ -46,6 +54,8 @@
       batteryPlus.src = inputs.dms-plugin-battery-plus;
       usbManager.src = inputs.dms-plugin-usb-manager;
       ModernClock.src = inputs.dms-plugin-modern-clock;
+      pureLyrics.src = inputs.dms-plugin-pure-lyrics;
+      materialPlayer.src = inputs.dms-plugin-material-player;
 
       # Dadangdut33 Collection
       MediaControlPlus.src = "${inputs.dms-plugins-dadangdut33}/MediaControlPlus";
