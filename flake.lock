@@ -120,6 +120,43 @@
         "type": "github"
       }
     },
+    "dank-calendar": {
+      "inputs": {
+        "dank-qml-common": "dank-qml-common",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1788103843,
+        "narHash": "sha256-GFmjelEuFbkGgao0YKAYZGo8PBqIdD6Ge7+2FJRfRug=",
+        "owner": "AvengeMedia",
+        "repo": "dankcalendar",
+        "rev": "2cb03f00cd68a2c536b2fdee0885c1235002ac41",
+        "type": "github"
+      },
+      "original": {
+        "owner": "AvengeMedia",
+        "repo": "dankcalendar",
+        "type": "github"
+      }
+    },
+    "dank-qml-common": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1787616035,
+        "narHash": "sha256-L4SjLZuMLP1Z3CzhE3QNwRqaPMF3X4gRchhZAtAS3zM=",
+        "owner": "AvengeMedia",
+        "repo": "dank-qml-common",
+        "rev": "fa6df81f05e7e0e4acd82c46afdca45cb0ef98e6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "AvengeMedia",
+        "repo": "dank-qml-common",
+        "type": "github"
+      }
+    },
     "determinate": {
       "inputs": {
         "determinate-nixd-aarch64-darwin": "determinate-nixd-aarch64-darwin",
@@ -805,11 +842,11 @@
         "scenefx": "scenefx"
       },
       "locked": {
-        "lastModified": 1787985984,
-        "narHash": "sha256-4VS0VIVeZgabG3u7Il5/B62EORPICexXoc3VrQzm45w=",
+        "lastModified": 1788155372,
+        "narHash": "sha256-mct43fdJnGDvQCcCb/8Xisof3DhGH89a1tLbLRK53Fg=",
         "owner": "mangowm",
         "repo": "mango",
-        "rev": "b7238f5d5bbadf9f01d57d0d04d90ba3ccb016a4",
+        "rev": "cb55d888dbc58d41a095e9e0d55e8717155177de",
         "type": "github"
       },
       "original": {
@@ -1229,6 +1266,7 @@
       "inputs": {
         "base16-schemes": "base16-schemes",
         "chaotic": "chaotic",
+        "dank-calendar": "dank-calendar",
         "determinate": "determinate",
         "disko": "disko",
         "dms-plugin-battery-plus": "dms-plugin-battery-plus",

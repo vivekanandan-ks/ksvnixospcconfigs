@@ -35,6 +35,10 @@
       flake = false;
     };
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
+    dank-calendar = {
+      url = "github:AvengeMedia/dankcalendar";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     determinate = {
       url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
       inputs.nixpkgs.follows = "nixpkgs";
