@@ -18,12 +18,11 @@ _: {
         background-opacity = 0.7;
         background-blur = true;
         command = "${pkgs-unstable.zellij}/bin/zellij";
+        window-decoration = false;
+        window-padding-balance = true;
         custom-shader = [
           "${../hmResources/ghostty-shaders/cursor_smear.glsl}"
-          "${../hmResources/ghostty-shaders/last_letter_zoom.glsl}"
-          #"${../hmResources/ghostty-shaders/cursor_blaze.glsl}"
-          #"${../hmResources/ghostty-shaders/animated-gradient-shader.glsl}"
-          #"${../hmResources/ghostty-shaders/cursor_smear_gradient.glsl}"
+          #"${../hmResources/ghostty-shaders/last_letter_zoom.glsl}"
         ];
         #fullscreen = true;
 

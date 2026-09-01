@@ -616,7 +616,7 @@
       "autoHide": false,
       "barInsetPadding": 0,
       "borderEnabled": false,
-      "bottomGap": -6,
+      "bottomGap": 0,
       "centerWidgets": ["capsLockIndicator"],
       "clickThrough": false,
       "enabled": true,
