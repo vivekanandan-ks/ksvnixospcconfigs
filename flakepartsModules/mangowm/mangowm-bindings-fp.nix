@@ -56,18 +56,41 @@ _: {
 
             # Window states
             "SUPER, f, togglefullscreen"
-            "SUPER, s, togglefloating"
+            "SUPER+SHIFT, f, togglefloating"
+            "SUPER, g, toggleglobal"
 
-            # Directional focus
+            # Directional focus (Vim & Arrow keys)
             "SUPER, h, focusdir, left"
             "SUPER, l, focusdir, right"
             "SUPER, k, focusdir, up"
             "SUPER, j, focusdir, down"
+            "SUPER, Left, focusdir, left"
+            "SUPER, Right, focusdir, right"
+            "SUPER, Up, focusdir, up"
+            "SUPER, Down, focusdir, down"
+
+            # Relative tag shifting ([ and ])
+            "SUPER, bracketleft, viewtoleft"
+            "SUPER, bracketright, viewtoright"
+            "SUPER+SHIFT, bracketleft, tagtoleft"
+            "SUPER+SHIFT, bracketright, tagtoright"
           ]
+          # =========================================================================
+          # Tag / Workspace Navigation Quick Reference:
+          #   Super + [1-9] or [ / ]         -> Switch view to tag
+          #   Super + Shift + [1-9] or [ / ] -> Move window and follow to tag
+          #   Super + Alt + [1-9]            -> Move window silently to tag
+          #   Super + Ctrl + [1-9]           -> Toggle window pin/presence on tag
+          # =========================================================================
+
           # Switch to workspace/tag 1-9 (Super + 1..9)
           ++ (map (i: "SUPER, ${toString i}, view, ${toString i}") (lib.range 1 9))
-          # Move focused window to workspace/tag 1-9 (Super + Shift + 1..9)
-          ++ (map (i: "SUPER+SHIFT, ${toString i}, tag, ${toString i}") (lib.range 1 9));
+          # Move window and FOLLOW to workspace/tag 1-9 (Super + Shift + 1..9)
+          ++ (map (i: "SUPER+SHIFT, ${toString i}, tag, ${toString i}") (lib.range 1 9))
+          # Move window SILENTLY to workspace/tag 1-9 (Super + Alt + 1..9)
+          ++ (map (i: "SUPER+ALT, ${toString i}, tagsilent, ${toString i}") (lib.range 1 9))
+          # Toggle window presence on workspace/tag 1-9 (Super + Ctrl + 1..9)
+          ++ (map (i: "SUPER+CTRL, ${toString i}, toggletag, ${toString i}") (lib.range 1 9));
       };
     };
   };

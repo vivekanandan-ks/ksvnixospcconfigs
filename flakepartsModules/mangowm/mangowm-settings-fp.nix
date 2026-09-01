@@ -35,6 +35,9 @@ _: {
         hotarea_corner = 2; # 0: top-left, 1: top-right, 2: bottom-left, 3: bottom-right
         hotarea_size = 10;
 
+        # Enable returning to previous tag when toggling current tag (for desktop peek)
+        view_current_to_back = 1;
+
         # --- Animations (Smooth Zoom & Fade, No Slide) ---
         animations = 1;
         layer_animations = 1;
