@@ -353,6 +353,22 @@
         "type": "github"
       }
     },
+    "dms-plugin-screenkey": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1786104336,
+        "narHash": "sha256-CURkyFRVcQ7P+IpaHW7Dv7Z//cM3Da64is6UMBcRMHk=",
+        "owner": "hthienloc",
+        "repo": "dms-screenkey",
+        "rev": "526c08eeab486ca3b5b5fc88a99bfcc0c0007ec9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hthienloc",
+        "repo": "dms-screenkey",
+        "type": "github"
+      }
+    },
     "dms-plugin-usb-manager": {
       "flake": false,
       "locked": {
@@ -1275,6 +1291,7 @@
         "dms-plugin-modern-clock": "dms-plugin-modern-clock",
         "dms-plugin-network-indicator": "dms-plugin-network-indicator",
         "dms-plugin-pure-lyrics": "dms-plugin-pure-lyrics",
+        "dms-plugin-screenkey": "dms-plugin-screenkey",
         "dms-plugin-usb-manager": "dms-plugin-usb-manager",
         "dms-plugin-wallpaper-carousel": "dms-plugin-wallpaper-carousel",
         "dms-plugins-avengemedia": "dms-plugins-avengemedia",

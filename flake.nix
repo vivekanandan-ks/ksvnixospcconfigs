@@ -71,6 +71,10 @@
       url = "github:lildengzi/pureLyrics";
       flake = false;
     };
+    dms-plugin-screenkey = {
+      url = "github:hthienloc/dms-screenkey";
+      flake = false;
+    };
     dms-plugin-usb-manager = {
       url = "github:NordicsSys/dms-usb-manager";
       flake = false;

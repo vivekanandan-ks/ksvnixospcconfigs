@@ -163,7 +163,12 @@
     {
       "enabled": true,
       "id": "battery",
-      "width": 50
+      "width": 25
+    },
+    {
+      "enabled": true,
+      "id": "plugin_screenkey",
+      "width": 25
     },
     {
       "enabled": true,
@@ -229,8 +234,8 @@
   "audioDeviceScrollVolumeEnabled": true,
   "mediaExcludePlayers": [],
   "clockCompactMode": true,
-  "focusedWindowCompactMode": false,
-  "focusedWindowSize": 1,
+  "focusedWindowCompactMode": true,
+  "focusedWindowSize": 0,
   "focusedWindowShowIcon": true,
   "runningAppsCompactMode": true,
   "barMaxVisibleApps": 0,
@@ -627,9 +632,9 @@
       "leftWidgets": [
         {
           "enabled": true,
-          "focusedWindowCompactMode": false,
+          "focusedWindowCompactMode": true,
           "focusedWindowShowIcon": true,
-          "focusedWindowSize": 1,
+          "focusedWindowSize": 0,
           "id": "focusedWindow"
         },
         "workspaceSwitcher",
@@ -847,17 +852,20 @@
     },
     {
       "config": {
-        "displayPreferences": ["all"]
+        "borderOpacity": 0,
+        "displayPreferences": ["all"],
+        "fontSize": 22,
+        "showOnOverlay": false
       },
       "enabled": true,
       "id": "dw_pure_lyrics",
       "name": "Pure Lyrics",
       "positions": {
         "eDP-1": {
-          "height": 280,
-          "width": 543.546875,
-          "x": 795.8828125,
-          "y": 430
+          "height": 226.234375,
+          "width": 633.828125,
+          "x": 719.1875,
+          "y": 536.39453125
         }
       },
       "widgetType": "pureLyrics"
