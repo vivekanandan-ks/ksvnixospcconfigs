@@ -24,6 +24,7 @@ _: {
           "${../hmResources/ghostty-shaders/cursor_smear.glsl}"
           #"${../hmResources/ghostty-shaders/last_letter_zoom.glsl}"
         ];
+        mouse-scroll-multiplier = "precision:0.5,discrete:1.5";
         #fullscreen = true;
 
         #theme = "carbonfox"; # "citruszest" "Dark Pastel" "Hurtado" "Oxocarbon" # showing error
