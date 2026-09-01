@@ -19,7 +19,7 @@ in {
         inputs.home-manager.nixosModules.home-manager
         {
           networking.hostName = "deejunixospc";
-          services.displayManager.defaultSession = lib.mkForce "plasma";
+          # services.displayManager.defaultSession = lib.mkForce "plasma";
           # services.displayManager.ly.enable = lib.mkForce false;
           # services.displayManager.sddm.enable = lib.mkForce true;
         }

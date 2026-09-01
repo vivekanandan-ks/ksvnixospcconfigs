@@ -13,7 +13,13 @@
   }: {
     programs.dank-material-shell = {
       # 1. Screenkey plugin directly from source
-      plugins.screenkey.src = inputs.dms-plugin-screenkey;
+      # plugins.screenkey.src = inputs.dms-plugin-screenkey;
+      plugins.screenkey = {
+        src = inputs.dms-plugin-screenkey;
+        settings = {
+          enabled = true;
+        };
+      };
 
       # 2. Wrap dms binary to prefix PATH with dependencies (just like mango)
       package = pkgs.symlinkJoin {
