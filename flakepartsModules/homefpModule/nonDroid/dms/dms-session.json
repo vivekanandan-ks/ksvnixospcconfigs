@@ -1,15 +1,7 @@
 {
   "terminalOverride": "kitty",
   "wallpaperTransition": "portal",
-  "includedTransitions": [
-    "fade",
-    "wipe",
-    "disc",
-    "stripes",
-    "iris bloom",
-    "pixelate",
-    "portal"
-  ],
+  "includedTransitions": ["fade", "wipe", "disc", "stripes", "iris bloom", "pixelate", "portal"],
   "wallpaperCyclingEnabled": true,
   "wallpaperCyclingMode": "interval",
   "wallpaperCyclingInterval": 300,

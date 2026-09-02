@@ -84,8 +84,7 @@
         };
 
         ghostty = {
-          enable = true;
-          colors.enable = false;
+          enable = false;
         };
 
         #zellij.enable = true;

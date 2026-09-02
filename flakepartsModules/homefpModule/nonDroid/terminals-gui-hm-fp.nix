@@ -1,4 +1,4 @@
-_: {
+{self, ...}: {
   flake.homeModules.nonDroid.terminals-gui = {
     #inputs,
     #config,
@@ -15,6 +15,15 @@ _: {
 
       settings = {
         theme = "Kitty Default";
+
+        font-family = [
+          self.personas.ksv.font.monospace.name
+          "Noto Sans Symbols 2"
+          "Noto Sans Symbols"
+          "Noto Color Emoji"
+        ];
+        font-size = self.personas.ksv.font.sizes.terminal;
+
         background-opacity = 0.7;
         background-blur = true;
         command = "${pkgs-unstable.zellij}/bin/zellij";
@@ -28,7 +37,6 @@ _: {
         #fullscreen = true;
 
         #theme = "carbonfox"; # "citruszest" "Dark Pastel" "Hurtado" "Oxocarbon" # showing error
-        #font-size = 10;
         #keybind = [
         #  "ctrl+h=goto_split:left"
         #  "ctrl+l=goto_split:right"

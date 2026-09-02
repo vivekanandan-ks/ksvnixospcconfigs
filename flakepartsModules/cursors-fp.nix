@@ -1,9 +1,6 @@
 _: {
   flake = {
-    homeModules.nonDroid.cursors = {
-      pkgs-unstable,
-      ...
-    }: {
+    homeModules.nonDroid.cursors = {pkgs-unstable, ...}: {
       # Stylix global cursor settings
       stylix.cursor = {
         package = pkgs-unstable.bibata-cursors-translucent;
