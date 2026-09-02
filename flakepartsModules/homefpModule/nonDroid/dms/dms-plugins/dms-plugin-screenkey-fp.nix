@@ -32,23 +32,13 @@
           macSymbols = false;
         };
       };
-
-      # 2. Wrap dms binary to prefix PATH with dependencies (just like mango)
-      package = pkgs.symlinkJoin {
-        name = "dms-shell-wrapped";
-        paths = [inputs.dms-shell.packages.${pkgs.stdenv.hostPlatform.system}.default];
-        nativeBuildInputs = [pkgs.makeWrapper];
-        postBuild = ''
-          wrapProgram $out/bin/dms \
-            --prefix PATH : ${lib.makeBinPath [
-              pkgs.libinput
-              pkgs.evtest
-              pkgs.python3
-            ]}
-        '';
-        meta.mainProgram = "dms";
-      };
     };
+
+    dmsExtraPackages = [
+      pkgs.libinput
+      pkgs.evtest
+      pkgs.python3
+    ];
 
     # MangoWM keybinding to toggle Screenkey overlay
     wayland.windowManager.mango.settings.bind = lib.mkAfter [

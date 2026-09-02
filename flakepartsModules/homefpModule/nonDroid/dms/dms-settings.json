@@ -698,8 +698,7 @@
           "showMicIcon": false,
           "showMicPercent": false,
           "showPrinterIcon": false
-        },
-        "materialPlayer"
+        }
       ],
       "scrollEnabled": true,
       "shadowIntensity": 0,

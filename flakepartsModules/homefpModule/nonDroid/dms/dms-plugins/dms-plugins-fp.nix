@@ -33,6 +33,10 @@
       url = "github:notsopreety/materialPlayer";
       flake = false;
     };
+    dms-plugin-battery-osd = {
+      url = "github:notsopreety/batteryOSD";
+      flake = false;
+    };
 
     # Plugin Collections (Monorepos)
     dms-plugins-avengemedia = {
@@ -61,6 +65,7 @@
       modernClock.src = inputs.dms-plugin-modern-clock;
       pureLyrics.src = inputs.dms-plugin-pure-lyrics;
       materialPlayer.src = inputs.dms-plugin-material-player;
+      batteryOSD.src = inputs.dms-plugin-battery-osd;
 
       # Dadangdut33 Collection
       mediaControlPlus.src = "${inputs.dms-plugins-dadangdut33}/MediaControlPlus";

@@ -257,6 +257,22 @@
         "type": "github"
       }
     },
+    "dms-plugin-battery-osd": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1787148550,
+        "narHash": "sha256-G7hub23SF9o6j+N098NfoUovycqL8yyT4fJUHr1invE=",
+        "owner": "notsopreety",
+        "repo": "batteryOSD",
+        "rev": "170730fa798d0760662c32a17d98467b46ee02c7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "notsopreety",
+        "repo": "batteryOSD",
+        "type": "github"
+      }
+    },
     "dms-plugin-battery-plus": {
       "flake": false,
       "locked": {
@@ -353,6 +369,38 @@
         "type": "github"
       }
     },
+    "dms-plugin-screen-recorder": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1782361135,
+        "narHash": "sha256-zCVip4iaFx9g5sLIxyolEMPunycskf5U4tltFPEWUnw=",
+        "owner": "hthienloc",
+        "repo": "dms-screen-recorder",
+        "rev": "440a71f1bdd275f3d662beaae38593b68a605dd2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hthienloc",
+        "repo": "dms-screen-recorder",
+        "type": "github"
+      }
+    },
+    "dms-plugin-screencapture-toolbar": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1787426042,
+        "narHash": "sha256-BN9+l5BTYZAPfhMhIAxawd3KaraWmdFJ4n9p3V2Wl3c=",
+        "owner": "JDKamalakar",
+        "repo": "DMS-ScreenCapture_Toolbar",
+        "rev": "2b923cc95faa36876d790df6fc1ed575388e966d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "JDKamalakar",
+        "repo": "DMS-ScreenCapture_Toolbar",
+        "type": "github"
+      }
+    },
     "dms-plugin-screenkey": {
       "flake": false,
       "locked": {
@@ -429,6 +477,22 @@
       },
       "original": {
         "owner": "Dadangdut33",
+        "repo": "dms-plugins",
+        "type": "github"
+      }
+    },
+    "dms-plugins-sitolam": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1788249843,
+        "narHash": "sha256-UskQMricLAM/7Bt3Q9Aa+Nkb0XL5PzdJBYXuxH0UhcM=",
+        "owner": "sitolam",
+        "repo": "dms-plugins",
+        "rev": "148de067e7981c5ba9bf45f9e6af0cd749e63598",
+        "type": "github"
+      },
+      "original": {
+        "owner": "sitolam",
         "repo": "dms-plugins",
         "type": "github"
       }
@@ -1285,17 +1349,21 @@
         "dank-calendar": "dank-calendar",
         "determinate": "determinate",
         "disko": "disko",
+        "dms-plugin-battery-osd": "dms-plugin-battery-osd",
         "dms-plugin-battery-plus": "dms-plugin-battery-plus",
         "dms-plugin-hidden-bar": "dms-plugin-hidden-bar",
         "dms-plugin-material-player": "dms-plugin-material-player",
         "dms-plugin-modern-clock": "dms-plugin-modern-clock",
         "dms-plugin-network-indicator": "dms-plugin-network-indicator",
         "dms-plugin-pure-lyrics": "dms-plugin-pure-lyrics",
+        "dms-plugin-screen-recorder": "dms-plugin-screen-recorder",
+        "dms-plugin-screencapture-toolbar": "dms-plugin-screencapture-toolbar",
         "dms-plugin-screenkey": "dms-plugin-screenkey",
         "dms-plugin-usb-manager": "dms-plugin-usb-manager",
         "dms-plugin-wallpaper-carousel": "dms-plugin-wallpaper-carousel",
         "dms-plugins-avengemedia": "dms-plugins-avengemedia",
         "dms-plugins-dadangdut33": "dms-plugins-dadangdut33",
+        "dms-plugins-sitolam": "dms-plugins-sitolam",
         "dms-shell": "dms-shell",
         "fast-nix-gc": "fast-nix-gc",
         "flake-file": "flake-file",

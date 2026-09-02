@@ -47,6 +47,10 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    dms-plugin-battery-osd = {
+      url = "github:notsopreety/batteryOSD";
+      flake = false;
+    };
     dms-plugin-battery-plus = {
       url = "github:arcatva/dms-battery-plus";
       flake = false;
@@ -71,6 +75,14 @@
       url = "github:lildengzi/pureLyrics";
       flake = false;
     };
+    dms-plugin-screen-recorder = {
+      url = "github:hthienloc/dms-screen-recorder";
+      flake = false;
+    };
+    dms-plugin-screencapture-toolbar = {
+      url = "github:JDKamalakar/DMS-ScreenCapture_Toolbar";
+      flake = false;
+    };
     dms-plugin-screenkey = {
       url = "github:hthienloc/dms-screenkey";
       flake = false;
@@ -89,6 +101,10 @@
     };
     dms-plugins-dadangdut33 = {
       url = "github:Dadangdut33/dms-plugins";
+      flake = false;
+    };
+    dms-plugins-sitolam = {
+      url = "github:sitolam/dms-plugins";
       flake = false;
     };
     dms-shell = {

@@ -10,7 +10,12 @@
     };
   };
 
-  flake.homeModules.nonDroid.dms = {lib, ...}: let
+  flake.homeModules.nonDroid.dms = {
+    config,
+    lib,
+    pkgs,
+    ...
+  }: let
     wallpapers = builtins.attrNames (builtins.readDir self.personas.ksv.currentWallpaperSet);
     defaultWallpaper = builtins.head wallpapers;
   in {
@@ -24,6 +29,17 @@
 
     programs.dank-material-shell = {
       enable = true;
+      package = pkgs.symlinkJoin {
+        name = "dms-shell-wrapped";
+        paths = [inputs.dms-shell.packages.${pkgs.stdenv.hostPlatform.system}.default];
+        nativeBuildInputs = [pkgs.makeWrapper];
+        postBuild = ''
+          wrapProgram $out/bin/dms \
+            --prefix PATH : ${lib.makeBinPath config.dmsExtraPackages}
+        '';
+        meta.mainProgram = "dms";
+      };
+
       systemd = {
         enable = true;
         target = "mango-session.target";
