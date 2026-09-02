@@ -1,4 +1,8 @@
-{inputs, ...}: {
+{
+  inputs,
+  self,
+  ...
+}: {
   flake-file.inputs = {
     dms-plugins-sitolam = {
       url = "github:sitolam/dms-plugins";
@@ -6,18 +10,19 @@
     };
   };
 
-  flake.homeModules.nonDroid.dms-plugin-virtual-keyboard = {
-    pkgs,
-    lib,
-    ...
-  }: {
+  flake.nixosModules.dms-plugin-virtual-keyboard = _: {
+    programs.ydotool.enable = true;
+    users.users.${self.personas.ksv.username}.extraGroups = ["ydotool"];
+  };
+
+  flake.homeModules.nonDroid.dms-plugin-virtual-keyboard = {lib, ...}: {
     programs.dank-material-shell.plugins.virtualKeyboard = {
       src = "${inputs.dms-plugins-sitolam}/plugins/virtualkeyboard";
       enable = true;
     };
 
-    dmsExtraPackages = [
-      pkgs.ydotool
+    systemd.user.services.dms.Service.Environment = [
+      "YDOTOOL_SOCKET=/run/ydotoold/ydotoold.socket"
     ];
 
     wayland.windowManager.mango.settings.bind = lib.mkAfter [

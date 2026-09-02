@@ -25,7 +25,7 @@
     ];
 
     wayland.windowManager.mango.settings.bind = lib.mkAfter [
-      "SUPER+ALT, S, spawn, dms ipc call screenCaptureToolbar toggle"
+      "SUPER+ALT, c, spawn, dms ipc call screenCaptureToolbar toggle"
     ];
   };
 }

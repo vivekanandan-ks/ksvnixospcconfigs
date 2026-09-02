@@ -14,6 +14,9 @@
     programs.dank-material-shell.plugins.screenRecorderLH = {
       src = inputs.dms-plugin-screen-recorder;
       enable = true;
+      settings = {
+        recordingMode = "portal";
+      };
     };
 
     dmsExtraPackages = [
@@ -24,8 +27,8 @@
     ];
 
     wayland.windowManager.mango.settings.bind = lib.mkAfter [
-      "SUPER+SHIFT, R, spawn, dms ipc screenRecorderLH toggleRegion"
-      "SUPER+ALT, R, spawn, dms ipc screenRecorderLH toggleScreen"
+      "SUPER+SHIFT, R, spawn, dms ipc screenRecorderLH togglePortal"
+      "SUPER+ALT, R, spawn, dms ipc screenRecorderLH togglePortal"
     ];
   };
 }
