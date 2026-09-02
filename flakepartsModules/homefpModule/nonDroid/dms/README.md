@@ -51,4 +51,4 @@ Dependencies are managed through the centralized `dmsExtraPackages` option defin
   dmsExtraPackages = [ pkgs.someDependency ];
   ```
 * `dms-fp.nix` wraps the DMS binary's `$PATH` with all aggregated packages.
-* **`virtualKeyboard`**: Managed via its own self-contained NixOS module (`programs.ydotool.enable = true`) with socket pointing to `/run/ydotoold/ydotoold.socket`.
+* **`virtualKeyboard`**: Managed via its own self-contained NixOS module (`programs.ydotool.enable = true`), where NixOS automatically starts `ydotoold`, creates the user group, and exports `YDOTOOL_SOCKET = "/run/ydotoold/socket"` system-wide.

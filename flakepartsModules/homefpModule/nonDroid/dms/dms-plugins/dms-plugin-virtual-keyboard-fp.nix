@@ -21,10 +21,6 @@
       enable = true;
     };
 
-    systemd.user.services.dms.Service.Environment = [
-      "YDOTOOL_SOCKET=/run/ydotoold/ydotoold.socket"
-    ];
-
     wayland.windowManager.mango.settings.bind = lib.mkAfter [
       "SUPER+SHIFT, K, spawn, dms ipc call virtualKeyboard toggle"
     ];
