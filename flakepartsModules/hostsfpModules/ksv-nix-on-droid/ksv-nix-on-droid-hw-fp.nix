@@ -1,4 +1,8 @@
-{config, ...}: {
+{
+  config,
+  self,
+  ...
+}: {
   flake.nixOnDroidModules.ksv-nix-on-droid = {globalModuleArgs, ...}: let
     inherit (globalModuleArgs) pkgs-global pkgs-unstable pkgs-stable;
   in {
@@ -38,10 +42,11 @@
 
     # terminal font
     terminal.font = let
-      jetbrains = pkgs-unstable.nerd-fonts.jetbrains-mono;
-      fontPath = "share/fonts/truetype/NerdFonts/JetBrainsMono/JetBrainsMonoNerdFontMono-Regular.ttf";
+      fontPkg = self.personas.ksv.font.monospace.package pkgs-unstable;
     in
-      jetbrains + "/${fontPath}";
+      pkgs-unstable.runCommand "termux-font.ttf" {} ''
+        cp $(find ${fontPkg} -name "*Mono-Regular.ttf" -o -name "*Regular.ttf" | head -n1) $out
+      '';
 
     # Configure home-manager
     home-manager = {

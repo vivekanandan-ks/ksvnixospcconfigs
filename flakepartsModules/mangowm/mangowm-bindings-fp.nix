@@ -82,7 +82,6 @@ _: {
           #   Super + Alt + [1-9]            -> Move window silently to tag
           #   Super + Ctrl + [1-9]           -> Toggle window pin/presence on tag
           # =========================================================================
-
           # Switch to workspace/tag 1-9 (Super + 1..9)
           ++ (map (i: "SUPER, ${toString i}, view, ${toString i}") (lib.range 1 9))
           # Move window and FOLLOW to workspace/tag 1-9 (Super + Shift + 1..9)

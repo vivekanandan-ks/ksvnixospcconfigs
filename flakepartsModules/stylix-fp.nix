@@ -1,4 +1,8 @@
-{inputs, ...}: {
+{
+  inputs,
+  self,
+  ...
+}: {
   flake-file.inputs = {
     base16-schemes = {
       url = "github:tinted-theming/schemes";
@@ -20,7 +24,11 @@
       # imports = [ inputs.stylix.nixosModules.stylix ];
     };
 
-    homeModules.common.stylix = {pkgs, ...}: {
+    homeModules.common.stylix = {
+      pkgs,
+      pkgs-unstable,
+      ...
+    }: {
       imports = [
         inputs.stylix.homeModules.stylix
       ];
@@ -52,11 +60,17 @@
 
       stylix.polarity = "dark";
 
-      stylix.fonts.sizes = {
-        applications = 10;
-        terminal = 11;
-        desktop = 9;
-        #popups = 18;
+      stylix.fonts = {
+        monospace = {
+          package = self.personas.ksv.font.monospace.package pkgs-unstable;
+          name = self.personas.ksv.font.monospace.name;
+        };
+        sizes = {
+          applications = self.personas.ksv.font.sizes.applications;
+          terminal = self.personas.ksv.font.sizes.terminal;
+          desktop = self.personas.ksv.font.sizes.desktop;
+          #popups = 18;
+        };
       };
 
       stylix.targets.firefox.profileNames = ["default"];

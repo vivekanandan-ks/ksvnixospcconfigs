@@ -1,17 +1,11 @@
 {
-    "id": "batteryChargeControl",
-    "name": "Battery Limit",
-    "description": "Toggle battery charge threshold limit",
-    "version": "1.0.0",
-    "icon": "battery_saver",
-    "type": "widget",
-    "capabilities": [
-        "control-center"
-    ],
-    "component": "./BatteryChargeControlWidget.qml",
-    "permissions": [
-        "settings_read",
-        "settings_write",
-        "shell_execute"
-    ]
+  "id": "batteryChargeControl",
+  "name": "Battery Limit",
+  "description": "Toggle battery charge threshold limit",
+  "version": "1.0.0",
+  "icon": "battery_saver",
+  "type": "widget",
+  "capabilities": ["control-center"],
+  "component": "./BatteryChargeControlWidget.qml",
+  "permissions": ["settings_read", "settings_write", "shell_execute"]
 }

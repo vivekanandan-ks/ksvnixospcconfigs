@@ -25,14 +25,14 @@ A unified, hardware-agnostic battery charge limiting and health protection modul
 
 The `battery-limit` command is available in your shell:
 
-| Command | Action | Desktop Notification |
-| :--- | :--- | :--- |
+| Command                                   | Action                                                                                                                                  | Desktop Notification                             |
+| :---------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------- |
 | `battery-limit` or `battery-limit toggle` | Flips current state: if currently capped, switches to 100%; if currently 100%, switches to cap (60% on IdeaPad, 80% on standard sysfs). | 🔔 Yes ("Limit Active" or "Full Charge Enabled") |
-| `battery-limit on` | Force enables protection (60% on IdeaPad, 80% on standard sysfs). | 🔔 Yes ("Limit Active") |
-| `battery-limit off` | Force disables protection (charges to 100%). | 🔔 Yes ("Full Charge Enabled") |
-| `battery-limit <number>` | Sets custom stop threshold percentage (e.g. `battery-limit 85`). On IdeaPads, `< 100` enables conservation mode (60%). | 🔔 Yes ("Limit Active") |
-| `battery-limit status` (or `-s`) | Prints detailed diagnostic info of all detected batteries, thresholds, and modes. | 🔕 No (terminal stdout only) |
-| `battery-limit --short` (or `-q`) | Returns a single line for status bars/widgets: `60% 🛡️`, `80% 🛡️`, `100% ⚡`, or `N/A`. | 🔕 No (terminal stdout only) |
+| `battery-limit on`                        | Force enables protection (60% on IdeaPad, 80% on standard sysfs).                                                                       | 🔔 Yes ("Limit Active")                          |
+| `battery-limit off`                       | Force disables protection (charges to 100%).                                                                                            | 🔔 Yes ("Full Charge Enabled")                   |
+| `battery-limit <number>`                  | Sets custom stop threshold percentage (e.g. `battery-limit 85`). On IdeaPads, `< 100` enables conservation mode (60%).                  | 🔔 Yes ("Limit Active")                          |
+| `battery-limit status` (or `-s`)          | Prints detailed diagnostic info of all detected batteries, thresholds, and modes.                                                       | 🔕 No (terminal stdout only)                     |
+| `battery-limit --short` (or `-q`)         | Returns a single line for status bars/widgets: `60% 🛡️`, `80% 🛡️`, `100% ⚡`, or `N/A`.                                                 | 🔕 No (terminal stdout only)                     |
 
 ---
 
@@ -41,6 +41,7 @@ The `battery-limit` command is available in your shell:
 A dedicated DMS Control Center tile is configured in `dms-settings.json` under `controlCenterWidgets`:
 
 ### Last Row Layout in Control Center
+
 ```json
 [
   { "id": "diskUsage", "width": 50 },
@@ -48,11 +49,13 @@ A dedicated DMS Control Center tile is configured in `dms-settings.json` under `
   { "id": "plugin_dankKDEConnect", "width": 25 }
 ]
 ```
+
 - **Storage (`diskUsage`)**: 50% width
 - **Battery Limit (`plugin_batteryChargeControl`)**: 25% width
 - **Phone Connect (`plugin_dankKDEConnect`)**: 25% width (enabled)
 
 ### Behavior & Features
+
 - **Visual Status**: Displays `battery_saver` icon and lights up with the Material theme primary accent color when battery cap is active (`60% 🛡️` / `80% 🛡️`). Shows `battery_charging_full` when 100% full charging is enabled.
 - **1-Click Toggle**: Clicking the tile instantly toggles the limit and shows a desktop toast notification.
 - **Auto-Sync**: Automatically syncs state every 10 seconds or when triggered via the `SUPER + ALT + b` keyboard shortcut or terminal.

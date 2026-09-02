@@ -16,5 +16,19 @@
     avatar = ./shoyohinata.png;
     wallpapers = "${inputs.ksv-personal-artifacts}/wallpapers"; # Root directory containing all wallpaper sets
     currentWallpaperSet = "${inputs.ksv-personal-artifacts}/wallpapers/andreasrochaWallpapers"; # Active wallpaper set
+
+    # --- Typography / Fonts ---
+    font = {
+      monospace = {
+        name = "JetBrainsMono Nerd Font";
+        package = pkg: pkg.nerd-fonts.jetbrains-mono;
+      };
+      sizes = {
+        applications = 10;
+        terminal = 11;
+        desktop = 9;
+        # popups = 18;
+      };
+    };
   };
 }

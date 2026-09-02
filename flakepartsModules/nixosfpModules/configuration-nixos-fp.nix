@@ -1,4 +1,4 @@
-_: {
+{self, ...}: {
   flake.nixosModules.configuration = {
     #config,
     pkgs-global,
@@ -18,8 +18,8 @@ _: {
     ];
 
     #fonts
-    fonts.packages = with pkgs-unstable; [
-      nerd-fonts.monofur
+    fonts.packages = [
+      (self.personas.ksv.font.monospace.package pkgs-unstable)
     ];
 
     #SWAP & Memory Management

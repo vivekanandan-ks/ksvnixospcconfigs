@@ -1,4 +1,4 @@
-_: {
+{self, ...}: {
   flake.homeModules.nonDroid.zed-editor = {
     #inputs,
     #config,
@@ -133,7 +133,7 @@ _: {
           gemini = true;
           haskell = true;
         };
-        buffer_font_family = "DejaVu Sans Mono";
+        buffer_font_family = self.personas.ksv.font.monospace.name;
         buffer_font_size = 14.666666666666666;
         ui_font_family = "DejaVu Sans";
         ui_font_size = 13.333333333333334;

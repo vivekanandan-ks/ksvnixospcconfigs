@@ -1,7 +1,4 @@
-{
-  inputs,
-  ...
-}: {
+{inputs, ...}: {
   flake-file.inputs = {
     dank-calendar = {
       url = "github:AvengeMedia/dankcalendar";
