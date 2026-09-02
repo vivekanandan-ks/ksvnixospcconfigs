@@ -48,34 +48,54 @@
   flake.homeModules.nonDroid.dms-plugins = _: {
     programs.dank-material-shell.plugins = {
       # Standalone Plugins
-      wallpaperCarousel.src = inputs.dms-plugin-wallpaper-carousel;
+      wallpaperCarousel = {
+        src = inputs.dms-plugin-wallpaper-carousel;
+        settings = {
+          overlayOpacity = 73;
+        };
+      };
       hiddenBar.src = inputs.dms-plugin-hidden-bar;
       networkIndicator.src = inputs.dms-plugin-network-indicator;
       batteryPlus.src = inputs.dms-plugin-battery-plus;
       usbManager.src = inputs.dms-plugin-usb-manager;
-      ModernClock.src = inputs.dms-plugin-modern-clock;
+      modernClock.src = inputs.dms-plugin-modern-clock;
       pureLyrics.src = inputs.dms-plugin-pure-lyrics;
       materialPlayer.src = inputs.dms-plugin-material-player;
 
       # Dadangdut33 Collection
-      MediaControlPlus.src = "${inputs.dms-plugins-dadangdut33}/MediaControlPlus";
-      SimpleAudioControl.src = "${inputs.dms-plugins-dadangdut33}/SimpleAudioControl";
-      ClipboardPlus.src = "${inputs.dms-plugins-dadangdut33}/ClipboardPlus";
-      SystemMonitorPlus.src = "${inputs.dms-plugins-dadangdut33}/SystemMonitorPlus";
+      mediaControlPlus.src = "${inputs.dms-plugins-dadangdut33}/MediaControlPlus";
+      simpleAudioControl.src = "${inputs.dms-plugins-dadangdut33}/SimpleAudioControl";
+      clipboardPlus = {
+        src = "${inputs.dms-plugins-dadangdut33}/ClipboardPlus";
+        enable = true;
+      };
+      systemMonitorPlus = {
+        src = "${inputs.dms-plugins-dadangdut33}/SystemMonitorPlus";
+        enable = false;
+      };
 
       # AvengeMedia Collection
-      DankActions.src = "${inputs.dms-plugins-avengemedia}/DankActions";
-      DankClight.src = "${inputs.dms-plugins-avengemedia}/DankClight";
-      DankLauncherKeys.src = "${inputs.dms-plugins-avengemedia}/DankLauncherKeys";
-      DankKDEConnect.src = "${inputs.dms-plugins-avengemedia}/DankKDEConnect";
-      DankPomodoroTimer.src = "${inputs.dms-plugins-avengemedia}/DankPomodoroTimer";
-      DankDesktopWeather.src = "${inputs.dms-plugins-avengemedia}/DankDesktopWeather";
-      DankGifSearch.src = "${inputs.dms-plugins-avengemedia}/DankGifSearch";
-      DankBatteryAlerts.src = "${inputs.dms-plugins-avengemedia}/DankBatteryAlerts";
-      DankNotepadModule.src = "${inputs.dms-plugins-avengemedia}/DankNotepadModule";
-      DankHyprlandWindows.src = "${inputs.dms-plugins-avengemedia}/DankHyprlandWindows";
-      DankStickerSearch.src = "${inputs.dms-plugins-avengemedia}/DankStickerSearch";
-      DankHooks.src = "${inputs.dms-plugins-avengemedia}/DankHooks";
+      dankActions = {
+        src = "${inputs.dms-plugins-avengemedia}/DankActions";
+        enable = false;
+      };
+      dankBatteryAlerts = {
+        src = "${inputs.dms-plugins-avengemedia}/DankBatteryAlerts";
+        enable = true;
+        settings = {
+          warningThreshold = 50;
+          criticalThreshold = 30;
+        };
+      };
+      dankClight.src = "${inputs.dms-plugins-avengemedia}/DankClight";
+      dankLauncherKeys.src = "${inputs.dms-plugins-avengemedia}/DankLauncherKeys";
+      dankKDEConnect.src = "${inputs.dms-plugins-avengemedia}/DankKDEConnect";
+      dankPomodoroTimer.src = "${inputs.dms-plugins-avengemedia}/DankPomodoroTimer";
+      dankDesktopWeather.src = "${inputs.dms-plugins-avengemedia}/DankDesktopWeather";
+      dankGifSearch.src = "${inputs.dms-plugins-avengemedia}/DankGifSearch";
+      dankNotepadModule.src = "${inputs.dms-plugins-avengemedia}/DankNotepadModule";
+      dankStickerSearch.src = "${inputs.dms-plugins-avengemedia}/DankStickerSearch";
+      dankHooks.src = "${inputs.dms-plugins-avengemedia}/DankHooks";
     };
   };
 }
