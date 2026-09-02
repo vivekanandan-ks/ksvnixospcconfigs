@@ -18,6 +18,18 @@
         src = inputs.dms-plugin-screenkey;
         settings = {
           enabled = true;
+          animationType = "slide";
+          overlayOpacity = 75;
+          showMouseClicks = true;
+          showModifierStatus = true;
+          showShortcuts = true;
+          showNormalKeys = false;
+          showOnlyModifiers = false;
+          ignoreFilterKeys = true;
+          position = "bottom_center";
+          roundedKeycaps = true;
+          historyLimit = 2;
+          macSymbols = false;
         };
       };
 
@@ -42,5 +54,10 @@
     wayland.windowManager.mango.settings.bind = lib.mkAfter [
       "SUPER+ALT, k, spawn, dms ipc call screenkey toggle"
     ];
+
+    # Disable visualizer on session startup after 5 seconds so it starts OFF
+    wayland.windowManager.mango.autostart_sh = lib.mkAfter ''
+      (sleep 5 && dms ipc call screenkey disable) &
+    '';
   };
 }

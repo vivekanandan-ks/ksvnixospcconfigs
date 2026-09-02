@@ -179,8 +179,13 @@
     },
     {
       "enabled": true,
+      "id": "plugin_batteryChargeControl",
+      "width": 25
+    },
+    {
+      "enabled": true,
       "id": "plugin_dankKDEConnect",
-      "width": 50
+      "width": 25
     }
   ],
   "showWorkspaceIndex": true,
