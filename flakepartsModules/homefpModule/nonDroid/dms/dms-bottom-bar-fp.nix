@@ -27,7 +27,7 @@ _: {
           "ambientSound"
         ];
         centerWidgets = [
-          "cpuCoreLoad"
+          "materialPlayer"
           "storageMonitor"
         ];
         rightWidgets = [

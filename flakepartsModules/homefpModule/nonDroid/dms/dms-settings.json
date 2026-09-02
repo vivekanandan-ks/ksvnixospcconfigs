@@ -175,7 +175,7 @@
       "id": "diskUsage",
       "instanceId": "default",
       "mountPath": "/",
-      "width": 50
+      "width": 25
     },
     {
       "enabled": true,
@@ -189,22 +189,7 @@
     },
     {
       "enabled": true,
-      "id": "plugin_caffeineRedesigned",
-      "width": 25
-    },
-    {
-      "enabled": true,
-      "id": "plugin_dnsSwitcher",
-      "width": 25
-    },
-    {
-      "enabled": true,
       "id": "plugin_takeABreak",
-      "width": 25
-    },
-    {
-      "enabled": true,
-      "id": "plugin_scratchpadHelper",
       "width": 25
     }
   ],
@@ -657,10 +642,9 @@
       "leftWidgets": [
         {
           "enabled": true,
-          "focusedWindowCompactMode": true,
-          "focusedWindowShowIcon": true,
-          "focusedWindowSize": 0,
-          "id": "focusedWindow"
+          "id": "runningApps",
+          "runningAppsCompactMode": true,
+          "runningAppsCurrentWorkspace": true
         },
         "workspaceSwitcher",
         "layout",

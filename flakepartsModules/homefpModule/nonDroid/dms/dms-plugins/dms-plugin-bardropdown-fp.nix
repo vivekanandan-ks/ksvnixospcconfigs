@@ -13,7 +13,6 @@
       settings = {
         targets = [
           "mediaControlPlus"
-          "materialPlayer"
         ];
       };
     };

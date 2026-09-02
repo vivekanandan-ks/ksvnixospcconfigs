@@ -32,7 +32,7 @@ This directory houses the declarative configuration for **DankMaterialShell (DMS
 
 Defined in `dms-settings.json`. Hosts:
 
-- **Left**: `focusedWindow` (Compact Mode), `workspaceSwitcher`, `layout`, `music`.
+- **Left**: `runningApps` (Icon Only), `workspaceSwitcher`, `layout`, `music`.
 - **Center**: `capsLockIndicator`.
 - **Right**: `networkIndicator`, `cpuUsage`, `memUsage`, `batteryPlus`, `usbManager`, `simpleAudioControl`, `clock`.
 
@@ -42,11 +42,12 @@ Defined in `dms-bottom-bar-fp.nix`:
 
 - **Left Section**:
   - **`focusedWindow`**: Application indicator in **Full Mode** (`[Icon] App Name • Window Title`).
-  - **`barDropdown`**: Collapsible panel with media widgets (`mediaControlPlus`, `materialPlayer`).
+  - **`barDropdown`**: Collapsible panel with media widgets (`mediaControlPlus`).
   - **`scratchpadHelper`**: Visual MangoWM scratchpad indicator and picker.
   - **`ambientSound`**: Ambient focus sound generator with 24 audio loops (Right-click to mute).
 - **Center Section**:
   - **`cpuCoreLoad`**: Real-time per-core CPU load bars via native `DgopService`.
+  - **`materialPlayer`**: Centralized music playback widget and album/track info.
   - **`storageMonitor`**: Total disk usage and partition mount/unmount controller via `udisks2`.
 - **Right Section**:
   - **`dankCleaner`**: One-click junk scan, disk analyzer, and Docker prune tool.
@@ -65,12 +66,7 @@ Configured in `dms-settings.json` under `controlCenterWidgets`:
 - **Row 2**: `brightnessSlider` (50%), `darkMode` (25%), `nightMode` (25%)
 - **Row 3**: `audioOutput` (50%), `audioInput` (50%)
 - **Row 4**: `idleInhibitor` (25%), `doNotDisturb` (25%), `battery` (25%), `plugin_screenkey` (25%)
-- **Row 5**: `diskUsage` (50%), `plugin_batteryChargeControl` (25%), `plugin_dankKDEConnect` (25%)
-- **Row 6 (Plugins Row)**:
-  - **`plugin_caffeineRedesigned`** (25%): Sleep inhibitor toggle and duration menu.
-  - **`plugin_dnsSwitcher`** (25%): Quick DNS switcher (Cloudflare, Google, AdGuard, Mullvad).
-  - **`plugin_takeABreak`** (25%): Ergonomic break scheduler & pause/resume controls.
-  - **`plugin_scratchpadHelper`** (25%): Managed MangoWM scratchpads panel.
+- **Row 5**: `diskUsage` (25%), `plugin_batteryChargeControl` (25%), `plugin_dankKDEConnect` (25%), `plugin_takeABreak` (25%)
 
 ---
 

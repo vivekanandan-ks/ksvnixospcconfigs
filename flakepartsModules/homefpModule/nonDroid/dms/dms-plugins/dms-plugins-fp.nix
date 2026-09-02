@@ -41,10 +41,10 @@
       url = "github:JDKamalakar/DMS-Caffeine";
       flake = false;
     };
-    dms-plugin-cpu-core-load = {
-      url = "github:rabits/dms-plugin-cpucoreload";
-      flake = false;
-    };
+    # dms-plugin-cpu-core-load = {
+    #   url = "github:rabits/dms-plugin-cpucoreload";
+    #   flake = false;
+    # };
     dms-plugin-dns-switcher = {
       url = "github:JDKamalakar/DMS-DNS_Switcher";
       flake = false;
@@ -94,29 +94,75 @@
           overlayOpacity = 73;
         };
       };
-      hiddenBar.src = inputs.dms-plugin-hidden-bar;
+      hiddenBar = {
+        src = inputs.dms-plugin-hidden-bar;
+        settings = {
+          showRegionPreview = false;
+        };
+      };
       networkIndicator.src = inputs.dms-plugin-network-indicator;
       batteryPlus.src = inputs.dms-plugin-battery-plus;
       usbManager.src = inputs.dms-plugin-usb-manager;
       modernClock.src = inputs.dms-plugin-modern-clock;
       pureLyrics.src = inputs.dms-plugin-pure-lyrics;
       materialPlayer.src = inputs.dms-plugin-material-player;
-      batteryOSD.src = inputs.dms-plugin-battery-osd;
+      batteryOSD = {
+        src = inputs.dms-plugin-battery-osd;
+        settings = {
+          osdDuration = 2500;
+          chargingWaveSpeed = 1000;
+          dischargingWaveSpeed = 2000;
+        };
+      };
 
       # User Plugins
       caffeineRedesigned.src = inputs.dms-plugin-caffeine;
-      cpuCoreLoad.src = inputs.dms-plugin-cpu-core-load;
-      dnsSwitcher.src = inputs.dms-plugin-dns-switcher;
-      takeABreak.src = inputs.dms-plugin-take-a-break;
+      # cpuCoreLoad = {
+      #   src = inputs.dms-plugin-cpu-core-load;
+      #   settings = {
+      #     showUtilizationGraph = true;
+      #     graphWidth = 45;
+      #   };
+      # };
+      dnsSwitcher = {
+        src = inputs.dms-plugin-dns-switcher;
+        settings = {
+          showIpAddress = "false";
+        };
+      };
+      takeABreak = {
+        src = inputs.dms-plugin-take-a-break;
+        settings = {
+          overlayOpacity = 50;
+          preWarningOpacity = 75;
+        };
+      };
       musicTheme.src = inputs.dms-plugin-music-theme;
       ambientSound.src = inputs.dms-plugin-ambient-sound;
       storageMonitor.src = inputs.dms-plugin-storage-monitor;
-      dankCleaner.src = inputs.dms-plugin-dank-cleaner;
+      dankCleaner = {
+        src = inputs.dms-plugin-dank-cleaner;
+        settings = {
+          cleanupTmp = true;
+          dockerSystemPruneVolumes = true;
+        };
+      };
       tabsLauncher.src = inputs.dms-plugin-tabs-launcher;
 
       # Dadangdut33 Collection
-      mediaControlPlus.src = "${inputs.dms-plugins-dadangdut33}/MediaControlPlus";
-      simpleAudioControl.src = "${inputs.dms-plugins-dadangdut33}/SimpleAudioControl";
+      mediaControlPlus = {
+        src = "${inputs.dms-plugins-dadangdut33}/MediaControlPlus";
+        settings = {
+          scrollVolumeMode = "player";
+        };
+      };
+      simpleAudioControl = {
+        src = "${inputs.dms-plugins-dadangdut33}/SimpleAudioControl";
+        settings = {
+          showMic = false;
+          showMicValue = false;
+        };
+      };
       clipboardPlus = {
         src = "${inputs.dms-plugins-dadangdut33}/ClipboardPlus";
         enable = true;

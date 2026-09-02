@@ -14,6 +14,10 @@
     programs.dank-material-shell.plugins.screenCaptureToolbar = {
       src = inputs.dms-plugin-screencapture-toolbar;
       enable = true;
+      settings = {
+        showAdvancedSettings = true;
+        audioCodec = "opus";
+      };
     };
 
     dmsExtraPackages = [

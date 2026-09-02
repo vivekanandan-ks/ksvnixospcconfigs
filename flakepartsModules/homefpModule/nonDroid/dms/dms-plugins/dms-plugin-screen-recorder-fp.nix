@@ -16,6 +16,9 @@
       enable = true;
       settings = {
         recordingMode = "portal";
+        videoCodec = "av1";
+        videoFormat = "mkv";
+        forceCfr = true;
       };
     };
 

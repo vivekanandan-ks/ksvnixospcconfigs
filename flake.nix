@@ -63,10 +63,6 @@
       url = "github:JDKamalakar/DMS-Caffeine";
       flake = false;
     };
-    dms-plugin-cpu-core-load = {
-      url = "github:rabits/dms-plugin-cpucoreload";
-      flake = false;
-    };
     dms-plugin-dank-cleaner = {
       url = "github:NordicsSys/dankCleaner";
       flake = false;

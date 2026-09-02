@@ -300,22 +300,6 @@
         "type": "github"
       }
     },
-    "dms-plugin-cpu-core-load": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1780003038,
-        "narHash": "sha256-Y2xJkMsQ02JVCIxwGFh29Ps5UQJvz+xnfIOjStjztWc=",
-        "owner": "rabits",
-        "repo": "dms-plugin-cpucoreload",
-        "rev": "c0b1399eaf452abc04060c734fece535f8e08320",
-        "type": "github"
-      },
-      "original": {
-        "owner": "rabits",
-        "repo": "dms-plugin-cpucoreload",
-        "type": "github"
-      }
-    },
     "dms-plugin-dank-cleaner": {
       "flake": false,
       "locked": {
@@ -1436,7 +1420,6 @@
         "dms-plugin-battery-osd": "dms-plugin-battery-osd",
         "dms-plugin-battery-plus": "dms-plugin-battery-plus",
         "dms-plugin-caffeine": "dms-plugin-caffeine",
-        "dms-plugin-cpu-core-load": "dms-plugin-cpu-core-load",
         "dms-plugin-dank-cleaner": "dms-plugin-dank-cleaner",
         "dms-plugin-dns-switcher": "dms-plugin-dns-switcher",
         "dms-plugin-hidden-bar": "dms-plugin-hidden-bar",
