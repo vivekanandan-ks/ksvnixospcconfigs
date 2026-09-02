@@ -216,27 +216,6 @@
         "url": "https://install.determinate.systems/determinate-nixd/tag/v3.22.2/x86_64-linux"
       }
     },
-    "devshell": {
-      "inputs": {
-        "nixpkgs": [
-          "nixos-telemetry",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1768818222,
-        "narHash": "sha256-460jc0+CZfyaO8+w8JNtlClB2n4ui1RbHfPTLkpwhU8=",
-        "owner": "numtide",
-        "repo": "devshell",
-        "rev": "255a2b1725a20d060f566e4755dbf571bbbb5f76",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "devshell",
-        "type": "github"
-      }
-    },
     "disko": {
       "inputs": {
         "nixpkgs": [
@@ -254,6 +233,22 @@
       "original": {
         "owner": "nix-community",
         "repo": "disko",
+        "type": "github"
+      }
+    },
+    "dms-plugin-ambient-sound": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1787897376,
+        "narHash": "sha256-HenuQh/OHTCzPN5Hlr0atxdLTWn24rxF7KaKOfFbhQg=",
+        "owner": "hthienloc",
+        "repo": "dms-ambient-sound",
+        "rev": "83fae75429af7e5eaf9d34b832dd6d2c6f569769",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hthienloc",
+        "repo": "dms-ambient-sound",
         "type": "github"
       }
     },
@@ -286,6 +281,70 @@
       "original": {
         "owner": "arcatva",
         "repo": "dms-battery-plus",
+        "type": "github"
+      }
+    },
+    "dms-plugin-caffeine": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1786171599,
+        "narHash": "sha256-6fptcasC0FaJmjhKrsg5B5YanOMCtp2mUuPw2HNTFjs=",
+        "owner": "JDKamalakar",
+        "repo": "DMS-Caffeine",
+        "rev": "0ce109e5984d3e8b7a31433ab09bbb682bf47d79",
+        "type": "github"
+      },
+      "original": {
+        "owner": "JDKamalakar",
+        "repo": "DMS-Caffeine",
+        "type": "github"
+      }
+    },
+    "dms-plugin-cpu-core-load": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1780003038,
+        "narHash": "sha256-Y2xJkMsQ02JVCIxwGFh29Ps5UQJvz+xnfIOjStjztWc=",
+        "owner": "rabits",
+        "repo": "dms-plugin-cpucoreload",
+        "rev": "c0b1399eaf452abc04060c734fece535f8e08320",
+        "type": "github"
+      },
+      "original": {
+        "owner": "rabits",
+        "repo": "dms-plugin-cpucoreload",
+        "type": "github"
+      }
+    },
+    "dms-plugin-dank-cleaner": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1774955329,
+        "narHash": "sha256-kbj7/tI7I773BYxA0X9u3Lkwc2JvKiJ7d4cofu+v00M=",
+        "owner": "NordicsSys",
+        "repo": "dankCleaner",
+        "rev": "9c4fc0352b3dd8d7dec1866fd10348b9bc256233",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NordicsSys",
+        "repo": "dankCleaner",
+        "type": "github"
+      }
+    },
+    "dms-plugin-dns-switcher": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1786172479,
+        "narHash": "sha256-hqQm22R6P0HuOJD4E9ZPiPOMh6CbaO6PcBnSkr+0y/k=",
+        "owner": "JDKamalakar",
+        "repo": "DMS-DNS_Switcher",
+        "rev": "b03cac0aaa9c70cf8c91896775459b5cada52144",
+        "type": "github"
+      },
+      "original": {
+        "owner": "JDKamalakar",
+        "repo": "DMS-DNS_Switcher",
         "type": "github"
       }
     },
@@ -337,6 +396,22 @@
         "type": "github"
       }
     },
+    "dms-plugin-music-theme": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1787089252,
+        "narHash": "sha256-dxTQYVL/Hgjao8NH6pXqR2rvVZjpSYqMt0B8WVUGTxQ=",
+        "owner": "felipeadeildo",
+        "repo": "dms-music-theme",
+        "rev": "b7314c0644b5a74490d62568bd7810a42284976c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "felipeadeildo",
+        "repo": "dms-music-theme",
+        "type": "github"
+      }
+    },
     "dms-plugin-network-indicator": {
       "flake": false,
       "locked": {
@@ -366,6 +441,22 @@
       "original": {
         "owner": "lildengzi",
         "repo": "pureLyrics",
+        "type": "github"
+      }
+    },
+    "dms-plugin-scratchpad-helper": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1787247744,
+        "narHash": "sha256-3p/NWxqjhxqRlr/haDHi0KzAmSysoS1BmEwRT4bUlqI=",
+        "owner": "fluxwrk",
+        "repo": "dms-scratchpad-helper",
+        "rev": "b440b86cb621f61bcc2c10bf4c5797da098a5d88",
+        "type": "github"
+      },
+      "original": {
+        "owner": "fluxwrk",
+        "repo": "dms-scratchpad-helper",
         "type": "github"
       }
     },
@@ -414,6 +505,54 @@
       "original": {
         "owner": "hthienloc",
         "repo": "dms-screenkey",
+        "type": "github"
+      }
+    },
+    "dms-plugin-storage-monitor": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1788252454,
+        "narHash": "sha256-zDKK49kLiexX3x9yvwsDSC2sZ7TX03qrJqh0/NJWLoc=",
+        "owner": "YoungJurry",
+        "repo": "dms-storage-monitor",
+        "rev": "80ab9b889fc6520ffb9d363b75053c5345f2deb3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "YoungJurry",
+        "repo": "dms-storage-monitor",
+        "type": "github"
+      }
+    },
+    "dms-plugin-tabs-launcher": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1787802125,
+        "narHash": "sha256-uNOpFYM7s1Nc5BsE21Aos+zGzyAB2Lh6Fqn1SO9EFDc=",
+        "owner": "kmf",
+        "repo": "dms-tabs-launcher",
+        "rev": "730ca8105e092e4b4f42b10a8dfa067ca59ca523",
+        "type": "github"
+      },
+      "original": {
+        "owner": "kmf",
+        "repo": "dms-tabs-launcher",
+        "type": "github"
+      }
+    },
+    "dms-plugin-take-a-break": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1787477180,
+        "narHash": "sha256-y2XG9XRx1JBugIfgsftm6W5I/2TcBpaS451Ab0meeiI=",
+        "owner": "hthienloc",
+        "repo": "dms-take-a-break",
+        "rev": "38e5a1cc12cd797a0d55d26d47c905fab9fa180b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hthienloc",
+        "repo": "dms-take-a-break",
         "type": "github"
       }
     },
@@ -701,24 +840,6 @@
         "owner": "hercules-ci",
         "repo": "flake-parts",
         "rev": "17c9d6cdfc60c64f4ee8d306f9bc0b4ccb51481e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "hercules-ci",
-        "repo": "flake-parts",
-        "type": "github"
-      }
-    },
-    "flake-parts_4": {
-      "inputs": {
-        "nixpkgs-lib": "nixpkgs-lib_3"
-      },
-      "locked": {
-        "lastModified": 1785627969,
-        "narHash": "sha256-4dtXQk/NMePegK/nWp5NSeuZKLATItOq61lpEvmXqGw=",
-        "owner": "hercules-ci",
-        "repo": "flake-parts",
-        "rev": "427bf4bd9435fdf21321c8cc628c24efc14c0f7a",
         "type": "github"
       },
       "original": {
@@ -1081,29 +1202,6 @@
         "type": "github"
       }
     },
-    "nixos-telemetry": {
-      "inputs": {
-        "devshell": "devshell",
-        "flake-parts": "flake-parts_4",
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "treefmt-nix": "treefmt-nix_2"
-      },
-      "locked": {
-        "lastModified": 1787726329,
-        "narHash": "sha256-DEPVmO5NN/xrV6dcvRJavHwNN6257kg1vafaVlKKv6Q=",
-        "owner": "mrVanDalo",
-        "repo": "nixos-telemetry",
-        "rev": "b9cf2b013c6a3b010d7ee1988d030076927c0c2b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "mrVanDalo",
-        "repo": "nixos-telemetry",
-        "type": "github"
-      }
-    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1787736819,
@@ -1190,21 +1288,6 @@
         "owner": "nix-community",
         "repo": "nixpkgs.lib",
         "rev": "db3f255737b94216eb71cce308e2912cf6bc2d7c",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "repo": "nixpkgs.lib",
-        "type": "github"
-      }
-    },
-    "nixpkgs-lib_3": {
-      "locked": {
-        "lastModified": 1785031560,
-        "narHash": "sha256-OmshNvn2vupOFpYinLUu+1Dnpu4n7Q5N3ggGVNHpkUI=",
-        "owner": "nix-community",
-        "repo": "nixpkgs.lib",
-        "rev": "0e79af5e3d4dcfcd676ab5ba3f95d2e3352e078c",
         "type": "github"
       },
       "original": {
@@ -1349,16 +1432,26 @@
         "dank-calendar": "dank-calendar",
         "determinate": "determinate",
         "disko": "disko",
+        "dms-plugin-ambient-sound": "dms-plugin-ambient-sound",
         "dms-plugin-battery-osd": "dms-plugin-battery-osd",
         "dms-plugin-battery-plus": "dms-plugin-battery-plus",
+        "dms-plugin-caffeine": "dms-plugin-caffeine",
+        "dms-plugin-cpu-core-load": "dms-plugin-cpu-core-load",
+        "dms-plugin-dank-cleaner": "dms-plugin-dank-cleaner",
+        "dms-plugin-dns-switcher": "dms-plugin-dns-switcher",
         "dms-plugin-hidden-bar": "dms-plugin-hidden-bar",
         "dms-plugin-material-player": "dms-plugin-material-player",
         "dms-plugin-modern-clock": "dms-plugin-modern-clock",
+        "dms-plugin-music-theme": "dms-plugin-music-theme",
         "dms-plugin-network-indicator": "dms-plugin-network-indicator",
         "dms-plugin-pure-lyrics": "dms-plugin-pure-lyrics",
+        "dms-plugin-scratchpad-helper": "dms-plugin-scratchpad-helper",
         "dms-plugin-screen-recorder": "dms-plugin-screen-recorder",
         "dms-plugin-screencapture-toolbar": "dms-plugin-screencapture-toolbar",
         "dms-plugin-screenkey": "dms-plugin-screenkey",
+        "dms-plugin-storage-monitor": "dms-plugin-storage-monitor",
+        "dms-plugin-tabs-launcher": "dms-plugin-tabs-launcher",
+        "dms-plugin-take-a-break": "dms-plugin-take-a-break",
         "dms-plugin-usb-manager": "dms-plugin-usb-manager",
         "dms-plugin-wallpaper-carousel": "dms-plugin-wallpaper-carousel",
         "dms-plugins-avengemedia": "dms-plugins-avengemedia",
@@ -1376,13 +1469,12 @@
         "multiverse": "multiverse",
         "nix-on-droid": "nix-on-droid",
         "nix4vscode": "nix4vscode",
-        "nixos-telemetry": "nixos-telemetry",
         "nixpkgs": "nixpkgs_3",
         "nur": "nur",
         "nvf": "nvf",
         "spicetify-nix": "spicetify-nix",
         "stylix": "stylix",
-        "treefmt-nix": "treefmt-nix_3",
+        "treefmt-nix": "treefmt-nix_2",
         "vicinae-extensions": "vicinae-extensions",
         "wrapper-modules": "wrapper-modules",
         "xremap-flake": "xremap-flake",
@@ -1649,27 +1741,6 @@
       }
     },
     "treefmt-nix_2": {
-      "inputs": {
-        "nixpkgs": [
-          "nixos-telemetry",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1786901030,
-        "narHash": "sha256-WSFCsDSE5ffgD2MqzkM2CYjeFiKhRF/dJUN8uedb6YE=",
-        "owner": "numtide",
-        "repo": "treefmt-nix",
-        "rev": "27b3b12a8e6375f28ebe122f07d230ca5459bbfa",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "treefmt-nix",
-        "type": "github"
-      }
-    },
-    "treefmt-nix_3": {
       "inputs": {
         "nixpkgs": [
           "nixpkgs"

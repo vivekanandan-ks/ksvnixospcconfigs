@@ -37,6 +37,42 @@
       url = "github:notsopreety/batteryOSD";
       flake = false;
     };
+    dms-plugin-caffeine = {
+      url = "github:JDKamalakar/DMS-Caffeine";
+      flake = false;
+    };
+    dms-plugin-cpu-core-load = {
+      url = "github:rabits/dms-plugin-cpucoreload";
+      flake = false;
+    };
+    dms-plugin-dns-switcher = {
+      url = "github:JDKamalakar/DMS-DNS_Switcher";
+      flake = false;
+    };
+    dms-plugin-take-a-break = {
+      url = "github:hthienloc/dms-take-a-break";
+      flake = false;
+    };
+    dms-plugin-music-theme = {
+      url = "github:felipeadeildo/dms-music-theme";
+      flake = false;
+    };
+    dms-plugin-ambient-sound = {
+      url = "github:hthienloc/dms-ambient-sound";
+      flake = false;
+    };
+    dms-plugin-storage-monitor = {
+      url = "github:YoungJurry/dms-storage-monitor";
+      flake = false;
+    };
+    dms-plugin-dank-cleaner = {
+      url = "github:NordicsSys/dankCleaner";
+      flake = false;
+    };
+    dms-plugin-tabs-launcher = {
+      url = "github:kmf/dms-tabs-launcher";
+      flake = false;
+    };
 
     # Plugin Collections (Monorepos)
     dms-plugins-avengemedia = {
@@ -49,7 +85,7 @@
     };
   };
 
-  flake.homeModules.nonDroid.dms-plugins = _: {
+  flake.homeModules.nonDroid.dms-plugins = {pkgs, ...}: {
     programs.dank-material-shell.plugins = {
       # Standalone Plugins
       wallpaperCarousel = {
@@ -66,6 +102,17 @@
       pureLyrics.src = inputs.dms-plugin-pure-lyrics;
       materialPlayer.src = inputs.dms-plugin-material-player;
       batteryOSD.src = inputs.dms-plugin-battery-osd;
+
+      # User Plugins
+      caffeineRedesigned.src = inputs.dms-plugin-caffeine;
+      cpuCoreLoad.src = inputs.dms-plugin-cpu-core-load;
+      dnsSwitcher.src = inputs.dms-plugin-dns-switcher;
+      takeABreak.src = inputs.dms-plugin-take-a-break;
+      musicTheme.src = inputs.dms-plugin-music-theme;
+      ambientSound.src = inputs.dms-plugin-ambient-sound;
+      storageMonitor.src = inputs.dms-plugin-storage-monitor;
+      dankCleaner.src = inputs.dms-plugin-dank-cleaner;
+      tabsLauncher.src = inputs.dms-plugin-tabs-launcher;
 
       # Dadangdut33 Collection
       mediaControlPlus.src = "${inputs.dms-plugins-dadangdut33}/MediaControlPlus";
@@ -102,5 +149,10 @@
       dankStickerSearch.src = "${inputs.dms-plugins-avengemedia}/DankStickerSearch";
       dankHooks.src = "${inputs.dms-plugins-avengemedia}/DankHooks";
     };
+
+    dmsExtraPackages = [
+      pkgs.socat
+      pkgs.udisks2
+    ];
   };
 }

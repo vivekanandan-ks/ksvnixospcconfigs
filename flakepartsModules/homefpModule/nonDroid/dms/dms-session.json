@@ -2,6 +2,6 @@
   "terminalOverride": "kitty",
   "wallpaperCyclingEnabled": true,
   "wallpaperCyclingMode": "interval",
-  "wallpaperCyclingInterval": 120,
+  "wallpaperCyclingInterval": 300,
   "wallpaperTransition": "portal"
 }

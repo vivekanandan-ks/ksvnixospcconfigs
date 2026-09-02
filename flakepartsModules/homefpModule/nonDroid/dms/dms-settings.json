@@ -186,6 +186,26 @@
       "enabled": true,
       "id": "plugin_dankKDEConnect",
       "width": 25
+    },
+    {
+      "enabled": true,
+      "id": "plugin_caffeineRedesigned",
+      "width": 25
+    },
+    {
+      "enabled": true,
+      "id": "plugin_dnsSwitcher",
+      "width": 25
+    },
+    {
+      "enabled": true,
+      "id": "plugin_takeABreak",
+      "width": 25
+    },
+    {
+      "enabled": true,
+      "id": "plugin_scratchpadHelper",
+      "width": 25
     }
   ],
   "showWorkspaceIndex": true,

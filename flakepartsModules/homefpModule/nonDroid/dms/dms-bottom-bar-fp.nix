@@ -15,10 +15,25 @@ _: {
         transparency = 0.5;
         widgetTransparency = 0.76;
         leftWidgets = [
+          {
+            id = "focusedWindow";
+            enabled = true;
+            focusedWindowCompactMode = false;
+            focusedWindowShowIcon = true;
+            focusedWindowSize = 0;
+          }
           "barDropdown"
+          "scratchpadHelper"
+          "ambientSound"
         ];
-        centerWidgets = [];
+        centerWidgets = [
+          "cpuCoreLoad"
+          "storageMonitor"
+        ];
         rightWidgets = [
+          "dankCleaner"
+          "dnsSwitcher"
+          "caffeineRedesigned"
           "screenRecorderLH"
           "virtualKeyboard"
         ];

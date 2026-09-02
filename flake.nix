@@ -47,12 +47,32 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    dms-plugin-ambient-sound = {
+      url = "github:hthienloc/dms-ambient-sound";
+      flake = false;
+    };
     dms-plugin-battery-osd = {
       url = "github:notsopreety/batteryOSD";
       flake = false;
     };
     dms-plugin-battery-plus = {
       url = "github:arcatva/dms-battery-plus";
+      flake = false;
+    };
+    dms-plugin-caffeine = {
+      url = "github:JDKamalakar/DMS-Caffeine";
+      flake = false;
+    };
+    dms-plugin-cpu-core-load = {
+      url = "github:rabits/dms-plugin-cpucoreload";
+      flake = false;
+    };
+    dms-plugin-dank-cleaner = {
+      url = "github:NordicsSys/dankCleaner";
+      flake = false;
+    };
+    dms-plugin-dns-switcher = {
+      url = "github:JDKamalakar/DMS-DNS_Switcher";
       flake = false;
     };
     dms-plugin-hidden-bar = {
@@ -67,12 +87,20 @@
       url = "github:beefsizzle/ModernClockDMS";
       flake = false;
     };
+    dms-plugin-music-theme = {
+      url = "github:felipeadeildo/dms-music-theme";
+      flake = false;
+    };
     dms-plugin-network-indicator = {
       url = "github:gemb0-0/Network-Indicator";
       flake = false;
     };
     dms-plugin-pure-lyrics = {
       url = "github:lildengzi/pureLyrics";
+      flake = false;
+    };
+    dms-plugin-scratchpad-helper = {
+      url = "github:fluxwrk/dms-scratchpad-helper";
       flake = false;
     };
     dms-plugin-screen-recorder = {
@@ -85,6 +113,18 @@
     };
     dms-plugin-screenkey = {
       url = "github:hthienloc/dms-screenkey";
+      flake = false;
+    };
+    dms-plugin-storage-monitor = {
+      url = "github:YoungJurry/dms-storage-monitor";
+      flake = false;
+    };
+    dms-plugin-tabs-launcher = {
+      url = "github:kmf/dms-tabs-launcher";
+      flake = false;
+    };
+    dms-plugin-take-a-break = {
+      url = "github:hthienloc/dms-take-a-break";
       flake = false;
     };
     dms-plugin-usb-manager = {
@@ -144,10 +184,6 @@
     };
     nix4vscode = {
       url = "github:nix-community/nix4vscode";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    nixos-telemetry = {
-      url = "github:mrVanDalo/nixos-telemetry";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs.url = "github:nixos/nixpkgs/9fbb54b33e91ee4ca368e35a78e0613c720600b3";
