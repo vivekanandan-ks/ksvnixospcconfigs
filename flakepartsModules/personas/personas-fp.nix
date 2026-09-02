@@ -12,6 +12,9 @@
     gitEmail = "ksvdevksv@gmail.com";
     gitUsername = "vivekanandan-ks";
 
+    # --- Shell ---
+    personalShell = pkg: pkg.nushell;
+
     # --- Visual Assets ---
     avatar = ./shoyohinata.png;
     wallpapers = "${inputs.ksv-personal-artifacts}/wallpapers"; # Root directory containing all wallpaper sets

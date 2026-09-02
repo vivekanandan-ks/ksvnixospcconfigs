@@ -3,7 +3,11 @@
   self,
   ...
 }: {
-  flake.nixOnDroidModules.ksv-nix-on-droid = {globalModuleArgs, ...}: let
+  flake.nixOnDroidModules.ksv-nix-on-droid = {
+    globalModuleArgs,
+    lib,
+    ...
+  }: let
     inherit (globalModuleArgs) pkgs-global pkgs-unstable pkgs-stable;
   in {
     android-integration.termux-setup-storage.enable = true;
@@ -16,7 +20,7 @@
     android-integration.xdg-open.enable = true;
 
     # default shell for nix-on-droid
-    user.shell = "${pkgs-unstable.nushell}/bin/nu";
+    user.shell = lib.getExe (self.personas.ksv.personalShell pkgs-unstable);
 
     # Simply install just the packages
     environment.packages = with pkgs-stable; [
