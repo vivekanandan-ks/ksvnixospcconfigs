@@ -56,8 +56,14 @@ _: {
 
             # Window states
             "SUPER, f, togglefullscreen"
+            "SUPER+ALT, f, togglemaximizescreen"
             "SUPER+SHIFT, f, togglefloating"
             "SUPER, g, toggleglobal"
+
+            # Scratchpad (Minimize / Summon / Restore)
+            "SUPER, m, minimized"
+            "SUPER+ALT, m, toggle_scratchpad"
+            "SUPER+SHIFT, m, restore_minimized, 0"
 
             # Directional focus (Vim & Arrow keys)
             "SUPER, h, focusdir, left"
