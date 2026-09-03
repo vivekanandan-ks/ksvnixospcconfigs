@@ -12,7 +12,7 @@ _: {
     # AMD GPU hardware acceleration (Radeon 610M / RDNA2)
     hardware.graphics = {
       enable = true;
-      enable32Bit = true;
+      # enable32Bit = true; # Only needed for Steam / Wine 32-bit gaming
       extraPackages = with pkgs; [
         libva-vdpau-driver
         libvdpau-va-gl

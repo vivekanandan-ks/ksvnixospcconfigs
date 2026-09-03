@@ -7,7 +7,7 @@ _: {
     # Intel Haswell (Gen 7.5) HD Graphics 4400 Hardware Video Acceleration
     hardware.graphics = {
       enable = true;
-      enable32Bit = true;
+      # enable32Bit = true; # Only needed for Steam / Wine 32-bit gaming
       extraPackages = with pkgs-stable; [
         intel-vaapi-driver # Driver for Gen 7.5 Haswell (LIBVA_DRIVER_NAME=i965)
         libvdpau-va-gl

@@ -2,7 +2,7 @@ _: {
   flake.nixosModules.graphics = _: {
     hardware.graphics = {
       enable = true;
-      enable32Bit = true;
+      # enable32Bit = true; # Only needed for Steam / Wine 32-bit gaming
     };
   };
 }
