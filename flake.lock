@@ -348,22 +348,6 @@
         "type": "github"
       }
     },
-    "dms-plugin-material-player": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1786629749,
-        "narHash": "sha256-E2pbFyjNaVf3UES1UEVLDrjhjcBNT7uKISfkUbH66QY=",
-        "owner": "notsopreety",
-        "repo": "materialPlayer",
-        "rev": "0305afcd246e91c19cc03b44dc4f354ab78621c3",
-        "type": "github"
-      },
-      "original": {
-        "owner": "notsopreety",
-        "repo": "materialPlayer",
-        "type": "github"
-      }
-    },
     "dms-plugin-modern-clock": {
       "flake": false,
       "locked": {
@@ -393,22 +377,6 @@
       "original": {
         "owner": "felipeadeildo",
         "repo": "dms-music-theme",
-        "type": "github"
-      }
-    },
-    "dms-plugin-network-indicator": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1786809020,
-        "narHash": "sha256-YUFCzEO/8GkfvwzXBZsylw0vwYw+AnIs+cKHXWnt0qo=",
-        "owner": "gemb0-0",
-        "repo": "Network-Indicator",
-        "rev": "81d948dbabceba0f446a0441f3901a4d6b6b2f3a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "gemb0-0",
-        "repo": "Network-Indicator",
         "type": "github"
       }
     },
@@ -505,22 +473,6 @@
       "original": {
         "owner": "YoungJurry",
         "repo": "dms-storage-monitor",
-        "type": "github"
-      }
-    },
-    "dms-plugin-tabs-launcher": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1787802125,
-        "narHash": "sha256-uNOpFYM7s1Nc5BsE21Aos+zGzyAB2Lh6Fqn1SO9EFDc=",
-        "owner": "kmf",
-        "repo": "dms-tabs-launcher",
-        "rev": "730ca8105e092e4b4f42b10a8dfa067ca59ca523",
-        "type": "github"
-      },
-      "original": {
-        "owner": "kmf",
-        "repo": "dms-tabs-launcher",
         "type": "github"
       }
     },
@@ -1423,17 +1375,14 @@
         "dms-plugin-dank-cleaner": "dms-plugin-dank-cleaner",
         "dms-plugin-dns-switcher": "dms-plugin-dns-switcher",
         "dms-plugin-hidden-bar": "dms-plugin-hidden-bar",
-        "dms-plugin-material-player": "dms-plugin-material-player",
         "dms-plugin-modern-clock": "dms-plugin-modern-clock",
         "dms-plugin-music-theme": "dms-plugin-music-theme",
-        "dms-plugin-network-indicator": "dms-plugin-network-indicator",
         "dms-plugin-pure-lyrics": "dms-plugin-pure-lyrics",
         "dms-plugin-scratchpad-helper": "dms-plugin-scratchpad-helper",
         "dms-plugin-screen-recorder": "dms-plugin-screen-recorder",
         "dms-plugin-screencapture-toolbar": "dms-plugin-screencapture-toolbar",
         "dms-plugin-screenkey": "dms-plugin-screenkey",
         "dms-plugin-storage-monitor": "dms-plugin-storage-monitor",
-        "dms-plugin-tabs-launcher": "dms-plugin-tabs-launcher",
         "dms-plugin-take-a-break": "dms-plugin-take-a-break",
         "dms-plugin-usb-manager": "dms-plugin-usb-manager",
         "dms-plugin-wallpaper-carousel": "dms-plugin-wallpaper-carousel",

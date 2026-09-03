@@ -17,7 +17,7 @@
       plugins.screenkey = {
         src = inputs.dms-plugin-screenkey;
         settings = {
-          enabled = true;
+          enabled = false;
           animationType = "slide";
           overlayOpacity = 75;
           showMouseClicks = true;

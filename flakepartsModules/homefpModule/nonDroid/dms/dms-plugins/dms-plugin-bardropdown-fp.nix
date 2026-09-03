@@ -12,7 +12,15 @@
       enable = true;
       settings = {
         targets = [
+          "scratchpadHelper"
+          "ambientSound"
           "mediaControlPlus"
+          "storageMonitor"
+          "dankCleaner"
+          "dnsSwitcher"
+          "caffeineRedesigned"
+          "screenRecorderLH"
+          "virtualKeyboard"
         ];
       };
     };

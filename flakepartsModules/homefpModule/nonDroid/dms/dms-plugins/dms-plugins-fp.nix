@@ -9,10 +9,10 @@
       url = "github:hthienloc/dms-hidden-bar";
       flake = false;
     };
-    dms-plugin-network-indicator = {
-      url = "github:gemb0-0/Network-Indicator";
-      flake = false;
-    };
+    # dms-plugin-network-indicator = {
+    #   url = "github:gemb0-0/Network-Indicator";
+    #   flake = false;
+    # };
     dms-plugin-battery-plus = {
       url = "github:arcatva/dms-battery-plus";
       flake = false;
@@ -25,14 +25,10 @@
       url = "github:beefsizzle/ModernClockDMS";
       flake = false;
     };
-    dms-plugin-pure-lyrics = {
-      url = "github:lildengzi/pureLyrics";
-      flake = false;
-    };
-    dms-plugin-material-player = {
-      url = "github:notsopreety/materialPlayer";
-      flake = false;
-    };
+    # dms-plugin-material-player = {
+    #   url = "github:notsopreety/materialPlayer";
+    #   flake = false;
+    # };
     dms-plugin-battery-osd = {
       url = "github:notsopreety/batteryOSD";
       flake = false;
@@ -69,10 +65,10 @@
       url = "github:NordicsSys/dankCleaner";
       flake = false;
     };
-    dms-plugin-tabs-launcher = {
-      url = "github:kmf/dms-tabs-launcher";
-      flake = false;
-    };
+    # dms-plugin-tabs-launcher = {
+    #   url = "github:kmf/dms-tabs-launcher";
+    #   flake = false;
+    # };
 
     # Plugin Collections (Monorepos)
     dms-plugins-avengemedia = {
@@ -100,12 +96,16 @@
           showRegionPreview = false;
         };
       };
-      networkIndicator.src = inputs.dms-plugin-network-indicator;
+      # networkIndicator.src = inputs.dms-plugin-network-indicator;
       batteryPlus.src = inputs.dms-plugin-battery-plus;
       usbManager.src = inputs.dms-plugin-usb-manager;
-      modernClock.src = inputs.dms-plugin-modern-clock;
-      pureLyrics.src = inputs.dms-plugin-pure-lyrics;
-      materialPlayer.src = inputs.dms-plugin-material-player;
+      modernClock = {
+        src = inputs.dms-plugin-modern-clock;
+        settings = {
+          showSeconds = false;
+        };
+      };
+      # materialPlayer.src = inputs.dms-plugin-material-player;
       batteryOSD = {
         src = inputs.dms-plugin-battery-osd;
         settings = {
@@ -147,7 +147,7 @@
           dockerSystemPruneVolumes = true;
         };
       };
-      tabsLauncher.src = inputs.dms-plugin-tabs-launcher;
+      # tabsLauncher.src = inputs.dms-plugin-tabs-launcher;
 
       # Dadangdut33 Collection
       mediaControlPlus = {

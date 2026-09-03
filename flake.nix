@@ -75,20 +75,12 @@
       url = "github:hthienloc/dms-hidden-bar";
       flake = false;
     };
-    dms-plugin-material-player = {
-      url = "github:notsopreety/materialPlayer";
-      flake = false;
-    };
     dms-plugin-modern-clock = {
       url = "github:beefsizzle/ModernClockDMS";
       flake = false;
     };
     dms-plugin-music-theme = {
       url = "github:felipeadeildo/dms-music-theme";
-      flake = false;
-    };
-    dms-plugin-network-indicator = {
-      url = "github:gemb0-0/Network-Indicator";
       flake = false;
     };
     dms-plugin-pure-lyrics = {
@@ -113,10 +105,6 @@
     };
     dms-plugin-storage-monitor = {
       url = "github:YoungJurry/dms-storage-monitor";
-      flake = false;
-    };
-    dms-plugin-tabs-launcher = {
-      url = "github:kmf/dms-tabs-launcher";
       flake = false;
     };
     dms-plugin-take-a-break = {

@@ -33,7 +33,7 @@
   "showWeekNumber": false,
   "calendarBackend": "auto",
   "clockFormat": "24h",
-  "showSeconds": true,
+  "showSeconds": false,
   "padHours12Hour": false,
   "useFahrenheit": false,
   "windSpeedUnit": "ms",
@@ -664,7 +664,7 @@
       "position": 0,
       "removeWidgetPadding": false,
       "rightWidgets": [
-        "networkIndicator",
+        "network_speed_monitor",
         {
           "enabled": true,
           "id": "cpuUsage",
@@ -691,6 +691,7 @@
         "notificationButton",
         "clipboardPlus",
         "clock",
+        "barDropdown",
         {
           "enabled": true,
           "id": "controlCenterButton",
@@ -738,7 +739,7 @@
   },
   "desktopClockShowDate": true,
   "desktopClockShowAnalogNumbers": false,
-  "desktopClockShowAnalogSeconds": true,
+  "desktopClockShowAnalogSeconds": false,
   "desktopClockX": -1,
   "desktopClockY": -1,
   "desktopClockWidth": 280,
@@ -837,26 +838,6 @@
         }
       },
       "widgetType": "systemMonitor"
-    },
-    {
-      "config": {
-        "colorMode": "primary",
-        "displayPreferences": ["all"],
-        "showLyrics": false,
-        "showVisualizer": true
-      },
-      "enabled": true,
-      "id": "dw_material_player",
-      "name": "Material Player",
-      "positions": {
-        "eDP-1": {
-          "height": 190,
-          "width": 543.546875,
-          "x": 795.8828125,
-          "y": 220
-        }
-      },
-      "widgetType": "materialPlayer"
     },
     {
       "config": {
