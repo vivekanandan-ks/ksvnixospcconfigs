@@ -66,6 +66,10 @@
 
         autostart_sh = lib.mkAfter ''
           systemctl --user restart xremap || true
+
+          # Restart DMS so it connects to the fresh Mango IPC socket ($MANGO_INSTANCE_SIGNATURE)
+          # and correctly filters running apps/windows by the active tag.
+          # systemctl --user restart dms || true
         '';
       };
 
