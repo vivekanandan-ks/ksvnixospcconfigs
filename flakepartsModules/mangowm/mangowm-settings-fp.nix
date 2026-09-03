@@ -7,8 +7,8 @@ _: {
         blur_layer = 1;
         blur_optimized = 1; # Only blur translucent areas, not full scene
         blur_params = {
-          radius = 4;
-          num_passes = 1;
+          radius = 6;
+          num_passes = 2;
           noise = 0.015;
           brightness = 0.9;
           contrast = 0.9;
