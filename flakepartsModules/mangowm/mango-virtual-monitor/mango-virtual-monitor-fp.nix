@@ -13,6 +13,7 @@
           libnotify
           procps
           ripgrep
+          coreutils
         ];
         text = ''
           # Check if HEADLESS-1 exists in MangoWM using ripgrep
@@ -23,15 +24,40 @@
             notify-send -a "Mango Virtual Monitor" -i video-display "Virtual Monitor Stopped" "Destroyed HEADLESS-1."
           else
             # --- SETUP ---
+            start_time=$(date +%s%3N)
             mmsg dispatch create_virtual_output
 
-            # Brief pause for wlroots to announce output
-            sleep 0.2
+            # Wait until MangoWM registers HEADLESS-1 (up to 10.0s, checking every 100ms)
+            created=false
+            for _ in {1..100}; do
+              if mmsg get all-monitors | rg -q '"name":"HEADLESS-1"'; then
+                created=true
+                break
+              fi
+              sleep 0.1
+            done
 
-            # Launch preview window
-            wl-mirror HEADLESS-1 &
+            end_time=$(date +%s%3N)
+            elapsed_ms=$((end_time - start_time))
+            elapsed_sec=$((elapsed_ms / 1000))
+            elapsed_tenths=$(((elapsed_ms % 1000) / 100))
+            elapsed="''${elapsed_sec}.''${elapsed_tenths}s"
 
-            notify-send -a "Mango Virtual Monitor" -i video-display "Virtual Monitor Active" "HEADLESS-1 ready & mirrored."
+            if [ "$created" = true ]; then
+              # Launch wl-mirror with auto-retry in background (up to 10.0s)
+              (
+                for _ in {1..40}; do
+                  if wl-mirror HEADLESS-1; then
+                    break
+                  fi
+                  sleep 0.25
+                done
+              ) &
+
+              notify-send -a "Mango Virtual Monitor" -i video-display "Virtual Monitor Active" "HEADLESS-1 ready & mirrored (''${elapsed})."
+            else
+              notify-send -u critical -a "Mango Virtual Monitor" -i dialog-error "Virtual Monitor Failed" "HEADLESS-1 did not appear within 10s."
+            fi
           fi
         '';
       };
