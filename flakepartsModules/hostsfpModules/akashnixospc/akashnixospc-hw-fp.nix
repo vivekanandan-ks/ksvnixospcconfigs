@@ -1,5 +1,5 @@
 _: {
-  flake.hardwareModules.akashnixospc = {...}: {
+  flake.hardwareModules.akashnixospc.base = {...}: {
     imports = [../../../hosts/akashnixospc/hardware-configuration-akashnixospc.nix];
   };
 }

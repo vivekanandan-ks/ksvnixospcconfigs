@@ -8,9 +8,8 @@ in {
   flake.nixosConfigurations.akashnixospc = inputs.nixpkgs.lib.nixosSystem {
     inherit system;
     modules =
-      [
-        config.flake.hardwareModules.akashnixospc
-        config.flake.hardwareModules.akashnixospc-gpu
+      (builtins.attrValues (config.flake.hardwareModules.akashnixospc or {}))
+      ++ [
         inputs.home-manager.nixosModules.home-manager
         {networking.hostName = "akashnixospc";}
       ]

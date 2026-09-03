@@ -1,5 +1,5 @@
 _: {
-  flake.hardwareModules.akashnixospc-gpu = {
+  flake.hardwareModules.akashnixospc.gpu = {
     pkgs,
     lib,
     ...

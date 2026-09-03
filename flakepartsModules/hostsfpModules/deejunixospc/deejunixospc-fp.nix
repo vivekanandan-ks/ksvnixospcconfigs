@@ -9,8 +9,8 @@ in {
   flake.nixosConfigurations.deejunixospc = inputs.nixpkgs.lib.nixosSystem {
     inherit system;
     modules =
-      [
-        config.flake.hardwareModules.deejunixospc
+      (builtins.attrValues (config.flake.hardwareModules.deejunixospc or {}))
+      ++ [
         {
           hardware.facter.reportPath = facterFile;
         }

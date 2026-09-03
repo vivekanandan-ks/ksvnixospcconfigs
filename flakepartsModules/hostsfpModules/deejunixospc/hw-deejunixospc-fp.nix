@@ -1,5 +1,5 @@
 _: {
-  flake.hardwareModules.deejunixospc = {lib, ...}: {
+  flake.hardwareModules.deejunixospc.base = {lib, ...}: {
     fileSystems."/" = {
       device = "/dev/disk/by-uuid/1da28acd-f352-4c3f-a9fa-15360c2bfa35";
       fsType = "ext4";

@@ -10,7 +10,8 @@ in {
   flake.nixosConfigurations.ksvnixospc = inputs.nixpkgs.lib.nixosSystem {
     inherit system;
     modules =
-      [
+      (builtins.attrValues (config.flake.hardwareModules.ksvnixospc or {}))
+      ++ [
         inputs.home-manager.nixosModules.home-manager
         {
           networking.hostName = "ksvnixospc";

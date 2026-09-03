@@ -5,14 +5,14 @@ _: {
         # --- Blur & Visuals ---
         blur = 1;
         blur_layer = 1;
-        blur_optimized = 0; # Full scene blur (ensures fullscreen & stacked windows have frosted glass blur)
+        blur_optimized = 1; # Only blur translucent areas, not full scene
         blur_params = {
-          radius = 6;
-          num_passes = 2;
-          noise = 0.02;
+          radius = 4;
+          num_passes = 1;
+          noise = 0.015;
           brightness = 0.9;
           contrast = 0.9;
-          saturation = 1.2;
+          saturation = 1.1;
         };
 
         shadows = 1;
