@@ -45,7 +45,7 @@
       wayland.windowManager.mango.settings = {
         # Float, resize to 16:9, and pin across all workspaces (isglobal:1)
         windowrule = lib.mkAfter [
-          "isglobal:1,isfloating:1,width:640,height:360,appid:wl-mirror"
+          "isglobal:1,isfloating:1,width:640,height:360,appid:.*wl_mirror.*"
         ];
 
         # Keybindings for the Virtual Monitor

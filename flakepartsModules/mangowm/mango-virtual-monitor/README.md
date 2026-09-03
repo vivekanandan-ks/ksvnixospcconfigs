@@ -48,7 +48,7 @@ This module provides an isolated virtual display (`HEADLESS-1`) and a live zero-
 The module configures:
 ```nix
 windowrule = [
-  "isglobal:1,isfloating:1,width:640,height:360,appid:wl-mirror"
+  "isglobal:1,isfloating:1,width:640,height:360,appid:.*wl_mirror.*"
 ];
 ```
 
