@@ -49,10 +49,10 @@
       url = "github:hthienloc/dms-take-a-break";
       flake = false;
     };
-    dms-plugin-music-theme = {
-      url = "github:felipeadeildo/dms-music-theme";
-      flake = false;
-    };
+    # dms-plugin-music-theme = {
+    #   url = "github:felipeadeildo/dms-music-theme";
+    #   flake = false;
+    # };
     dms-plugin-ambient-sound = {
       url = "github:hthienloc/dms-ambient-sound";
       flake = false;
@@ -137,7 +137,7 @@
           preWarningOpacity = 75;
         };
       };
-      musicTheme.src = inputs.dms-plugin-music-theme;
+      # musicTheme.src = inputs.dms-plugin-music-theme;
       ambientSound.src = inputs.dms-plugin-ambient-sound;
       storageMonitor.src = inputs.dms-plugin-storage-monitor;
       dankCleaner = {
@@ -150,12 +150,12 @@
       # tabsLauncher.src = inputs.dms-plugin-tabs-launcher;
 
       # Dadangdut33 Collection
-      mediaControlPlus = {
-        src = "${inputs.dms-plugins-dadangdut33}/MediaControlPlus";
-        settings = {
-          scrollVolumeMode = "player";
-        };
-      };
+      # mediaControlPlus = {
+      #   src = "${inputs.dms-plugins-dadangdut33}/MediaControlPlus";
+      #   settings = {
+      #     scrollVolumeMode = "player";
+      #   };
+      # };
       simpleAudioControl = {
         src = "${inputs.dms-plugins-dadangdut33}/SimpleAudioControl";
         settings = {

@@ -42,7 +42,7 @@ Defined in `dms-bottom-bar-fp.nix`:
 
 - **Left Section**:
   - **`focusedWindow`**: Application indicator in **Full Mode** (`[Icon] App Name • Window Title`).
-  - **`barDropdown`**: Collapsible panel with media widgets (`mediaControlPlus`).
+  - **`barDropdown`**: Collapsible panel for modular system widgets.
   - **`scratchpadHelper`**: Visual MangoWM scratchpad indicator and picker.
   - **`ambientSound`**: Ambient focus sound generator with 24 audio loops (Right-click to mute).
 - **Center Section**:
@@ -72,7 +72,7 @@ Configured in `dms-settings.json` under `controlCenterWidgets`:
 
 ## 🧩 Background Daemons & Passive Plugins
 
-- **`musicTheme`**: Dynamically retints system theme colors (GTK, Qt, terminals) from currently playing album art via Matugen; automatically reverts to wallpaper colors when music stops.
+<!-- - **`musicTheme`**: Dynamically retints system theme colors (GTK, Qt, terminals) from currently playing album art via Matugen; automatically reverts to wallpaper colors when music stops. -->
 - **`takeABreak`**: Scheduled 20-20-20 eye breaks and long rest reminders with pre-warning toasts and fullscreen break overlays (with smart gaming/fullscreen app suppression).
 - **`scratchpadHelper`**: Caches scratchpad window states and previews for MangoWM.
 - **`batteryOSD`**: Renders an animated Material You fluid wave popup whenever the charger is connected/disconnected or battery level reaches low threshold.

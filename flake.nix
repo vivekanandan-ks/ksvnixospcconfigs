@@ -79,10 +79,10 @@
       url = "github:beefsizzle/ModernClockDMS";
       flake = false;
     };
-    dms-plugin-music-theme = {
-      url = "github:felipeadeildo/dms-music-theme";
-      flake = false;
-    };
+    # dms-plugin-music-theme = {
+    #   url = "github:felipeadeildo/dms-music-theme";
+    #   flake = false;
+    # };
     dms-plugin-pure-lyrics = {
       url = "github:lildengzi/pureLyrics";
       flake = false;

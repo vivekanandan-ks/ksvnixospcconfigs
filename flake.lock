@@ -364,22 +364,6 @@
         "type": "github"
       }
     },
-    "dms-plugin-music-theme": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1787089252,
-        "narHash": "sha256-dxTQYVL/Hgjao8NH6pXqR2rvVZjpSYqMt0B8WVUGTxQ=",
-        "owner": "felipeadeildo",
-        "repo": "dms-music-theme",
-        "rev": "b7314c0644b5a74490d62568bd7810a42284976c",
-        "type": "github"
-      },
-      "original": {
-        "owner": "felipeadeildo",
-        "repo": "dms-music-theme",
-        "type": "github"
-      }
-    },
     "dms-plugin-pure-lyrics": {
       "flake": false,
       "locked": {
@@ -1376,7 +1360,6 @@
         "dms-plugin-dns-switcher": "dms-plugin-dns-switcher",
         "dms-plugin-hidden-bar": "dms-plugin-hidden-bar",
         "dms-plugin-modern-clock": "dms-plugin-modern-clock",
-        "dms-plugin-music-theme": "dms-plugin-music-theme",
         "dms-plugin-pure-lyrics": "dms-plugin-pure-lyrics",
         "dms-plugin-scratchpad-helper": "dms-plugin-scratchpad-helper",
         "dms-plugin-screen-recorder": "dms-plugin-screen-recorder",

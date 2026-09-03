@@ -14,7 +14,7 @@
         targets = [
           "scratchpadHelper"
           "ambientSound"
-          "mediaControlPlus"
+          # "mediaControlPlus"
           "storageMonitor"
           "dankCleaner"
           "dnsSwitcher"
