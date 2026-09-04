@@ -197,7 +197,7 @@
   "notificationShowTimeoutBar": true,
   "notificationAnimationSpeed": 2,
   "notificationCustomAnimationDuration": 800,
-  "dankIslandBarId": "bar1788526942115",
+  "dankIslandBarId": "",
   "dankIslandFloating": true,
   "dankIslandReserveHeight": 24,
   "dankIslandInteractionMode": "click",
@@ -352,7 +352,7 @@
     {
       "id": "bar1788526942115",
       "name": "Bar 2",
-      "enabled": true,
+      "enabled": false,
       "position": 1,
       "screenPreferences": ["all"],
       "showOnLastDisplay": false,
