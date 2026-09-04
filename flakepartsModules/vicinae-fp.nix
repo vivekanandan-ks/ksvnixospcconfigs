@@ -57,17 +57,17 @@
       extensions = with inputs.vicinae-extensions.packages.${pkgs.stdenv.hostPlatform.system}; [
         # https://docs.vicinae.com/nixos#configuring-with-home-manager
         #bluetooth
-        nix
+        #nix
         power-profile
         #chromium-boookmarks
-        process-manager
-        fuzzy-files
-        kde-system-settings
-        brotab
-        vscode-recents
+        #process-manager
+        #fuzzy-files
+        #kde-system-settings
+        #brotab
+        #vscode-recents
         wifi-commander
         #systemd
-        player-pilot
+        #player-pilot
 
         #(config.lib.vicinae.mkRayCastExtension {
         #  # https://www.raycast.com/vimtor/wikipedia
