@@ -10,14 +10,14 @@
     programs.dank-material-shell.plugins.pureLyrics = {
       enable = true;
       src = pkgs.runCommand "dms-plugin-pure-lyrics-patched" {} ''
-        cp -r ${inputs.dms-plugin-pure-lyrics} $out
-        chmod -R u+w $out
+            cp -r ${inputs.dms-plugin-pure-lyrics} $out
+            chmod -R u+w $out
 
-        substituteInPlace $out/PureLyrics.qml \
-          --replace-fail "DesktopPluginComponent {" "DesktopPluginComponent {
-    readonly property bool isMusicPlaying: root.lyricPlayer ? (root.lyricPlayer.playbackState === MprisPlaybackState.Playing) : false
-    visible: root.isMusicPlaying" \
-          --replace-fail "running: root.lyricPlayer && lyricsLines.length > 0" "running: root.isMusicPlaying && lyricsLines.length > 0"
+            substituteInPlace $out/PureLyrics.qml \
+              --replace-fail "DesktopPluginComponent {" "DesktopPluginComponent {
+        readonly property bool isMusicPlaying: root.lyricPlayer ? (root.lyricPlayer.playbackState === MprisPlaybackState.Playing) : false
+        visible: root.isMusicPlaying" \
+              --replace-fail "running: root.lyricPlayer && lyricsLines.length > 0" "running: root.isMusicPlaying && lyricsLines.length > 0"
       '';
     };
   };

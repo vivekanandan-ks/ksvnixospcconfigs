@@ -1,4 +1,4 @@
-{ self, ... }: {
+_: {
   flake = {
     homeModules.nonDroid.mango-virtual-monitor = {
       lib,

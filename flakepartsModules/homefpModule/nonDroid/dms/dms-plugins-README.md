@@ -73,6 +73,7 @@ Configured in `dms-settings.json` under `controlCenterWidgets`:
 ## 🧩 Background Daemons & Passive Plugins
 
 <!-- - **`musicTheme`**: Dynamically retints system theme colors (GTK, Qt, terminals) from currently playing album art via Matugen; automatically reverts to wallpaper colors when music stops. -->
+
 - **`takeABreak`**: Scheduled 20-20-20 eye breaks and long rest reminders with pre-warning toasts and fullscreen break overlays (with smart gaming/fullscreen app suppression).
 - **`scratchpadHelper`**: Caches scratchpad window states and previews for MangoWM.
 - **`batteryOSD`**: Renders an animated Material You fluid wave popup whenever the charger is connected/disconnected or battery level reaches low threshold.
