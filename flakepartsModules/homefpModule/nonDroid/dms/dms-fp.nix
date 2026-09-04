@@ -18,6 +18,9 @@
   }: let
     wallpapers = builtins.attrNames (builtins.readDir self.personas.ksv.currentWallpaperSet);
     defaultWallpaper = builtins.head wallpapers;
+
+    wallpaperSet2Folder = "${self.personas.ksv.wallpapers}/drstone";
+    wallpaperSet2DefaultWallpaper = builtins.head (builtins.attrNames (builtins.readDir wallpaperSet2Folder));
   in {
     imports = [
       inputs.dms-shell.homeModules.default
@@ -55,6 +58,25 @@
         (builtins.fromJSON (builtins.readFile ./dms-session.json))
         {
           wallpaperPath = "${self.personas.ksv.currentWallpaperSet}/${defaultWallpaper}";
+          monitorWallpapers = {
+            "HEADLESS-1" = "${wallpaperSet2Folder}/${wallpaperSet2DefaultWallpaper}";
+          };
+          monitorCyclingSettings = {
+            "eDP-1" = {
+              enabled = true;
+              random = true;
+              mode = "interval";
+              interval = 300;
+              folderPath = self.personas.ksv.currentWallpaperSet;
+            };
+            "HEADLESS-1" = {
+              enabled = true;
+              random = true;
+              mode = "interval";
+              interval = 300;
+              folderPath = wallpaperSet2Folder;
+            };
+          };
         };
 
       settings = lib.mapAttrs (

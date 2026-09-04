@@ -1,0 +1,9 @@
+{
+  "id": "compactNetwork",
+  "name": "Compact Network Monitor",
+  "description": "Ultra-lightweight two-row network speed monitor",
+  "version": "1.0.0",
+  "icon": "network_check",
+  "type": "widget",
+  "component": "./CompactNetworkWidget.qml"
+}

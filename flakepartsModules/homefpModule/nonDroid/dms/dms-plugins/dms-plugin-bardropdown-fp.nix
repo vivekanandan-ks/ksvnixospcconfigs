@@ -21,6 +21,8 @@
           "caffeineRedesigned"
           "screenRecorderLH"
           "virtualKeyboard"
+          "usbManager"
+          "clipboardPlus"
         ];
       };
     };
