@@ -53,6 +53,15 @@ PluginComponent {
     property real savedTodayTx: 0
     property var historyDays: [] // Array of { date: "YYYY-MM-DD", rx: Number, tx: Number }
 
+    // --- Data Plan & Quota Tracking ---
+    property bool dataPlanEnabled: false
+    property real dataPlanQuotaMB: 2048 // In MB (default 2048 MB = 2 GB)
+    property var dataPlanRules: [
+        { id: "rule_80", threshold: "80%", type: "percent", value: 80, command: "" },
+        { id: "rule_100", threshold: "100%", type: "percent", value: 100, command: "" }
+    ]
+    property var firedRuleIds: []
+
     // --- Today & 7-Day Weekly Metrics ---
     readonly property real sessionTodayRx: (bootBaselineRx > 0 && uptimeRx >= bootBaselineRx) ? (uptimeRx - bootBaselineRx) : 0
     readonly property real sessionTodayTx: (bootBaselineTx > 0 && uptimeTx >= bootBaselineTx) ? (uptimeTx - bootBaselineTx) : 0
@@ -75,7 +84,19 @@ PluginComponent {
         return sum;
     }
 
-    readonly property string summaryTooltipText: `↓ ${root.formatBytes(root.uptimeRx)}/${root.formatBytes(root.todayRx)}/${root.formatBytes(root.weeklyRx)}  ↑ ${root.formatBytes(root.uptimeTx)}/${root.formatBytes(root.todayTx)}/${root.formatBytes(root.weeklyTx)}`
+    // --- Quota Computed Metrics ---
+    readonly property real dataPlanUsedBytes: todayRx + todayTx
+    readonly property real dataPlanQuotaBytes: Math.max(1, dataPlanQuotaMB * 1024 * 1024)
+    readonly property real dataPlanProgress: Math.min(1.0, dataPlanUsedBytes / dataPlanQuotaBytes)
+    readonly property real dataPlanPercent: Math.min(100.0, (dataPlanUsedBytes / dataPlanQuotaBytes) * 100.0)
+
+    readonly property string summaryTooltipText: {
+        let t = `↓ ${root.formatBytes(root.uptimeRx)}/${root.formatBytes(root.todayRx)}/${root.formatBytes(root.weeklyRx)}  ↑ ${root.formatBytes(root.uptimeTx)}/${root.formatBytes(root.todayTx)}/${root.formatBytes(root.weeklyTx)}`;
+        if (root.dataPlanEnabled) {
+            t += `\nQuota: ${root.formatBytes(root.dataPlanUsedBytes)} / ${root.formatBytes(root.dataPlanQuotaBytes)} (${root.dataPlanPercent.toFixed(0)}%)`;
+        }
+        return t;
+    }
 
     // --- Date & Cache Engine Helpers ---
     function getTodayDateStr() {
@@ -84,6 +105,132 @@ PluginComponent {
         const month = String(d.getMonth() + 1).padStart(2, '0');
         const day = String(d.getDate()).padStart(2, '0');
         return `${year}-${month}-${day}`;
+    }
+
+    function parseThreshold(input) {
+        if (!input) return null;
+        const str = input.trim();
+        if (!str) return null;
+
+        if (str.endsWith("%")) {
+            const val = parseFloat(str.replace("%", "").trim());
+            if (!isNaN(val) && val > 0) {
+                return { threshold: `${val}%`, type: "percent", value: val };
+            }
+        } else if (str.toLowerCase().endsWith("gb") || str.toLowerCase().endsWith("g")) {
+            const numStr = str.toLowerCase().replace(/gb|g/, "").trim();
+            const val = parseFloat(numStr);
+            if (!isNaN(val) && val > 0) {
+                return { threshold: `${val} GB`, type: "bytes", value: Math.round(val * 1024 * 1024 * 1024) };
+            }
+        } else if (str.toLowerCase().endsWith("mb") || str.toLowerCase().endsWith("m")) {
+            const numStr = str.toLowerCase().replace(/mb|m/, "").trim();
+            const val = parseFloat(numStr);
+            if (!isNaN(val) && val > 0) {
+                return { threshold: `${val} MB`, type: "bytes", value: Math.round(val * 1024 * 1024) };
+            }
+        } else {
+            const val = parseFloat(str);
+            if (!isNaN(val) && val > 0) {
+                if (val <= 100) {
+                    return { threshold: `${val}%`, type: "percent", value: val };
+                } else {
+                    return { threshold: `${val} MB`, type: "bytes", value: Math.round(val * 1024 * 1024) };
+                }
+            }
+        }
+        return null;
+    }
+
+    function isRuleTriggered(rule, usedBytes, quotaBytes) {
+        if (!rule) return false;
+        if (rule.type === "percent") {
+            if (quotaBytes <= 0) return false;
+            const pct = (usedBytes / quotaBytes) * 100;
+            return pct >= rule.value;
+        } else if (rule.type === "bytes") {
+            return usedBytes >= rule.value;
+        } else if (rule.type === "mb") {
+            return usedBytes >= (rule.value * 1024 * 1024);
+        }
+        return false;
+    }
+
+    function checkQuotaRules() {
+        if (!dataPlanEnabled || dataPlanQuotaMB <= 0) return;
+
+        const used = dataPlanUsedBytes;
+        const quota = dataPlanQuotaBytes;
+        let modified = false;
+        const currentFired = Array.isArray(firedRuleIds) ? [...firedRuleIds] : [];
+
+        for (let i = 0; i < dataPlanRules.length; i++) {
+            const rule = dataPlanRules[i];
+            if (!rule || !rule.id) continue;
+            if (currentFired.indexOf(rule.id) !== -1) continue;
+
+            if (isRuleTriggered(rule, used, quota)) {
+                currentFired.push(rule.id);
+                modified = true;
+
+                const pct = dataPlanPercent.toFixed(1);
+                let bodyText = `Used: ${root.formatBytes(used)} / ${root.formatBytes(quota)} (${pct}%)`;
+                const cmd = (rule.command || "").trim();
+                if (cmd.length > 0) {
+                    bodyText += `\nExecuted: ${cmd}`;
+                    try {
+                        Quickshell.execDetached(["sh", "-c", cmd]);
+                    } catch (err) {
+                        console.warn("Failed to execute data plan action:", err);
+                    }
+                }
+
+                const urgency = dataPlanPercent >= 90 ? "critical" : "normal";
+                try {
+                    Quickshell.execDetached(["notify-send", "-u", urgency, "-a", "DMS Network", `⚠️ Data Quota Alert (${rule.threshold})`, bodyText]);
+                } catch (err) {
+                    console.warn("Failed to send quota notification:", err);
+                }
+            }
+        }
+
+        if (modified) {
+            firedRuleIds = currentFired;
+            saveHistory();
+        }
+    }
+
+    function addRule(threshStr, cmdStr) {
+        const parsed = root.parseThreshold(threshStr);
+        if (!parsed) return false;
+        const newRule = {
+            id: "rule_" + Date.now() + "_" + Math.floor(Math.random() * 1000),
+            threshold: parsed.threshold,
+            type: parsed.type,
+            value: parsed.value,
+            command: (cmdStr || "").trim()
+        };
+        const currentRules = Array.isArray(root.dataPlanRules) ? [...root.dataPlanRules] : [];
+        currentRules.push(newRule);
+        root.dataPlanRules = currentRules;
+        root.saveHistory();
+        root.checkQuotaRules();
+        return true;
+    }
+
+    function deleteRule(idx) {
+        if (idx >= 0 && idx < root.dataPlanRules.length) {
+            const currentRules = [...root.dataPlanRules];
+            currentRules.splice(idx, 1);
+            root.dataPlanRules = currentRules;
+            root.saveHistory();
+        }
+    }
+
+    function resetFiredRules() {
+        root.firedRuleIds = [];
+        root.saveHistory();
+        root.checkQuotaRules();
     }
 
     function checkDayRollover() {
@@ -111,6 +258,7 @@ PluginComponent {
             savedTodayTx = 0;
             bootBaselineRx = uptimeRx;
             bootBaselineTx = uptimeTx;
+            firedRuleIds = [];
             saveHistory();
         }
     }
@@ -166,11 +314,19 @@ PluginComponent {
             const data = JSON.parse(content);
             const todayStr = getTodayDateStr();
 
+            dataPlanEnabled = (data.dataPlanEnabled !== undefined) ? data.dataPlanEnabled : false;
+            dataPlanQuotaMB = data.dataPlanQuotaMB || 2048;
+            dataPlanRules = Array.isArray(data.dataPlanRules) ? data.dataPlanRules : [
+                { id: "rule_80", threshold: "80%", type: "percent", value: 80, command: "" },
+                { id: "rule_100", threshold: "100%", type: "percent", value: 100, command: "" }
+            ];
+
             if (data.currentDate === todayStr) {
                 currentDate = todayStr;
                 savedTodayRx = data.savedTodayRx || 0;
                 savedTodayTx = data.savedTodayTx || 0;
                 historyDays = Array.isArray(data.historyDays) ? data.historyDays : [];
+                firedRuleIds = Array.isArray(data.firedRuleIds) ? data.firedRuleIds : [];
             } else {
                 let newHist = Array.isArray(data.historyDays) ? [...data.historyDays] : [];
                 if (data.currentDate) {
@@ -187,6 +343,7 @@ PluginComponent {
                 currentDate = todayStr;
                 savedTodayRx = 0;
                 savedTodayTx = 0;
+                firedRuleIds = [];
             }
         } catch (e) {
             initFresh();
@@ -194,6 +351,9 @@ PluginComponent {
 
         bootBaselineRx = uptimeRx;
         bootBaselineTx = uptimeTx;
+        if (dataPlanEnabled) {
+            checkQuotaRules();
+        }
     }
 
     function initFresh() {
@@ -201,6 +361,13 @@ PluginComponent {
         savedTodayRx = 0;
         savedTodayTx = 0;
         historyDays = [];
+        dataPlanEnabled = false;
+        dataPlanQuotaMB = 2048;
+        dataPlanRules = [
+            { id: "rule_80", threshold: "80%", type: "percent", value: 80, command: "" },
+            { id: "rule_100", threshold: "100%", type: "percent", value: 100, command: "" }
+        ];
+        firedRuleIds = [];
         bootBaselineRx = uptimeRx;
         bootBaselineTx = uptimeTx;
     }
@@ -211,7 +378,11 @@ PluginComponent {
             currentDate: currentDate,
             savedTodayRx: todayRx,
             savedTodayTx: todayTx,
-            historyDays: historyDays
+            historyDays: historyDays,
+            dataPlanEnabled: dataPlanEnabled,
+            dataPlanQuotaMB: dataPlanQuotaMB,
+            dataPlanRules: dataPlanRules,
+            firedRuleIds: firedRuleIds
         };
         try {
             historyFile.setText(JSON.stringify(data, null, 2));
@@ -239,6 +410,7 @@ PluginComponent {
         repeat: true
         onTriggered: {
             root.checkDayRollover();
+            root.checkQuotaRules();
             root.saveHistory();
         }
     }
@@ -249,11 +421,12 @@ PluginComponent {
             bootBaselineTx = uptimeTx;
         }
         root.checkDayRollover();
+        root.checkQuotaRules();
     }
 
     // --- Dropdown Popout Settings ---
-    popoutWidth: 380
-    popoutHeight: 330
+    popoutWidth: 420
+    popoutHeight: 340
 
     popoutContent: Component {
         PopoutComponent {
@@ -326,6 +499,71 @@ PluginComponent {
                                 isMonospace: true
                                 color: Theme.surfaceText
                                 anchors.verticalCenter: parent.verticalCenter
+                            }
+                        }
+                    }
+                }
+
+                // --- Quota Progress Bar Card (visible when dataPlanEnabled) ---
+                Rectangle {
+                    visible: root.dataPlanEnabled
+                    width: parent.width
+                    implicitHeight: visible ? (quotaCol.implicitHeight + Theme.spacingM * 2) : 0
+                    radius: Theme.cornerRadius
+                    color: Theme.nestedSurface
+                    border.width: 1
+                    border.color: Theme.outlineLight
+
+                    Column {
+                        id: quotaCol
+                        anchors.centerIn: parent
+                        width: parent.width - Theme.spacingM * 2
+                        spacing: Theme.spacingS
+
+                        Item {
+                            width: parent.width
+                            height: 18
+
+                            StyledText {
+                                anchors.left: parent.left
+                                anchors.verticalCenter: parent.verticalCenter
+                                text: I18n.tr("Daily Quota")
+                                font.pixelSize: Theme.fontSizeSmall
+                                font.bold: true
+                                color: Theme.surfaceText
+                            }
+
+                            StyledText {
+                                anchors.right: parent.right
+                                anchors.verticalCenter: parent.verticalCenter
+                                text: `${root.formatBytes(root.dataPlanUsedBytes)} / ${root.formatBytes(root.dataPlanQuotaBytes)} (${root.dataPlanPercent.toFixed(1)}%)`
+                                font.pixelSize: Theme.fontSizeSmall
+                                isMonospace: true
+                                font.bold: true
+                                color: root.dataPlanPercent >= 100 ? Theme.error : (root.dataPlanPercent >= 80 ? Theme.warning : Theme.primary)
+                            }
+                        }
+
+                        // Progress Bar Track & Indicator
+                        Rectangle {
+                            width: parent.width
+                            height: 8
+                            radius: 4
+                            color: Theme.outlineLight
+                            clip: true
+
+                            Rectangle {
+                                width: Math.min(parent.width, parent.width * root.dataPlanProgress)
+                                height: parent.height
+                                radius: 4
+                                color: root.dataPlanPercent >= 100 ? Theme.error : (root.dataPlanPercent >= 80 ? Theme.warning : Theme.primary)
+
+                                Behavior on width {
+                                    NumberAnimation {
+                                        duration: Theme.shortDuration
+                                        easing.type: Theme.standardEasing
+                                    }
+                                }
                             }
                         }
                     }
@@ -560,6 +798,365 @@ PluginComponent {
                                     font.pixelSize: 9
                                     font.bold: modelData.isToday || popout.selectedDayIndex === index
                                     color: popout.selectedDayIndex === index ? Theme.primary : (modelData.isToday ? Theme.surfaceText : Theme.surfaceVariantText)
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // --- Data Plan & Trigger Rules Settings Card ---
+                Rectangle {
+                    width: parent.width
+                    implicitHeight: planCardCol.implicitHeight + Theme.spacingM * 2
+                    radius: Theme.cornerRadius
+                    color: Theme.nestedSurface
+                    border.width: 1
+                    border.color: Theme.outlineLight
+
+                    Column {
+                        id: planCardCol
+                        anchors.centerIn: parent
+                        width: parent.width - Theme.spacingM * 2
+                        spacing: Theme.spacingM
+
+                        // Enable / Disable Toggle
+                        DankToggle {
+                            id: planToggle
+                            text: I18n.tr("Data Quota Plan")
+                            description: I18n.tr("Configure daily limits and custom action triggers")
+                            checked: root.dataPlanEnabled
+                            onToggled: function(val) {
+                                root.dataPlanEnabled = val;
+                                root.saveHistory();
+                                if (val) {
+                                    root.checkQuotaRules();
+                                }
+                            }
+                        }
+
+                        // Expanded Settings (visible only when enabled)
+                        Column {
+                            visible: root.dataPlanEnabled
+                            width: parent.width
+                            spacing: Theme.spacingM
+
+                            Rectangle {
+                                width: parent.width
+                                height: 1
+                                color: Theme.outlineLight
+                                opacity: 0.5
+                            }
+
+                            // Quota limit configuration row
+                            Row {
+                                width: parent.width
+                                spacing: Theme.spacingS
+
+                                Column {
+                                    spacing: 2
+                                    width: 100
+                                    anchors.verticalCenter: parent.verticalCenter
+
+                                    StyledText {
+                                        text: I18n.tr("Daily Quota")
+                                        font.pixelSize: Theme.fontSizeSmall
+                                        font.bold: true
+                                        color: Theme.surfaceText
+                                    }
+
+                                    StyledText {
+                                        text: I18n.tr("in Megabytes (MB)")
+                                        font.pixelSize: 9
+                                        color: Theme.surfaceVariantText
+                                    }
+                                }
+
+                                DankTextField {
+                                    id: quotaInput
+                                    width: 80
+                                    height: 32
+                                    text: String(root.dataPlanQuotaMB)
+                                    placeholderText: "2048"
+                                    onEditingFinished: {
+                                        const v = parseFloat(text);
+                                        if (!isNaN(v) && v > 0) {
+                                            root.dataPlanQuotaMB = v;
+                                            root.saveHistory();
+                                            root.checkQuotaRules();
+                                        }
+                                    }
+                                    onAccepted: editingFinished()
+                                }
+
+                                // Preset quick-select chips
+                                Row {
+                                    spacing: Theme.spacingXS
+                                    anchors.verticalCenter: parent.verticalCenter
+
+                                    Repeater {
+                                        model: [
+                                            { label: "1GB", val: 1024 },
+                                            { label: "2GB", val: 2048 },
+                                            { label: "5GB", val: 5120 }
+                                        ]
+
+                                        Rectangle {
+                                            width: presetText.implicitWidth + Theme.spacingS * 2
+                                            height: 28
+                                            radius: 4
+                                            color: root.dataPlanQuotaMB === modelData.val ? Theme.primary : (presetMouse.containsMouse ? Theme.surfaceTextHover : Theme.surfaceContainerHigh)
+                                            border.width: 1
+                                            border.color: root.dataPlanQuotaMB === modelData.val ? Theme.primary : Theme.outlineLight
+
+                                            StyledText {
+                                                id: presetText
+                                                anchors.centerIn: parent
+                                                text: modelData.label
+                                                font.pixelSize: 10
+                                                font.bold: true
+                                                color: root.dataPlanQuotaMB === modelData.val ? Theme.onPrimary : Theme.surfaceText
+                                            }
+
+                                            MouseArea {
+                                                id: presetMouse
+                                                anchors.fill: parent
+                                                hoverEnabled: true
+                                                cursorShape: Qt.PointingHandCursor
+                                                onClicked: {
+                                                    root.dataPlanQuotaMB = modelData.val;
+                                                    quotaInput.text = String(modelData.val);
+                                                    root.saveHistory();
+                                                    root.checkQuotaRules();
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            // Rules Section Header
+                            Item {
+                                width: parent.width
+                                height: 20
+
+                                StyledText {
+                                    anchors.left: parent.left
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    text: I18n.tr("Notification & Action Rules")
+                                    font.pixelSize: Theme.fontSizeSmall
+                                    font.bold: true
+                                    color: Theme.surfaceText
+                                }
+
+                                // Reset fired button if any rule fired today
+                                Rectangle {
+                                    visible: (root.firedRuleIds || []).length > 0
+                                    anchors.right: parent.right
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    width: resetRow.implicitWidth + 8
+                                    height: 20
+                                    radius: 4
+                                    color: resetMouse.containsMouse ? Theme.surfaceTextHover : "transparent"
+
+                                    Row {
+                                        id: resetRow
+                                        anchors.centerIn: parent
+                                        spacing: 2
+                                        DankIcon {
+                                            name: "refresh"
+                                            size: 11
+                                            color: Theme.primary
+                                            anchors.verticalCenter: parent.verticalCenter
+                                        }
+                                        StyledText {
+                                            text: I18n.tr("Reset alerts")
+                                            font.pixelSize: 9
+                                            color: Theme.primary
+                                            anchors.verticalCenter: parent.verticalCenter
+                                        }
+                                    }
+
+                                    MouseArea {
+                                        id: resetMouse
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                        cursorShape: Qt.PointingHandCursor
+                                        onClicked: root.resetFiredRules()
+                                    }
+                                }
+                            }
+
+                            // Existing Rules List
+                            Column {
+                                width: parent.width
+                                spacing: Theme.spacingXS
+
+                                Repeater {
+                                    model: root.dataPlanRules
+
+                                    Rectangle {
+                                        width: parent.width
+                                        height: 32
+                                        radius: 6
+                                        color: Theme.surfaceContainerHigh
+                                        border.width: 1
+                                        border.color: Theme.outlineLight
+
+                                        readonly property bool isFired: (root.firedRuleIds || []).indexOf(modelData.id) !== -1
+
+                                        Row {
+                                            anchors.left: parent.left
+                                            anchors.leftMargin: Theme.spacingS
+                                            anchors.right: deleteBtn.left
+                                            anchors.rightMargin: Theme.spacingS
+                                            anchors.verticalCenter: parent.verticalCenter
+                                            spacing: Theme.spacingS
+
+                                            // Threshold badge
+                                            Rectangle {
+                                                height: 20
+                                                width: badgeText.implicitWidth + 10
+                                                radius: 4
+                                                color: Theme.withAlpha(Theme.primary, 0.18)
+                                                anchors.verticalCenter: parent.verticalCenter
+
+                                                StyledText {
+                                                    id: badgeText
+                                                    anchors.centerIn: parent
+                                                    text: modelData.threshold || ""
+                                                    font.pixelSize: 10
+                                                    font.bold: true
+                                                    color: Theme.primary
+                                                }
+                                            }
+
+                                            // Status check if fired
+                                            DankIcon {
+                                                visible: isFired
+                                                name: "check_circle"
+                                                size: 14
+                                                color: Theme.success
+                                                anchors.verticalCenter: parent.verticalCenter
+                                            }
+
+                                            // Command / Action description
+                                            StyledText {
+                                                text: modelData.command ? modelData.command : I18n.tr("Notification only")
+                                                font.pixelSize: Theme.fontSizeSmall
+                                                font.italic: !modelData.command
+                                                color: modelData.command ? Theme.surfaceText : Theme.surfaceVariantText
+                                                elide: Text.ElideMiddle
+                                                anchors.verticalCenter: parent.verticalCenter
+                                                width: Math.max(50, parent.width - badgeText.implicitWidth - (isFired ? 24 : 0) - 20)
+                                            }
+                                        }
+
+                                        // Delete Rule Button
+                                        Rectangle {
+                                            id: deleteBtn
+                                            anchors.right: parent.right
+                                            anchors.rightMargin: Theme.spacingS
+                                            anchors.verticalCenter: parent.verticalCenter
+                                            width: 24
+                                            height: 24
+                                            radius: 12
+                                            color: delMouse.containsMouse ? Theme.withAlpha(Theme.error, 0.15) : "transparent"
+
+                                            DankIcon {
+                                                anchors.centerIn: parent
+                                                name: "close"
+                                                size: 14
+                                                color: delMouse.containsMouse ? Theme.error : Theme.surfaceVariantText
+                                            }
+
+                                            MouseArea {
+                                                id: delMouse
+                                                anchors.fill: parent
+                                                hoverEnabled: true
+                                                cursorShape: Qt.PointingHandCursor
+                                                onClicked: root.deleteRule(index)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            // Add New Rule input row
+                            Rectangle {
+                                width: parent.width
+                                implicitHeight: addRuleCol.implicitHeight + Theme.spacingS * 2
+                                radius: 6
+                                color: Theme.withAlpha(Theme.primary, 0.04)
+                                border.width: 1
+                                border.color: Theme.withAlpha(Theme.primary, 0.25)
+
+                                Column {
+                                    id: addRuleCol
+                                    anchors.centerIn: parent
+                                    width: parent.width - Theme.spacingS * 2
+                                    spacing: Theme.spacingS
+
+                                    Row {
+                                        width: parent.width
+                                        spacing: Theme.spacingS
+
+                                        DankTextField {
+                                            id: newThresholdInput
+                                            width: 110
+                                            height: 34
+                                            placeholderText: I18n.tr("80% or 1.5GB")
+                                            onAccepted: addBtnMouse.clicked(null)
+                                        }
+
+                                        DankTextField {
+                                            id: newCmdInput
+                                            width: parent.width - 110 - 70 - Theme.spacingS * 2
+                                            height: 34
+                                            placeholderText: I18n.tr("Command (optional)")
+                                            onAccepted: addBtnMouse.clicked(null)
+                                        }
+
+                                        Rectangle {
+                                            id: addBtn
+                                            width: 70
+                                            height: 34
+                                            radius: Theme.cornerRadius
+                                            color: addBtnMouse.containsMouse ? Theme.withAlpha(Theme.primary, 0.85) : Theme.primary
+
+                                            Row {
+                                                anchors.centerIn: parent
+                                                spacing: 2
+
+                                                DankIcon {
+                                                    name: "add"
+                                                    size: 14
+                                                    color: Theme.onPrimary
+                                                    anchors.verticalCenter: parent.verticalCenter
+                                                }
+
+                                                StyledText {
+                                                    text: I18n.tr("Add")
+                                                    font.pixelSize: Theme.fontSizeSmall
+                                                    font.bold: true
+                                                    color: Theme.onPrimary
+                                                    anchors.verticalCenter: parent.verticalCenter
+                                                }
+                                            }
+
+                                            MouseArea {
+                                                id: addBtnMouse
+                                                anchors.fill: parent
+                                                hoverEnabled: true
+                                                cursorShape: Qt.PointingHandCursor
+                                                onClicked: {
+                                                    if (root.addRule(newThresholdInput.text, newCmdInput.text)) {
+                                                        newThresholdInput.text = "";
+                                                        newCmdInput.text = "";
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
