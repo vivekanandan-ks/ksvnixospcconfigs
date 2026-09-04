@@ -18,6 +18,9 @@
     # Allow import-from-derivation
     allow-import-from-derivation = true;
 
+    # Limit CPU usage (inherited from flake-file.nixConfig)
+    inherit (config.flake-file.nixConfig) max-jobs cores;
+
     # Inherit all distributed substituters and trusted keys merged by flake-file
     extra-substituters = config.flake-file.nixConfig.extra-substituters;
     extra-trusted-public-keys = config.flake-file.nixConfig.extra-trusted-public-keys;
@@ -33,6 +36,9 @@
 in {
   # ─── UNIVERSAL STANDALONE CACHES (Owned by base nix-settings) ─────────────
   flake-file.nixConfig = {
+    max-jobs = 2;
+    cores = 2;
+
     extra-substituters = [
       "https://cache.nixos.org"
       "https://nix-community.cachix.org"

@@ -253,9 +253,7 @@
   ],
   "powerMenuGridLayout": true,
   "screenPreferences": {
-    "wallpaper": [
-      "all"
-    ]
+    "wallpaper": ["all"]
   },
   "barConfigs": [
     {
@@ -264,9 +262,7 @@
       "barInsetPadding": 0,
       "borderEnabled": false,
       "bottomGap": 0,
-      "centerWidgets": [
-        "capsLockIndicator"
-      ],
+      "centerWidgets": ["capsLockIndicator"],
       "clickThrough": false,
       "enabled": true,
       "gothCornersEnabled": false,
@@ -350,9 +346,7 @@
       "widgetOutlineThickness": 1,
       "widgetPadding": 6,
       "widgetTransparency": 0.76,
-      "screenPreferences": [
-        "all"
-      ],
+      "screenPreferences": ["all"],
       "batteryColorMode": "theme"
     },
     {
@@ -360,9 +354,7 @@
       "name": "Bar 2",
       "enabled": true,
       "position": 1,
-      "screenPreferences": [
-        "all"
-      ],
+      "screenPreferences": ["all"],
       "showOnLastDisplay": false,
       "leftWidgets": [],
       "centerWidgets": [],
@@ -445,9 +437,7 @@
   "desktopWidgetInstances": [
     {
       "config": {
-        "displayPreferences": [
-          "all"
-        ]
+        "displayPreferences": ["all"]
       },
       "enabled": true,
       "id": "dw_modern_clock",
@@ -457,9 +447,7 @@
     {
       "config": {
         "borderOpacity": 0,
-        "displayPreferences": [
-          "all"
-        ],
+        "displayPreferences": ["all"],
         "fontSize": 22,
         "showOnOverlay": false
       },
@@ -483,13 +471,7 @@
       "trigger": "qrg"
     }
   },
-  "clipboardVisibleEntryActions": [
-    "pin",
-    "edit",
-    "delete",
-    "copy",
-    "paste"
-  ],
+  "clipboardVisibleEntryActions": ["pin", "edit", "delete", "copy", "paste"],
   "frameLauncherEdgeHover": true,
   "configVersion": 17,
   "dockPosition": 3
