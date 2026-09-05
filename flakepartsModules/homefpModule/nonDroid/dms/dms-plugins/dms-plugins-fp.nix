@@ -85,7 +85,13 @@
     programs.dank-material-shell.plugins = {
       # Standalone Plugins
       wallpaperCarousel = {
-        src = inputs.dms-plugin-wallpaper-carousel;
+        src = pkgs.applyPatches {
+          name = "dms-plugin-wallpaper-carousel-patched";
+          src = inputs.dms-plugin-wallpaper-carousel;
+          patches = [
+            ./per-monitor-wallpaper-carousel.patch
+          ];
+        };
         settings = {
           overlayOpacity = 73;
         };

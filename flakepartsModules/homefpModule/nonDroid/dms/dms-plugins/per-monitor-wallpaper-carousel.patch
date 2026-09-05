@@ -1,0 +1,78 @@
+diff --git a/WallpaperCarousel.qml b/WallpaperCarousel.qml
+index 7bb4827..ab23140 100644
+--- a/WallpaperCarousel.qml
++++ b/WallpaperCarousel.qml
+@@ -16,6 +16,25 @@ PluginComponent {
+         getFocusedScreen: () => CompositorService.getFocusedScreen()
+ 
+         defaultWallpaperFolder: {
++            const targetScreen = carousel.overlayScreen ?? CompositorService.getFocusedScreen();
++            const screenName = targetScreen?.name ?? "";
++
++            if (SessionData.perMonitorWallpaper && screenName) {
++                const cycling = SessionData.getMonitorCyclingSettings(screenName);
++                if (cycling && cycling.folderPath && cycling.folderPath.trim() !== "")
++                    return cycling.folderPath.trim();
++
++                const monWp = SessionData.getMonitorWallpaper(screenName);
++                if (monWp && !monWp.startsWith("#")) {
++                    const lastSlash = monWp.lastIndexOf('/');
++                    if (lastSlash > 0)
++                        return monWp.substring(0, lastSlash);
++                }
++            }
++
++            if (SessionData.wallpaperCyclingFolderPath && SessionData.wallpaperCyclingFolderPath.trim() !== "")
++                return SessionData.wallpaperCyclingFolderPath.trim();
++
+             const p = SessionData.wallpaperPath;
+             if (!p || p.startsWith("#"))
+                 return Paths.strip(Paths.pictures);
+@@ -24,13 +43,44 @@ PluginComponent {
+         }
+ 
+         currentWallpaperPath: {
+-            if (SessionData.perMonitorWallpaper && carousel.overlayScreen)
+-                return SessionData.getMonitorWallpaper(carousel.overlayScreen.name) ?? SessionData.wallpaperPath ?? "";
++            const targetScreen = carousel.overlayScreen ?? CompositorService.getFocusedScreen();
++            const screenName = targetScreen?.name ?? "";
++            if (SessionData.perMonitorWallpaper && screenName)
++                return SessionData.getMonitorWallpaper(screenName) ?? SessionData.wallpaperPath ?? "";
+             return SessionData.wallpaperPath ?? "";
+         }
+ 
+-        hasWallpaperConfigured: {
++        extraDirectories: {
++            if (!SessionData.perMonitorWallpaper) return [];
++            var dirs = [];
++            var addDir = function(dir) {
++                if (dir && dirs.indexOf(dir) < 0) dirs.push(dir);
++            };
++            if (SessionData.monitorCyclingSettings) {
++                for (var k in SessionData.monitorCyclingSettings) {
++                    var s = SessionData.monitorCyclingSettings[k];
++                    if (s && s.folderPath) addDir(s.folderPath.trim());
++                }
++            }
++            if (SessionData.monitorWallpapers) {
++                for (var m in SessionData.monitorWallpapers) {
++                    var wp = SessionData.monitorWallpapers[m];
++                    if (wp && !wp.startsWith("#")) {
++                        var ls = wp.lastIndexOf('/');
++                        if (ls > 0) addDir(wp.substring(0, ls));
++                    }
++                }
++            }
+             const p = SessionData.wallpaperPath;
++            if (p && !p.startsWith("#")) {
++                const ls = p.lastIndexOf('/');
++                if (ls > 0) addDir(p.substring(0, ls));
++            }
++            return dirs;
++        }
++
++        hasWallpaperConfigured: {
++            const p = currentWallpaperPath || SessionData.wallpaperPath;
+             return !(!p || p.startsWith("#"));
+         }
+ 

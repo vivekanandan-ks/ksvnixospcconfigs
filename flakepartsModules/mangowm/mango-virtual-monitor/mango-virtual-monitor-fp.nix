@@ -16,22 +16,24 @@ _: {
           coreutils
         ];
         text = ''
-          # Check if HEADLESS-1 exists in MangoWM using ripgrep
-          if mmsg get all-monitors | rg -q '"name":"HEADLESS-1"'; then
+          # Find any active or existing headless monitor
+          current_mon=$(mmsg get all-monitors | rg -o '"name":"(HEADLESS-[0-9]+)"' -r '$1' | head -n 1 || true)
+
+          if [ -n "$current_mon" ]; then
             # --- TEARDOWN ---
-            pkill -f "wl-mirror.*HEADLESS-1" || true
+            pkill -f "wl-mirror.*HEADLESS-" || true
             mmsg dispatch destroy_all_virtual_output
-            notify-send -a "Mango Virtual Monitor" -i video-display "Virtual Monitor Stopped" "Destroyed HEADLESS-1."
+            notify-send -a "Mango Virtual Monitor" -i video-display "Virtual Monitor Stopped" "Destroyed $current_mon."
           else
             # --- SETUP ---
             start_time=$(date +%s%3N)
             mmsg dispatch create_virtual_output
 
-            # Wait until MangoWM registers HEADLESS-1 (up to 10.0s, checking every 100ms)
-            created=false
+            # Wait until MangoWM registers the new headless output (up to 10.0s, checking every 100ms)
+            created_mon=""
             for _ in {1..100}; do
-              if mmsg get all-monitors | rg -q '"name":"HEADLESS-1"'; then
-                created=true
+              created_mon=$(mmsg get all-monitors | rg -o '"name":"(HEADLESS-[0-9]+)"' -r '$1' | head -n 1 || true)
+              if [ -n "$created_mon" ]; then
                 break
               fi
               sleep 0.1
@@ -43,17 +45,17 @@ _: {
             elapsed_tenths=$(((elapsed_ms % 1000) / 100))
             elapsed="''${elapsed_sec}.''${elapsed_tenths}s"
 
-            if [ "$created" = true ]; then
+            if [ -n "$created_mon" ]; then
               # Launch wl-mirror in background (auto-retry on fast startup fail, auto-exit on teardown)
               (
                 for _ in {1..40}; do
-                  # 1. Abort immediately if HEADLESS-1 was destroyed or teardown began
-                  if ! mmsg get all-monitors | rg -q '"name":"HEADLESS-1"'; then
+                  # 1. Abort immediately if the monitor was destroyed or teardown began
+                  if ! mmsg get all-monitors | rg -q "\"name\":\"$created_mon\""; then
                     break
                   fi
 
                   start_run=$(date +%s)
-                  wl-mirror HEADLESS-1 || true
+                  wl-mirror "$created_mon" || true
                   runtime=$(( $(date +%s) - start_run ))
 
                   # 2. If it was active for >= 1s, it was closed intentionally — do not retry
@@ -62,7 +64,7 @@ _: {
                   fi
 
                   # 3. Check again if output was removed during startup
-                  if ! mmsg get all-monitors | rg -q '"name":"HEADLESS-1"'; then
+                  if ! mmsg get all-monitors | rg -q "\"name\":\"$created_mon\""; then
                     break
                   fi
 
@@ -70,9 +72,9 @@ _: {
                 done
               ) &
 
-              notify-send -a "Mango Virtual Monitor" -i video-display "Virtual Monitor Active" "HEADLESS-1 ready & mirrored (''${elapsed})."
+              notify-send -a "Mango Virtual Monitor" -i video-display "Virtual Monitor Active" "$created_mon ready & mirrored (''${elapsed})."
             else
-              notify-send -u critical -a "Mango Virtual Monitor" -i dialog-error "Virtual Monitor Failed" "HEADLESS-1 did not appear within 10s."
+              notify-send -u critical -a "Mango Virtual Monitor" -i dialog-error "Virtual Monitor Failed" "Virtual monitor did not appear within 10s."
             fi
           fi
         '';
@@ -96,10 +98,10 @@ _: {
           "SUPER, v, spawn, toggle-virtmon"
 
           # Send focused window to the virtual monitor
-          "SUPER+SHIFT, v, tagmon, HEADLESS-1"
+          "SUPER+SHIFT, v, tagmon, HEADLESS-.*"
 
           # Focus the virtual monitor
-          "SUPER+CTRL, v, focusmon, HEADLESS-1"
+          "SUPER+CTRL, v, focusmon, HEADLESS-.*"
         ];
       };
     };

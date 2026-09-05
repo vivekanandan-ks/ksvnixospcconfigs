@@ -21,6 +21,18 @@
 
     wallpaperSet2Folder = "${self.personas.ksv.wallpapers}/drstone";
     wallpaperSet2DefaultWallpaper = builtins.head (builtins.attrNames (builtins.readDir wallpaperSet2Folder));
+
+    # Pre-generate configurations for all possible headless outputs (HEADLESS-1 .. HEADLESS-50)
+    headlessKeys = map (i: "HEADLESS-${toString i}") (lib.range 1 50);
+    headlessMonitorWallpapers = lib.genAttrs headlessKeys (_: "${wallpaperSet2Folder}/${wallpaperSet2DefaultWallpaper}");
+    headlessCyclingSettings = lib.genAttrs headlessKeys (_: {
+      enabled = true;
+      random = true;
+      mode = "interval";
+      interval = 300;
+      folderPath = wallpaperSet2Folder;
+    });
+    headlessFillModes = lib.genAttrs headlessKeys (_: "Fill");
   in {
     imports = [
       inputs.dms-shell.homeModules.default
@@ -58,25 +70,19 @@
         (builtins.fromJSON (builtins.readFile ./dms-session.json))
         {
           wallpaperPath = "${self.personas.ksv.currentWallpaperSet}/${defaultWallpaper}";
-          monitorWallpapers = {
-            "HEADLESS-1" = "${wallpaperSet2Folder}/${wallpaperSet2DefaultWallpaper}";
-          };
-          monitorCyclingSettings = {
-            "eDP-1" = {
-              enabled = true;
-              random = true;
-              mode = "interval";
-              interval = 300;
-              folderPath = self.personas.ksv.currentWallpaperSet;
+          monitorWallpapers = headlessMonitorWallpapers;
+          monitorWallpaperFillModes = headlessFillModes;
+          monitorCyclingSettings =
+            headlessCyclingSettings
+            // {
+              "eDP-1" = {
+                enabled = true;
+                random = true;
+                mode = "interval";
+                interval = 300;
+                folderPath = self.personas.ksv.currentWallpaperSet;
+              };
             };
-            "HEADLESS-1" = {
-              enabled = true;
-              random = true;
-              mode = "interval";
-              interval = 300;
-              folderPath = wallpaperSet2Folder;
-            };
-          };
         };
 
       settings = lib.mapAttrs (

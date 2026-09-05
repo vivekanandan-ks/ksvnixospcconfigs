@@ -36,8 +36,8 @@ This module provides an isolated virtual display (`HEADLESS-1`) and a live zero-
 | Shortcut                | Action                 | Description                                                |
 | :---------------------- | :--------------------- | :--------------------------------------------------------- |
 | **`SUPER + v`**         | `toggle-virtmon`       | Toggle the virtual monitor and `wl-mirror` on or off.      |
-| **`SUPER + SHIFT + v`** | `tagmon, HEADLESS-1`   | Move the currently active window onto the virtual monitor. |
-| **`SUPER + CTRL + v`**  | `focusmon, HEADLESS-1` | Jump keyboard & cursor focus to the virtual monitor.       |
+| **`SUPER + SHIFT + v`** | `tagmon, HEADLESS-.*`   | Move the currently active window onto the virtual monitor. |
+| **`SUPER + CTRL + v`**  | `focusmon, HEADLESS-.*` | Jump keyboard & cursor focus to the virtual monitor.       |
 
 > **Tip:** You can return focus to your laptop screen using your standard directional focus shortcuts (e.g. `SUPER + h` / `SUPER + Left`) or by moving your mouse cursor back to the left.
 
