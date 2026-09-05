@@ -173,6 +173,17 @@
             urlbar.behavior = "float";
           };
 
+          # --- Hardware Video Decoding & Media Performance ---
+          # Disable AV1 to force YouTube/sites to serve VP9/H.264 (hardware-decoded on Intel HD 620)
+          "media.av1.enabled" = false;
+
+          # Ensure VA-API hardware acceleration is fully active
+          "media.ffmpeg.vaapi.enabled" = true;
+
+          # Throttles CPU usage of background tabs (with a 5-second grace period)
+          "dom.ipc.processPriorityManager.enabled" = true;
+          "dom.ipc.processPriorityManager.backgroundGracePeriodMS" = 5000;
+
           # --- Native Zen & Wayland Window Flags ---
           "zen.view.use-single-toolbar" = false;
           "zen.widget.linux.transparency" = true;

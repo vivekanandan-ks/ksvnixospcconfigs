@@ -60,6 +60,11 @@ in {
         };
       registry = commonRegistry;
 
+      # Optimize build scheduling for desktop responsiveness
+      daemonCPUSchedPolicy = "batch";
+      # daemonIOSchedClass = "best-effort";
+      # daemonIOSchedPriority = 7;
+
       # Nix GC
       /*
       gc = {
@@ -71,6 +76,9 @@ in {
       };
       */
     };
+
+    # Set Nix daemon build priority to nice 19 via systemd
+    systemd.services.nix-daemon.serviceConfig.Nice = 19;
   };
 
   # ─── HOME MANAGER MODULE ───────────────────────────────────────────────────
