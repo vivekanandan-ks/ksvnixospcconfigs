@@ -44,12 +44,28 @@ _: {
             elapsed="''${elapsed_sec}.''${elapsed_tenths}s"
 
             if [ "$created" = true ]; then
-              # Launch wl-mirror with auto-retry in background (up to 10.0s)
+              # Launch wl-mirror in background (auto-retry on fast startup fail, auto-exit on teardown)
               (
                 for _ in {1..40}; do
-                  if wl-mirror HEADLESS-1; then
+                  # 1. Abort immediately if HEADLESS-1 was destroyed or teardown began
+                  if ! mmsg get all-monitors | rg -q '"name":"HEADLESS-1"'; then
                     break
                   fi
+
+                  start_run=$(date +%s)
+                  wl-mirror HEADLESS-1 || true
+                  runtime=$(( $(date +%s) - start_run ))
+
+                  # 2. If it was active for >= 1s, it was closed intentionally — do not retry
+                  if [ "$runtime" -ge 1 ]; then
+                    break
+                  fi
+
+                  # 3. Check again if output was removed during startup
+                  if ! mmsg get all-monitors | rg -q '"name":"HEADLESS-1"'; then
+                    break
+                  fi
+
                   sleep 0.25
                 done
               ) &
