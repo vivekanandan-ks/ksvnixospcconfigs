@@ -69,10 +69,6 @@
       url = "github:NordicsSys/dankCleaner";
       flake = false;
     };
-    dms-plugin-dns-switcher = {
-      url = "github:JDKamalakar/DMS-DNS_Switcher";
-      flake = false;
-    };
     dms-plugin-hidden-bar = {
       url = "github:hthienloc/dms-hidden-bar";
       flake = false;
@@ -107,10 +103,6 @@
     };
     dms-plugin-take-a-break = {
       url = "github:hthienloc/dms-take-a-break";
-      flake = false;
-    };
-    dms-plugin-usb-manager = {
-      url = "github:NordicsSys/dms-usb-manager";
       flake = false;
     };
     dms-plugin-wallpaper-carousel = {

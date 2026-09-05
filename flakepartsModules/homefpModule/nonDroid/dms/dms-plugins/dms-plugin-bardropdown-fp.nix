@@ -17,12 +17,12 @@
           # "mediaControlPlus"
           "storageMonitor"
           "dankCleaner"
-          "dnsSwitcher"
           "caffeineRedesigned"
           "screenRecorderLH"
-          "virtualKeyboard"
-          "usbManager"
+          # "usbManager"
           "clipboardPlus"
+          "dankKDEConnect"
+          "notepadButton"
         ];
       };
     };

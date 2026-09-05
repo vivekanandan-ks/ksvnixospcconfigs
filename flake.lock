@@ -332,22 +332,6 @@
         "type": "github"
       }
     },
-    "dms-plugin-dns-switcher": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1786172479,
-        "narHash": "sha256-hqQm22R6P0HuOJD4E9ZPiPOMh6CbaO6PcBnSkr+0y/k=",
-        "owner": "JDKamalakar",
-        "repo": "DMS-DNS_Switcher",
-        "rev": "b03cac0aaa9c70cf8c91896775459b5cada52144",
-        "type": "github"
-      },
-      "original": {
-        "owner": "JDKamalakar",
-        "repo": "DMS-DNS_Switcher",
-        "type": "github"
-      }
-    },
     "dms-plugin-hidden-bar": {
       "flake": false,
       "locked": {
@@ -489,22 +473,6 @@
       "original": {
         "owner": "hthienloc",
         "repo": "dms-take-a-break",
-        "type": "github"
-      }
-    },
-    "dms-plugin-usb-manager": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1781932583,
-        "narHash": "sha256-al6/8gFMcy3Vv4867SB7OUNqwCZ3n0ygweg5FvG1xPk=",
-        "owner": "NordicsSys",
-        "repo": "dms-usb-manager",
-        "rev": "4dd61c1aa277a280fc05131342bc1cf3936a2a86",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NordicsSys",
-        "repo": "dms-usb-manager",
         "type": "github"
       }
     },
@@ -1374,7 +1342,6 @@
         "dms-plugin-battery-plus": "dms-plugin-battery-plus",
         "dms-plugin-caffeine": "dms-plugin-caffeine",
         "dms-plugin-dank-cleaner": "dms-plugin-dank-cleaner",
-        "dms-plugin-dns-switcher": "dms-plugin-dns-switcher",
         "dms-plugin-hidden-bar": "dms-plugin-hidden-bar",
         "dms-plugin-modern-clock": "dms-plugin-modern-clock",
         "dms-plugin-pure-lyrics": "dms-plugin-pure-lyrics",
@@ -1384,7 +1351,6 @@
         "dms-plugin-screenkey": "dms-plugin-screenkey",
         "dms-plugin-storage-monitor": "dms-plugin-storage-monitor",
         "dms-plugin-take-a-break": "dms-plugin-take-a-break",
-        "dms-plugin-usb-manager": "dms-plugin-usb-manager",
         "dms-plugin-wallpaper-carousel": "dms-plugin-wallpaper-carousel",
         "dms-plugins-avengemedia": "dms-plugins-avengemedia",
         "dms-plugins-dadangdut33": "dms-plugins-dadangdut33",

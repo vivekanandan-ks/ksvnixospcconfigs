@@ -14,7 +14,6 @@ This directory houses the declarative configuration for **DankMaterialShell (DMS
 | **`SUPER + ALT + b`**     | Toggle Battery Charge Limit       | **`batteryChargeControl`**  | Toggles 60% conservation mode vs 100% full charge          |
 | **`SUPER + ALT + c`**     | Toggle Screen Capture Toolbar     | **`screenCaptureToolbar`**  | Floating pill toolbar with photo, video, and audio capture |
 | **`SUPER + ALT + k`**     | Toggle Screenkey Overlay          | **`screenkey`**             | On-screen visualizer for keyboard shortcuts & mouse clicks |
-| **`SUPER + SHIFT + K`**   | Toggle Virtual Keyboard           | **`virtualKeyboard`**       | On-screen touch/mouse keyboard typing through `ydotool`    |
 | **`SUPER + SHIFT + R`**   | Toggle Screen Recording (Portal)  | **`screenRecorderLH`**      | Opens Wayland Portal dialog to record screen or window     |
 | **`SUPER + ALT + R`**     | Toggle Screen Recording (Portal)  | **`screenRecorderLH`**      | Alternative binding for screen recording                   |
 | **`SUPER + w`**           | Cycle / Toggle Wallpaper Carousel | **`wallpaperCarousel`**     | Rotates through wallpaper sets                             |
@@ -54,7 +53,6 @@ Defined in `dms-bottom-bar-fp.nix`:
   - **`dnsSwitcher`**: Active DNS provider monitor and quick-switcher via NetworkManager.
   - **`caffeineRedesigned`**: Screen wake and idle inhibitor (5m/15m/30m/1h/2h/Infinite).
   - **`screenRecorderLH`**: Interactive recording pill showing duration and stop/pause controls.
-  - **`virtualKeyboard`**: Quick-toggle button to show/hide the on-screen virtual keyboard.
 
 ---
 
@@ -94,4 +92,3 @@ Dependencies are managed through the centralized `dmsExtraPackages` option defin
   - `screenCaptureToolbar`: `pkgs.slurp`, `pkgs.grim`, `pkgs.gpu-screen-recorder`
   - `screenkey`: `pkgs.evtest`, `pkgs.libinput`
 - `dms-fp.nix` wraps the DMS binary's `$PATH` with all aggregated packages.
-- **`virtualKeyboard`**: Managed via its own self-contained NixOS module (`programs.ydotool.enable = true`), where NixOS automatically starts `ydotoold`, creates the user group, and exports `YDOTOOL_SOCKET = "/run/ydotoold/socket"` system-wide.

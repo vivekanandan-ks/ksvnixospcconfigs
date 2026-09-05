@@ -17,10 +17,10 @@
       url = "github:arcatva/dms-battery-plus";
       flake = false;
     };
-    dms-plugin-usb-manager = {
-      url = "github:NordicsSys/dms-usb-manager";
-      flake = false;
-    };
+    # dms-plugin-usb-manager = {
+    #   url = "github:NordicsSys/dms-usb-manager";
+    #   flake = false;
+    # };
     dms-plugin-modern-clock = {
       url = "github:beefsizzle/ModernClockDMS";
       flake = false;
@@ -41,10 +41,10 @@
     #   url = "github:rabits/dms-plugin-cpucoreload";
     #   flake = false;
     # };
-    dms-plugin-dns-switcher = {
-      url = "github:JDKamalakar/DMS-DNS_Switcher";
-      flake = false;
-    };
+    # dms-plugin-dns-switcher = {
+    #   url = "github:JDKamalakar/DMS-DNS_Switcher";
+    #   flake = false;
+    # };
     dms-plugin-take-a-break = {
       url = "github:hthienloc/dms-take-a-break";
       flake = false;
@@ -98,7 +98,7 @@
       };
       # networkIndicator.src = inputs.dms-plugin-network-indicator;
       batteryPlus.src = inputs.dms-plugin-battery-plus;
-      usbManager.src = inputs.dms-plugin-usb-manager;
+      # usbManager.src = inputs.dms-plugin-usb-manager;
       modernClock = {
         src = inputs.dms-plugin-modern-clock;
         settings = {
@@ -124,12 +124,12 @@
       #     graphWidth = 45;
       #   };
       # };
-      dnsSwitcher = {
-        src = inputs.dms-plugin-dns-switcher;
-        settings = {
-          showIpAddress = "false";
-        };
-      };
+      # dnsSwitcher = {
+      #   src = inputs.dms-plugin-dns-switcher;
+      #   settings = {
+      #     showIpAddress = "false";
+      #   };
+      # };
       takeABreak = {
         src = inputs.dms-plugin-take-a-break;
         settings = {
@@ -185,11 +185,11 @@
           criticalThreshold = 30;
         };
       };
-      dankClight.src = "${inputs.dms-plugins-avengemedia}/DankClight";
+      # dankClight.src = "${inputs.dms-plugins-avengemedia}/DankClight";
       dankLauncherKeys.src = "${inputs.dms-plugins-avengemedia}/DankLauncherKeys";
       dankKDEConnect.src = "${inputs.dms-plugins-avengemedia}/DankKDEConnect";
-      dankPomodoroTimer.src = "${inputs.dms-plugins-avengemedia}/DankPomodoroTimer";
-      dankDesktopWeather.src = "${inputs.dms-plugins-avengemedia}/DankDesktopWeather";
+      # dankPomodoroTimer.src = "${inputs.dms-plugins-avengemedia}/DankPomodoroTimer";
+      # dankDesktopWeather.src = "${inputs.dms-plugins-avengemedia}/DankDesktopWeather";
       dankGifSearch.src = "${inputs.dms-plugins-avengemedia}/DankGifSearch";
       dankNotepadModule.src = "${inputs.dms-plugins-avengemedia}/DankNotepadModule";
       dankStickerSearch.src = "${inputs.dms-plugins-avengemedia}/DankStickerSearch";

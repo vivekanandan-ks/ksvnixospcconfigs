@@ -50,7 +50,7 @@
 
       enableSystemMonitoring = true;
       enableDynamicTheming = true;
-      enableVPN = true;
+      enableVPN = false;
       enableCalendarEvents = true;
 
       session =

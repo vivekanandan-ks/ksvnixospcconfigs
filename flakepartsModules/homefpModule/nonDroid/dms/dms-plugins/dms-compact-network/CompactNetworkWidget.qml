@@ -13,6 +13,7 @@ PluginComponent {
 
     Component.onCompleted: {
         DgopService.addRef(["network"]);
+        if (uptimeProc) uptimeProc.running = true;
         root.checkDayRollover();
     }
 
@@ -47,11 +48,16 @@ PluginComponent {
 
     // --- Persistence & History State ---
     property string currentDate: ""
-    property real bootBaselineRx: 0
-    property real bootBaselineTx: 0
-    property real savedTodayRx: 0
-    property real savedTodayTx: 0
+    property real todayRx: 0
+    property real todayTx: 0
+    property real lastRawRx: 0
+    property real lastRawTx: 0
+    property bool bootedToday: true
     property var historyDays: [] // Array of { date: "YYYY-MM-DD", rx: Number, tx: Number }
+
+    // Compatibility aliases
+    readonly property real savedTodayRx: todayRx
+    readonly property real savedTodayTx: todayTx
 
     // --- Data Plan & Quota Tracking ---
     property bool dataPlanEnabled: false
@@ -62,11 +68,7 @@ PluginComponent {
     ]
     property var firedRuleIds: []
 
-    // --- Today & 7-Day Weekly Metrics ---
-    readonly property real sessionTodayRx: (bootBaselineRx > 0 && uptimeRx >= bootBaselineRx) ? (uptimeRx - bootBaselineRx) : 0
-    readonly property real sessionTodayTx: (bootBaselineTx > 0 && uptimeTx >= bootBaselineTx) ? (uptimeTx - bootBaselineTx) : 0
-    readonly property real todayRx: savedTodayRx + sessionTodayRx
-    readonly property real todayTx: savedTodayTx + sessionTodayTx
+    // --- 7-Day Weekly Metrics ---
 
     readonly property real weeklyRx: {
         let sum = todayRx;
@@ -113,19 +115,27 @@ PluginComponent {
         if (!str) return null;
 
         if (str.endsWith("%")) {
-            const val = parseFloat(str.replace("%", "").trim());
+            const val = parseFloat(str.slice(0, -1).trim());
             if (!isNaN(val) && val > 0) {
                 return { threshold: `${val}%`, type: "percent", value: val };
             }
-        } else if (str.toLowerCase().endsWith("gb") || str.toLowerCase().endsWith("g")) {
-            const numStr = str.toLowerCase().replace(/gb|g/, "").trim();
-            const val = parseFloat(numStr);
+        } else if (str.toLowerCase().endsWith("gb")) {
+            const val = parseFloat(str.slice(0, -2).trim());
             if (!isNaN(val) && val > 0) {
                 return { threshold: `${val} GB`, type: "bytes", value: Math.round(val * 1024 * 1024 * 1024) };
             }
-        } else if (str.toLowerCase().endsWith("mb") || str.toLowerCase().endsWith("m")) {
-            const numStr = str.toLowerCase().replace(/mb|m/, "").trim();
-            const val = parseFloat(numStr);
+        } else if (str.toLowerCase().endsWith("g")) {
+            const val = parseFloat(str.slice(0, -1).trim());
+            if (!isNaN(val) && val > 0) {
+                return { threshold: `${val} GB`, type: "bytes", value: Math.round(val * 1024 * 1024 * 1024) };
+            }
+        } else if (str.toLowerCase().endsWith("mb")) {
+            const val = parseFloat(str.slice(0, -2).trim());
+            if (!isNaN(val) && val > 0) {
+                return { threshold: `${val} MB`, type: "bytes", value: Math.round(val * 1024 * 1024) };
+            }
+        } else if (str.toLowerCase().endsWith("m")) {
+            const val = parseFloat(str.slice(0, -1).trim());
             if (!isNaN(val) && val > 0) {
                 return { threshold: `${val} MB`, type: "bytes", value: Math.round(val * 1024 * 1024) };
             }
@@ -218,13 +228,15 @@ PluginComponent {
         return true;
     }
 
-    function deleteRule(idx) {
-        if (idx >= 0 && idx < root.dataPlanRules.length) {
-            const currentRules = [...root.dataPlanRules];
+    function deleteRule(idx, ruleId) {
+        let currentRules = Array.isArray(root.dataPlanRules) ? [...root.dataPlanRules] : [];
+        if (ruleId) {
+            currentRules = currentRules.filter(r => r && r.id !== ruleId);
+        } else if (typeof idx === "number" && idx >= 0 && idx < currentRules.length) {
             currentRules.splice(idx, 1);
-            root.dataPlanRules = currentRules;
-            root.saveHistory();
         }
+        root.dataPlanRules = currentRules;
+        root.saveHistory();
     }
 
     function resetFiredRules() {
@@ -237,8 +249,6 @@ PluginComponent {
         const todayStr = getTodayDateStr();
         if (!currentDate) {
             currentDate = todayStr;
-            bootBaselineRx = uptimeRx;
-            bootBaselineTx = uptimeTx;
             return;
         }
 
@@ -254,10 +264,11 @@ PluginComponent {
             }
             historyDays = newHist;
             currentDate = todayStr;
-            savedTodayRx = 0;
-            savedTodayTx = 0;
-            bootBaselineRx = uptimeRx;
-            bootBaselineTx = uptimeTx;
+            todayRx = 0;
+            todayTx = 0;
+            lastRawRx = uptimeRx;
+            lastRawTx = uptimeTx;
+            bootedToday = false;
             firedRuleIds = [];
             saveHistory();
         }
@@ -323,8 +334,10 @@ PluginComponent {
 
             if (data.currentDate === todayStr) {
                 currentDate = todayStr;
-                savedTodayRx = data.savedTodayRx || 0;
-                savedTodayTx = data.savedTodayTx || 0;
+                todayRx = data.todayRx !== undefined ? data.todayRx : (data.savedTodayRx || 0);
+                todayTx = data.todayTx !== undefined ? data.todayTx : (data.savedTodayTx || 0);
+                lastRawRx = data.lastRawRx || 0;
+                lastRawTx = data.lastRawTx || 0;
                 historyDays = Array.isArray(data.historyDays) ? data.historyDays : [];
                 firedRuleIds = Array.isArray(data.firedRuleIds) ? data.firedRuleIds : [];
             } else {
@@ -332,8 +345,8 @@ PluginComponent {
                 if (data.currentDate) {
                     newHist.push({
                         date: data.currentDate,
-                        rx: data.savedTodayRx || 0,
-                        tx: data.savedTodayTx || 0
+                        rx: data.todayRx !== undefined ? data.todayRx : (data.savedTodayRx || 0),
+                        tx: data.todayTx !== undefined ? data.todayTx : (data.savedTodayTx || 0)
                     });
                 }
                 if (newHist.length > 6) {
@@ -341,16 +354,21 @@ PluginComponent {
                 }
                 historyDays = newHist;
                 currentDate = todayStr;
-                savedTodayRx = 0;
-                savedTodayTx = 0;
+                todayRx = 0;
+                todayTx = 0;
+                lastRawRx = uptimeRx;
+                lastRawTx = uptimeTx;
+                bootedToday = false;
                 firedRuleIds = [];
             }
         } catch (e) {
             initFresh();
         }
 
-        bootBaselineRx = uptimeRx;
-        bootBaselineTx = uptimeTx;
+        if (uptimeProc) {
+            uptimeProc.running = true;
+        }
+        root.updateTraffic();
         if (dataPlanEnabled) {
             checkQuotaRules();
         }
@@ -358,8 +376,14 @@ PluginComponent {
 
     function initFresh() {
         currentDate = getTodayDateStr();
-        savedTodayRx = 0;
-        savedTodayTx = 0;
+        todayRx = 0;
+        todayTx = 0;
+        lastRawRx = uptimeRx;
+        lastRawTx = uptimeTx;
+        if (bootedToday) {
+            todayRx = uptimeRx;
+            todayTx = uptimeTx;
+        }
         historyDays = [];
         dataPlanEnabled = false;
         dataPlanQuotaMB = 2048;
@@ -368,16 +392,18 @@ PluginComponent {
             { id: "rule_100", threshold: "100%", type: "percent", value: 100, command: "" }
         ];
         firedRuleIds = [];
-        bootBaselineRx = uptimeRx;
-        bootBaselineTx = uptimeTx;
     }
 
     function saveHistory() {
         if (!currentDate) return;
         const data = {
             currentDate: currentDate,
+            todayRx: todayRx,
+            todayTx: todayTx,
             savedTodayRx: todayRx,
             savedTodayTx: todayTx,
+            lastRawRx: lastRawRx,
+            lastRawTx: lastRawTx,
             historyDays: historyDays,
             dataPlanEnabled: dataPlanEnabled,
             dataPlanQuotaMB: dataPlanQuotaMB,
@@ -388,6 +414,79 @@ PluginComponent {
             historyFile.setText(JSON.stringify(data, null, 2));
         } catch (e) {
             console.warn("Failed to save compact network history:", e);
+        }
+    }
+
+    function updateTraffic() {
+        const curRx = root.uptimeRx;
+        const curTx = root.uptimeTx;
+        if (curRx <= 0 && curTx <= 0) return;
+
+        root.checkDayRollover();
+
+        // Initial sample when lastRaw is not set
+        if (root.lastRawRx === 0 && root.lastRawTx === 0) {
+            root.lastRawRx = curRx;
+            root.lastRawTx = curTx;
+            if (root.bootedToday) {
+                if (root.todayRx < curRx) root.todayRx = curRx;
+                if (root.todayTx < curTx) root.todayTx = curTx;
+            }
+            root.checkQuotaRules();
+            return;
+        }
+
+        let deltaRx = 0;
+        let deltaTx = 0;
+
+        if (curRx >= root.lastRawRx) {
+            deltaRx = curRx - root.lastRawRx;
+        } else {
+            // Kernel counter wrapped or machine rebooted
+            deltaRx = curRx;
+        }
+
+        if (curTx >= root.lastRawTx) {
+            deltaTx = curTx - root.lastRawTx;
+        } else {
+            // Kernel counter wrapped or machine rebooted
+            deltaTx = curTx;
+        }
+
+        root.todayRx += deltaRx;
+        root.todayTx += deltaTx;
+        root.lastRawRx = curRx;
+        root.lastRawTx = curTx;
+
+        // If the system booted today, today's traffic can never be less than uptime traffic
+        if (root.bootedToday) {
+            if (root.todayRx < curRx) root.todayRx = curRx;
+            if (root.todayTx < curTx) root.todayTx = curTx;
+        }
+
+        root.checkQuotaRules();
+    }
+
+    Process {
+        id: uptimeProc
+        command: ["cat", "/proc/uptime"]
+        running: false
+        stdout: StdioCollector {
+            onStreamFinished: {
+                if (text && text.trim()) {
+                    const secs = parseFloat(text.trim().split(" ")[0]);
+                    if (!isNaN(secs) && secs > 0) {
+                        const now = new Date();
+                        const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                        const secsSinceMidnight = (now.getTime() - midnight.getTime()) / 1000;
+                        root.bootedToday = secs <= secsSinceMidnight;
+                        if (root.bootedToday) {
+                            if (root.todayRx < root.uptimeRx) root.todayRx = root.uptimeRx;
+                            if (root.todayTx < root.uptimeTx) root.todayTx = root.uptimeTx;
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -403,26 +502,21 @@ PluginComponent {
         onLoadFailed: error => root.initFresh()
     }
 
-    // Periodic rollover check and disk save every 30 minutes
+    // Periodic rollover check and disk save every 10 minutes
     Timer {
-        interval: 30 * 60 * 1000
+        interval: 10 * 60 * 1000
         running: true
         repeat: true
         onTriggered: {
+            if (uptimeProc) uptimeProc.running = true;
             root.checkDayRollover();
             root.checkQuotaRules();
             root.saveHistory();
         }
     }
 
-    onUptimeRxChanged: {
-        if (bootBaselineRx === 0 && uptimeRx > 0) {
-            bootBaselineRx = uptimeRx;
-            bootBaselineTx = uptimeTx;
-        }
-        root.checkDayRollover();
-        root.checkQuotaRules();
-    }
+    onUptimeRxChanged: root.updateTraffic()
+    onUptimeTxChanged: root.updateTraffic()
 
     // --- Dropdown Popout Settings ---
     popoutWidth: 420
@@ -628,8 +722,12 @@ PluginComponent {
                         Repeater {
                             model: [0.33, 0.66, 1.0]
                             Item {
+                                id: gridLineItem
+                                required property int index
+                                required property real modelData
+
                                 width: chartArea.width
-                                y: chartArea.height * (1 - modelData)
+                                y: chartArea.height * (1 - gridLineItem.modelData)
                                 Rectangle {
                                     width: parent.width
                                     height: 1
@@ -637,7 +735,7 @@ PluginComponent {
                                     opacity: 0.4
                                 }
                                 StyledText {
-                                    text: root.formatBytes(chartArea.maxVal * modelData)
+                                    text: root.formatBytes(chartArea.maxVal * gridLineItem.modelData)
                                     font.pixelSize: 8
                                     color: Theme.surfaceVariantText
                                     opacity: 0.65
@@ -726,13 +824,17 @@ PluginComponent {
                                 model: popout.daysData
 
                                 Item {
+                                    id: dayColItem
+                                    required property int index
+                                    required property var modelData
+
                                     width: chartArea.width / 7
                                     height: chartArea.height
 
-                                    readonly property real dayTotal: (modelData.rx || 0) + (modelData.tx || 0)
+                                    readonly property real dayTotal: (dayColItem.modelData?.rx || 0) + (dayColItem.modelData?.tx || 0)
                                     readonly property real barTotalHeight: Math.max(2, (dayTotal / chartArea.maxVal) * height)
-                                    readonly property real rxHeight: dayTotal > 0 ? ((modelData.rx || 0) / dayTotal) * barTotalHeight : 0
-                                    readonly property real txHeight: dayTotal > 0 ? ((modelData.tx || 0) / dayTotal) * barTotalHeight : 0
+                                    readonly property real rxHeight: dayTotal > 0 ? ((dayColItem.modelData?.rx || 0) / dayTotal) * barTotalHeight : 0
+                                    readonly property real txHeight: dayTotal > 0 ? ((dayColItem.modelData?.tx || 0) / dayTotal) * barTotalHeight : 0
 
                                     Column {
                                         anchors.bottom: parent.bottom
@@ -746,7 +848,7 @@ PluginComponent {
                                             height: Math.max(0, txHeight)
                                             color: Theme.tertiary
                                             radius: 2
-                                            opacity: popout.selectedDayIndex === index ? 1.0 : 0.85
+                                            opacity: popout.selectedDayIndex === dayColItem.index ? 1.0 : 0.85
                                         }
 
                                         // Download (Rx) Portion (Bottom)
@@ -755,7 +857,7 @@ PluginComponent {
                                             height: Math.max(0, rxHeight)
                                             color: Theme.primary
                                             radius: 2
-                                            opacity: popout.selectedDayIndex === index ? 1.0 : 0.85
+                                            opacity: popout.selectedDayIndex === dayColItem.index ? 1.0 : 0.85
                                         }
                                     }
 
@@ -763,9 +865,9 @@ PluginComponent {
                                     MouseArea {
                                         anchors.fill: parent
                                         hoverEnabled: true
-                                        onEntered: popout.selectedDayIndex = index
+                                        onEntered: popout.selectedDayIndex = dayColItem.index
                                         onExited: {
-                                            if (popout.selectedDayIndex === index) {
+                                            if (popout.selectedDayIndex === dayColItem.index) {
                                                 popout.selectedDayIndex = -1;
                                             }
                                         }
@@ -789,15 +891,19 @@ PluginComponent {
                             model: popout.daysData
 
                             Item {
+                                id: dayLabelItem
+                                required property int index
+                                required property var modelData
+
                                 width: parent.width / 7
                                 height: parent.height
 
                                 StyledText {
-                                    text: modelData.dayLabel
+                                    text: dayLabelItem.modelData?.dayLabel || ""
                                     anchors.centerIn: parent
                                     font.pixelSize: 9
-                                    font.bold: modelData.isToday || popout.selectedDayIndex === index
-                                    color: popout.selectedDayIndex === index ? Theme.primary : (modelData.isToday ? Theme.surfaceText : Theme.surfaceVariantText)
+                                    font.bold: (dayLabelItem.modelData?.isToday || false) || popout.selectedDayIndex === dayLabelItem.index
+                                    color: popout.selectedDayIndex === dayLabelItem.index ? Theme.primary : ((dayLabelItem.modelData?.isToday || false) ? Theme.surfaceText : Theme.surfaceVariantText)
                                 }
                             }
                         }
@@ -901,20 +1007,24 @@ PluginComponent {
                                         ]
 
                                         Rectangle {
+                                            id: presetChip
+                                            required property int index
+                                            required property var modelData
+
                                             width: presetText.implicitWidth + Theme.spacingS * 2
                                             height: 28
                                             radius: 4
-                                            color: root.dataPlanQuotaMB === modelData.val ? Theme.primary : (presetMouse.containsMouse ? Theme.surfaceTextHover : Theme.surfaceContainerHigh)
+                                            color: root.dataPlanQuotaMB === presetChip.modelData.val ? Theme.primary : (presetMouse.containsMouse ? Theme.surfaceTextHover : Theme.surfaceContainerHigh)
                                             border.width: 1
-                                            border.color: root.dataPlanQuotaMB === modelData.val ? Theme.primary : Theme.outlineLight
+                                            border.color: root.dataPlanQuotaMB === presetChip.modelData.val ? Theme.primary : Theme.outlineLight
 
                                             StyledText {
                                                 id: presetText
                                                 anchors.centerIn: parent
-                                                text: modelData.label
+                                                text: presetChip.modelData.label
                                                 font.pixelSize: 10
                                                 font.bold: true
-                                                color: root.dataPlanQuotaMB === modelData.val ? Theme.onPrimary : Theme.surfaceText
+                                                color: root.dataPlanQuotaMB === presetChip.modelData.val ? Theme.onPrimary : Theme.surfaceText
                                             }
 
                                             MouseArea {
@@ -923,8 +1033,8 @@ PluginComponent {
                                                 hoverEnabled: true
                                                 cursorShape: Qt.PointingHandCursor
                                                 onClicked: {
-                                                    root.dataPlanQuotaMB = modelData.val;
-                                                    quotaInput.text = String(modelData.val);
+                                                    root.dataPlanQuotaMB = presetChip.modelData.val;
+                                                    quotaInput.text = String(presetChip.modelData.val);
                                                     root.saveHistory();
                                                     root.checkQuotaRules();
                                                 }
@@ -991,75 +1101,80 @@ PluginComponent {
                                 width: parent.width
                                 spacing: Theme.spacingXS
 
-                                Repeater {
-                                    model: root.dataPlanRules
+                                StyledText {
+                                    visible: !root.dataPlanRules || root.dataPlanRules.length === 0
+                                    text: I18n.tr("No alert rules configured. Add one below.")
+                                    font.pixelSize: Theme.fontSizeSmall
+                                    font.italic: true
+                                    color: Theme.surfaceVariantText
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    topPadding: Theme.spacingXS
+                                    bottomPadding: Theme.spacingXS
+                                }
 
-                                    Rectangle {
+                                Repeater {
+                                    id: rulesRepeater
+                                    model: ScriptModel {
+                                        values: root.dataPlanRules
+                                    }
+
+                                    delegate: Rectangle {
+                                        id: ruleItemRect
+                                        required property int index
+                                        required property var modelData
+
                                         width: parent.width
-                                        height: 32
+                                        height: 34
                                         radius: 6
                                         color: Theme.surfaceContainerHigh
                                         border.width: 1
                                         border.color: Theme.outlineLight
 
-                                        readonly property bool isFired: (root.firedRuleIds || []).indexOf(modelData.id) !== -1
+                                        readonly property bool isFired: (root.firedRuleIds || []).indexOf(ruleItemRect.modelData?.id) !== -1
 
-                                        Row {
+                                        // Threshold badge (anchored left)
+                                        Rectangle {
+                                            id: badgeRect
                                             anchors.left: parent.left
                                             anchors.leftMargin: Theme.spacingS
-                                            anchors.right: deleteBtn.left
-                                            anchors.rightMargin: Theme.spacingS
                                             anchors.verticalCenter: parent.verticalCenter
-                                            spacing: Theme.spacingS
+                                            height: 22
+                                            width: badgeText.implicitWidth + 12
+                                            radius: 4
+                                            color: Theme.withAlpha(Theme.primary, 0.18)
 
-                                            // Threshold badge
-                                            Rectangle {
-                                                height: 20
-                                                width: badgeText.implicitWidth + 10
-                                                radius: 4
-                                                color: Theme.withAlpha(Theme.primary, 0.18)
-                                                anchors.verticalCenter: parent.verticalCenter
-
-                                                StyledText {
-                                                    id: badgeText
-                                                    anchors.centerIn: parent
-                                                    text: modelData.threshold || ""
-                                                    font.pixelSize: 10
-                                                    font.bold: true
-                                                    color: Theme.primary
-                                                }
-                                            }
-
-                                            // Status check if fired
-                                            DankIcon {
-                                                visible: isFired
-                                                name: "check_circle"
-                                                size: 14
-                                                color: Theme.success
-                                                anchors.verticalCenter: parent.verticalCenter
-                                            }
-
-                                            // Command / Action description
                                             StyledText {
-                                                text: modelData.command ? modelData.command : I18n.tr("Notification only")
-                                                font.pixelSize: Theme.fontSizeSmall
-                                                font.italic: !modelData.command
-                                                color: modelData.command ? Theme.surfaceText : Theme.surfaceVariantText
-                                                elide: Text.ElideMiddle
-                                                anchors.verticalCenter: parent.verticalCenter
-                                                width: Math.max(50, parent.width - badgeText.implicitWidth - (isFired ? 24 : 0) - 20)
+                                                id: badgeText
+                                                anchors.centerIn: parent
+                                                text: ruleItemRect.modelData?.threshold || ""
+                                                font.pixelSize: 11
+                                                font.bold: true
+                                                color: Theme.primary
                                             }
                                         }
 
-                                        // Delete Rule Button
+                                        // Status check if fired
+                                        DankIcon {
+                                            id: firedIcon
+                                            visible: ruleItemRect.isFired
+                                            anchors.left: badgeRect.right
+                                            anchors.leftMargin: visible ? Theme.spacingXS : 0
+                                            anchors.verticalCenter: parent.verticalCenter
+                                            name: "check_circle"
+                                            size: 14
+                                            color: Theme.success
+                                            width: visible ? 14 : 0
+                                        }
+
+                                        // Delete Rule Button (anchored right)
                                         Rectangle {
                                             id: deleteBtn
                                             anchors.right: parent.right
                                             anchors.rightMargin: Theme.spacingS
                                             anchors.verticalCenter: parent.verticalCenter
-                                            width: 24
-                                            height: 24
-                                            radius: 12
+                                            width: 26
+                                            height: 26
+                                            radius: 13
                                             color: delMouse.containsMouse ? Theme.withAlpha(Theme.error, 0.15) : "transparent"
 
                                             DankIcon {
@@ -1074,8 +1189,22 @@ PluginComponent {
                                                 anchors.fill: parent
                                                 hoverEnabled: true
                                                 cursorShape: Qt.PointingHandCursor
-                                                onClicked: root.deleteRule(index)
+                                                onClicked: root.deleteRule(ruleItemRect.index, ruleItemRect.modelData?.id)
                                             }
+                                        }
+
+                                        // Command / Action description (anchored in between)
+                                        StyledText {
+                                            anchors.left: firedIcon.visible ? firedIcon.right : badgeRect.right
+                                            anchors.leftMargin: Theme.spacingS
+                                            anchors.right: deleteBtn.left
+                                            anchors.rightMargin: Theme.spacingS
+                                            anchors.verticalCenter: parent.verticalCenter
+                                            text: (ruleItemRect.modelData?.command && ruleItemRect.modelData.command.trim().length > 0) ? ruleItemRect.modelData.command : I18n.tr("Notification only")
+                                            font.pixelSize: Theme.fontSizeSmall
+                                            font.italic: !(ruleItemRect.modelData?.command && ruleItemRect.modelData.command.trim().length > 0)
+                                            color: (ruleItemRect.modelData?.command && ruleItemRect.modelData.command.trim().length > 0) ? Theme.surfaceText : Theme.surfaceVariantText
+                                            elide: Text.ElideMiddle
                                         }
                                     }
                                 }
@@ -1083,6 +1212,7 @@ PluginComponent {
 
                             // Add New Rule input row
                             Rectangle {
+                                id: addRuleBox
                                 width: parent.width
                                 implicitHeight: addRuleCol.implicitHeight + Theme.spacingS * 2
                                 radius: 6
@@ -1090,36 +1220,51 @@ PluginComponent {
                                 border.width: 1
                                 border.color: Theme.withAlpha(Theme.primary, 0.25)
 
+                                function submitNewRule() {
+                                    if (root.addRule(newThresholdInput.text, newCmdInput.text)) {
+                                        newThresholdInput.text = "";
+                                        newCmdInput.text = "";
+                                    }
+                                }
+
                                 Column {
                                     id: addRuleCol
                                     anchors.centerIn: parent
                                     width: parent.width - Theme.spacingS * 2
                                     spacing: Theme.spacingS
 
-                                    Row {
+                                    Item {
                                         width: parent.width
-                                        spacing: Theme.spacingS
+                                        height: 34
 
                                         DankTextField {
                                             id: newThresholdInput
+                                            anchors.left: parent.left
+                                            anchors.top: parent.top
+                                            anchors.bottom: parent.bottom
                                             width: 110
-                                            height: 34
                                             placeholderText: I18n.tr("80% or 1.5GB")
-                                            onAccepted: addBtnMouse.clicked(null)
+                                            onAccepted: addRuleBox.submitNewRule()
                                         }
 
                                         DankTextField {
                                             id: newCmdInput
-                                            width: parent.width - 110 - 70 - Theme.spacingS * 2
-                                            height: 34
+                                            anchors.left: newThresholdInput.right
+                                            anchors.leftMargin: Theme.spacingS
+                                            anchors.right: addBtn.left
+                                            anchors.rightMargin: Theme.spacingS
+                                            anchors.top: parent.top
+                                            anchors.bottom: parent.bottom
                                             placeholderText: I18n.tr("Command (optional)")
-                                            onAccepted: addBtnMouse.clicked(null)
+                                            onAccepted: addRuleBox.submitNewRule()
                                         }
 
                                         Rectangle {
                                             id: addBtn
+                                            anchors.right: parent.right
+                                            anchors.top: parent.top
+                                            anchors.bottom: parent.bottom
                                             width: 70
-                                            height: 34
                                             radius: Theme.cornerRadius
                                             color: addBtnMouse.containsMouse ? Theme.withAlpha(Theme.primary, 0.85) : Theme.primary
 
@@ -1148,12 +1293,7 @@ PluginComponent {
                                                 anchors.fill: parent
                                                 hoverEnabled: true
                                                 cursorShape: Qt.PointingHandCursor
-                                                onClicked: {
-                                                    if (root.addRule(newThresholdInput.text, newCmdInput.text)) {
-                                                        newThresholdInput.text = "";
-                                                        newCmdInput.text = "";
-                                                    }
-                                                }
+                                                onClicked: addRuleBox.submitNewRule()
                                             }
                                         }
                                     }
