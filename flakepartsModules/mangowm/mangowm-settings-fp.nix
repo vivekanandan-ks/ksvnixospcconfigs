@@ -2,6 +2,9 @@ _: {
   flake = {
     homeModules.nonDroid.mangowc-settings = {lib, ...}: {
       wayland.windowManager.mango.settings = {
+        # --- Trackpad / Input Settings ---
+        trackpad_disable_while_typing = 1;
+
         # --- Blur & Visuals ---
         blur = 1;
         blur_layer = 1;

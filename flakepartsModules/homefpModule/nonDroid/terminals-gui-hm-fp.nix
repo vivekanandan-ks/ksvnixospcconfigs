@@ -14,6 +14,7 @@
       installBatSyntax = true;
 
       settings = {
+        copy-on-select = false;
         theme = "Kitty Default";
 
         font-family = [
