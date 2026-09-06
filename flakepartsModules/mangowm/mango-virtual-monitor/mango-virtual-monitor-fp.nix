@@ -87,6 +87,11 @@ _: {
       ];
 
       wayland.windowManager.mango.settings = {
+        # Match laptop screen resolution (1:1 pixel-perfect mapping at 1366x768)
+        monitorrule = lib.mkAfter [
+          "name:HEADLESS-.*,width:1366,height:768,refresh:60,scale:1"
+        ];
+
         # Float, resize to 16:9, and pin across all workspaces (isglobal:1)
         windowrule = lib.mkAfter [
           "isglobal:1,isfloating:1,width:640,height:360,appid:.*wl_mirror.*"

@@ -8,8 +8,8 @@ This module provides an isolated virtual display (`HEADLESS-1`) and a live zero-
 
 ```
 ┌──────────────────────────────┐        ┌──────────────────────────────┐
-│ Physical Display (eDP-1)     │        │ Virtual Output (HEADLESS-1)  │
-│ 1366x768                     │        │ 1920x1080 (Off-screen)       │
+│ Physical Display (eDP-1)     │        │ Virtual Output (HEADLESS-*)  │
+│ 1366x768                     │        │ 1366x768 (Off-screen, 1:1)   │
 │                              │        │                              │
 │  ┌────────────────────────┐  │        │  ┌───────────┐ ┌───────────┐ │
 │  │ Private Work           │  │        │  │ Browser   │ │ Terminal  │ │
@@ -20,7 +20,7 @@ This module provides an isolated virtual display (`HEADLESS-1`) and a live zero-
 │  │ [Pinned across tags]   │  │                       │
 │  └────────────────────────┘  │                       ▼
 └──────────────────────────────┘               OBS / Discord / WebRTC
-                                                (Select HEADLESS-1)
+                                                (Select HEADLESS-*)
 ```
 
 1. **MangoWM** spawns an off-screen virtual display (`HEADLESS-1`) via `create_virtual_output`.
