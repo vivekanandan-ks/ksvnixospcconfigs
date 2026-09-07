@@ -46,14 +46,14 @@ _: {
       services."user@".serviceConfig.Delegate = "cpu cpuset io memory pids";
 
       # Elevate file limits & fast shutdown timeouts (prevents 90s reboot hangs)
-      extraConfig = ''
-        DefaultLimitNOFILE=2048:2097152
-        DefaultTimeoutStartSec=15s
-        DefaultTimeoutStopSec=10s
-      '';
-      user.extraConfig = ''
-        DefaultLimitNOFILE=2048:2097152
-      '';
+      settings.Manager = {
+        DefaultLimitNOFILE = "2048:2097152";
+        DefaultTimeoutStartSec = "15s";
+        DefaultTimeoutStopSec = "10s";
+      };
+      user.settings.Manager = {
+        DefaultLimitNOFILE = "2048:2097152";
+      };
     };
 
     # --- Ananicy Auto-Nice Daemon & BORE Latency-Nice Tuning ---
