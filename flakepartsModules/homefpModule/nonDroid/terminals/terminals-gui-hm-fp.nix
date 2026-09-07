@@ -31,8 +31,8 @@
         window-decoration = false;
         window-padding-balance = true;
         custom-shader = [
-          "${../hmResources/ghostty-shaders/cursor_smear.glsl}"
-          #"${../hmResources/ghostty-shaders/last_letter_zoom.glsl}"
+          "${../../hmResources/ghostty-shaders/cursor_smear.glsl}"
+          #"${../../hmResources/ghostty-shaders/last_letter_zoom.glsl}"
         ];
         mouse-scroll-multiplier = "precision:0.5,discrete:1.5";
         #fullscreen = true;

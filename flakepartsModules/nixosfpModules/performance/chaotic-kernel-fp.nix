@@ -15,7 +15,7 @@
     ];
   };
 
-  flake.nixosModules.chaotic-nyx = {
+  flake.nixosModules.chaotic-kernel = {
     pkgs,
     pkgs-unstable,
     ...
@@ -24,10 +24,10 @@
     boot.kernelPackages = inputs.chaotic.legacyPackages.${pkgs.stdenv.hostPlatform.system}.linuxPackages_cachyos;
 
     # Sched-ext eBPF scheduler for ultra-low latency desktop interactivity under load
-    services.scx = {
-      enable = true;
-      scheduler = "scx_lavd";
-    };
+    # services.scx = {
+    #   enable = true;
+    #   scheduler = "scx_lavd";
+    # };
 
     # Ananicy auto-nice daemon with latest Git rules from Chaotic-Nyx
     services.ananicy = {
