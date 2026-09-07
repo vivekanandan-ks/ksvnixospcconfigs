@@ -6,6 +6,11 @@
 
   flake.homeModules.common = {
     antigravity-cli = {pkgs-unstable, ...}: {
+      home.sessionVariables = {
+        # Limit libuv worker threads to prevent background agent from saturating all CPU cores (2C/4T)
+        UV_THREADPOOL_SIZE = "2";
+      };
+
       programs.antigravity-cli = {
         enable = true;
         package = pkgs-unstable.antigravity-cli;
