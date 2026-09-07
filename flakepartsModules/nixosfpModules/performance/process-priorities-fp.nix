@@ -14,6 +14,18 @@ _: {
         type = "-";
         value = "98";
       }
+      {
+        domain = "@audio";
+        item = "rtprio";
+        type = "-";
+        value = "99";
+      }
+      {
+        domain = "@audio";
+        item = "nice";
+        type = "-";
+        value = "-11";
+      }
     ];
 
     # --- Cgroups v2 Proportional Resource Distribution ---
@@ -28,6 +40,20 @@ _: {
         session.sliceConfig.CPUWeight = 100;    # Mango compositor, Waybar, status bars
         background.sliceConfig.CPUWeight = 50;  # Background indexing and user daemons
       };
+
+      # Delegate cgroups v2 controllers so user slices can actually control CPU & I/O
+      # (Matches CachyOS upstream usr/lib/systemd/system/user@.service.d/delegate.conf)
+      services."user@".serviceConfig.Delegate = "cpu cpuset io memory pids";
+
+      # Elevate file limits & fast shutdown timeouts (prevents 90s reboot hangs)
+      extraConfig = ''
+        DefaultLimitNOFILE=2048:2097152
+        DefaultTimeoutStartSec=15s
+        DefaultTimeoutStopSec=10s
+      '';
+      user.extraConfig = ''
+        DefaultLimitNOFILE=2048:2097152
+      '';
     };
 
     # --- Ananicy Auto-Nice Daemon & BORE Latency-Nice Tuning ---
@@ -36,6 +62,7 @@ _: {
       settings = {
         apply_latnice = true;  # Unlocks CachyOS BORE latency sensitivity tags
         apply_cgroup = false;  # Prevents cgroups v2 root task attachment warnings
+        check_freq = 15;       # Scans every 15s (CachyOS default) instead of 60s
       };
 
       extraTypes = [
@@ -76,6 +103,28 @@ _: {
         { name = "nix-daemon"; type = "HeavyBuild_Throttle"; }
       ];
     };
+
+    # --- Udev Performance Rules ---
+    # Verified against CachyOS (60-ioschedulers.rules, 50-sata.rules, 99-cpu-dma-latency.rules)
+    services.udev.extraRules = ''
+      # 1. Optimal I/O Schedulers per drive type:
+      # - SATA SSDs / eMMC: mq-deadline (low CPU overhead)
+      ACTION=="add|change", KERNEL=="sd[a-z]*|mmcblk[0-9]*", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="mq-deadline"
+      # - NVMe SSDs (akashnixospc & future hosts): kyber (ultra-fast latency bounded)
+      ACTION=="add|change", KERNEL=="nvme[0-9]*", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="kyber"
+      # - Rotational HDDs: bfq (fair queuing)
+      ACTION=="add|change", KERNEL=="sd[a-z]*", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="bfq"
+
+      # 2. SATA Active Link Power Management: Max performance on AC
+      ACTION=="add", SUBSYSTEM=="scsi_host", KERNEL=="host*", ATTR{link_power_management_supported}=="1", ATTR{link_power_management_policy}="max_performance"
+
+      # 3. CPU DMA Latency Lock permissions (prevents deep C-state sleep drops in OBS/audio)
+      DEVPATH=="/devices/virtual/misc/cpu_dma_latency", OWNER="root", GROUP="audio", MODE="0660"
+
+      # 4. Real-time timer permissions for Audio & PipeWire
+      KERNEL=="rtc0", GROUP="audio"
+      KERNEL=="hpet", GROUP="audio"
+    '';
   };
 
   # ─────────────────────────────────────────────────────────────────────────────

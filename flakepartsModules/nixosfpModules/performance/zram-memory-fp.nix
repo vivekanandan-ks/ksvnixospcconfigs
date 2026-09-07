@@ -27,6 +27,28 @@ _: {
       "vm.dirty_bytes" = 268435456;          # 256 MB
       "vm.dirty_background_bytes" = 67108864; # 64 MB
       "vm.dirty_writeback_centisecs" = 1500;  # 15s writeback interval
+
+      # Disables NMI watchdog timer to reduce CPU core interrupts and power draw
+      "kernel.nmi_watchdog" = 0;
+
+      # Expands network socket backlog for bursty WebRTC & streaming transfers
+      "net.core.netdev_max_backlog" = 4096;
+
+      # Prevents file descriptor exhaustion under multi-tab browsers & LSP servers
+      "fs.file-max" = 2097152;
+
+      # Quiets non-critical kernel messages on the virtual console
+      "kernel.printk" = "3 3 3 3";
     };
+
+    # 3. Transparent Hugepages (THP) Optimization
+    # (Matches CachyOS upstream usr/lib/tmpfiles.d/thp.conf & thp-shrinker.conf)
+    systemd.tmpfiles.rules = [
+      # Prevents synchronous memory allocation stalls in browsers and compilers
+      "w! /sys/kernel/mm/transparent_hugepage/defrag - - - - defer+madvise"
+      # THP Shrinker (Kernel 6.12+): Splits hugepages where >80% of pages are empty,
+      # preventing premature OOMs and RAM overprovisioning on 8-16 GB systems
+      "w! /sys/kernel/mm/transparent_hugepage/khugepaged/max_ptes_none - - - - 409"
+    ];
   };
 }
