@@ -23,17 +23,6 @@
     # CachyOS Performance Kernel (Rolling + Clang ThinLTO + BORE)
     boot.kernelPackages = inputs.chaotic.legacyPackages.${pkgs.stdenv.hostPlatform.system}.linuxPackages_cachyos;
 
-    # 1. Disable Zswap so ZRAM handles 100% of memory compression without interception
-    # (Matches CachyOS upstream 30-zram.rules)
-    boot.kernelParams = [ "zswap.enabled=0" ];
-
-    # 2. Blacklist hardware watchdog timers to eliminate periodic CPU timer interrupts & jitter
-    # (Matches CachyOS upstream usr/lib/modprobe.d/blacklist.conf)
-    boot.blacklistedKernelModules = [
-      "iTCO_wdt"    # Intel hardware TCO watchdog (ksvnixospc & deejunixospc)
-      "sp5100_tco"  # AMD Ryzen hardware watchdog (akashnixospc & future AMD hosts)
-    ];
-
     # Sched-ext eBPF scheduler for ultra-low latency desktop interactivity under load
     # services.scx = {
     #   enable = true;

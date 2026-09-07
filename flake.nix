@@ -140,6 +140,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     import-tree.url = "github:vic/import-tree";
+    ksv-cachyos-settings-nixos = {
+      url = "github:vivekanandan-ks/ksv-cachyos-settings-nixos";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     ksv-personal-artifacts = {
       url = "github:vivekanandan-ks/ksv-personal-artifacts";
       flake = false;
@@ -160,7 +164,7 @@
       url = "github:nix-community/nix4vscode";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixpkgs.url = "github:nixos/nixpkgs/c043004d1c6985732bcc1cbc5a9c9aecbbb4e0f0";
+    nixpkgs.url = "github:nixos/nixpkgs/dc5d91f840324650bac8c379428c7037a416959a";
     nur = {
       url = "github:nix-community/NUR";
       inputs = {
