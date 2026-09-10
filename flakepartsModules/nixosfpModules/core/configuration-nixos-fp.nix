@@ -1,6 +1,6 @@
 {self, ...}: {
   flake.nixosModules.configuration = {
-    #config,
+    config,
     pkgs-global,
     pkgs-unstable,
     lib,
@@ -96,7 +96,12 @@
     # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
     # Enable networking
-    networking.networkmanager.enable = true;
+    networking.networkmanager = {
+      enable = true;
+      wifi.powersave = false;
+    };
+
+    networking.useDHCP = lib.mkDefault (!config.networking.networkmanager.enable);
 
     #enabling for impala
     # networking.wireless.iwd = {
