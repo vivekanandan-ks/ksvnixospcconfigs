@@ -164,7 +164,7 @@
       url = "github:nix-community/nix4vscode";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixpkgs.url = "github:nixos/nixpkgs/dc5d91f840324650bac8c379428c7037a416959a";
+    nixpkgs.url = "github:nixos/nixpkgs/d6524aaca2ff07876657ae2b323f24be4874944b";
     nur = {
       url = "github:nix-community/NUR";
       inputs = {
