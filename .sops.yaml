@@ -1,0 +1,9 @@
+keys:
+  - &admin_ksv age1p395luq0qq9vjnh0k7nlfpq5jqru2fksa4wd0jawcrwmaj2p9qess7xxp0
+  - &host_deejunixospc age19vgqwa2m56g2eywdksqjflhuzawh96569zyd2ru6x86mun6203pqhcmh77
+creation_rules:
+  - path_regex: secrets/secrets\.ya?ml$
+    key_groups:
+      - age:
+          - *admin_ksv
+          - *host_deejunixospc

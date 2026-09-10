@@ -85,6 +85,8 @@ in {
   flake.homeModules.common.nix-settings = {
     pkgs,
     lib,
+    config,
+    options,
     ...
   }: {
     nix = {
@@ -92,6 +94,16 @@ in {
       nixPath = ["nixpkgs=${pkgs.path}"];
       settings = commonSettings;
       registry = commonRegistry;
+
+      extraOptions = lib.mkIf (options ? sops && config.sops.secrets ? github_token) ''
+        !include ${config.sops.templates."nix-access-tokens.conf".path}
+      '';
+    };
+
+    sops.templates."nix-access-tokens.conf" = lib.mkIf (options ? sops && config.sops.secrets ? github_token) {
+      content = ''
+        extra-access-tokens = github.com=${config.sops.placeholder.github_token}
+      '';
     };
   };
 }
