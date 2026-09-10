@@ -5,7 +5,6 @@ _: {
     #lib,
     #pkgs,
     pkgs-unstable,
-    pkgs-mv-fast-tip,
     ...
   }: {
     programs.nushell =
@@ -273,8 +272,8 @@ _: {
     #'';
 
     home.packages = [
-      pkgs-mv-fast-tip.glow # for nushell displayoutput hook to highlight markdown
-      #pkgs-mv-fast-tip.inshellisense
+      pkgs-unstable.glow # for nushell displayoutput hook to highlight markdown
+      #pkgs-unstable.inshellisense
     ];
     home.shell.enableNushellIntegration = true;
   };

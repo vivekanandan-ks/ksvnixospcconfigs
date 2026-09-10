@@ -5,7 +5,6 @@ _: {
     #lib,
     pkgs,
     pkgs-unstable,
-    #pkgs-mv-fast-tip,
     ...
   }: let
     globalShellInit = let

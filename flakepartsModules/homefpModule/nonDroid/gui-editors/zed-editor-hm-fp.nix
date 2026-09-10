@@ -4,7 +4,6 @@
     #config,
     #lib,
     pkgs-unstable,
-    pkgs-mv-fast-tip,
     ...
   }: {
     programs.zed-editor = {
@@ -55,7 +54,7 @@
         "gemini"
       ];
 
-      extraPackages = with pkgs-mv-fast-tip; [
+      extraPackages = with pkgs-unstable; [
         nixd
         nil
         alejandra

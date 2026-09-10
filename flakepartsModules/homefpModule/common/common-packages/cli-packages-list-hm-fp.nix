@@ -3,7 +3,7 @@ _: {
     #inputs,
     #lib,
     #pkgs-stable,
-    pkgs-mv-fast-tip,
+    pkgs-unstable,
     ...
   }: {
     home.packages =
@@ -13,7 +13,7 @@ _: {
       ])
       ++
       */
-      with pkgs-mv-fast-tip; [
+      with pkgs-unstable; [
         #unstable packages
         gh
 

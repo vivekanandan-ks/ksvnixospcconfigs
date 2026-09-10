@@ -26,49 +26,15 @@
       };
       fastFallback = "eval"; # Seamless fallback for unfree packages
     };
-    /*
-      addLazyOverride = name: pkg:
-      if builtins.isAttrs pkg && pkg ? eval
-      then
-        if builtins.elem name ["carapace" "zoxide" "starship"]
-        then pkg.eval
-        else let
-          evalMeta = pkg.eval.meta or {};
-        in
-          pkg
-          // {
-            override = pkg.eval.override;
-            overrideAttrs = pkg.eval.overrideAttrs;
-            passthru = pkg.eval.passthru or {};
-            meta = evalMeta // {outputsToInstall = ["out"];};
-            shellPath = pkg.eval.shellPath or "/bin/${pkg.pname or "sh"}";
-          }
-      else pkg;
-
-    # fastTip is enabled on x86_64-linux; non-x86_64 systems (like aarch64-linux Nix-on-Droid) fall back to mv.tip
-    fastTip =
-      if system == "x86_64-linux"
-      then builtins.mapAttrs addLazyOverride mv.fast.tip
-      else {};
-    */
     globalModuleArgs = {
       inherit mv;
       # 0. Global System Package Set (feeds nixpkgs.pkgs)
       pkgs-global = mv.tip;
       # 1. Unstable Native: For complex NixOS/HM modules, login shells, and services
       pkgs-unstable = mv.tip;
-      # 2. Fast-Mode Unstable: 0 ms instant store paths + full nested sets for apps across the codebase
-      # pkgs-mv-fast-tip =
-      #   mv.tip
-      #   // (
-      #     if system == "x86_64-linux"
-      #     then mv.fast.tip
-      #     else {}
-      #   );
-      pkgs-mv-fast-tip = mv.tip;
-      # 3. Stable Channel: Access official stable packages on-demand with zero flake inputs
+      # 2. Stable Channel: Access official stable packages on-demand with zero flake inputs
       pkgs-stable = mv.at "26.05";
-      # 4. Flake Tip: Synthesized flake object (.lib.nixosSystem, .legacyPackages, etc.)
+      # 3. Flake Tip: Synthesized flake object (.lib.nixosSystem, .legacyPackages, etc.)
       # flake-tip = mv.flakeAt "tip";
     };
   in {

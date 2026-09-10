@@ -17,12 +17,12 @@
 
   perSystem = {
     pkgs,
-    pkgs-mv-fast-tip,
+    pkgs-unstable,
     ...
   }: {
     packages.ksvNoctalia = inputs.wrapper-modules.wrappers.noctalia-shell.wrap {
       inherit pkgs;
-      runtimePkgs = with pkgs-mv-fast-tip; [
+      runtimePkgs = with pkgs-unstable; [
         grim
         slurp
         wl-clipboard
