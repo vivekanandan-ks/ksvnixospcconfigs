@@ -14,6 +14,9 @@
       inputs.ksv-cachyos-settings-nixos.nixosModules.default
     ];
 
-    cachyos.settings.enable = true;
+    cachyos.settings = {
+      enable = true;
+      enableGaming = false;
+    };
   };
 }
