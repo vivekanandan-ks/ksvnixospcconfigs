@@ -1,4 +1,4 @@
-# DO-NOT-EDIT. This file was auto-generated using github:vic/flake-file.
+# DO-NOT-EDIT. This file was auto-generated using github:denful/flake-file.
 # Use `nix run .#write-flake` to regenerate it.
 {
   outputs =
@@ -164,7 +164,7 @@
       url = "github:nix-community/nix4vscode";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixpkgs.url = "github:nixos/nixpkgs/d6524aaca2ff07876657ae2b323f24be4874944b";
+    nixpkgs.url = "github:nixos/nixpkgs/ef34387ddd751e1ab8857adf4676492d32eb24ec";
     nur = {
       url = "github:nix-community/NUR";
       inputs = {
