@@ -148,6 +148,10 @@
       url = "github:vivekanandan-ks/ksv-personal-artifacts";
       flake = false;
     };
+    ksv-recording-setup = {
+      url = "github:vivekanandan-ks/ksv-recording-setup";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     mango = {
       url = "github:mangowm/mango";
       inputs.nixpkgs.follows = "nixpkgs";

@@ -790,6 +790,24 @@
         "nixpkgs-lib": "nixpkgs-lib_3"
       },
       "locked": {
+        "lastModified": 1787559586,
+        "narHash": "sha256-onL0VLf9vPllmT0H/OlURIU5r5t5WIEl7t4tVNKT0Nw=",
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "rev": "9d0d87172c374f89da73c1cfe6d81ae62feac1f1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "type": "github"
+      }
+    },
+    "flake-parts_5": {
+      "inputs": {
+        "nixpkgs-lib": "nixpkgs-lib_4"
+      },
+      "locked": {
         "lastModified": 1782949081,
         "narHash": "sha256-vp6Y/Grm98ESt6ceOkWiHWyZRDV3J1RID4w+6NWK9yA=",
         "owner": "hercules-ci",
@@ -1010,6 +1028,21 @@
         "type": "github"
       }
     },
+    "import-tree_3": {
+      "locked": {
+        "lastModified": 1784254960,
+        "narHash": "sha256-iI88R3wHz8wTKQb5orvpc51L/Xr64AJyxid/0MKa/b8=",
+        "owner": "vic",
+        "repo": "import-tree",
+        "rev": "4ebb10ae17d5f1ad366e7aef5b92cb8eecf24f69",
+        "type": "github"
+      },
+      "original": {
+        "owner": "vic",
+        "repo": "import-tree",
+        "type": "github"
+      }
+    },
     "ksv-cachyos-settings-nixos": {
       "inputs": {
         "cachyos-settings": "cachyos-settings",
@@ -1051,9 +1084,31 @@
         "type": "github"
       }
     },
-    "mango": {
+    "ksv-recording-setup": {
       "inputs": {
         "flake-parts": "flake-parts_4",
+        "import-tree": "import-tree_3",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1789495842,
+        "narHash": "sha256-m3hmUFHzKj+mqtuKFKI9GmKP9/+tkuUwIhroxabk9O4=",
+        "owner": "vivekanandan-ks",
+        "repo": "ksv-recording-setup",
+        "rev": "7272c9037daa7c9004f60fbcab99d17545341da6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "vivekanandan-ks",
+        "repo": "ksv-recording-setup",
+        "type": "github"
+      }
+    },
+    "mango": {
+      "inputs": {
+        "flake-parts": "flake-parts_5",
         "nixpkgs": [
           "nixpkgs"
         ],
@@ -1312,6 +1367,21 @@
     },
     "nixpkgs-lib_3": {
       "locked": {
+        "lastModified": 1785031560,
+        "narHash": "sha256-OmshNvn2vupOFpYinLUu+1Dnpu4n7Q5N3ggGVNHpkUI=",
+        "owner": "nix-community",
+        "repo": "nixpkgs.lib",
+        "rev": "0e79af5e3d4dcfcd676ab5ba3f95d2e3352e078c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "nixpkgs.lib",
+        "type": "github"
+      }
+    },
+    "nixpkgs-lib_4": {
+      "locked": {
         "lastModified": 1782614948,
         "narHash": "sha256-ePjCwr1sNm9NYUqywL7QfK3JnlS015msC+eBu2zKlp8=",
         "owner": "nix-community",
@@ -1488,6 +1558,7 @@
         "import-tree": "import-tree",
         "ksv-cachyos-settings-nixos": "ksv-cachyos-settings-nixos",
         "ksv-personal-artifacts": "ksv-personal-artifacts",
+        "ksv-recording-setup": "ksv-recording-setup",
         "mango": "mango",
         "multiverse": "multiverse",
         "nix-on-droid": "nix-on-droid",
