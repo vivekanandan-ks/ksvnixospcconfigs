@@ -811,8 +811,6 @@
       "inputs": {
         "flake-compat": "flake-compat",
         "nixpkgs": [
-          "determinate",
-          "nix",
           "nixpkgs"
         ]
       },
