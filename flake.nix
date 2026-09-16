@@ -49,10 +49,6 @@
     };
     determinate = {
       url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
-      inputs.nix.inputs = {
-        flake-parts.follows = "flake-parts";
-        git-hooks-nix.follows = "git-hooks-nix";
-      };
     };
     disko = {
       url = "github:nix-community/disko";

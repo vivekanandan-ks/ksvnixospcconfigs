@@ -2,8 +2,14 @@
   flake-file.inputs = {
     determinate = {
       url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
-      inputs.nix.inputs.nixpkgs.autoFollow = false;
-      inputs.nixpkgs.autoFollow = false;
+      inputs = {
+        nixpkgs.autoFollow = false;
+        nix.inputs = {
+          nixpkgs.autoFollow = false;
+          flake-parts.autoFollow = false;
+          git-hooks-nix.autoFollow = false;
+        };
+      };
     };
   };
 
