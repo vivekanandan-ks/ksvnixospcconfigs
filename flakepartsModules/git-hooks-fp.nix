@@ -3,9 +3,8 @@
   lib,
   ...
 }: {
-  flake-file.inputs.git-hooks-nix = {
-    url = "github:cachix/git-hooks.nix";
-    inputs.nixpkgs.follows = "nixpkgs";
+  flake-file.inputs = {
+    git-hooks-nix.url = "github:cachix/git-hooks.nix";
   };
 
   imports = lib.optionals (inputs ? git-hooks-nix) [

@@ -1,10 +1,6 @@
 {inputs, ...}: {
   flake-file.inputs = {
-    xremap-flake = {
-      url = "github:xremap/nix-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-parts.follows = "flake-parts";
-    };
+    xremap-flake.url = "github:xremap/nix-flake";
   };
 
   flake = {
@@ -29,6 +25,7 @@
       # https://github.com/emberian/evdev/blob/main/src/scancodes.rs
       services.xremap = {
         enable = true;
+        package = pkgs-unstable.xremap;
         withWlroots = true;
         watch = true;
         #serviceMode = "user";

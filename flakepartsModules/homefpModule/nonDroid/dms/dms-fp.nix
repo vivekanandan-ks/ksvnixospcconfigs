@@ -4,10 +4,7 @@
   ...
 }: {
   flake-file.inputs = {
-    dms-shell = {
-      url = "github:AvengeMedia/DankMaterialShell/stable";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    dms-shell.url = "github:AvengeMedia/DankMaterialShell/stable";
   };
 
   flake.homeModules.nonDroid.dms = {

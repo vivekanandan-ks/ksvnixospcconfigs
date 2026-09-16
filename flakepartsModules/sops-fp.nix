@@ -4,9 +4,8 @@
   ...
 }: {
   # 1. Register sops-nix in flake.nix
-  flake-file.inputs.sops-nix = {
-    url = "github:Mic92/sops-nix";
-    inputs.nixpkgs.follows = "nixpkgs";
+  flake-file.inputs = {
+    sops-nix.url = "github:Mic92/sops-nix";
   };
 
   # 2. Configure sops for NixOS

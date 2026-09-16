@@ -36,14 +36,23 @@
       url = "github:tinted-theming/schemes";
       flake = false;
     };
-    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
+    chaotic = {
+      url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
+      inputs = {
+        home-manager.follows = "home-manager";
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
     dank-calendar = {
       url = "github:AvengeMedia/dankcalendar";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     determinate = {
       url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nix.inputs = {
+        flake-parts.follows = "flake-parts";
+        git-hooks-nix.follows = "git-hooks-nix";
+      };
     };
     disko = {
       url = "github:nix-community/disko";
@@ -127,10 +136,17 @@
     };
     fast-nix-gc = {
       url = "github:Mic92/fast-nix-gc";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        treefmt-nix.follows = "treefmt-nix";
+      };
     };
-    flake-file.url = "github:vic/flake-file";
-    flake-parts.url = "github:hercules-ci/flake-parts";
+    flake-file = {
+      url = "github:denful/flake-file";
+    };
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+    };
     git-hooks-nix = {
       url = "github:cachix/git-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -139,10 +155,18 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    import-tree.url = "github:vic/import-tree";
+    import-tree = {
+      url = "github:denful/import-tree";
+    };
     ksv-cachyos-settings-nixos = {
       url = "github:vivekanandan-ks/ksv-cachyos-settings-nixos";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        flake-parts.follows = "flake-parts";
+        git-hooks-nix.follows = "git-hooks-nix";
+        import-tree.follows = "import-tree";
+        nixpkgs.follows = "nixpkgs";
+        treefmt-nix.follows = "treefmt-nix";
+      };
     };
     ksv-personal-artifacts = {
       url = "github:vivekanandan-ks/ksv-personal-artifacts";
@@ -150,25 +174,37 @@
     };
     ksv-recording-setup = {
       url = "github:vivekanandan-ks/ksv-recording-setup";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        flake-parts.follows = "flake-parts";
+        import-tree.follows = "import-tree";
+        nixpkgs.follows = "nixpkgs";
+      };
     };
     mango = {
       url = "github:mangowm/mango";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        flake-parts.follows = "flake-parts";
+        nixpkgs.follows = "nixpkgs";
+      };
     };
-    multiverse.url = "github:fzakaria/nixpkgs-multiverse";
+    multiverse = {
+      url = "github:fzakaria/nixpkgs-multiverse";
+    };
     nix-on-droid = {
       url = "github:nix-community/nix-on-droid";
       inputs = {
         home-manager.follows = "home-manager";
         nixpkgs.follows = "nixpkgs";
+        nmd.inputs.nixpkgs.follows = "nixpkgs";
       };
     };
     nix4vscode = {
       url = "github:nix-community/nix4vscode";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixpkgs.url = "github:nixos/nixpkgs/ef34387ddd751e1ab8857adf4676492d32eb24ec";
+    nixpkgs = {
+      url = "github:nixos/nixpkgs/ef34387ddd751e1ab8857adf4676492d32eb24ec";
+    };
     nur = {
       url = "github:nix-community/NUR";
       inputs = {

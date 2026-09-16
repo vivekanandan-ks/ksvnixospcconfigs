@@ -1,9 +1,6 @@
 {inputs, ...}: {
   flake-file.inputs = {
-    dank-calendar = {
-      url = "github:AvengeMedia/dankcalendar";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    dank-calendar.url = "github:AvengeMedia/dankcalendar";
   };
 
   flake.homeModules.nonDroid.dankcalendar = {lib, ...}: {

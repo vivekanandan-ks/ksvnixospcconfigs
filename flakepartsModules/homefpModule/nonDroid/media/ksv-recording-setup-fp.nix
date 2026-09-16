@@ -1,16 +1,13 @@
 { inputs, lib, ... }:
 {
   flake-file.inputs = {
-    ksv-recording-setup = {
-      url = "github:vivekanandan-ks/ksv-recording-setup";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    ksv-recording-setup.url = "github:vivekanandan-ks/ksv-recording-setup";
   };
 
   flake.homeModules.nonDroid.ksv-recording-setup =
     { pkgs, ... }:
     let
-      micPkg = inputs.ksv-recording-setup.packages.${pkgs.system}.default;
+      micPkg = inputs.ksv-recording-setup.packages.${pkgs.stdenv.hostPlatform.system}.default;
     in
     {
       # Install directly to PATH for CLI usage (`android-mic`)

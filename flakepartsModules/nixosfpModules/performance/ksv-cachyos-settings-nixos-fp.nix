@@ -3,10 +3,7 @@
   ...
 }: {
   flake-file.inputs = {
-    ksv-cachyos-settings-nixos = {
-      url = "github:vivekanandan-ks/ksv-cachyos-settings-nixos";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    ksv-cachyos-settings-nixos.url = "github:vivekanandan-ks/ksv-cachyos-settings-nixos";
   };
 
   flake.nixosModules.ksv-cachyos-settings = _: {

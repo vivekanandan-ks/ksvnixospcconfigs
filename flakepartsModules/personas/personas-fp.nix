@@ -20,6 +20,9 @@
     wallpapers = "${inputs.ksv-personal-artifacts}/wallpapers"; # Root directory containing all wallpaper sets
     currentWallpaperSet = "${inputs.ksv-personal-artifacts}/wallpapers/andreasrochaWallpapers"; # Active wallpaper set
 
+    # --- Theming (Single Source of Truth) ---
+    theme_polarity = "dark"; # "dark" | "light"
+
     # --- Typography / Fonts ---
     font = {
       monospace = {

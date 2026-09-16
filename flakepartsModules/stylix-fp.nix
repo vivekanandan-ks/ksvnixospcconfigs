@@ -8,12 +8,7 @@
       url = "github:tinted-theming/schemes";
       flake = false;
     };
-    stylix = {
-      url = "github:nix-community/stylix";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-parts.follows = "flake-parts";
-      inputs.nur.follows = "nur";
-    };
+    stylix.url = "github:nix-community/stylix";
   };
 
   flake = {
@@ -58,7 +53,7 @@
         popups = 0.8;
       };
 
-      stylix.polarity = "dark";
+      stylix.polarity = self.personas.ksv.theme_polarity;
 
       stylix.fonts = {
         monospace = {

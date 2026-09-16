@@ -7,32 +7,35 @@
     ksvnh = pkgs.writeShellScriptBin "ksvnh" ''
       set -euo pipefail
 
+      # Universally trust this repo's flake settings for all ksvnh commands & nested child subprocesses
+      export NIX_CONFIG="accept-flake-config = true"
+
       # 1. Flake Check & Format: ksvnh -c
       if [[ "''${1:-}" =~ ^(-c|--check)$ ]]; then
         shift
-        nix run .#write-flake --accept-flake-config
-        nix fmt --accept-flake-config
-        exec nix flake check --accept-flake-config "$@"
+        nix run .#write-flake
+        nix fmt
+        exec nix flake check "$@"
       fi
 
       # 2. Flake Check (No Build) & Format: ksvnh -co
       if [[ "''${1:-}" =~ ^(-co|--co|--check-only)$ ]]; then
         shift
-        nix run .#write-flake --accept-flake-config
-        nix fmt --accept-flake-config
-        exec nix flake check --no-build --accept-flake-config "$@"
+        nix run .#write-flake
+        nix fmt
+        exec nix flake check --no-build "$@"
       fi
 
       # 3. Write Flake Only: ksvnh --wf
       if [[ "''${1:-}" == "--wf" ]]; then
         shift
-        exec nix run .#write-flake --accept-flake-config "$@"
+        exec nix run .#write-flake "$@"
       fi
 
       # 4. VM: ksvnh --vm
       if [[ "''${1:-}" == "--vm" ]]; then
         shift
-        exec nix run ".#nixosConfigurations.$(hostname).config.system.build.vm" --accept-flake-config "$@"
+        exec nix run ".#nixosConfigurations.$(hostname).config.system.build.vm" "$@"
       fi
 
       # 5. Download & Install Size: -w (current), --uw (simulated update)
@@ -42,7 +45,7 @@
         shift
 
         echo ":: Checking size statistics for $(hostname)..."
-        output=$(nix build ".#nixosConfigurations.$(hostname).config.system.build.toplevel" --dry-run --accept-flake-config "''${LOCK_OPTS[@]}" 2>&1)
+        output=$(nix build ".#nixosConfigurations.$(hostname).config.system.build.toplevel" --dry-run "''${LOCK_OPTS[@]}" 2>&1)
         echo "$output" | grep -E 'will be built|will be fetched' || echo "• System is up-to-date (0 download, 0 build needed)!"
         exit 0
       fi
@@ -57,7 +60,7 @@
       if [[ "''${1:-}" =~ ^(--optimise|--optimize)$ ]]; then
         shift
         echo ":: Optimising Nix store..."
-        exec nix store optimise --accept-flake-config "$@"
+        exec nix store optimise "$@"
       fi
 
       if [[ "''${1:-}" == "--gco" ]]; then
@@ -65,24 +68,24 @@
         echo ":: Running fast-nix-gc..."
         fast-nix-gc "$@"
         echo ":: Optimising Nix store..."
-        exec nix store optimise --accept-flake-config
+        exec nix store optimise
       fi
 
       # 7. Flake Update: ksvnh -u <switch|boot|test|build|dry-activate>
       if [[ "''${1:-}" =~ ^(-u|--update)$ ]]; then
         shift
-        nix run .#write-flake --accept-flake-config
-        nix flake update --accept-flake-config
+        nix run .#write-flake
+        nix flake update
       fi
 
       # Always sync flake
-      nix run .#write-flake --accept-flake-config
+      nix run .#write-flake
 
       # 8. nh OS Action (explicit action required)
       if [[ $# -gt 0 ]]; then
         action="$1"
         shift
-        exec nh os "$action" -a --accept-flake-config "$@"
+        exec nh os "$action" -a "$@"
       else
         echo "Usage: ksvnh [-u] <switch|boot|test|build|dry-activate> [flags...]   # nh os actions"
         echo "       ksvnh -c                                                        # format & flake check"

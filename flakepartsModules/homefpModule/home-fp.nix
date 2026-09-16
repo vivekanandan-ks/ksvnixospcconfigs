@@ -1,10 +1,7 @@
 {self, ...}: {
   flake-file.inputs = {
-    home-manager = {
-      #url = "github:nix-community/home-manager/release-25.05";
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    #url = "github:nix-community/home-manager/release-25.05";
+    home-manager.url = "github:nix-community/home-manager";
   };
 
   flake.homeModules.common.base = {lib, ...}: {

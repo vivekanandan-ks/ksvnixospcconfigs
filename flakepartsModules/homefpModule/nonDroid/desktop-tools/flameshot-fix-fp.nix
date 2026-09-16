@@ -16,6 +16,7 @@ _: {
           ];
           Wants = lib.mkAfter [
             "xdg-desktop-portal.service"
+            "xdg-desktop-portal-luminous.service"
             "xdg-desktop-portal-wlr.service"
           ];
         };
@@ -33,10 +34,10 @@ _: {
       };
 
       # 2. Automatically restart portals when Mango starts
-      # This ensures xdg-desktop-portal-wlr detects WAYLAND_DISPLAY and exposes the Screenshot portal
+      # This ensures portals detect WAYLAND_DISPLAY and expose the wlroots Screenshot interface
       wayland.windowManager.mango.autostart_sh = lib.mkAfter ''
         # Restart portals so they pick up WAYLAND_DISPLAY and expose the wlroots Screenshot interface
-        systemctl --user restart xdg-desktop-portal xdg-desktop-portal-wlr || true
+        systemctl --user restart xdg-desktop-portal xdg-desktop-portal-luminous xdg-desktop-portal-wlr || true
       '';
     };
   };

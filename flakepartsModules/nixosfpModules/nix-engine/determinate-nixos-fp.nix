@@ -2,7 +2,8 @@
   flake-file.inputs = {
     determinate = {
       url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nix.inputs.nixpkgs.autoFollow = false;
+      inputs.nixpkgs.autoFollow = false;
     };
   };
 

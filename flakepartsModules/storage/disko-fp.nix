@@ -4,9 +4,8 @@
   ...
 }: {
   # Declare disko input using flake-file
-  flake-file.inputs.disko = {
-    url = "github:nix-community/disko";
-    inputs.nixpkgs.follows = "nixpkgs";
+  flake-file.inputs = {
+    disko.url = "github:nix-community/disko";
   };
 
   # Import disko flake-parts module
