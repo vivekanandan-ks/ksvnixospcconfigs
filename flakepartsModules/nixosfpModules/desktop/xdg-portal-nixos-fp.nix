@@ -29,7 +29,11 @@
           common.default = ["gtk"];
 
           # Prioritize Luminous for Mango, fallback to WLR, then GTK
-          mango.default = lib.mkForce ["luminous" "wlr" "gtk"];
+          mango = {
+            default = lib.mkForce ["luminous" "wlr" "gtk"];
+            "org.freedesktop.impl.portal.ScreenCast" = lib.mkForce ["luminous" "wlr"];
+            "org.freedesktop.impl.portal.Screenshot" = lib.mkForce ["luminous" "wlr"];
+          };
         };
       };
     };
