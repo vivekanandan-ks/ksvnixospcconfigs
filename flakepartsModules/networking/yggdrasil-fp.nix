@@ -55,14 +55,21 @@ _: {
     };
   };
 
+  # Host-specific SOPS key override for ksvnixospc
+  flake.hostModules.ksvnixospc.yggdrasil = {
+    config,
+    lib,
+    ...
+  }: {
+    sops.secrets.yggdrasil_key_ksvnixospc = {};
+
+    services.yggdrasil = {
+      persistentKeys = lib.mkForce false;
+      settings.PrivateKeyPath = config.sops.secrets.yggdrasil_key_ksvnixospc.path;
+    };
+  };
+
   # (Templates for when you add keys for other hosts later):
-  # flake.hostModules.ksvnixospc.yggdrasil = { config, lib, ... }: {
-  #   sops.secrets.yggdrasil_key_ksvnixospc = {};
-  #   services.yggdrasil = {
-  #     persistentKeys = lib.mkForce false;
-  #     settings.PrivateKeyPath = config.sops.secrets.yggdrasil_key_ksvnixospc.path;
-  #   };
-  # };
 
   # flake.hostModules.akashnixospc.yggdrasil = { config, lib, ... }: {
   #   sops.secrets.yggdrasil_key_akashnixospc = {};

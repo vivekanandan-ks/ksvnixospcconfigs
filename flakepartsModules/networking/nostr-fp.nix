@@ -1,0 +1,79 @@
+_: {
+  # Common baseline Nostr configuration imported across all hosts via `common-hosts-fp.nix`
+  flake.nixosModules.nostr = {
+    config,
+    lib,
+    pkgs,
+    ...
+  }: let
+    # When set, it activates the automated catch-up sync timer across all hosts.
+    # Hex equivalent: efbfbcecfa80a34df203925cbac8fbb2223f8e6c77877c6d546e5ce3ce833922
+    myPubkey = "npub1a7lmem86sz35musrjfwt4j8mkg3rlrnvw7rhcm25deww8n5r8y3qh62zpr";
+  in {
+    # 1. High-Performance C++ / LMDB Nostr Relay
+    services.strfry = {
+      enable = lib.mkDefault true;
+
+      settings = {
+        relay = {
+          # Bind to 0.0.0.0 so it listens on localhost and NetBird (wt0)
+          bind = "0.0.0.0";
+          port = 7777;
+
+          info = {
+            name = "KSV Private Nostr Relay";
+            description = "Personal Nostr relay synchronized over NetBird";
+          };
+
+          # Native Negentropy (NIP-77) high-speed set-reconciliation sync
+          negentropy = {
+            enabled = true;
+          };
+        };
+
+        db = "/var/lib/strfry";
+      };
+    };
+
+    # 2. Firewall Security: Open port 7777 ONLY on NetBird (wt0)
+    # Keeps the relay completely invisible to public Wi-Fi/Ethernet,
+    # while allowing your mobile phone and other NetBird nodes to connect.
+    networking.firewall.interfaces."wt0".allowedTCPPorts = [ 7777 ];
+
+    # 3. Nostr CLI & Desktop Client
+    environment.systemPackages = with pkgs; [
+      gossip # Native Rust desktop client (Outbox model / NIP-65)
+      nak    # Nostr Army Knife CLI (inspection, query, and Negentropy sync)
+    ];
+
+    # 4. Automated Catch-Up Service & Timer
+    systemd.services.strfry-catchup = lib.mkIf (myPubkey != "") {
+      description = "Catch-up sync personal notes from public relays";
+      after = [ "network-online.target" "strfry.service" ];
+      wants = [ "network-online.target" ];
+
+      serviceConfig = {
+        Type = "oneshot";
+        User = "strfry";
+        # nak sync talks over WebSockets directly to ws://127.0.0.1:7777,
+        # avoiding local LMDB database locks with the running strfry daemon.
+        ExecStart = ''
+          ${pkgs.nak}/bin/nak sync \
+            wss://relay.damus.io \
+            ws://127.0.0.1:7777 \
+            --author ${myPubkey}
+        '';
+      };
+    };
+
+    systemd.timers.strfry-catchup = lib.mkIf (myPubkey != "") {
+      description = "Timer for Nostr catch-up sync";
+      wantedBy = [ "timers.target" ];
+      timerConfig = {
+        OnBootSec = "5m";
+        OnUnitActiveSec = "2h";
+        Persistent = true;
+      };
+    };
+  };
+}
