@@ -4,6 +4,7 @@ keys:
 # nix-shell -p ssh-to-age --run "ssh-to-age </etc/ssh/ssh_host_ed25519_key.pub"
   - &host_deejunixospc age19vgqwa2m56g2eywdksqjflhuzawh96569zyd2ru6x86mun6203pqhcmh77
   - &host_ksvnixospc age15mzkk2h3tmtmddcpag9l0n6x4xrjhpftel0ewqnfxjzr0yxhraaq0dtuln
+  - &host_akashnixospc age1lrj0wd7vcjyd35yjv72mehejqtpkn8y6f08pd0te42e0y8v7g5hswsd7ht
 creation_rules:
   - path_regex: secrets/secrets\.ya?ml$
     key_groups:
@@ -11,3 +12,4 @@ creation_rules:
           - *admin_ksv
           - *host_deejunixospc
           - *host_ksvnixospc
+          - *host_akashnixospc

@@ -69,13 +69,11 @@ _: {
     };
   };
 
-  # (Templates for when you add keys for other hosts later):
-
-  # flake.hostModules.akashnixospc.yggdrasil = { config, lib, ... }: {
-  #   sops.secrets.yggdrasil_key_akashnixospc = {};
-  #   services.yggdrasil = {
-  #     persistentKeys = lib.mkForce false;
-  #     settings.PrivateKeyPath = config.sops.secrets.yggdrasil_key_akashnixospc.path;
-  #   };
-  # };
+ flake.hostModules.akashnixospc.yggdrasil = { config, lib, ... }: {
+   sops.secrets.yggdrasil_key_akashnixospc = {};
+   services.yggdrasil = {
+     persistentKeys = lib.mkForce false;
+     settings.PrivateKeyPath = config.sops.secrets.yggdrasil_key_akashnixospc.path;
+   };
+ };
 }
