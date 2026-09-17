@@ -10,6 +10,7 @@ in {
     inherit system;
     modules =
       (builtins.attrValues (config.flake.hardwareModules.deejunixospc or {}))
+      ++ (builtins.attrValues (config.flake.hostModules.deejunixospc or {}))
       ++ [
         {
           hardware.facter.reportPath = facterFile;

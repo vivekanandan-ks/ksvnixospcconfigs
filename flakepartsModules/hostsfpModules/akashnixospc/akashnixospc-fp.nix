@@ -9,6 +9,7 @@ in {
     inherit system;
     modules =
       (builtins.attrValues (config.flake.hardwareModules.akashnixospc or {}))
+      ++ (builtins.attrValues (config.flake.hostModules.akashnixospc or {}))
       ++ [
         inputs.home-manager.nixosModules.home-manager
         {networking.hostName = "akashnixospc";}

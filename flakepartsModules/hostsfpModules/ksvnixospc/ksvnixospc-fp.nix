@@ -11,6 +11,7 @@ in {
     inherit system;
     modules =
       (builtins.attrValues (config.flake.hardwareModules.ksvnixospc or {}))
+      ++ (builtins.attrValues (config.flake.hostModules.ksvnixospc or {}))
       ++ [
         inputs.home-manager.nixosModules.home-manager
         {

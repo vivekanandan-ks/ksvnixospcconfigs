@@ -9,6 +9,11 @@
     default = {};
   };
 
+  options.flake.hostModules = lib.mkOption {
+    type = lib.types.lazyAttrsOf lib.types.unspecified;
+    default = {};
+  };
+
   config = {
     systems = [
       "x86_64-linux"
