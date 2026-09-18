@@ -79,6 +79,10 @@ Pressing this key combo toggles the battery cap and displays a desktop toast imm
 - **System Module**: [battery-charge-control-fp.nix](file:///home/ksvnixospc/Documents/ksvnixospcconfigs/flakepartsModules/battery-charge-control/battery-charge-control-fp.nix)
   - Provides the `battery-limit` CLI binary, `libnotify`, udev rules, and MangoWM keyboard shortcut.
   - Automatically imported for all NixOS hosts via `myCommonNixosModules` in `common-hosts-fp.nix`.
+- **Automated Notifier Module**: [battery-threshold-notifier-fp.nix](file:///home/ksvnixospc/Documents/ksvnixospcconfigs/flakepartsModules/battery-charge-control/battery-threshold-notifier-fp.nix)
+  - Provides the ultra-lightweight systemd user timer (`battery-threshold-notifier.timer`, 3-minute intervals with coalesced wakeups).
+  - Automatically notifies when charging crosses 80%+ ("80% Safeguard") and when discharging drops to 50% ("50% Remaining") with built-in hysteresis.
 - **DMS Plugin**: [dms-plugin-battery-charge-control-fp.nix](file:///home/ksvnixospc/Documents/ksvnixospcconfigs/flakepartsModules/homefpModule/nonDroid/dms/dms-plugins/dms-plugin-battery-charge-control-fp.nix)
   - Placed under `dms-plugins/` alongside other DMS plugins.
   - Declares `programs.dank-material-shell.plugins.batteryChargeControl` pointing to `./dms-battery-charge-control`.
+  - Supports `BIOS Only` status on systems without Linux kernel sysfs threshold support (e.g. HP), popping up BIOS setup guidance on click.

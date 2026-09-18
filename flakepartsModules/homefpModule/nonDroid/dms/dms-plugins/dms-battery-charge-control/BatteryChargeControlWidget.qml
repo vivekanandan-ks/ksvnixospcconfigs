@@ -10,10 +10,11 @@ PluginComponent {
     id: root
 
     property bool isCapped: false
+    property bool isBiosManaged: false
     property string statusText: "..."
 
     // Native DMS Control Center integration
-    ccWidgetIcon: isCapped ? "battery_saver" : "battery_charging_full"
+    ccWidgetIcon: isCapped ? "battery_saver" : (isBiosManaged ? "tune" : "battery_charging_full")
     ccWidgetPrimaryText: "Battery Limit"
     ccWidgetSecondaryText: statusText
     ccWidgetIsActive: isCapped
@@ -43,11 +44,19 @@ PluginComponent {
                 var out = data.trim()
                 if (out.indexOf("60%") !== -1 || out.indexOf("80%") !== -1 || out.indexOf("🛡️") !== -1) {
                     root.isCapped = true
+                    root.isBiosManaged = false
                     root.statusText = out
                 } else if (out.indexOf("100%") !== -1 || out.indexOf("⚡") !== -1) {
                     root.isCapped = false
+                    root.isBiosManaged = false
+                    root.statusText = out
+                } else if (out.indexOf("BIOS") !== -1) {
+                    root.isCapped = false
+                    root.isBiosManaged = true
                     root.statusText = out
                 } else {
+                    root.isCapped = false
+                    root.isBiosManaged = false
                     root.statusText = out
                 }
             }
@@ -75,7 +84,7 @@ PluginComponent {
             spacing: Theme.spacingXS
 
             DankIcon {
-                name: root.isCapped ? "battery_saver" : "battery_charging_full"
+                name: root.isCapped ? "battery_saver" : (root.isBiosManaged ? "tune" : "battery_charging_full")
                 color: root.isCapped ? Theme.primary : Theme.surfaceVariantText
                 size: Theme.iconSize - 4
                 anchors.verticalCenter: parent.verticalCenter

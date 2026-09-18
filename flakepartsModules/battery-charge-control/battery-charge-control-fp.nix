@@ -5,6 +5,29 @@
 
       ARG="''${1:-toggle}"
 
+      has_battery() {
+        for b in /sys/class/power_supply/BAT*; do
+          if [ -d "$b" ]; then
+            return 0
+          fi
+        done
+        return 1
+      }
+
+      has_threshold_support() {
+        for f in /sys/bus/platform/drivers/ideapad_acpi/*/conservation_mode; do
+          if [ -f "$f" ]; then
+            return 0
+          fi
+        done
+        for f in /sys/class/power_supply/BAT*/charge_control_end_threshold; do
+          if [ -f "$f" ]; then
+            return 0
+          fi
+        done
+        return 1
+      }
+
       # -------------------------------------------------------------
       # 1. Short status for DMS widget bar / DankActions (--short / -q)
       # -------------------------------------------------------------
@@ -22,6 +45,10 @@
             exit 0
           fi
         done
+        if has_battery; then
+          echo "BIOS Only"
+          exit 0
+        fi
         echo "N/A"
         exit 0
       fi
@@ -47,13 +74,46 @@
           fi
         done
         if [ "$found" -eq 0 ]; then
-          echo "No supported battery charging threshold interface found on this host."
+          if has_battery; then
+            for b in /sys/class/power_supply/BAT*; do
+              [ -d "$b" ] || continue
+              mfg=$(cat "$b/manufacturer" 2>/dev/null || echo "Unknown")
+              model=$(cat "$b/model_name" 2>/dev/null || echo "Primary")
+              cap=$(cat "$b/capacity" 2>/dev/null || echo "?")
+              st=$(cat "$b/status" 2>/dev/null || echo "?")
+              echo "Battery detected: $(basename "$b") ($mfg $model) - Level: ''${cap}% ($st)"
+            done
+            echo "Notice: This hardware does not expose software or kernel-level charge threshold controls to Linux."
+            echo "Recommendation: Configure battery health thresholds in your BIOS settings (F10 at boot -> Battery Health Manager)."
+          else
+            echo "No supported battery charging threshold interface found on this host."
+          fi
         fi
         exit 0
       fi
 
       # -------------------------------------------------------------
-      # 3. Determine target threshold
+      # 3. Handle unsupported battery hardware gracefully on toggle/on/off
+      # -------------------------------------------------------------
+      if ! has_threshold_support; then
+        if has_battery; then
+          ${pkgs.libnotify}/bin/notify-send -u normal -i dialog-information \
+            "Battery Protection: BIOS Managed" \
+            "This system does not expose kernel or software-level charge threshold controls to Linux.
+
+Hardware-level charge limiting can typically be configured in your BIOS settings:
+Restart → Press F10 at boot → Advanced → Power Management Options → Enable 'Battery Health Manager' ('Maximize my battery health')." || true
+          echo "Notice: Hardware charge thresholds are managed via BIOS on this device."
+          exit 0
+        else
+          echo "No battery hardware found on this host."
+          ${pkgs.libnotify}/bin/notify-send -u low -i battery-missing "Battery Protection" "No battery hardware found on this host." || true
+          exit 0
+        fi
+      fi
+
+      # -------------------------------------------------------------
+      # 4. Determine target threshold for supported hardware
       # -------------------------------------------------------------
       TARGET=""
       if [ "$ARG" = "toggle" ]; then
@@ -104,7 +164,7 @@
       }
 
       # -------------------------------------------------------------
-      # 4. Apply to Standard sysfs (ThinkPads, ASUS, Dell, Framework, etc.)
+      # 5. Apply to Standard sysfs (ThinkPads, ASUS, Dell, Framework, etc.)
       # -------------------------------------------------------------
       for f in /sys/class/power_supply/BAT*/charge_control_end_threshold; do
         if [ -f "$f" ]; then
@@ -126,7 +186,7 @@
       done
 
       # -------------------------------------------------------------
-      # 5. Apply to Lenovo IdeaPad Conservation Mode
+      # 6. Apply to Lenovo IdeaPad Conservation Mode
       # -------------------------------------------------------------
       for f in /sys/bus/platform/drivers/ideapad_acpi/*/conservation_mode; do
         if [ -f "$f" ]; then
@@ -145,7 +205,7 @@
       done
 
       # -------------------------------------------------------------
-      # 6. Notification & Desktop Feedback
+      # 7. Notification & Desktop Feedback for supported hardware
       # -------------------------------------------------------------
       if [ "$found" -eq 1 ]; then
         if [ "$TARGET" -lt 100 ]; then
@@ -153,9 +213,6 @@
         else
           ${pkgs.libnotify}/bin/notify-send -u normal -i battery-full "Battery Protection" "Full Charge Enabled: Charging to 100%" || true
         fi
-      else
-        echo "No supported battery charging threshold interface found on this host."
-        ${pkgs.libnotify}/bin/notify-send -u low -i battery-missing "Battery Protection" "No battery hardware found on this host." || true
       fi
     '';
   in {
