@@ -38,6 +38,7 @@ Declarative [Mango](https://github.com/mangowm/mango) Wayland compositor configu
 | `SUPER + Space`       | DMS Spotlight toggle     | Open quick application launcher.   |
 | `SUPER + w`           | DMS Wallpaper Carousel   | Toggle wallpaper selector.         |
 | `CTRL + ALT + Delete` | DMS Powermenu            | Open power & session menu.         |
+| `SUPER + SHIFT + Esc` | `wakeup_monitor, eDP-1`  | Force wake internal display (`bindl`, works when locked). |
 | `ALT + F4`            | `killclient`             | Close active window.               |
 | `SUPER + Tab`         | `overcircle, next`       | Mission control / window overview. |
 | `SUPER + SHIFT + Tab` | `togglejump`             | Toggle overview jump mode.         |
@@ -88,3 +89,21 @@ Declarative [Mango](https://github.com/mangowm/mango) Wayland compositor configu
 | :-------------------- | :---------------------- | :--------------------- |
 | `SUPER + Left Click`  | `moveresize, curmove`   | Drag to move window.   |
 | `SUPER + Right Click` | `moveresize, curresize` | Drag to resize window. |
+
+---
+
+## 3. Display Wake & Freezing Recovery
+
+### Screen Wakeup Failsafe (`SUPER + SHIFT + Escape`)
+Configured in [`mangowm-bindings-fp.nix`](file:///home/ksvnixospc/Documents/ksvnixospcconfigs/flakepartsModules/mangowm/mangowm-bindings-fp.nix) under `bindl` so MangoWM processes it even while the session is locked. Dispatches `wakeup_monitor, eDP-1` to immediately enable and commit display output state if the display fails to wake from idle.
+
+### Emergency DRM VT Switch (Display Freeze / Black Screen Recovery)
+If the internal monitor stays black and neither mouse/keyboard nor the `SUPER + SHIFT + Escape` shortcut wakes it (commonly caused by AMD APU SDMA fence timeouts / `[drm] device wedged` during sleep transitions):
+
+1. **`CTRL + ALT + F3`** (or `F2`/`F4`): Switch to a virtual console. This triggers the Linux DRM/KMS driver to re-probe connectors, un-wedge the display hardware, and reset the CRTC state.
+2. Wait 2 seconds.
+3. **`CTRL + ALT + F1`**: Switch back to the MangoWM Wayland session with the display restored.
+
+> [!TIP]
+> For recurring sleep/DPMS wake freezes on AMD APUs, refer to the documented `amdgpu.sg_display=0` parameter in [`akashnixospc-gpu-fp.nix`](file:///home/ksvnixospc/Documents/ksvnixospcconfigs/flakepartsModules/hostsfpModules/akashnixospc/akashnixospc-gpu-fp.nix).
+

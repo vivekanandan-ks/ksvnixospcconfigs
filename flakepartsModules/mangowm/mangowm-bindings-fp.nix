@@ -8,6 +8,12 @@ _: {
           "SUPER, btn_right, moveresize, curresize"
         ];
 
+        # Bindings that trigger even when the screen/session is locked
+        bindl = [
+          # Screen Wakeup / DPMS failsafe
+          "SUPER+SHIFT, Escape, wakeup_monitor, eDP-1"
+        ];
+
         bind =
           [
             # Layout switching (Direct: Alt + Shift + 1-9 & symbols)
@@ -40,9 +46,6 @@ _: {
 
             # Power menu (Ctrl + Alt + Del)
             "CTRL+ALT, Delete, spawn, dms ipc call powermenu toggle"
-
-            # Screen Wakeup / DPMS failsafe
-            "SUPER+SHIFT, Escape, wakeup_monitor, eDP-1"
 
             # Window overview (Mission control with hold Super to cycle)
             "SUPER, Tab, overcircle, next"
