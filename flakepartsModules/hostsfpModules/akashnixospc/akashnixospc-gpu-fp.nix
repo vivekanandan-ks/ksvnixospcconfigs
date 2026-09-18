@@ -4,6 +4,10 @@ _: {
     lib,
     ...
   }: {
+    # Early KMS (Kernel Mode Setting): Load amdgpu in initramfs stage 1
+    # Prevents race conditions where display-manager/compositor starts before /dev/dri is ready
+    boot.initrd.kernelModules = ["amdgpu"];
+
     # Prevent eDP internal panel wake/DPMS failures on AMD Ryzen APUs
     boot.kernelParams = [
       "amdgpu.dcdebugmask=0x10"
