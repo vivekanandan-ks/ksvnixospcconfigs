@@ -9,6 +9,22 @@ _: {
     # When set, it activates the automated catch-up sync timer across all hosts.
     # Hex equivalent: efbfbcecfa80a34df203925cbac8fbb2223f8e6c77877c6d546e5ce3ce833922
     myPubkey = "npub1a7lmem86sz35musrjfwt4j8mkg3rlrnvw7rhcm25deww8n5r8y3qh62zpr";
+
+    # Verified public strfry relays with active NIP-77 Negentropy support
+    negentropyRelays = [
+      "wss://nostr.oxtr.dev"
+      "wss://rele.speyhard.fi"
+      "wss://mostro-p2p.tech"
+      "wss://nostr.data.haus"
+      "wss://relay.shadowbip.com"
+      "wss://relay.nostrdvm.com"
+      "wss://relay.contextvm.org"
+      "wss://relay2.contextvm.org"
+      "wss://nostr.bitcoiner.social"
+      "wss://offchain.pub"
+      "wss://nostr21.com"
+      "wss://relay.mostr.pub"
+    ];
   in {
     # 1. High-Performance C++ / LMDB Nostr Relay
     services.strfry = {
@@ -55,13 +71,20 @@ _: {
       serviceConfig = {
         Type = "oneshot";
         User = "strfry";
-        # nak sync talks over WebSockets directly to ws://127.0.0.1:7777,
-        # avoiding local LMDB database locks with the running strfry daemon.
-        ExecStart = ''
-          ${pkgs.nak}/bin/nak sync \
-            wss://relay.damus.io \
-            ws://127.0.0.1:7777 \
-            --author ${myPubkey}
+        WorkingDirectory = "/var/lib/strfry";
+        Environment = [
+          "HOME=/var/lib/strfry"
+          "XDG_CONFIG_HOME=/var/lib/strfry/.config"
+          "XDG_DATA_HOME=/var/lib/strfry/.local/share"
+        ];
+        # Sync personal notes using NIP-77 Negentropy over WebSockets without DB locks.
+        ExecStart = pkgs.writeShellScript "strfry-catchup-sync" ''
+          for relay in ${lib.escapeShellArgs negentropyRelays}; do
+            ${pkgs.nak}/bin/nak sync \
+              "$relay" \
+              ws://127.0.0.1:7777 \
+              --author "${myPubkey}" || true
+          done
         '';
       };
     };
