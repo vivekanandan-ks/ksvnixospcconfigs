@@ -51,7 +51,12 @@ in {
   };
 
   # ─── NIXOS MODULE ──────────────────────────────────────────────────────────
-  flake.nixosModules.nix-settings = _: {
+  flake.nixosModules.nix-settings = {
+    config,
+    options,
+    lib,
+    ...
+  }: {
     nix = {
       settings =
         commonSettings
@@ -59,6 +64,10 @@ in {
           trusted-users = ["root" "@wheel"];
         };
       registry = commonRegistry;
+
+      extraOptions = lib.mkIf (options ? sops && config.sops.secrets ? github_token) ''
+        !include ${config.sops.templates."nix-access-tokens.conf".path}
+      '';
 
       # Optimize build scheduling for desktop responsiveness
       daemonCPUSchedPolicy = "batch";
@@ -75,6 +84,12 @@ in {
         #randomizedDelaySec = "30min";
       };
       */
+    };
+
+    sops.templates."nix-access-tokens.conf" = lib.mkIf (options ? sops && config.sops.secrets ? github_token) {
+      content = ''
+        extra-access-tokens = github.com=${config.sops.placeholder.github_token}
+      '';
     };
 
     # Set Nix daemon build priority to nice 19 via systemd
@@ -95,15 +110,21 @@ in {
       settings = commonSettings;
       registry = commonRegistry;
 
+      # Commented out: Access tokens are handled declaratively at the NixOS system level
+      /*
       extraOptions = lib.mkIf (options ? sops && config.sops.secrets ? github_token) ''
         !include ${config.sops.templates."nix-access-tokens.conf".path}
       '';
+      */
     };
 
+    # Commented out: Access tokens are handled declaratively at the NixOS system level
+    /*
     sops.templates."nix-access-tokens.conf" = lib.mkIf (options ? sops && config.sops.secrets ? github_token) {
       content = ''
         extra-access-tokens = github.com=${config.sops.placeholder.github_token}
       '';
     };
+    */
   };
 }

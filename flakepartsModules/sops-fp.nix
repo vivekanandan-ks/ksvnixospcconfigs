@@ -12,6 +12,7 @@
   flake.nixosModules.sops = {
     config,
     pkgs,
+    username,
     ...
   }: {
     imports = lib.optionals (inputs ? sops-nix) [
@@ -27,10 +28,20 @@
 
       # NOTE: age.sshKeyPaths is omitted (Option 1).
       # It dynamically auto-detects from config.services.openssh.hostKeys.
+
+      # System-level secret available to user without needing ~/.config/sops/age/keys.txt
+      secrets.github_token = {
+        owner = username;
+        group = "users";
+        mode = "0400";
+      };
     };
   };
 
   # 3. Home Manager Configuration (Manages your user secrets!)
+  # Commented out to eliminate the imperative ~/.config/sops/age/keys.txt anti-pattern.
+  # All secrets are now managed declaratively at the NixOS system level using host SSH keys.
+  /*
   flake.homeModules.common.sops = {
     config,
     ...
@@ -50,4 +61,5 @@
       secrets.github_token = {};
     };
   };
+  */
 }
