@@ -33,6 +33,14 @@ _: {
         focused_opacity = 1.0;
         unfocused_opacity = 0.92;
 
+        # --- Window Dimming Overlay ---
+        dim_enable = 1; # Enable dimming overlay on windows
+        dim_focused_color = "0x00000000"; # Focused window dim color (0% - untouched)
+        dim_unfocused_color = "0x0000001a"; # Inactive windows dim color (~10% subtle dark overlay)
+
+        # --- Layer Hierarchy ---
+        float_full_to_top = 1; # Allow floating scratchpads/popups to appear above fullscreen windows
+
         # --- Native Hot Corner ---
         enable_hotarea = 1;
         hotarea_corner = 2; # 0: top-left, 1: top-right, 2: bottom-left, 3: bottom-right
