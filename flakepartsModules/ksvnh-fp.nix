@@ -11,12 +11,6 @@
       export NIX_CONFIG="accept-flake-config = true"
 
       sync_jj_metadata() {
-        # 1. Skip completely if no args or for store maintenance / GC / help
-        if [[ $# -eq 0 || "''${1:-}" =~ ^(--gc|--optimise|--optimize|--gco|-h|--help)$ ]]; then
-          return 0
-        fi
-
-        # 2. Only run inside a git/jj repository if jj exists
         if [[ -d .git || -d .jj ]] && command -v jj >/dev/null 2>&1; then
           local target has_changes cid desc clean_desc
 
@@ -34,7 +28,7 @@
           cid=$(jj --no-pager log -r "$target" --no-graph -T 'change_id.shortest(6) ++ if(conflict, ":conflict")' 2>/dev/null || true)
           if [[ -n "$cid" ]]; then
             desc=$(jj --no-pager log -r "$target" --no-graph -T 'description.first_line()' 2>/dev/null || true)
-            clean_desc=$(echo "''${desc:-wip}" | sed 's/[()]/::/g; s/ /_/g; s/[^a-zA-Z0-9:_.-]//g; s/__*/_/g; s/::*/:/g' | cut -c1-50)
+            clean_desc=$(echo "''${desc:-wip}" | sed 's/[()]/::/g; s/ /_/g; s/[^a-zA-Z0-9:_.-]//g; s/__*/_/g; s/::*/:/g; s/:_/:/g' | cut -c1-50 | sed 's/^[:_.-]*//; s/[:_.-]*$//')
             echo "jj:''${cid}--''${clean_desc}" > .jj-info
             return
           fi
@@ -42,13 +36,11 @@
         [[ -d .git || -d .jj ]] && : > .jj-info || true
       }
 
-      # Automatically sync metadata (except for GC & optimise)
-      sync_jj_metadata "$@"
-
       # 1. Flake Check & Format: ksvnh -c
       if [[ "''${1:-}" =~ ^(-c|--check)$ ]]; then
         shift
         nix run .#write-flake
+        sync_jj_metadata
         nix fmt
         exec nix flake check "$@"
       fi
@@ -57,6 +49,7 @@
       if [[ "''${1:-}" =~ ^(-co|--co|--check-only)$ ]]; then
         shift
         nix run .#write-flake
+        sync_jj_metadata
         nix fmt
         exec nix flake check --no-build "$@"
       fi
@@ -70,6 +63,8 @@
       # 4. VM: ksvnh --vm
       if [[ "''${1:-}" == "--vm" ]]; then
         shift
+        nix run .#write-flake
+        sync_jj_metadata
         exec nix run ".#nixosConfigurations.$(hostname).config.system.build.vm" "$@"
       fi
 
@@ -78,6 +73,7 @@
         LOCK_OPTS=()
         [[ "$1" == "--uw" ]] && LOCK_OPTS=(--recreate-lock-file --no-write-lock-file)
         shift
+        sync_jj_metadata
 
         echo ":: Checking size statistics for $(hostname)..."
         output=$(nix build ".#nixosConfigurations.$(hostname).config.system.build.toplevel" --dry-run "''${LOCK_OPTS[@]}" 2>&1)
@@ -115,6 +111,9 @@
 
       # Always sync flake
       nix run .#write-flake
+
+      # Sync Jujutsu metadata tag after update & write-flake, right before build
+      sync_jj_metadata
 
       # 8. nh OS Action (explicit action required)
       if [[ $# -gt 0 ]]; then
