@@ -10,6 +10,41 @@
       # Universally trust this repo's flake settings for all ksvnh commands & nested child subprocesses
       export NIX_CONFIG="accept-flake-config = true"
 
+      sync_jj_metadata() {
+        # 1. Skip completely if no args or for store maintenance / GC / help
+        if [[ $# -eq 0 || "''${1:-}" =~ ^(--gc|--optimise|--optimize|--gco|-h|--help)$ ]]; then
+          return 0
+        fi
+
+        # 2. Only run inside a git/jj repository if jj exists
+        if [[ -d .git || -d .jj ]] && command -v jj >/dev/null 2>&1; then
+          local target has_changes cid desc clean_desc
+
+          # Check if @ has real code changes (excluding .jj-info)
+          has_changes=$(jj --no-pager diff -r @ 'all() ~ .jj-info' --summary 2>/dev/null || true)
+          if [[ -z "$has_changes" ]]; then
+            # No code changes in @ -> The build represents latest(@-)
+            target=$(jj --no-pager log -r 'latest(@-)' --no-graph -T 'change_id.shortest(6)' 2>/dev/null || true)
+            target="''${target:+latest(@-)}"
+            target="''${target:-@}"
+          else
+            target="@"
+          fi
+
+          cid=$(jj --no-pager log -r "$target" --no-graph -T 'change_id.shortest(6) ++ if(conflict, ":conflict")' 2>/dev/null || true)
+          if [[ -n "$cid" ]]; then
+            desc=$(jj --no-pager log -r "$target" --no-graph -T 'description.first_line()' 2>/dev/null || true)
+            clean_desc=$(echo "''${desc:-wip}" | sed 's/[()]/::/g; s/ /_/g; s/[^a-zA-Z0-9:_.-]//g; s/__*/_/g; s/::*/:/g' | cut -c1-50)
+            echo "jj:''${cid}--''${clean_desc}" > .jj-info
+            return
+          fi
+        fi
+        [[ -d .git || -d .jj ]] && : > .jj-info || true
+      }
+
+      # Automatically sync metadata (except for GC & optimise)
+      sync_jj_metadata "$@"
+
       # 1. Flake Check & Format: ksvnh -c
       if [[ "''${1:-}" =~ ^(-c|--check)$ ]]; then
         shift

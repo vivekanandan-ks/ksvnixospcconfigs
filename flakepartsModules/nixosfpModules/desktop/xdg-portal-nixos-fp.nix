@@ -1,6 +1,5 @@
-{self, ...}: {
+_: {
   flake = {
-
     nixosModules.xdg-portal = {
       lib,
       pkgs-unstable,

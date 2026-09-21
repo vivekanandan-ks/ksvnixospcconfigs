@@ -33,9 +33,9 @@ This module provides an isolated virtual display (`HEADLESS-1`) and a live zero-
 
 ## 2. Keybindings
 
-| Shortcut                | Action                 | Description                                                |
-| :---------------------- | :--------------------- | :--------------------------------------------------------- |
-| **`SUPER + v`**         | `toggle-virtmon`       | Toggle the virtual monitor and `wl-mirror` on or off.      |
+| Shortcut                | Action                  | Description                                                |
+| :---------------------- | :---------------------- | :--------------------------------------------------------- |
+| **`SUPER + v`**         | `toggle-virtmon`        | Toggle the virtual monitor and `wl-mirror` on or off.      |
 | **`SUPER + SHIFT + v`** | `tagmon, HEADLESS-.*`   | Move the currently active window onto the virtual monitor. |
 | **`SUPER + CTRL + v`**  | `focusmon, HEADLESS-.*` | Jump keyboard & cursor focus to the virtual monitor.       |
 

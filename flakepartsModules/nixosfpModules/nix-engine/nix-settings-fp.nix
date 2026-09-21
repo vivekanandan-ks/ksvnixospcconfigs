@@ -100,8 +100,6 @@ in {
   flake.homeModules.common.nix-settings = {
     pkgs,
     lib,
-    config,
-    options,
     ...
   }: {
     nix = {

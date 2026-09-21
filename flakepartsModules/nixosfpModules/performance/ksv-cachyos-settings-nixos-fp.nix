@@ -1,7 +1,4 @@
-{
-  inputs,
-  ...
-}: {
+{inputs, ...}: {
   flake-file.inputs = {
     ksv-cachyos-settings-nixos.url = "github:vivekanandan-ks/ksv-cachyos-settings-nixos";
   };

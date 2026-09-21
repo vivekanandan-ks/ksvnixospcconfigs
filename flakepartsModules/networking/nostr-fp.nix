@@ -1,7 +1,6 @@
 _: {
   # Common baseline Nostr configuration imported across all hosts via `common-hosts-fp.nix`
   flake.nixosModules.nostr = {
-    config,
     lib,
     pkgs,
     ...
@@ -54,19 +53,19 @@ _: {
     # 2. Firewall Security: Open port 7777 ONLY on NetBird (wt0)
     # Keeps the relay completely invisible to public Wi-Fi/Ethernet,
     # while allowing your mobile phone and other NetBird nodes to connect.
-    networking.firewall.interfaces."wt0".allowedTCPPorts = [ 7777 ];
+    networking.firewall.interfaces."wt0".allowedTCPPorts = [7777];
 
     # 3. Nostr CLI & Desktop Client
     environment.systemPackages = with pkgs; [
       gossip # Native Rust desktop client (Outbox model / NIP-65)
-      nak    # Nostr Army Knife CLI (inspection, query, and Negentropy sync)
+      nak # Nostr Army Knife CLI (inspection, query, and Negentropy sync)
     ];
 
     # 4. Automated Catch-Up Service & Timer
     systemd.services.strfry-catchup = lib.mkIf (myPubkey != "") {
       description = "Catch-up sync personal notes from public relays";
-      after = [ "network-online.target" "strfry.service" ];
-      wants = [ "network-online.target" ];
+      after = ["network-online.target" "strfry.service"];
+      wants = ["network-online.target"];
 
       serviceConfig = {
         Type = "oneshot";
@@ -91,7 +90,7 @@ _: {
 
     systemd.timers.strfry-catchup = lib.mkIf (myPubkey != "") {
       description = "Timer for Nostr catch-up sync";
-      wantedBy = [ "timers.target" ];
+      wantedBy = ["timers.target"];
       timerConfig = {
         OnBootSec = "5m";
         OnUnitActiveSec = "2h";

@@ -10,7 +10,6 @@
 
   # 2. Configure sops for NixOS
   flake.nixosModules.sops = {
-    config,
     pkgs,
     username,
     ...
@@ -20,7 +19,7 @@
     ];
 
     # Make the 'sops' CLI tool always available in your terminal
-    environment.systemPackages = [ pkgs.sops ];
+    environment.systemPackages = [pkgs.sops];
 
     sops = {
       defaultSopsFile = ../secrets/secrets.yaml;

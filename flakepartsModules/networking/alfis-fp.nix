@@ -1,11 +1,9 @@
 _: {
   flake.nixosModules.alfis = {
-    config,
-    lib,
     pkgs-unstable,
     ...
   }: let
-    alfisConfig = (pkgs-unstable.formats.toml { }).generate "alfis.toml" {
+    alfisConfig = (pkgs-unstable.formats.toml {}).generate "alfis.toml" {
       # Genesis block hash of the Alfis blockchain (mandatory for consensus)
       origin = "0000001D2A77D63477172678502E51DE7F346061FF7EB188A2445ECA3FC0780E";
 
@@ -42,8 +40,8 @@ _: {
     # Headless 24/7 background DNS resolver
     systemd.services.alfis = {
       description = "Alfis Decentralized DNS Daemon";
-      after = [ "network.target" "yggdrasil.service" ];
-      wantedBy = [ "multi-user.target" ];
+      after = ["network.target" "yggdrasil.service"];
+      wantedBy = ["multi-user.target"];
 
       serviceConfig = {
         ExecStart = "${pkgs-unstable.alfis}/bin/alfis -n -c ${alfisConfig}";
@@ -61,7 +59,7 @@ _: {
       enable = true;
       settings.Resolve = {
         DNS = "127.0.0.1:5335";
-        Domains = [ "~ygg" "~anon" ];
+        Domains = ["~ygg" "~anon"];
       };
     };
   };
