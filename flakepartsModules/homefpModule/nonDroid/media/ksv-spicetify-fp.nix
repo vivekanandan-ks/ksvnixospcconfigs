@@ -53,7 +53,7 @@
           showQueueDuration
           copyToClipboard
           history
-          betterGenres
+          # betterGenres
           #adblock
           volumePercentage
           playingSource
