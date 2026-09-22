@@ -414,22 +414,6 @@
         "type": "github"
       }
     },
-    "dms-plugin-screen-recorder": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1782361135,
-        "narHash": "sha256-zCVip4iaFx9g5sLIxyolEMPunycskf5U4tltFPEWUnw=",
-        "owner": "hthienloc",
-        "repo": "dms-screen-recorder",
-        "rev": "440a71f1bdd275f3d662beaae38593b68a605dd2",
-        "type": "github"
-      },
-      "original": {
-        "owner": "hthienloc",
-        "repo": "dms-screen-recorder",
-        "type": "github"
-      }
-    },
     "dms-plugin-screencapture-toolbar": {
       "flake": false,
       "locked": {
@@ -538,6 +522,22 @@
       },
       "original": {
         "owner": "Dadangdut33",
+        "repo": "dms-plugins",
+        "type": "github"
+      }
+    },
+    "dms-plugins-hthienloc": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1790042599,
+        "narHash": "sha256-bW4EdSEE6Cx53yo2QZch0LNAmoln5yxv8i/JWWJUOrk=",
+        "owner": "hthienloc",
+        "repo": "dms-plugins",
+        "rev": "bb4f5090140eb59916201c053c5889e5797cdc5e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hthienloc",
         "repo": "dms-plugins",
         "type": "github"
       }
@@ -1368,7 +1368,6 @@
         "dms-plugin-modern-clock": "dms-plugin-modern-clock",
         "dms-plugin-pure-lyrics": "dms-plugin-pure-lyrics",
         "dms-plugin-scratchpad-helper": "dms-plugin-scratchpad-helper",
-        "dms-plugin-screen-recorder": "dms-plugin-screen-recorder",
         "dms-plugin-screencapture-toolbar": "dms-plugin-screencapture-toolbar",
         "dms-plugin-screenkey": "dms-plugin-screenkey",
         "dms-plugin-storage-monitor": "dms-plugin-storage-monitor",
@@ -1376,6 +1375,7 @@
         "dms-plugin-wallpaper-carousel": "dms-plugin-wallpaper-carousel",
         "dms-plugins-avengemedia": "dms-plugins-avengemedia",
         "dms-plugins-dadangdut33": "dms-plugins-dadangdut33",
+        "dms-plugins-hthienloc": "dms-plugins-hthienloc",
         "dms-plugins-sitolam": "dms-plugins-sitolam",
         "dms-shell": "dms-shell",
         "fast-nix-gc": "fast-nix-gc",

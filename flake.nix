@@ -91,10 +91,6 @@
       url = "github:fluxwrk/dms-scratchpad-helper";
       flake = false;
     };
-    dms-plugin-screen-recorder = {
-      url = "github:hthienloc/dms-screen-recorder";
-      flake = false;
-    };
     dms-plugin-screencapture-toolbar = {
       url = "github:JDKamalakar/DMS-ScreenCapture_Toolbar";
       flake = false;
@@ -121,6 +117,10 @@
     };
     dms-plugins-dadangdut33 = {
       url = "github:Dadangdut33/dms-plugins";
+      flake = false;
+    };
+    dms-plugins-hthienloc = {
+      url = "github:hthienloc/dms-plugins";
       flake = false;
     };
     dms-plugins-sitolam = {

@@ -46,6 +46,19 @@ Declarative [Mango](https://github.com/mangowm/mango) Wayland compositor configu
 | `ALT + SHIFT + Tab`   | `switcher, all_tag_next` | Switcher HUD across all tags.                             |
 | `ALT + \``            | `focuslast`              | Focus last active window.                                 |
 
+### Screen Capture & Recording ("R" & "S" Family)
+
+Configured via the Quick Capture DMS plugin and Flameshot integration:
+
+| Shortcut              | Action                                                | Description                                                 |
+| :-------------------- | :---------------------------------------------------- | :---------------------------------------------------------- |
+| `SUPER + SHIFT + R`   | `quickCapture recordToggle portal`                    | Toggle window / portal screen recording.                    |
+| `SUPER + ALT + R`     | `quickCapture recordToggle portal`                    | Alternate toggle for window / portal recording.             |
+| `SUPER + ALT + S`     | `quickCapture recordToggle region`                    | Toggle interactive custom region recording.                 |
+| `SUPER + SHIFT + S`   | `quickCapture screenshot region edit`                 | Capture region and open Quick Capture annotator.            |
+| `Print`               | `flameshot gui`                                       | Flameshot interactive region screenshot.                    |
+| `SUPER + Print`       | `flameshot full`                                      | Flameshot instant full-screen capture to file.              |
+
 ### Window Focus
 
 | Shortcut              | Action             | Description                     |
