@@ -14,8 +14,8 @@
         if [[ -d .git || -d .jj ]] && command -v jj >/dev/null 2>&1; then
           local target has_changes cid desc clean_desc
 
-          # Check if @ has real code changes (excluding .jj-info)
-          has_changes=$(jj --no-pager diff -r @ 'all() ~ .jj-info' --summary 2>/dev/null || true)
+          # Check if @ has real code changes (excluding .jj-info and automated flake sync files)
+          has_changes=$(jj --no-pager diff -r @ 'all() ~ (.jj-info | flake.lock | flake.nix)' --summary 2>/dev/null || true)
           if [[ -z "$has_changes" ]]; then
             # No code changes in @ -> The build represents latest(@-)
             target=$(jj --no-pager log -r 'latest(@-)' --no-graph -T 'change_id.shortest(6)' 2>/dev/null || true)
