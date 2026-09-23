@@ -18,6 +18,18 @@
           wrapProgram $out/bin/mango \
             --run "[ -f /etc/profile ] && . /etc/profile" \
             --run "[ -f /etc/profiles/per-user/\$USER/etc/profile.d/hm-session-vars.sh ] && . /etc/profiles/per-user/\$USER/etc/profile.d/hm-session-vars.sh"
+
+          # Tag session as systemd-aware using X-NIXOS-SYSTEMD-AWARE.
+          # Without this, NixOS's xsession-wrapper assumes Mango is a legacy non-systemd desktop
+          # and prematurely triggers nixos-fake-graphical-session.target before Mango creates its
+          # Wayland display socket. That causes xdg-desktop-portal to suffer repeated 15s timeouts
+          # (freezing DMS for 40-50s) and graphical services (like Vicinae) to crash during login.
+          if [ -d "$out/share/wayland-sessions" ]; then
+            rm -f "$out/share/wayland-sessions/mango.desktop"
+            sed 's/DesktopNames=mango;wlroots/DesktopNames=mango;wlroots;X-NIXOS-SYSTEMD-AWARE/' \
+              "${inputs.mango.packages.${pkgs.stdenv.hostPlatform.system}.mango}/share/wayland-sessions/mango.desktop" \
+              > "$out/share/wayland-sessions/mango.desktop"
+          fi
         '';
         passthru = {
           providedSessions = ["mango"];

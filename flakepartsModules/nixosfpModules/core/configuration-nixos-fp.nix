@@ -101,6 +101,7 @@
       wifi.powersave = false;
     };
 
+    networking.dhcpcd.enable = false;
     networking.useDHCP = lib.mkDefault (!config.networking.networkmanager.enable);
 
     #enabling for impala
