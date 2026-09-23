@@ -15,8 +15,8 @@
 
             substituteInPlace $out/PureLyrics.qml \
               --replace-fail "DesktopPluginComponent {" "DesktopPluginComponent {
-        readonly property bool isMusicPlaying: root.lyricPlayer ? (root.lyricPlayer.playbackState === MprisPlaybackState.Playing) : false
-        visible: root.isMusicPlaying" \
+        readonly property bool isMusicPlaying: root.lyricPlayer ? (root.lyricPlayer.playbackState === MprisPlaybackState.Playing) : false" \
+              --replace-fail "visible: opacity > 0" "visible: root.isMusicPlaying && opacity > 0" \
               --replace-fail "running: root.lyricPlayer && lyricsLines.length > 0" "running: root.isMusicPlaying && lyricsLines.length > 0"
       '';
     };

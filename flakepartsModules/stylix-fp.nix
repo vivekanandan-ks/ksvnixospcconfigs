@@ -91,7 +91,7 @@
         qt.enable = false;
 
         kde = {
-          enable = true;
+          enable = false;
           useWallpaper = false;
         };
 

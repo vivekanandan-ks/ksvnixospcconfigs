@@ -1,4 +1,5 @@
 {
+  "configVersion": 4,
   "terminalOverride": "kitty",
   "wallpaperTransition": "portal",
   "includedTransitions": ["fade", "wipe", "disc", "stripes", "iris bloom", "pixelate", "portal"],

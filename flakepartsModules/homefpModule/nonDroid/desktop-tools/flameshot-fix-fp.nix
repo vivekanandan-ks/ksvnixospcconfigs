@@ -37,7 +37,7 @@ _: {
       # This ensures portals detect WAYLAND_DISPLAY and expose the wlroots Screenshot interface
       wayland.windowManager.mango.autostart_sh = lib.mkAfter ''
         # Restart portals so they pick up WAYLAND_DISPLAY and expose the wlroots Screenshot interface
-        systemctl --user restart xdg-desktop-portal xdg-desktop-portal-wlr || true
+        systemctl --user restart --no-block xdg-desktop-portal xdg-desktop-portal-wlr || true
         # systemctl --user restart xdg-desktop-portal xdg-desktop-portal-luminous xdg-desktop-portal-wlr || true
       '';
     };

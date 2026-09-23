@@ -473,6 +473,6 @@
   },
   "clipboardVisibleEntryActions": ["pin", "edit", "delete", "copy", "paste"],
   "frameLauncherEdgeHover": true,
-  "configVersion": 17,
+  "configVersion": 18,
   "dockPosition": 3
 }
