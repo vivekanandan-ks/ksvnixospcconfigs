@@ -21,8 +21,9 @@ _: {
       };
 
       home.activation.rebuildKDECache = lib.hm.dag.entryAfter ["writeBoundary"] ''
-        rm -rf ~/.cache/ksycoca*
-        ${pkgs-unstable.kdePackages.kservice}/bin/kbuildsycoca6 --noincremental
+        # NixOS already provides nixos-rebuild-sycoca.service. Wiping and rebuilding on every boot causes ~10s disk thrash.
+        # rm -rf ~/.cache/ksycoca*
+        # ${pkgs-unstable.kdePackages.kservice}/bin/kbuildsycoca6 --noincremental
         ${pkgs-unstable.kdePackages.kconfig}/bin/kwriteconfig6 --file ~/.config/kdeglobals --group General --key TerminalApplication kitty
         ${pkgs-unstable.kdePackages.kconfig}/bin/kwriteconfig6 --file ~/.config/kdeglobals --group General --key TerminalService kitty.desktop
       '';

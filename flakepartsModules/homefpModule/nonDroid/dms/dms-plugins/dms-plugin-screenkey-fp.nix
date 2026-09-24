@@ -46,8 +46,9 @@
     ];
 
     # Disable visualizer on session startup after 5 seconds so it starts OFF
-    wayland.windowManager.mango.autostart_sh = lib.mkAfter ''
-      (sleep 5 && dms ipc call screenkey disable) &
-    '';
+    # (screenkey is already configured with enabled = false above; running dms ipc too early causes exit 255)
+    # wayland.windowManager.mango.autostart_sh = lib.mkAfter ''
+    #   (sleep 5 && dms ipc call screenkey disable) &
+    # '';
   };
 }
