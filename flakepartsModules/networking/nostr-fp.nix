@@ -104,7 +104,7 @@ _: {
       wantedBy = ["timers.target"];
       timerConfig = {
         OnBootSec = "5m";
-        OnUnitActiveSec = "2h";
+        OnUnitActiveSec = "30m";
         Persistent = true;
       };
     };
