@@ -34,10 +34,11 @@ _: {
       };
 
       # 2. Automatically restart portals when Mango starts
-      # This ensures portals detect WAYLAND_DISPLAY and expose the wlroots Screenshot interface
+      # (Mango is tagged with X-NIXOS-SYSTEMD-AWARE, so systemd already launches portals
+      # with WAYLAND_DISPLAY set. Commented out to prevent interrupting portal startup.)
       wayland.windowManager.mango.autostart_sh = lib.mkAfter ''
         # Restart portals so they pick up WAYLAND_DISPLAY and expose the wlroots Screenshot interface
-        systemctl --user restart --no-block xdg-desktop-portal xdg-desktop-portal-wlr || true
+        # systemctl --user restart --no-block xdg-desktop-portal xdg-desktop-portal-wlr || true
         # systemctl --user restart xdg-desktop-portal xdg-desktop-portal-luminous xdg-desktop-portal-wlr || true
       '';
     };
