@@ -76,12 +76,23 @@ _: {
           "XDG_CONFIG_HOME=/var/lib/strfry/.config"
           "XDG_DATA_HOME=/var/lib/strfry/.local/share"
         ];
-        # Sync personal notes using NIP-77 Negentropy over WebSockets without DB locks.
+        # Bidirectional sync personal notes using NIP-77 Negentropy over WebSockets:
+        # Phase 1: Ingest/Pull from all relays to aggregate complete union locally.
+        # Phase 2: Propagate/Push from local strfry to all relays for cross-relay healing.
         ExecStart = pkgs.writeShellScript "strfry-catchup-sync" ''
+          # Phase 1: Aggregate (Pull from all relays)
           for relay in ${lib.escapeShellArgs negentropyRelays}; do
-            ${pkgs.nak}/bin/nak sync \
+            ${pkgs.coreutils}/bin/timeout 15s ${pkgs.nak}/bin/nak sync \
               "$relay" \
               ws://127.0.0.1:7777 \
+              --author "${myPubkey}" || true
+          done
+
+          # Phase 2: Propagate (Push to all relays)
+          for relay in ${lib.escapeShellArgs negentropyRelays}; do
+            ${pkgs.coreutils}/bin/timeout 15s ${pkgs.nak}/bin/nak sync \
+              ws://127.0.0.1:7777 \
+              "$relay" \
               --author "${myPubkey}" || true
           done
         '';
