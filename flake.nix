@@ -200,7 +200,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs = {
-      url = "github:nixos/nixpkgs/7a0f122f5090cf4c2ade2a13a0e229d4e19ba71f";
+      url = "github:nixos/nixpkgs/b4fd65b198c599cbe814fcb9f42d25d021595ec9";
     };
     nur = {
       url = "github:nix-community/NUR";

@@ -3,6 +3,7 @@ _: {
   flake.nixosModules.nostr = {
     lib,
     pkgs,
+    pkgs-stable,
     ...
   }: let
     # When set, it activates the automated catch-up sync timer across all hosts.
@@ -28,6 +29,7 @@ _: {
     # 1. High-Performance C++ / LMDB Nostr Relay
     services.strfry = {
       enable = lib.mkDefault true;
+      package = pkgs-stable.strfry;
 
       settings = {
         relay = {
