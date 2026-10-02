@@ -199,6 +199,13 @@
       url = "github:nix-community/nix4vscode";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixflix = {
+      url = "github:kiriwalawren/nixflix";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        treefmt-nix.follows = "treefmt-nix";
+      };
+    };
     nixpkgs = {
       url = "github:nixos/nixpkgs/b4fd65b198c599cbe814fcb9f42d25d021595ec9";
     };

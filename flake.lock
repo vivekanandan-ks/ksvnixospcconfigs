@@ -1001,6 +1001,22 @@
         "type": "github"
       }
     },
+    "mkdocs-catppuccin": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1767028711,
+        "narHash": "sha256-YVIZAtQT2B4Xs2sBaszvyyukm+1klCJdRpsc/BYV1gw=",
+        "owner": "ruslanlap",
+        "repo": "mkdocs-catppuccin",
+        "rev": "fd8ac6106b5b6d32922cd80cbc3d221622a17408",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ruslanlap",
+        "repo": "mkdocs-catppuccin",
+        "type": "github"
+      }
+    },
     "mnw": {
       "locked": {
         "lastModified": 1784154424,
@@ -1144,6 +1160,31 @@
       "original": {
         "owner": "nix-community",
         "repo": "nix4vscode",
+        "type": "github"
+      }
+    },
+    "nixflix": {
+      "inputs": {
+        "mkdocs-catppuccin": "mkdocs-catppuccin",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "treefmt-nix": [
+          "treefmt-nix"
+        ],
+        "vpn-confinement": "vpn-confinement"
+      },
+      "locked": {
+        "lastModified": 1790775809,
+        "narHash": "sha256-Vt2k/qq1VG9jpfj8XBQdjW8OVfC8iojRqwyZ3fb2bIo=",
+        "owner": "kiriwalawren",
+        "repo": "nixflix",
+        "rev": "abe295fbcab45a0c06530595bc63d94317c6b665",
+        "type": "github"
+      },
+      "original": {
+        "owner": "kiriwalawren",
+        "repo": "nixflix",
         "type": "github"
       }
     },
@@ -1391,6 +1432,7 @@
         "multiverse": "multiverse",
         "nix-on-droid": "nix-on-droid",
         "nix4vscode": "nix4vscode",
+        "nixflix": "nixflix",
         "nixpkgs": "nixpkgs_3",
         "nur": "nur",
         "nvf": "nvf",
@@ -1727,6 +1769,21 @@
       "original": {
         "owner": "vicinaehq",
         "repo": "extensions",
+        "type": "github"
+      }
+    },
+    "vpn-confinement": {
+      "locked": {
+        "lastModified": 1789394839,
+        "narHash": "sha256-trdjVJKmDBbzgbP8pd+R7iKbGkdRu0nmXgQlBR/hEiU=",
+        "owner": "Maroka-chan",
+        "repo": "VPN-Confinement",
+        "rev": "a21f66ccd9f644c3770ccdf287cb380c00192628",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Maroka-chan",
+        "repo": "VPN-Confinement",
         "type": "github"
       }
     },
