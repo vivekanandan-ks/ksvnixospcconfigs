@@ -8,6 +8,34 @@
           username = "admin";
           password = "admin123";
         };
+        indexers = [
+          {
+            name = "1337x";
+            enable = true;
+            appProfileId = 1;
+            tags = [ "flaresolverr" ];
+          }
+          {
+            name = "Nyaa.si";
+            enable = true;
+            appProfileId = 1;
+          }
+          {
+            name = "Tokyo Toshokan";
+            enable = true;
+            appProfileId = 1;
+          }
+          {
+            name = "EZTV";
+            enable = true;
+            appProfileId = 1;
+          }
+          {
+            name = "YTS";
+            enable = true;
+            appProfileId = 1;
+          }
+        ];
       };
     };
 

@@ -108,6 +108,25 @@
     networking.networkmanager = {
       enable = true;
       wifi.powersave = false;
+      insertNameservers = [
+        "1.1.1.1"
+        "8.8.8.8"
+        "1.0.0.1"
+        "8.8.4.4"
+      ];
+    };
+
+    # Systemd-resolved with DNS-over-TLS to prevent ISP DNS poisoning/interception
+    services.resolved = {
+      enable = true;
+      settings.Resolve = {
+        DNSSEC = "allow-downgrade";
+        DNSOverTLS = "opportunistic";
+        FallbackDNS = [
+          "9.9.9.9#dns.quad9.net"
+          "149.112.112.112#dns.quad9.net"
+        ];
+      };
     };
 
     networking.dhcpcd.enable = false;

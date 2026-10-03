@@ -6,24 +6,27 @@
     };
 
     # Prevent Chromium startup from timing out on cold-boot HDD or starving the desktop
-    systemd.services.flaresolverr.serviceConfig = {
-      TimeoutStartSec = 120;
-      Nice = 10;
-      IOSchedulingClass = "best-effort";
-      IOSchedulingPriority = 7;
-      ExecStartPost = lib.mkForce [
-        ""
-        "${pkgs.writeShellScript "wait-for-flaresolverr" ''
-          for i in $(seq 1 120); do
-            if ${pkgs.curl}/bin/curl -sf http://127.0.0.1:8191/ >/dev/null 2>&1; then
-              exit 0
-            fi
-            sleep 1
-          done
-          echo "FlareSolverr did not become ready within 120s"
-          exit 1
-        ''}"
-      ];
+    systemd.services.flaresolverr = {
+      after = [ "nixflix-setup-dirs.service" "prowlarr.service" ];
+      serviceConfig = {
+        TimeoutStartSec = 240;
+        Nice = 10;
+        IOSchedulingClass = "best-effort";
+        IOSchedulingPriority = 7;
+        ExecStartPost = lib.mkForce [
+          ""
+          "${pkgs.writeShellScript "wait-for-flaresolverr" ''
+            for i in $(seq 1 240); do
+              if ${pkgs.curl}/bin/curl -sf http://127.0.0.1:8191/ >/dev/null 2>&1; then
+                exit 0
+              fi
+              sleep 1
+            done
+            echo "FlareSolverr did not become ready within 240s"
+            exit 1
+          ''}"
+        ];
+      };
     };
 
     # Allow local home Wi-Fi to reach the FlareSolverr status endpoint

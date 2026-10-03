@@ -38,5 +38,13 @@
       iptables -A nixos-fw -p tcp --dport 7878 -s 192.168.0.0/16 -j nixos-fw-accept
       iptables -A nixos-fw -p tcp --dport 7878 -s 10.0.0.0/8 -j nixos-fw-accept
     '';
+
+    # Bypass Indian ISP dead-routing / 100% packet loss on Cloudflare IP 172.67.180.78
+    networking.hosts = {
+      "104.21.43.147" = [
+        "api.radarr.video"
+        "radarr.servarr.com"
+      ];
+    };
   };
 }
