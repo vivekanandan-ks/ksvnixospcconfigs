@@ -1,5 +1,5 @@
 { inputs, lib, ... }: {
-  flake.nixosModules.selfHosting = lib.mkIf (inputs ? nixflix) {
+  flake.nixosModules.selfHosting = { pkgs, ... }: lib.mkIf (inputs ? nixflix) {
     nixflix.flaresolverr = {
       enable = true;
       port = 8191;
@@ -11,6 +11,19 @@
       Nice = 10;
       IOSchedulingClass = "best-effort";
       IOSchedulingPriority = 7;
+      ExecStartPost = lib.mkForce [
+        ""
+        "${pkgs.writeShellScript "wait-for-flaresolverr" ''
+          for i in $(seq 1 120); do
+            if ${pkgs.curl}/bin/curl -sf http://127.0.0.1:8191/ >/dev/null 2>&1; then
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "FlareSolverr did not become ready within 120s"
+          exit 1
+        ''}"
+      ];
     };
 
     # Allow local home Wi-Fi to reach the FlareSolverr status endpoint

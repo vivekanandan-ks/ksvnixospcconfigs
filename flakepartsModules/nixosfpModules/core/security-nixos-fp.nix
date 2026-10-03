@@ -5,8 +5,8 @@ _: {
 
     # Desktop security auditing monitor
     services.paretosecurity = {
-      enable = true;
-      trayIcon = true;
+      enable = false;
+      trayIcon = false;
     };
   };
 }

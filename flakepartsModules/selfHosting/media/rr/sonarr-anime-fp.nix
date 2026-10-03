@@ -31,7 +31,7 @@
     nixflix.recyclarr.config.sonarr.sonarr_anime = {
       quality_profiles = [
         {
-          name = "[Anime] Remux-1080p";
+          name = "Anime - Remux-1080p";
           qualities = [
             { name = "Bluray-480p"; enabled = false; }
             { name = "WEB 480p"; enabled = false; }
@@ -46,7 +46,7 @@
         {
           trash_ids = [ "e0014372773c8f0e1bef8824f00c7dc4" ]; # Anime Web Tier 01
           assign_scores_to = [
-            { name = "[Anime] Remux-1080p"; score = 500; }
+            { name = "Anime - Remux-1080p"; score = 500; }
           ];
         }
 
@@ -54,7 +54,7 @@
         {
           trash_ids = [ "418f50b10f1907201b6cfdf881f467b7" ]; # Anime Dual Audio
           assign_scores_to = [
-            { name = "[Anime] Remux-1080p"; score = 100; }
+            { name = "Anime - Remux-1080p"; score = 100; }
           ];
         }
 
@@ -62,7 +62,7 @@
         {
           trash_ids = [ "9c14d194486c4014d422adc64092d794" ]; # Dubs Only
           assign_scores_to = [
-            { name = "[Anime] Remux-1080p"; score = -10000; }
+            { name = "Anime - Remux-1080p"; score = -10000; }
           ];
         }
       ];
