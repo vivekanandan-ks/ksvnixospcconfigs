@@ -13,6 +13,17 @@
       enable = true;
       webuiPort = 8282;
       password = "adminadmin"; # Used by Radarr/Sonarr to send download tasks
+      serverConfig = {
+        Preferences = {
+          WebUI = {
+            Username = "admin";
+            Password_PBKDF2 = "@ByteArray(b/j1jih+544rIfvujivl1Q==:ZSYBQtmRBKx3PDcFWMd3yoN3u2mZYYLnCWb7x0A0SWPQjQoiHj64aKLFzEf3R4hWM94qgnQmKYnkIhNrdN0Puw==)";
+            AuthSubnetWhitelist = "192.168.15.0/24, 127.0.0.1/32";
+            AuthSubnetWhitelistEnabled = true;
+            LocalHostAuth = false;
+          };
+        };
+      };
     };
 
     # Allow local home Wi-Fi to reach qBittorrent Web UI

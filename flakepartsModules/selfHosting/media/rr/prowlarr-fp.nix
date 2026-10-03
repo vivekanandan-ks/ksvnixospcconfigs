@@ -7,7 +7,6 @@
         hostConfig = {
           username = "admin";
           password = "admin123";
-          authenticationRequired = "disabledForLocalAddresses";
         };
       };
     };
