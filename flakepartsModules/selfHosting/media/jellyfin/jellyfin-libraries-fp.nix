@@ -25,6 +25,11 @@
         paths = [ "/data/media/music" ];
         enabled = true;
       };
+      "Home Videos" = {
+        collectionType = "homevideos";
+        paths = [ "/data/media/videos" ];
+        enabled = true;
+      };
     };
   };
 }
