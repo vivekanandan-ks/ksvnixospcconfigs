@@ -7,11 +7,22 @@
     };
 
     # Ensure seerr-setup waits for Seerr API to fully initialize before starting
+    systemd.services.seerr.serviceConfig = {
+      Nice = 10;
+      IOSchedulingClass = "best-effort";
+      IOSchedulingPriority = 7;
+    };
+
     systemd.services.seerr-setup = {
-      serviceConfig.TimeoutStartSec = 300;
+      serviceConfig = {
+        TimeoutStartSec = 600;
+        Nice = 10;
+        IOSchedulingClass = "best-effort";
+        IOSchedulingPriority = 7;
+      };
       preStart = ''
         echo "Waiting for Seerr API to become responsive..."
-        for i in $(seq 1 150); do
+        for i in $(seq 1 300); do
           if ${pkgs.curl}/bin/curl -sf http://127.0.0.1:5055/api/v1/status >/dev/null 2>&1; then
             echo "Seerr API is ready."
             exit 0

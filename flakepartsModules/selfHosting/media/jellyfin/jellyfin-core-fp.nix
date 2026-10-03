@@ -31,6 +31,13 @@
           apiKey = "a3b9c8d7e6f5a4b3c2d1e0f9a8b7c6d5";
         };
       };
+
+      # Deprioritize Jellyfin I/O during boot so desktop shell starts immediately
+      systemd.services.jellyfin.serviceConfig = {
+        Nice = 10;
+        IOSchedulingClass = "best-effort";
+        IOSchedulingPriority = 7;
+      };
     };
   };
 }

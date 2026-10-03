@@ -21,8 +21,18 @@
     };
 
     # Give Lidarr ample time to initialize SQLite DB without systemd killing it at boot
-    systemd.services.lidarr.serviceConfig.TimeoutStartSec = 120;
-    systemd.services.lidarr-config.serviceConfig.TimeoutStartSec = 120;
+    systemd.services.lidarr.serviceConfig = {
+      TimeoutStartSec = 120;
+      Nice = 10;
+      IOSchedulingClass = "best-effort";
+      IOSchedulingPriority = 7;
+    };
+    systemd.services.lidarr-config.serviceConfig = {
+      TimeoutStartSec = 120;
+      Nice = 10;
+      IOSchedulingClass = "best-effort";
+      IOSchedulingPriority = 7;
+    };
 
     networking.firewall.allowedTCPPorts = [ 8686 ];
   };

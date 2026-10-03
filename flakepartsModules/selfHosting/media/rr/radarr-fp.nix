@@ -1,5 +1,5 @@
 { inputs, lib, ... }: {
-  flake.nixosModules.selfHosting = lib.mkIf (inputs ? nixflix) {
+  flake.nixosModules.selfHosting = { pkgs, ... }: lib.mkIf (inputs ? nixflix) {
     nixflix.radarr = {
       enable = true;
       config = {
@@ -11,9 +11,27 @@
       };
     };
 
-    # Give Radarr ample time to initialize SQLite DB without systemd killing it at boot
-    systemd.services.radarr.serviceConfig.TimeoutStartSec = 120;
-    systemd.services.radarr-config.serviceConfig.TimeoutStartSec = 120;
+    # Give Radarr ample time to initialize SQLite DB and ensure AllowedHosts is empty so 0.0.0.0 is accepted
+    systemd.services.radarr = {
+      preStart = ''
+        if [ -f /var/lib/radarr/config.xml ]; then
+          ${pkgs.gnused}/bin/sed -i 's|<AllowedHosts>.*</AllowedHosts>|<AllowedHosts></AllowedHosts>|g' /var/lib/radarr/config.xml
+        fi
+      '';
+      serviceConfig = {
+        TimeoutStartSec = 120;
+        Nice = 10;
+        IOSchedulingClass = "best-effort";
+        IOSchedulingPriority = 7;
+      };
+    };
+
+    systemd.services.radarr-config.serviceConfig = {
+      TimeoutStartSec = 120;
+      Nice = 10;
+      IOSchedulingClass = "best-effort";
+      IOSchedulingPriority = 7;
+    };
 
     # Allow local home Wi-Fi to reach Radarr dashboard
     networking.firewall.extraCommands = ''

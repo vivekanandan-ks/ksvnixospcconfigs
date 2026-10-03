@@ -33,7 +33,7 @@
     # Global systemd manager timeout adjustments (doubled from 15s to 30s)
     systemd.settings.Manager = {
       DefaultTimeoutStartSec = "30s";
-      DefaultTimeoutStopSec = "15s";
+      DefaultTimeoutStopSec = "30s";
     };
 
     # Disable ModemManager (no cellular modem hardware installed)

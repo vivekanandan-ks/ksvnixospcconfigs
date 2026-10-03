@@ -12,8 +12,18 @@
     };
 
     # Give Sonarr ample time to initialize SQLite DB without systemd killing it at boot
-    systemd.services.sonarr.serviceConfig.TimeoutStartSec = 120;
-    systemd.services.sonarr-config.serviceConfig.TimeoutStartSec = 120;
+    systemd.services.sonarr.serviceConfig = {
+      TimeoutStartSec = 120;
+      Nice = 10;
+      IOSchedulingClass = "best-effort";
+      IOSchedulingPriority = 7;
+    };
+    systemd.services.sonarr-config.serviceConfig = {
+      TimeoutStartSec = 120;
+      Nice = 10;
+      IOSchedulingClass = "best-effort";
+      IOSchedulingPriority = 7;
+    };
 
     # Allow local home Wi-Fi to reach Sonarr dashboard
     networking.firewall.extraCommands = ''

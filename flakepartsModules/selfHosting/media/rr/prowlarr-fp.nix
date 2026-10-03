@@ -12,8 +12,18 @@
     };
 
     # Give Prowlarr ample time to initialize SQLite DB without systemd killing it at boot
-    systemd.services.prowlarr.serviceConfig.TimeoutStartSec = 120;
-    systemd.services.prowlarr-config.serviceConfig.TimeoutStartSec = 120;
+    systemd.services.prowlarr.serviceConfig = {
+      TimeoutStartSec = 120;
+      Nice = 10;
+      IOSchedulingClass = "best-effort";
+      IOSchedulingPriority = 7;
+    };
+    systemd.services.prowlarr-config.serviceConfig = {
+      TimeoutStartSec = 120;
+      Nice = 10;
+      IOSchedulingClass = "best-effort";
+      IOSchedulingPriority = 7;
+    };
 
     # Allow local home Wi-Fi to reach Prowlarr dashboard
     networking.firewall.extraCommands = ''
