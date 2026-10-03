@@ -4,7 +4,6 @@
       enable = true;
       radarrQuality = "1080p";
       sonarrQuality = "1080p";
-      cleanupUnmanagedProfiles.enable = true;
     };
   };
 }

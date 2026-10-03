@@ -30,6 +30,15 @@
     # OOM protection against system lockups during heavy builds
     services.earlyoom.enable = true;
 
+    # Global systemd manager timeout adjustments (doubled from 15s to 30s)
+    systemd.settings.Manager = {
+      DefaultTimeoutStartSec = "30s";
+      DefaultTimeoutStopSec = "15s";
+    };
+
+    # Disable ModemManager (no cellular modem hardware installed)
+    systemd.services.ModemManager.enable = false;
+
     # Firmware update daemon (UEFI/BIOS & hardware peripherals via fwupdmgr)
     #services.fwupd.enable = true;
 

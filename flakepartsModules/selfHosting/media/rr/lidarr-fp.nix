@@ -20,6 +20,10 @@
       # Default quality profile is "Any" with Lossless cutoff and upgradeAllowed = true
     };
 
+    # Give Lidarr ample time to initialize SQLite DB without systemd killing it at boot
+    systemd.services.lidarr.serviceConfig.TimeoutStartSec = 120;
+    systemd.services.lidarr-config.serviceConfig.TimeoutStartSec = 120;
+
     networking.firewall.allowedTCPPorts = [ 8686 ];
   };
 }

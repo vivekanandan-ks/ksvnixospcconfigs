@@ -12,6 +12,10 @@
       };
     };
 
+    # Give Sonarr ample time to initialize SQLite DB without systemd killing it at boot
+    systemd.services.sonarr.serviceConfig.TimeoutStartSec = 120;
+    systemd.services.sonarr-config.serviceConfig.TimeoutStartSec = 120;
+
     # Allow local home Wi-Fi to reach Sonarr dashboard
     networking.firewall.extraCommands = ''
       iptables -A nixos-fw -p tcp --dport 8989 -s 192.168.0.0/16 -j nixos-fw-accept

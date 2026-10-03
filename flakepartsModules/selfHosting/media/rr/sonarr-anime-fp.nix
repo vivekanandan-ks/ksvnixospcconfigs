@@ -13,6 +13,10 @@
       };
     };
 
+    # Give Sonarr Anime ample time to initialize SQLite DB without systemd killing it at boot
+    systemd.services.sonarr-anime.serviceConfig.TimeoutStartSec = 120;
+    systemd.services.sonarr-anime-config.serviceConfig.TimeoutStartSec = 120;
+
     # 2. Co-located Recyclarr Anime Rules
     nixflix.recyclarr.config.sonarr.sonarr_anime = {
       quality_profiles = [
