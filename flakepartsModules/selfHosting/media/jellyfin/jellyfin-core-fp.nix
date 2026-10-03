@@ -8,8 +8,8 @@
     nixflix.url = "github:kiriwalawren/nixflix";
   };
 
-  # 2. Host-specific module for ksvnixospc
-  flake.hostModules.ksvnixospc.jellyfin-core = {
+  # 2. Shared selfHosting module
+  flake.nixosModules.selfHosting = {
     username,
     ...
   }: {

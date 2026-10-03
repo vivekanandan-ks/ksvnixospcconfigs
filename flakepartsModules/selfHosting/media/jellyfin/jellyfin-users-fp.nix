@@ -3,7 +3,7 @@
   lib,
   ...
 }: {
-  flake.hostModules.ksvnixospc.jellyfin-users = lib.mkIf (inputs ? nixflix) {
+  flake.nixosModules.selfHosting = lib.mkIf (inputs ? nixflix) {
     nixflix.jellyfin.users = {
       # Administrator Account
       admin = {

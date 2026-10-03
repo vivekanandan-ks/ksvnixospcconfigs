@@ -52,7 +52,17 @@
                     size = "100%";
                     content = {
                       type = "filesystem";
-                      format = "ntfs";
+                      format = "ntfs3";
+                      device = "/dev/disk/by-label/237GB";
+                      mountpoint = "/mnt/storage/237GB";
+                      mountOptions = [
+                        "uid=1000"
+                        "gid=169"
+                        "dmask=0002"
+                        "fmask=0002"
+                        "iocharset=utf8"
+                        "nofail"
+                      ];
                     };
                   };
                 };

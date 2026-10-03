@@ -3,7 +3,7 @@
   lib,
   ...
 }: {
-  flake.hostModules.ksvnixospc.jellyfin-libraries = lib.mkIf (inputs ? nixflix) {
+  flake.nixosModules.selfHosting = lib.mkIf (inputs ? nixflix) {
     nixflix.jellyfin.libraries = {
       "Movies" = {
         collectionType = "movies";
@@ -13,6 +13,16 @@
       "TV Shows" = {
         collectionType = "tvshows";
         paths = [ "/data/media/shows" ];
+        enabled = true;
+      };
+      "Anime" = {
+        collectionType = "tvshows";
+        paths = [ "/data/media/anime" ];
+        enabled = true;
+      };
+      "Music" = {
+        collectionType = "music";
+        paths = [ "/data/media/music" ];
         enabled = true;
       };
     };

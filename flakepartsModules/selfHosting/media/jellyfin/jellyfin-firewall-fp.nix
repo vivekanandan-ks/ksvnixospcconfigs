@@ -1,5 +1,5 @@
 _: {
-  flake.hostModules.ksvnixospc.jellyfin-firewall = _: {
+  flake.nixosModules.selfHosting = _: {
     # Keep allowedTCPPorts empty for 8096 so it's NOT exposed globally to the internet.
     # NetBird (wt0) is already trusted in flakepartsModules/networking/netbird-fp.nix.
     networking.firewall.allowedTCPPorts = [];
