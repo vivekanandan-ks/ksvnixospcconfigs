@@ -28,12 +28,17 @@
       };
     };
 
-    # Give Prowlarr ample time to initialize SQLite DB without systemd killing it at boot
-    systemd.services.prowlarr.serviceConfig = {
-      TimeoutStartSec = 120;
-      Nice = 10;
-      IOSchedulingClass = "best-effort";
-      IOSchedulingPriority = 7;
+    # Give Prowlarr ample time to initialize SQLite DB without systemd killing it at boot,
+    # and ensure FlareSolverr is active before Prowlarr runs its proxy health checks
+    systemd.services.prowlarr = {
+      after = [ "flaresolverr.service" ];
+      wants = [ "flaresolverr.service" ];
+      serviceConfig = {
+        TimeoutStartSec = 120;
+        Nice = 10;
+        IOSchedulingClass = "best-effort";
+        IOSchedulingPriority = 7;
+      };
     };
     systemd.services.prowlarr-config.serviceConfig = {
       TimeoutStartSec = 120;

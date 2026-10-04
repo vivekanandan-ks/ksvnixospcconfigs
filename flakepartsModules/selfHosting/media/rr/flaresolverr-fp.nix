@@ -7,7 +7,7 @@
 
     # Prevent Chromium startup from timing out on cold-boot HDD or starving the desktop
     systemd.services.flaresolverr = {
-      after = [ "nixflix-setup-dirs.service" "prowlarr.service" ];
+      after = [ "nixflix-setup-dirs.service" ];
       serviceConfig = {
         TimeoutStartSec = 240;
         Nice = 10;
