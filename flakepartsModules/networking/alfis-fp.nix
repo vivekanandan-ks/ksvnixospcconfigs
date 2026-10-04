@@ -54,12 +54,12 @@ _: {
       };
     };
 
-    # Split DNS: Route all queries through Alfis (with fallback to Cloudflare/Google), resolving .ygg and .anon locally
+    # Split DNS: Only route .ygg and .anon to Alfis on 127.0.0.1:5335
     services.resolved = {
       enable = true;
       settings.Resolve = {
         DNS = "127.0.0.1:5335";
-        Domains = ["~." "~ygg" "~anon"];
+        Domains = ["~ygg" "~anon"];
       };
     };
   };
