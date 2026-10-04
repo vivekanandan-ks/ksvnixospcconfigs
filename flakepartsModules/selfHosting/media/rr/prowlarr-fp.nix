@@ -10,12 +10,6 @@
         };
         indexers = [
           {
-            name = "1337x";
-            enable = true;
-            appProfileId = 1;
-            tags = [ "flaresolverr" ];
-          }
-          {
             name = "Nyaa.si";
             enable = true;
             appProfileId = 1;
@@ -26,7 +20,12 @@
             appProfileId = 1;
           }
           {
-            name = "EZTV";
+            name = "Anime Tosho";
+            enable = true;
+            appProfileId = 1;
+          }
+          {
+            name = "SubsPlease";
             enable = true;
             appProfileId = 1;
           }

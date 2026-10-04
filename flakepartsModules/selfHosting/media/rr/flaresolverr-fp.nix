@@ -13,6 +13,7 @@
         Nice = 10;
         IOSchedulingClass = "best-effort";
         IOSchedulingPriority = 7;
+        Environment = [ "LIBGL_ALWAYS_SOFTWARE=1" ];
         ExecStartPost = lib.mkForce [
           ""
           "${pkgs.writeShellScript "wait-for-flaresolverr" ''

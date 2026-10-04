@@ -33,6 +33,11 @@
       IOSchedulingPriority = 7;
     };
 
+    systemd.services.radarr-notifications.serviceConfig = {
+      Restart = "on-failure";
+      RestartSec = "5s";
+    };
+
     # Allow local home Wi-Fi to reach Radarr dashboard
     networking.firewall.extraCommands = ''
       iptables -A nixos-fw -p tcp --dport 7878 -s 192.168.0.0/16 -j nixos-fw-accept

@@ -39,5 +39,12 @@
       iptables -A nixos-fw -p tcp --dport 5055 -s 192.168.0.0/16 -j nixos-fw-accept
       iptables -A nixos-fw -p tcp --dport 5055 -s 10.0.0.0/8 -j nixos-fw-accept
     '';
+
+    # Bypass Indian ISP DNS poisoning (Jio poisons api.themoviedb.org to 49.44.79.236)
+    networking.hosts = {
+      "13.224.245.44" = [
+        "api.themoviedb.org"
+      ];
+    };
   };
 }
