@@ -32,10 +32,16 @@
     nixflix.recyclarr.config.sonarr.sonarr_anime = {
       quality_profiles = [
         {
-          name = "Anime - Remux-1080p";
+          name = "HD-1080p";
           qualities = [
+            # Disallow all Blu-ray and Remux formats
+            { name = "Bluray-2160p Remux"; enabled = false; }
+            { name = "Bluray-2160p"; enabled = false; }
+            { name = "Bluray-1080p Remux"; enabled = false; }
+            { name = "Bluray-1080p"; enabled = false; }
+            { name = "Bluray-720p"; enabled = false; }
+            { name = "Bluray-576p"; enabled = false; }
             { name = "Bluray-480p"; enabled = false; }
-            { name = "WEB 480p"; enabled = false; }
             { name = "DVD"; enabled = false; }
             { name = "SDTV"; enabled = false; }
           ];
@@ -43,11 +49,19 @@
       ];
 
       custom_formats = [
+        # Prioritize x265 / HEVC Mini-encodes for lowest file size (+1000 pts)
+        {
+          trash_ids = [ "47435ece6b99a0b477caf360e79ba0bb" ]; # x265 (HD)
+          assign_scores_to = [
+            { name = "HD-1080p"; score = 1000; }
+          ];
+        }
+
         # 1st Choice (+500 pts): Premier Subbed Groups (SubsPlease, Erai-raws)
         {
           trash_ids = [ "e0014372773c8f0e1bef8824f00c7dc4" ]; # Anime Web Tier 01
           assign_scores_to = [
-            { name = "Anime - Remux-1080p"; score = 500; }
+            { name = "HD-1080p"; score = 500; }
           ];
         }
 
@@ -55,7 +69,7 @@
         {
           trash_ids = [ "418f50b10f1907201b6cfdf881f467b7" ]; # Anime Dual Audio
           assign_scores_to = [
-            { name = "Anime - Remux-1080p"; score = 100; }
+            { name = "HD-1080p"; score = 100; }
           ];
         }
 
@@ -63,7 +77,7 @@
         {
           trash_ids = [ "9c14d194486c4014d422adc64092d794" ]; # Dubs Only
           assign_scores_to = [
-            { name = "Anime - Remux-1080p"; score = -10000; }
+            { name = "HD-1080p"; score = -10000; }
           ];
         }
       ];
