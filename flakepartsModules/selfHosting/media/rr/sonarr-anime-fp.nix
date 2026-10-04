@@ -34,6 +34,8 @@
         {
           name = "HD-1080p";
           qualities = [
+            { name = "WEBDL-1080p"; enabled = true; }
+            { name = "WEBRip-1080p"; enabled = true; }
             # Disallow all Blu-ray and Remux formats
             { name = "Bluray-2160p Remux"; enabled = false; }
             { name = "Bluray-2160p"; enabled = false; }
