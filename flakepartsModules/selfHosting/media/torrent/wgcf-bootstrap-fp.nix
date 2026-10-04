@@ -35,10 +35,23 @@
       '';
     };
 
-    # Guarantee WireGuard namespace starts ONLY after the profile is generated
+    # Guarantee WireGuard namespace starts ONLY after the profile is generated and endpoint is reachable
     systemd.services.wg = {
-      after = [ "wgcf-bootstrap.service" ];
+      after = [ "wgcf-bootstrap.service" "network-online.target" ];
+      wants = [ "network-online.target" ];
       requires = [ "wgcf-bootstrap.service" ];
+      preStart = ''
+        for i in $(seq 1 30); do
+          if ${pkgs.iputils}/bin/ping -c 1 engage.cloudflareclient.com >/dev/null 2>&1; then
+            break
+          fi
+          sleep 2
+        done
+      '';
+      serviceConfig = {
+        Restart = "on-failure";
+        RestartSec = "5s";
+      };
     };
   };
 }

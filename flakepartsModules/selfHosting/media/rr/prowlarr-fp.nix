@@ -20,16 +20,6 @@
             appProfileId = 1;
           }
           {
-            name = "Anime Tosho";
-            enable = true;
-            appProfileId = 1;
-          }
-          {
-            name = "SubsPlease";
-            enable = true;
-            appProfileId = 1;
-          }
-          {
             name = "YTS";
             enable = true;
             appProfileId = 1;

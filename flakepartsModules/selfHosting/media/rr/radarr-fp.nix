@@ -7,6 +7,7 @@
         hostConfig = {
           username = "admin";
           password = "admin123";
+          updateMechanism = "external";
         };
       };
     };

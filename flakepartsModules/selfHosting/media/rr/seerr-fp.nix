@@ -42,7 +42,7 @@
 
     # Bypass Indian ISP DNS poisoning (Jio poisons api.themoviedb.org to 49.44.79.236)
     networking.hosts = {
-      "13.224.245.44" = [
+      "13.224.245.47" = [
         "api.themoviedb.org"
       ];
     };
