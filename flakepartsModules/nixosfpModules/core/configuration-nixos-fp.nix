@@ -108,19 +108,19 @@
     networking.networkmanager = {
       enable = true;
       wifi.powersave = false;
-      insertNameservers = [
-        "1.1.1.1"
-        "8.8.8.8"
-        "1.0.0.1"
-        "8.8.4.4"
-      ];
     };
 
     # Systemd-resolved with DNS-over-TLS to prevent ISP DNS poisoning/interception
     services.resolved = {
       enable = true;
       settings.Resolve = {
-        DNSSEC = "allow-downgrade";
+        DNS = [
+          "1.1.1.1#cloudflare-dns.com"
+          "8.8.8.8#dns.google"
+          "1.0.0.1#cloudflare-dns.com"
+          "8.8.4.4#dns.google"
+        ];
+        DNSSEC = "no";
         DNSOverTLS = "opportunistic";
         FallbackDNS = [
           "9.9.9.9#dns.quad9.net"
