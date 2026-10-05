@@ -50,8 +50,11 @@ All media and persistent state files are structured with uniform permissions und
   - On `ksvnixospc`:
     1. **Disko Mount:** The `237GB` partition is mounted to `/mnt/storage/237GB` at boot via [hw-ksvnixospc-fp.nix](file:///home/ksvnixospc/Documents/ksvnixospcconfigs/flakepartsModules/hostsfpModules/ksvnixospc/hw-ksvnixospc-fp.nix).
     2. **Bind Mount:** `/mnt/storage/237GB/selfHost` is bind-mounted directly to `/data` via [storage-ksvnixospc-fp.nix](file:///home/ksvnixospc/Documents/ksvnixospcconfigs/flakepartsModules/hostsfpModules/ksvnixospc/storage-ksvnixospc-fp.nix).
-    3. **Zero Root Consumption:** 100% of media and torrent downloads reside on the secondary 237GB drive; 0 bytes are consumed on the root (`/`) filesystem.
-  - On other hosts (`akashnixospc`, `deejunixospc`):
+  - On `deejunixospc`:
+    1. **Static Boot Mount:** The `200GBHDD2` partition is mounted to `/mnt/storage/200GBHDD2` with `uid=1003` and `gid=169` (`media`).
+    2. **Bind Mount:** `/mnt/storage/200GBHDD2/selfHost` is bind-mounted directly to `/data` via [storage-deejunixospc-fp.nix](file:///home/ksvnixospc/Documents/ksvnixospcconfigs/flakepartsModules/hostsfpModules/deejunixospc/storage-deejunixospc-fp.nix).
+    3. **Zero Root Consumption:** 100% of media and torrent downloads reside on the secondary 200GB partition; 0 bytes are consumed on the root (`/`) filesystem.
+  - On `akashnixospc`:
     - By default, `/data` is created on root without extra configuration, or each host can bind-mount its own drive to `/data`.
 
 ---
