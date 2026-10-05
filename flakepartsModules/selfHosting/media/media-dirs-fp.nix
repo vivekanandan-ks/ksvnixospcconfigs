@@ -39,7 +39,9 @@
     # 3. Harden nixflix-setup-dirs so transient warnings or path checks don't block boot
     systemd.services.nixflix-setup-dirs = {
       after = [ "media-storage-permissions.service" ];
-      serviceConfig.ExecStart = lib.mkForce "${pkgs.systemd}/bin/systemd-tmpfiles --create || true";
+      serviceConfig.ExecStart = lib.mkForce (pkgs.writeShellScript "nixflix-setup-dirs-start" ''
+        ${pkgs.systemd}/bin/systemd-tmpfiles --create || true
+      '');
     };
   };
 }
