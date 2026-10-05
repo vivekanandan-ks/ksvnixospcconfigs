@@ -11,6 +11,7 @@
         "/data/media/shows"
         "/data/media/anime"
         "/data/media/music"
+        "/data/media/manga"
         "/data/torrents"
         "/data/torrents/incomplete"
         "/data/torrents/complete"

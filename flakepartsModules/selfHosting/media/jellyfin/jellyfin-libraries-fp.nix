@@ -30,6 +30,11 @@
         paths = [ "/data/media/videos" ];
         enabled = true;
       };
+      "Manga" = {
+        collectionType = "books";
+        paths = [ "/data/media/manga" ];
+        enabled = true;
+      };
     };
   };
 }

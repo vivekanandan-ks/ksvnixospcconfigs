@@ -20,6 +20,8 @@ All services bind to the local network interface and have their corresponding TC
 | **Lidarr** | `8686` | `http://<host>:8686` | Configured on initial launch | Music collection manager; searches trackers and upgrades to FLAC. |
 | **Navidrome** | `4533` | `http://<host>:4533` | `admin` / `admin123` | High-performance, Subsonic-compatible dedicated music streaming server. |
 | **Seerr** | `5055` | `http://<host>:5055` | Configured via Jellyfin login | 1-click media request portal for family and guests. |
+| **Suwayomi** | `4567` | `http://<host>:4567` | *N/A (Local / NetBird)* | Manga/Manhwa scraper & auto-downloader strictly confined in VPN (`wg`). |
+| **Komga** | `25600` | `http://<host>:25600` | Configured on initial launch | Multi-user Manga, Manhwa, and Comic reading server with OPDS feeds. |
 | **Recyclarr** | *N/A* | Background Timer | *N/A (CLI)* | Automatically synchronizes TRaSH Guides quality profiles and regex rules. |
 
 ---
@@ -34,7 +36,8 @@ All media and persistent state files are structured with uniform permissions und
 │   ├── movies/      # Radarr & Jellyfin
 │   ├── shows/       # Sonarr (Standard) & Jellyfin
 │   ├── anime/       # Sonarr (Anime) & Jellyfin
-│   └── music/       # Lidarr, Navidrome & Jellyfin
+│   ├── music/       # Lidarr, Navidrome & Jellyfin
+│   └── manga/       # Suwayomi, Komga & Jellyfin
 └── torrents/
     ├── incomplete/  # qBittorrent in-progress downloads
     └── complete/    # Downloaded files awaiting hardlinking/import
@@ -94,6 +97,15 @@ All media and persistent state files are structured with uniform permissions und
   - **Fail-safe Kill Switch:** If the VPN connection drops, torrent network traffic stops instantly. No torrent traffic can leak over the host's cleartext LAN/WAN interfaces.
   - Local Web UI is forwarded through firewall translation so you can access `http://<host>:8282` from your home network without VPN friction.
 
+### Dedicated Manga & Manhwa Ecosystem: Suwayomi + Komga
+- **Suwayomi-Server (Port 4567):**
+  - Confined strictly inside the WireGuard (`wg`) network namespace via Cloudflare WARP with a fail-safe kill switch. Zero outbound scraper traffic or DNS lookups leak outside the tunnel.
+  - Pre-configured with the official community Keiyoushi extension index (`https://raw.githubusercontent.com/keiyoushi/extensions/repo/index.min.json`) for 1-click source installation (MangaDex, Asura Scans, MangaLife, Webtoons, etc.).
+  - Automatically compiles downloaded chapters into clean `.cbz` archives and embeds standard `ComicInfo.xml` metadata directly into `/data/media/manga`.
+- **Komga (Port 25600):**
+  - Purpose-built manga and comic media server with native multi-user support, independent reading progress, and continuous vertical scrolling for manhwa.
+  - Native integration with **Mihon** (Android) via the Komga extension, **Tachimanga** / **Paperback** (iOS) via OPDS feeds, and desktop web browsers.
+
 ### Automation & Management
 - **Prowlarr (Port 9696):** Synchronizes indexers and download clients across Radarr, Sonarr, Sonarr Anime, and Lidarr in one place.
 - **FlareSolverr (Port 8191):** Solves Cloudflare Turnstile/DDoS challenges silently in the background for private and public trackers.
@@ -111,8 +123,11 @@ flakepartsModules/selfHosting/media/
 │   ├── jellyfin-core-fp.nix           # Base service & media directory definition
 │   ├── jellyfin-encoding-fp.nix       # Intel Haswell VA-API hardware acceleration (host-specific)
 │   ├── jellyfin-firewall-fp.nix       # Port 8096 firewall configuration
-│   ├── jellyfin-libraries-fp.nix      # Movies, Shows, Anime, and Music library paths
+│   ├── jellyfin-libraries-fp.nix      # Movies, Shows, Anime, Music, and Manga library paths
 │   └── jellyfin-users-fp.nix          # Declarative user policies (100% Direct Play)
+├── manga/
+│   ├── komga-fp.nix                   # Komga manga media server (Port 25600)
+│   └── suwayomi-fp.nix                # Suwayomi downloader confined in VPN (Port 4567)
 ├── music/
 │   └── navidrome-fp.nix               # Navidrome Subsonic music server
 ├── rr/
