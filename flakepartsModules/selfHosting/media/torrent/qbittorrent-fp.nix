@@ -1,5 +1,5 @@
 { inputs, lib, ... }: {
-  flake.nixosModules.selfHosting = lib.mkIf (inputs ? nixflix) {
+  flake.nixosModules.selfHosting = { pkgs, ... }: lib.mkIf (inputs ? nixflix) {
     # 1. WireGuard Kernel Namespace (Kill Switch)
     nixflix.vpn = {
       enable = true;
@@ -31,5 +31,23 @@
       iptables -A nixos-fw -p tcp --dport 8282 -s 192.168.0.0/16 -j nixos-fw-accept
       iptables -A nixos-fw -p tcp --dport 8282 -s 10.0.0.0/8 -j nixos-fw-accept
     '';
+
+    # 3. Localhost loopback proxy so desktop browser can seamlessly access http://localhost:8282
+    systemd.sockets.qbittorrent-loopback = {
+      description = "qBittorrent Web UI Localhost Proxy Socket";
+      wantedBy = [ "sockets.target" ];
+      listenStreams = [ "127.0.0.1:8282" ];
+    };
+
+    systemd.services.qbittorrent-loopback = {
+      description = "qBittorrent Web UI Localhost Proxy";
+      requires = [ "qbittorrent-loopback.socket" ];
+      after = [ "qbittorrent-loopback.socket" ];
+      serviceConfig = {
+        Type = "notify";
+        ExecStart = "${pkgs.systemd}/lib/systemd/systemd-socket-proxyd 192.168.15.1:8282";
+        PrivateTmp = true;
+      };
+    };
   };
 }

@@ -1,5 +1,5 @@
 { inputs, lib, ... }: {
-  flake.nixosModules.selfHosting = lib.mkIf (inputs ? nixflix) {
+  flake.nixosModules.selfHosting = { pkgs, ... }: lib.mkIf (inputs ? nixflix) {
     # 1. Automated Manga & Manhwa Scraper / Downloader
     services.suwayomi-server = {
       enable = true;
@@ -51,5 +51,23 @@
       iptables -A nixos-fw -p tcp --dport 4567 -s 192.168.0.0/16 -j nixos-fw-accept
       iptables -A nixos-fw -p tcp --dport 4567 -s 10.0.0.0/8 -j nixos-fw-accept
     '';
+
+    # 4. Localhost loopback proxy so desktop browser can seamlessly access http://localhost:4567
+    systemd.sockets.suwayomi-loopback = {
+      description = "Suwayomi Web UI Localhost Proxy Socket";
+      wantedBy = [ "sockets.target" ];
+      listenStreams = [ "127.0.0.1:4567" ];
+    };
+
+    systemd.services.suwayomi-loopback = {
+      description = "Suwayomi Web UI Localhost Proxy";
+      requires = [ "suwayomi-loopback.socket" "suwayomi-server.service" ];
+      after = [ "suwayomi-loopback.socket" "suwayomi-server.service" ];
+      serviceConfig = {
+        Type = "notify";
+        ExecStart = "${pkgs.systemd}/lib/systemd/systemd-socket-proxyd 192.168.15.1:4567";
+        PrivateTmp = true;
+      };
+    };
   };
 }

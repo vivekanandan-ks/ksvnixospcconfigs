@@ -6,7 +6,7 @@
       fsType = "ntfs3";
       options = [
         "nofail"
-        "uid=1003"       # ksvnixospc user ID on deejunixospc
+        "uid=0"          # Root owner eliminates unsafe path transition in systemd-tmpfiles
         "gid=169"        # media group ID (nixflix standard)
         "dmask=0002"     # 0775 permissions for directories (rwx for owner and media group)
         "fmask=0002"     # 0775 permissions for files
