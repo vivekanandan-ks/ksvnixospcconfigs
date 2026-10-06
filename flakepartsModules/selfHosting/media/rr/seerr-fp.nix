@@ -8,11 +8,11 @@
       # Enforce 1080p default request profiles (no more "Any")
       radarr."Radarr" = {
         apiKey = "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6";
-        activeProfileName = "my-1080p";
+        activeProfileName = "[SQP] SQP-1 (1080p)";
       };
       sonarr."Sonarr" = {
         apiKey = "b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6a1";
-        activeProfileName = "my-1080p";
+        activeProfileName = "WEB-1080p (Alternative)";
       };
       sonarr."Sonarr Anime" = {
         apiKey = "e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9";
@@ -20,8 +20,8 @@
         activeDirectory = "/data/media/anime";
         activeAnimeDirectory = "/data/media/anime";
         animeSeriesType = "anime";
-        activeAnimeProfileName = "my-1080p";
-        activeProfileName = "my-1080p";
+        activeAnimeProfileName = "HD-1080p";
+        activeProfileName = "HD-1080p";
       };
     };
 
