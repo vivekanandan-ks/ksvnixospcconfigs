@@ -32,18 +32,19 @@
           }
 
           # Movies & TV
-          # 1337x and EZTV are blocked by local ISP / Cloudflare redirect, causing API timeouts
+          # 1337x is blocked by local ISP, causing API connection timeouts
           # {
           #   name = "1337x";
           #   enable = true;
           #   appProfileId = 1;
           #   tags = [ "flaresolverr" ];
           # }
-          # {
-          #   name = "EZTV";
-          #   enable = true;
-          #   appProfileId = 1;
-          # }
+          {
+            name = "EZTV";
+            enable = true;
+            appProfileId = 1;
+            tags = [ "flaresolverr" ];
+          }
           {
             name = "The Pirate Bay";
             enable = true;
@@ -88,6 +89,12 @@
       Nice = 10;
       IOSchedulingClass = "best-effort";
       IOSchedulingPriority = 7;
+    };
+
+    # Ensure indexer creation waits for network connectivity and proxy registration (FlareSolverr)
+    systemd.services.prowlarr-indexers = {
+      after = [ "network-online.target" "prowlarr-indexer-proxies.service" ];
+      wants = [ "network-online.target" "prowlarr-indexer-proxies.service" ];
     };
 
     # Allow local home Wi-Fi to reach Prowlarr dashboard
