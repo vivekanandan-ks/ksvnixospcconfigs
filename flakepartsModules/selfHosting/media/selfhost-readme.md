@@ -127,7 +127,7 @@ All media and persistent state files are structured with uniform permissions und
 
 ```
 flakepartsModules/selfHosting/media/
-├── README.md                          # This documentation file
+├── selfhost-readme.md                 # This documentation file
 ├── jellyfin/
 │   ├── jellyfin-core-fp.nix           # Base service & media directory definition
 │   ├── jellyfin-encoding-fp.nix       # Intel Haswell VA-API hardware acceleration (host-specific)

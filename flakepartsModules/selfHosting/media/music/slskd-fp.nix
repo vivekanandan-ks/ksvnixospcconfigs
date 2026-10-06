@@ -21,8 +21,8 @@
 
         # Free Soulseek network credentials (registered automatically on first login if unique)
         soulseek = {
-          username = "ksv_music_node";
-          password = "ksvpassword123";
+          username = "senku_music_node";
+          password = "senkupassword123";
         };
 
         directories = {
