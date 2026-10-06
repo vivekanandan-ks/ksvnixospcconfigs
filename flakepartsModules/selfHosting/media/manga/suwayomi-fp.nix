@@ -148,7 +148,7 @@
           done
 
           echo "Fetching currently installed extensions..."
-          INSTALLED=$(${pkgs.curl}/bin/curl -s http://127.0.0.1:4567/api/v1/extension/list || echo "[]")
+          INSTALLED=$(${pkgs.curl}/bin/curl -s http://127.0.0.1:4567/api/v1/extension/list | ${pkgs.gnugrep}/bin/grep -o '{[^{}]*"installed":true[^{}]*}' || echo "")
 
           ${lib.concatStringsSep "\n" (map (ext: ''
             if echo "$INSTALLED" | ${pkgs.gnugrep}/bin/grep -q '"pkgName":"${ext.pkgName}"'; then

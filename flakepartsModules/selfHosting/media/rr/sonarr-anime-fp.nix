@@ -33,6 +33,8 @@
       quality_profiles = [
         {
           name = "HD-1080p";
+          upgrade.until_quality = "WEBDL-1080p";
+          reset_unmatched_scores.enabled = true;
           qualities = [
             { name = "WEBDL-1080p"; enabled = true; }
             { name = "WEBRip-1080p"; enabled = true; }
