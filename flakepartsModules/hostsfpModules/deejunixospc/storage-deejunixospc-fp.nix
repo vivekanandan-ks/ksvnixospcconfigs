@@ -6,10 +6,11 @@
       fsType = "ntfs3";
       options = [
         "nofail"
-        "uid=0"          # Root owner eliminates unsafe path transition in systemd-tmpfiles
-        "gid=169"        # media group ID (nixflix standard)
-        "dmask=0002"     # 0775 permissions for directories (rwx for owner and media group)
-        "fmask=0002"     # 0775 permissions for files
+        "force" # Allow ntfs3 to mount even if dirty bit is set after unclean shutdown
+        "uid=0" # Root owner eliminates unsafe path transition in systemd-tmpfiles
+        "gid=169" # media group ID (nixflix standard)
+        "dmask=0002" # 0775 permissions for directories (rwx for owner and media group)
+        "fmask=0002" # 0775 permissions for files
         "iocharset=utf8"
       ];
     };
@@ -18,8 +19,8 @@
     fileSystems."/data" = {
       device = "/mnt/storage/200GBHDD2/selfHost";
       fsType = "none";
-      options = [ "bind" "nofail" ];
-      depends = [ "/mnt/storage/200GBHDD2" ];
+      options = ["bind" "nofail"];
+      depends = ["/mnt/storage/200GBHDD2"];
     };
   };
 }
