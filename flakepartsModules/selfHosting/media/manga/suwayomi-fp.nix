@@ -130,32 +130,39 @@
     systemd.services.suwayomi-preload-extensions = {
       description = "Declarative Suwayomi Manga/Manhwa Extension Provisioner";
       wantedBy = [ "multi-user.target" ];
-      after = [ "suwayomi-server.service" "suwayomi-loopback.service" ];
-      requires = [ "suwayomi-server.service" "suwayomi-loopback.service" ];
+      after = [ "suwayomi-server.service" ];
+      requires = [ "suwayomi-server.service" ];
       serviceConfig = {
         Type = "oneshot";
         RemainAfterExit = true;
         ExecStart = pkgs.writeShellScript "suwayomi-preload-extensions" ''
           set -euo pipefail
 
-          echo "Waiting for Suwayomi-Server API on localhost:4567..."
-          for i in $(seq 1 30); do
-            if ${pkgs.curl}/bin/curl -s -f http://127.0.0.1:4567/api/v1/meta >/dev/null 2>&1; then
+          echo "Waiting for Suwayomi-Server API on 192.168.15.1:4567..."
+          SERVER_ONLINE=0
+          for i in $(seq 1 60); do
+            if ${pkgs.curl}/bin/curl -s -f http://192.168.15.1:4567/api/v1/meta >/dev/null 2>&1; then
               echo "Suwayomi-Server is online."
+              SERVER_ONLINE=1
               break
             fi
             sleep 1
           done
 
+          if [ "$SERVER_ONLINE" -eq 0 ]; then
+            echo "Suwayomi-Server API did not become ready within 60s. Skipping extension provisioning."
+            exit 1
+          fi
+
           echo "Fetching currently installed extensions..."
-          INSTALLED=$(${pkgs.curl}/bin/curl -s http://127.0.0.1:4567/api/v1/extension/list | ${pkgs.gnugrep}/bin/grep -o '{[^{}]*"installed":true[^{}]*}' || echo "")
+          INSTALLED=$(${pkgs.curl}/bin/curl -s http://192.168.15.1:4567/api/v1/extension/list | ${pkgs.gnugrep}/bin/grep -o '{[^{}]*"installed":true[^{}]*}' || echo "")
 
           ${lib.concatStringsSep "\n" (map (ext: ''
             if echo "$INSTALLED" | ${pkgs.gnugrep}/bin/grep -q '"pkgName":"${ext.pkgName}"'; then
               echo "Extension ${ext.name} is already installed. Skipping."
             else
               echo "Installing extension: ${ext.name}..."
-              ${pkgs.curl}/bin/curl -s -f -X POST -F "file=@${ext.file}" http://127.0.0.1:4567/api/v1/extension/install || true
+              ${pkgs.curl}/bin/curl -s -f -X POST -F "file=@${ext.file}" http://192.168.15.1:4567/api/v1/extension/install || true
             fi
           '') mangaExtensions)}
 
