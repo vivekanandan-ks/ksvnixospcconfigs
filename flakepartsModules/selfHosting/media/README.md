@@ -130,7 +130,7 @@ flakepartsModules/selfHosting/media/
 │   └── jellyfin-users-fp.nix          # Declarative user policies (100% Direct Play)
 ├── manga/
 │   ├── komga-fp.nix                   # Komga manga media server (Port 25600)
-│   └── suwayomi-fp.nix                # Suwayomi downloader confined in VPN (Port 4567)
+│   └── suwayomi-fp.nix                # Suwayomi manga/manhwa reader & downloader (Port 4567)
 ├── music/
 │   └── navidrome-fp.nix               # Navidrome Subsonic music server
 ├── rr/

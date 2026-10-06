@@ -9,8 +9,19 @@
           password = "admin123";
         };
         indexers = [
+          # Anime
           {
             name = "Nyaa.si";
+            enable = true;
+            appProfileId = 1;
+          }
+          {
+            name = "Anime Tosho";
+            enable = true;
+            appProfileId = 1;
+          }
+          {
+            name = "SubsPlease";
             enable = true;
             appProfileId = 1;
           }
@@ -19,8 +30,38 @@
             enable = true;
             appProfileId = 1;
           }
+
+          # Movies & TV
+          {
+            name = "1337x";
+            enable = true;
+            appProfileId = 1;
+            tags = [ "flaresolverr" ];
+          }
+          {
+            name = "EZTV";
+            enable = true;
+            appProfileId = 1;
+          }
+          {
+            name = "The Pirate Bay";
+            enable = true;
+            appProfileId = 1;
+          }
           {
             name = "YTS";
+            enable = true;
+            appProfileId = 1;
+          }
+
+          # Music
+          {
+            name = "Nipponsei";
+            enable = true;
+            appProfileId = 1;
+          }
+          {
+            name = "Internet Archive";
             enable = true;
             appProfileId = 1;
           }
