@@ -62,6 +62,11 @@
             enable = true;
             appProfileId = 1;
           }
+          {
+            name = "Knaben";
+            enable = true;
+            appProfileId = 1;
+          }
           # Internet Archive connectivity test times out via API
           # {
           #   name = "Internet Archive";
