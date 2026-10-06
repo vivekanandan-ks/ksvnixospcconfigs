@@ -39,12 +39,13 @@
           #   appProfileId = 1;
           #   tags = [ "flaresolverr" ];
           # }
-          {
-            name = "EZTV";
-            enable = true;
-            appProfileId = 1;
-            tags = [ "flaresolverr" ];
-          }
+          # EZTV is experiencing server timeout / ISP connection blocks
+          # {
+          #   name = "EZTV";
+          #   enable = true;
+          #   appProfileId = 1;
+          #   tags = [ "flaresolverr" ];
+          # }
           {
             name = "The Pirate Bay";
             enable = true;

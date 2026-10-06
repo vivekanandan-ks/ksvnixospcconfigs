@@ -32,16 +32,16 @@
           hash = "sha256-fqoeB+rnuTSkfWUJLi+xJjIsm4/GuVtdAbQ2yy4/zqA=";
         };
       }
-      # 4. Flame Comics
-      {
-        name = "Flame Comics";
-        pkgName = "eu.kanade.tachiyomi.extension.en.flamecomics";
-        file = pkgs.fetchurl {
-          name = "tachiyomi-en.flamecomics-v1.6.0.jar";
-          url = "https://github.com/keiyoushi/extensions/releases/download/06f6d69/tachiyomi-en.flamecomics-v1.6.0.jar";
-          hash = "sha256-x+vQ2VFnjNBOZTwUk/bZgPm+OjrnKQru1tGjMJzCwoo=";
-        };
-      }
+      # 4. Flame Comics (temporarily disabled: upstream flamecomics.xyz domain migrated/redirects to Discord)
+      # {
+      #   name = "Flame Comics";
+      #   pkgName = "eu.kanade.tachiyomi.extension.en.flamecomics";
+      #   file = pkgs.fetchurl {
+      #     name = "tachiyomi-en.flamecomics-v1.6.0.jar";
+      #     url = "https://github.com/keiyoushi/extensions/releases/download/06f6d69/tachiyomi-en.flamecomics-v1.6.0.jar";
+      #     hash = "sha256-x+vQ2VFnjNBOZTwUk/bZgPm+OjrnKQru1tGjMJzCwoo=";
+      #   };
+      # }
       # 5. MangaFire
       {
         name = "MangaFire";
