@@ -1,6 +1,10 @@
 { inputs, lib, ... }: {
-  flake.nixosModules.selfHosting = { pkgs, ... }: lib.mkIf (inputs ? nixflix) {
-    # 1. Nixflix slskd Soulseek Client Service
+  flake.nixosModules.selfHosting = { pkgs, config, ... }: lib.mkIf (inputs ? nixflix) {
+    # 1. Register decrypted secrets with sops-nix
+    sops.secrets.slskd_web_password = { };
+    sops.secrets.slskd_soulseek_password = { };
+
+    # 2. Nixflix slskd Soulseek Client Service
     nixflix.slskd = {
       enable = true;
       user = "slskd";
@@ -8,7 +12,7 @@
 
       # Web UI Credentials (http://<host>:5030)
       username = "admin";
-      password = "admin123";
+      password._secret = config.sops.secrets.slskd_web_password.path;
 
       # Run directly on host for full peer discovery without VPN overhead
       vpn.enable = false;
@@ -19,10 +23,10 @@
       settings = {
         web.port = 5030;
 
-        # Free Soulseek network credentials (registered automatically on first login if unique)
+        # Soulseek network credentials
         soulseek = {
           username = "senku_music_node";
-          password = "senkupassword123";
+          password._secret = config.sops.secrets.slskd_soulseek_password.path;
         };
 
         directories = {
