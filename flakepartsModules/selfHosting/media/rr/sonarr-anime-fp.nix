@@ -1,5 +1,5 @@
 { inputs, lib, ... }: {
-  flake.nixosModules.selfHosting = lib.mkIf (inputs ? nixflix) {
+  flake.nixosModules.selfHosting = { pkgs, ... }: lib.mkIf (inputs ? nixflix) {
     # 1. Dedicated Sonarr instance for Anime (Port 8990)
     nixflix.sonarr-anime = {
       enable = true;
@@ -32,7 +32,7 @@
     nixflix.recyclarr.config.sonarr.sonarr_anime = {
       quality_profiles = [
         {
-          name = "HD-1080p";
+          name = "my-1080p";
           upgrade.until_quality = "WEBDL-1080p";
           reset_unmatched_scores.enabled = true;
           qualities = [
@@ -57,7 +57,7 @@
         {
           trash_ids = [ "47435ece6b99a0b477caf360e79ba0bb" ]; # x265 (HD)
           assign_scores_to = [
-            { name = "HD-1080p"; score = 1000; }
+            { name = "my-1080p"; score = 1000; }
           ];
         }
 
@@ -65,7 +65,7 @@
         {
           trash_ids = [ "e0014372773c8f0e1bef8824f00c7dc4" ]; # Anime Web Tier 01
           assign_scores_to = [
-            { name = "HD-1080p"; score = 500; }
+            { name = "my-1080p"; score = 500; }
           ];
         }
 
@@ -73,7 +73,7 @@
         {
           trash_ids = [ "418f50b10f1907201b6cfdf881f467b7" ]; # Anime Dual Audio
           assign_scores_to = [
-            { name = "HD-1080p"; score = 100; }
+            { name = "my-1080p"; score = 100; }
           ];
         }
 
@@ -81,13 +81,57 @@
         {
           trash_ids = [ "9c14d194486c4014d422adc64092d794" ]; # Dubs Only
           assign_scores_to = [
-            { name = "HD-1080p"; score = -10000; }
+            { name = "my-1080p"; score = -10000; }
           ];
         }
       ];
     };
 
-    # 3. Allow local home Wi-Fi & NetBird to access Sonarr Anime dashboard
+    # 3. Declarative size limits (~430MB max per 24m episode) and delete "Any"
+    systemd.services.sonarr-anime-quality-limits = {
+      description = "Enforce Sonarr Anime size sliders (~430MB ceiling) and remove 'Any' profile";
+      after = [ "sonarr-anime.service" "sonarr-anime-config.service" ];
+      wantedBy = [ "multi-user.target" ];
+      serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = true;
+      };
+      script = ''
+        API="e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9"
+        BASE="http://127.0.0.1:8990/api/v3"
+
+        for i in $(seq 1 60); do
+          if ${pkgs.curl}/bin/curl -sf -H "X-Api-Key: $API" "$BASE/qualitydefinition" > /dev/null; then
+            break
+          fi
+          sleep 2
+        done
+
+        CURRENT=$(${pkgs.curl}/bin/curl -sf -H "X-Api-Key: $API" "$BASE/qualitydefinition")
+        if [ -n "$CURRENT" ]; then
+          UPDATED=$(echo "$CURRENT" | ${pkgs.jq}/bin/jq '
+            map(
+              if (.title == "WEBDL-1080p" or .title == "WEBRip-1080p" or .title == "HDTV-1080p") then
+                .minSize = 4 | .preferredSize = 12 | .maxSize = 18
+              elif (.title | test("Bluray|Remux")) then
+                .minSize = 0 | .preferredSize = 0 | .maxSize = 0
+              else
+                .
+              end
+            )
+          ')
+          ${pkgs.curl}/bin/curl -sf -X PUT -H "X-Api-Key: $API" -H "Content-Type: application/json" \
+            --data "$UPDATED" "$BASE/qualitydefinition/update"
+        fi
+
+        ANY_ID=$(${pkgs.curl}/bin/curl -sf -H "X-Api-Key: $API" "$BASE/qualityprofile" | ${pkgs.jq}/bin/jq -r '.[] | select(.name == "Any") | .id' 2>/dev/null || true)
+        if [ -n "$ANY_ID" ] && [ "$ANY_ID" != "null" ]; then
+          ${pkgs.curl}/bin/curl -sf -X DELETE -H "X-Api-Key: $API" "$BASE/qualityprofile/$ANY_ID" || true
+        fi
+      '';
+    };
+
+    # 4. Allow local home Wi-Fi & NetBird to access Sonarr Anime dashboard
     networking.firewall.extraCommands = ''
       iptables -A nixos-fw -p tcp --dport 8990 -s 192.168.0.0/16 -j nixos-fw-accept
       iptables -A nixos-fw -p tcp --dport 8990 -s 10.0.0.0/8 -j nixos-fw-accept

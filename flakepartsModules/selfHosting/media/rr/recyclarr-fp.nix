@@ -10,6 +10,7 @@
         radarr.radarr = {
           quality_profiles = lib.mkForce [
             {
+              name = "my-1080p";
               trash_id = "0896c29d74de619df168d23b98104b22"; # [SQP] SQP-1 (1080p)
               reset_unmatched_scores.enabled = true;
               min_format_score = 180;
@@ -41,6 +42,7 @@
         sonarr.sonarr = {
           quality_profiles = lib.mkForce [
             {
+              name = "my-1080p";
               trash_id = "9d142234e45d6143785ac55f5a9e8dc9"; # WEB-1080p (Alternative)
               reset_unmatched_scores.enabled = true;
               qualities = [
