@@ -18,6 +18,7 @@ All services bind to the local network interface and have their corresponding TC
 | **Sonarr (Standard)** | `8989` | `http://<host>:8989` | Configured on initial launch | Television shows management, season tracking, and downloader. |
 | **Sonarr (Anime)** | `8990` | `http://<host>:8990` | Configured on initial launch | Dedicated Anime instance with TRaSH anime release group scoring. |
 | **Lidarr** | `8686` | `http://<host>:8686` | Configured on initial launch | Music collection manager; searches trackers and upgrades to FLAC. |
+| **slskd (Soulseek)** | `5030` | `http://<host>:5030` | `admin` / `admin123` | Modern Soulseek P2P web client for direct Anime OST, soundtrack & track downloads. |
 | **Navidrome** | `4533` | `http://<host>:4533` | `admin` / `admin123` | High-performance, Subsonic-compatible dedicated music streaming server. |
 | **Seerr** | `5055` | `http://<host>:5055` | Configured via Jellyfin login | 1-click media request portal for family and guests. |
 | **Suwayomi** | `4567` | `http://<host>:4567` | *N/A (Local / NetBird)* | Manga/Manhwa scraper & auto-downloader strictly confined in VPN (`wg`). |
@@ -73,9 +74,14 @@ All media and persistent state files are structured with uniform permissions und
 - **Hardware Acceleration:**
   - Host-specific Intel Haswell Gen 7.5 VA-API (`/dev/dri/renderD128`) enabled on `ksvnixospc` for thumbnail scrubbing and fallback trickplay.
 
-### Dedicated Music Ecosystem: Navidrome + Lidarr
+### Dedicated Music Ecosystem: Navidrome + Lidarr + slskd (Soulseek)
+- **slskd (Port 5030):**
+  - Modern web client for the Soulseek P2P network, purpose-built for unfindable Anime OSTs, movie scores, video game soundtracks, and individual lossless tracks.
+  - Downloads directly into `/data/media/music` with zero post-processing delay; Navidrome and Jellyfin immediately pick up newly completed albums.
+  - Shares `/data/media/music` with an ultra-low 50 KiB/s upload throttle to prevent peer auto-bans without consuming home internet bandwidth.
+  - Confined to Local Wi-Fi and NetBird via `iptables`; no WAN ports are exposed to external scanners.
 - **Lidarr (Port 8686):**
-  - Manages music metadata, discographies, and automated tracker downloads into `/data/media/music`.
+  - Manages mainstream music metadata, discographies, and automated tracker downloads into `/data/media/music`.
   - Default quality profile uses **Lossless (FLAC)** as the cutoff target, falling back to **MP3-320** if lossless is not yet available, and automatically upgrading when a FLAC release appears.
 - **Navidrome (Port 4533):**
   - Ultra-lightweight Subsonic music server (~30MB–50MB RAM, built in Go).
@@ -132,7 +138,8 @@ flakepartsModules/selfHosting/media/
 │   ├── komga-fp.nix                   # Komga manga media server (Port 25600)
 │   └── suwayomi-fp.nix                # Suwayomi manga/manhwa reader & downloader (Port 4567)
 ├── music/
-│   └── navidrome-fp.nix               # Navidrome Subsonic music server
+│   ├── navidrome-fp.nix               # Navidrome Subsonic music server
+│   └── slskd-fp.nix                   # slskd Soulseek P2P web client (Port 5030)
 ├── rr/
 │   ├── flaresolverr-fp.nix            # FlareSolverr Cloudflare bypass proxy
 │   ├── lidarr-fp.nix                  # Lidarr music downloader
