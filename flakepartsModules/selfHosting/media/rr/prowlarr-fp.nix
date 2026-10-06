@@ -32,17 +32,18 @@
           }
 
           # Movies & TV
-          {
-            name = "1337x";
-            enable = true;
-            appProfileId = 1;
-            tags = [ "flaresolverr" ];
-          }
-          {
-            name = "EZTV";
-            enable = true;
-            appProfileId = 1;
-          }
+          # 1337x and EZTV are blocked by local ISP / Cloudflare redirect, causing API timeouts
+          # {
+          #   name = "1337x";
+          #   enable = true;
+          #   appProfileId = 1;
+          #   tags = [ "flaresolverr" ];
+          # }
+          # {
+          #   name = "EZTV";
+          #   enable = true;
+          #   appProfileId = 1;
+          # }
           {
             name = "The Pirate Bay";
             enable = true;
@@ -60,11 +61,12 @@
             enable = true;
             appProfileId = 1;
           }
-          {
-            name = "Internet Archive";
-            enable = true;
-            appProfileId = 1;
-          }
+          # Internet Archive connectivity test times out via API
+          # {
+          #   name = "Internet Archive";
+          #   enable = true;
+          #   appProfileId = 1;
+          # }
         ];
       };
     };
