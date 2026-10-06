@@ -1,45 +1,55 @@
 { inputs, lib, ... }: {
   flake.nixosModules.selfHosting = { pkgs, ... }: let
-    # Declarative extension packages (Verified stable, free of InstantiationError)
+    # Declarative extension packages (Pre-compiled desktop JARs bypassing dex2jar)
     mangaExtensions = [
-      # 1. MangaDex (Official translations, full Solo Leveling + Ragnarok)
+      # 1. MangaDex
       {
         name = "MangaDex";
         pkgName = "eu.kanade.tachiyomi.extension.all.mangadex";
         file = pkgs.fetchurl {
-          name = "tachiyomi-all.mangadex-v1.6.0.apk";
-          url = "https://github.com/keiyoushi/extensions/releases/download/8ef06cd-0/tachiyomi-all.mangadex-v1.6.0.apk";
-          hash = "sha256-Ev3ndgHUjIsjE0BpTbhEb7paVVztQQmyMcnS4wAJFfs=";
+          name = "tachiyomi-all.mangadex-v1.6.0.jar";
+          url = "https://github.com/keiyoushi/extensions/releases/download/f303b9c/tachiyomi-all.mangadex-v1.6.0.jar";
+          hash = "sha256-J4HYWT1o8uea1U8glJOZxEr7cD1WeSmfhPc1bfaXAI4=";
         };
       }
-      # 2. Mangakakalot (Massive manhwa/manga aggregator, fast search)
+      # 2. Mangakakalot
       {
         name = "Mangakakalot";
         pkgName = "eu.kanade.tachiyomi.extension.en.mangakakalot";
         file = pkgs.fetchurl {
-          name = "tachiyomi-en.mangakakalot-v1.6.24.apk";
-          url = "https://github.com/keiyoushi/extensions/releases/download/4217666-0/tachiyomi-en.mangakakalot-v1.6.24.apk";
-          hash = "sha256-rdxFujcUXxQtQIi9KLfAYqHRzhw791BUiQdzYk9M/G4=";
+          name = "tachiyomi-en.mangakakalot-v1.6.24.jar";
+          url = "https://github.com/keiyoushi/extensions/releases/download/19c8e5f-0/tachiyomi-en.mangakakalot-v1.6.24.jar";
+          hash = "sha256-NBby4L8/ggd0NxJCL3ZzD26R+GbpzomD+E+aFFJu5EM=";
         };
       }
-      # 3. Manganato (Dedicated manhwa mirrors, complete Solo Leveling archive)
+      # 3. Asura Scans
       {
-        name = "Manganato";
-        pkgName = "eu.kanade.tachiyomi.extension.en.manganelo";
+        name = "Asura Scans";
+        pkgName = "eu.kanade.tachiyomi.extension.en.asurascans";
         file = pkgs.fetchurl {
-          name = "tachiyomi-en.manganelo-v1.6.22.apk";
-          url = "https://github.com/keiyoushi/extensions/releases/download/4217666-0/tachiyomi-en.manganelo-v1.6.22.apk";
-          hash = "sha256-p9XQ1wfbWUtGkoTqNaytr0Y+/WP7bOb9KQUczTzYHC8=";
+          name = "tachiyomi-en.asurascans-v1.6.69.jar";
+          url = "https://github.com/keiyoushi/extensions/releases/download/19c8e5f-0/tachiyomi-en.asurascans-v1.6.69.jar";
+          hash = "sha256-fqoeB+rnuTSkfWUJLi+xJjIsm4/GuVtdAbQ2yy4/zqA=";
         };
       }
-      # 4. MangaFire (High-speed modern library with multi-language scans)
+      # 4. Flame Comics
+      {
+        name = "Flame Comics";
+        pkgName = "eu.kanade.tachiyomi.extension.en.flamecomics";
+        file = pkgs.fetchurl {
+          name = "tachiyomi-en.flamecomics-v1.6.0.jar";
+          url = "https://github.com/keiyoushi/extensions/releases/download/06f6d69/tachiyomi-en.flamecomics-v1.6.0.jar";
+          hash = "sha256-x+vQ2VFnjNBOZTwUk/bZgPm+OjrnKQru1tGjMJzCwoo=";
+        };
+      }
+      # 5. MangaFire
       {
         name = "MangaFire";
         pkgName = "eu.kanade.tachiyomi.extension.all.mangafire";
         file = pkgs.fetchurl {
-          name = "tachiyomi-all.mangafire-v1.6.34.apk";
-          url = "https://github.com/keiyoushi/extensions/releases/download/4217666-0/tachiyomi-all.mangafire-v1.6.34.apk";
-          hash = "sha256-vF0jpWXx51LNskR4hka9Jyg2OALOCCPHCxaOf0jkH60=";
+          name = "tachiyomi-all.mangafire-v1.6.34.jar";
+          url = "https://github.com/keiyoushi/extensions/releases/download/19c8e5f-0/tachiyomi-all.mangafire-v1.6.34.jar";
+          hash = "sha256-uMC0JXRE2Lj/Ki41RFZV1zBa57jszmNcqRqhcw9fer4=";
         };
       }
     ];
@@ -68,12 +78,22 @@
           extensionStores = [
             "https://raw.githubusercontent.com/keiyoushi/extensions/repo/index.json"
           ];
+          # Automated Cloudflare bypass via localhost FlareSolverr
+          flareSolverrEnabled = true;
+          flareSolverrUrl = "http://127.0.0.1:8191";
+          flareSolverrTimeout = 60;
+          flareSolverrSessionName = "suwayomi";
         };
       };
     };
 
     # Ensure suwayomi system user has write access to /data/media/manga
     users.users.suwayomi.extraGroups = [ "media" ];
+
+    # HotSpot JVM flag to avoid VerifyError on minified / transpiled bytecode
+    systemd.services.suwayomi-server.environment = {
+      JAVA_TOOL_OPTIONS = "-Xverify:none";
+    };
 
     # Deprioritize background I/O so mass chapter downloading does not starve desktop responsiveness
     systemd.services.suwayomi-server.serviceConfig = {
@@ -116,15 +136,22 @@
             exit 1
           fi
 
-          echo "Fetching currently installed extensions..."
-          INSTALLED=$(${pkgs.curl}/bin/curl -s http://127.0.0.1:4567/api/v1/extension/list | ${pkgs.gnugrep}/bin/grep -o '{[^{}]*"installed":true[^{}]*}' || echo "")
+          STATE_DIR="/var/lib/suwayomi-server"
 
           ${lib.concatStringsSep "\n" (map (ext: ''
-            if echo "$INSTALLED" | ${pkgs.gnugrep}/bin/grep -q '"pkgName":"${ext.pkgName}"'; then
-              echo "Extension ${ext.name} is already installed. Skipping."
+            MARKER="$STATE_DIR/.nix-ext-${ext.pkgName}"
+            if [ -f "$MARKER" ] && [ "$(cat "$MARKER" 2>/dev/null)" = "${ext.file}" ]; then
+              echo "Extension ${ext.name} is up-to-date. Skipping."
             else
-              echo "Installing extension: ${ext.name}..."
-              ${pkgs.curl}/bin/curl -s -f -X POST -F "file=@${ext.file}" http://127.0.0.1:4567/api/v1/extension/install || true
+              echo "Provisioning extension: ${ext.name} (${ext.pkgName})..."
+              # Uninstall any existing/broken version first
+              ${pkgs.curl}/bin/curl -s "http://127.0.0.1:4567/api/v1/extension/uninstall/${ext.pkgName}" >/dev/null 2>&1 || true
+              if ${pkgs.curl}/bin/curl -s -f -X POST -F "file=@${ext.file}" http://127.0.0.1:4567/api/v1/extension/install >/dev/null 2>&1; then
+                echo "${ext.file}" > "$MARKER"
+                echo "Successfully installed ${ext.name}."
+              else
+                echo "Warning: Failed to install ${ext.name}."
+              fi
             fi
           '') mangaExtensions)}
 
