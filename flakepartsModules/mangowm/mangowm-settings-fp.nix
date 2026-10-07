@@ -25,11 +25,11 @@ _: {
         shadows_blur = 16;
 
         border_radius = 12;
-        borderpx = 0; # Borderless windows (no orange/colored borders)
-        gappih = 0;
-        gappiv = 0;
-        gappoh = 0;
-        gappov = 0;
+        border_px = 0; # Borderless windows (no orange/colored borders)
+        gap_inner_horizontal = 0;
+        gap_inner_vertical = 0;
+        gap_outer_horizontal = 0;
+        gap_outer_vertical = 0;
         focused_opacity = 1.0;
         unfocused_opacity = 0.92;
 
@@ -58,7 +58,7 @@ _: {
         layer_animation_type_close = "zoom";
         animation_fade_in = 1;
         animation_fade_out = 1;
-        fadein_begin_opacity = 0.4;
+        fade_in_begin_opacity = 0.4;
         zoom_initial_ratio = 0.5;
         zoom_end_ratio = 0.8;
         animation_duration_open = 350;
@@ -78,11 +78,11 @@ _: {
         scroller_ignore_proportion_single = 0;
 
         # --- Layout Rules (Default to Scroller for tags 1-9) ---
-        tagrule = map (i: "id:${toString i},layout_name:scroller") (lib.range 1 9);
+        tag_rule = map (i: "id:${toString i},layout_name:scroller") (lib.range 1 9);
 
         # --- Window Rules ---
-        windowrule = [
-          "focused_opacity:0.90,unfocused_opacity:0.75,appid:.*dolphin.*"
+        window_rule = [
+          "focused_opacity:0.90,unfocused_opacity:0.75,app_id:.*dolphin.*"
         ];
       };
     };

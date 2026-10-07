@@ -26,7 +26,7 @@ This module provides an isolated virtual display (`HEADLESS-1`) and a live zero-
 1. **MangoWM** spawns an off-screen virtual display (`HEADLESS-1`) via `create_virtual_output`.
 2. Windows pushed to `HEADLESS-1` are dynamically tiled and managed by MangoWM's layout engine.
 3. **`wl-mirror`** opens a floating `640x360` picture-in-picture window on your physical display, showing a live mirror of what is happening on the virtual monitor with mouse cursor feedback.
-4. **Pinned across all tags (`isglobal:1`)**: The mirror window remains visible regardless of which tag (1–9) you switch to on your physical screen.
+4. **Pinned across all tags (`is_global:1`)**: The mirror window remains visible regardless of which tag (1–9) you switch to on your physical screen.
 5. **OBS / Discord / Zoom / Google Meet** captures `HEADLESS-1` via PipeWire, guaranteeing that personal workspaces on `eDP-1` are never seen by viewers.
 
 ---
@@ -48,13 +48,13 @@ This module provides an isolated virtual display (`HEADLESS-1`) and a live zero-
 The module configures:
 
 ```nix
-windowrule = [
-  "isglobal:1,isfloating:1,width:640,height:360,appid:.*wl_mirror.*"
+window_rule = [
+  "is_global:1,is_floating:1,width:640,height:360,app_id:.*wl_mirror.*"
 ];
 ```
 
-- **`isglobal:1` (Sticky / Pinned)**: Marks `wl-mirror` as a global window across all tags. When you switch tags on your physical display (`SUPER + 1..9`), the preview does not vanish or animate away.
-- **`isfloating:1`**: Prevents the mirror from snapping into your active tiling or scroller layout, keeping it as an overlay.
+- **`is_global:1` (Sticky / Pinned)**: Marks `wl-mirror` as a global window across all tags. When you switch tags on your physical display (`SUPER + 1..9`), the preview does not vanish or animate away.
+- **`is_floating:1`**: Prevents the mirror from snapping into your active tiling or scroller layout, keeping it as an overlay.
 - **`width:640,height:360`**: Initial 16:9 aspect ratio matching the 1080p virtual canvas without distortion or black bars.
 - **Dynamic Fullscreen / Maximize**: You can still press **`SUPER + f`** to temporarily fullscreen the mirror for closer inspection, and press it again to restore it to the floating 640x360 size.
 
