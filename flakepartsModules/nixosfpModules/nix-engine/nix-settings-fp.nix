@@ -42,7 +42,7 @@ in {
     extra-substituters = [
       "https://cache.nixos.org"
       "https://nix-community.cachix.org"
-      "https://hydra.nix-community.org"
+      # "https://hydra.nix-community.org"
     ];
     extra-trusted-public-keys = [
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
@@ -87,6 +87,7 @@ in {
     };
 
     sops.templates."nix-access-tokens.conf" = lib.mkIf (options ? sops && config.sops.secrets ? github_token) {
+      mode = "0444";
       content = ''
         extra-access-tokens = github.com=${config.sops.placeholder.github_token}
       '';

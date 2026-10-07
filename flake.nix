@@ -12,7 +12,6 @@
       "https://chaotic-nyx.cachix.org"
       "https://cache.nixos.org"
       "https://nix-community.cachix.org"
-      "https://hydra.nix-community.org"
       "https://cache.thalheim.io"
       "https://install.determinate.systems"
       "https://devenv.cachix.org"
@@ -207,7 +206,7 @@
       };
     };
     nixpkgs = {
-      url = "github:nixos/nixpkgs/b4fd65b198c599cbe814fcb9f42d25d021595ec9";
+      url = "github:nixos/nixpkgs/151fa4e8ddfdd8dd25d945ad94ed54a13de9f6e4";
     };
     nur = {
       url = "github:nix-community/NUR";
