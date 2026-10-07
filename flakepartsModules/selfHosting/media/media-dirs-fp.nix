@@ -9,7 +9,7 @@
       mediaDirs = [
         "/data/media"
         "/data/media/movies"
-        "/data/media/shows"
+        "/data/media/tv"
         "/data/media/anime"
         "/data/media/music"
         "/data/media/manga"

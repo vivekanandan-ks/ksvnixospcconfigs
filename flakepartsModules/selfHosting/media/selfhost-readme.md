@@ -35,7 +35,7 @@ All media and persistent state files are structured with uniform permissions und
 /data/
 ├── media/
 │   ├── movies/      # Radarr & Jellyfin
-│   ├── shows/       # Sonarr (Standard) & Jellyfin
+│   ├── tv/          # Sonarr (Standard) & Jellyfin
 │   ├── anime/       # Sonarr (Anime) & Jellyfin
 │   ├── music/       # Lidarr, Navidrome & Jellyfin
 │   └── manga/       # Suwayomi, Komga & Jellyfin
@@ -65,7 +65,7 @@ All media and persistent state files are structured with uniform permissions und
 ### Central Streaming: Jellyfin
 - **Libraries Configured:**
   - `Movies` $\rightarrow$ `/data/media/movies`
-  - `TV Shows` $\rightarrow$ `/data/media/shows`
+  - `TV Shows` $\rightarrow$ `/data/media/tv`
   - `Anime` $\rightarrow$ `/data/media/anime`
   - `Music` $\rightarrow$ `/data/media/music`
 - **100% Direct Play Enforced:**

@@ -12,7 +12,7 @@
       };
       "TV Shows" = {
         collectionType = "tvshows";
-        paths = [ "/data/media/shows" ];
+        paths = [ "/data/media/tv" ];
         enabled = true;
       };
       "Anime" = {
