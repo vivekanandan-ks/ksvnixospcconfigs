@@ -22,6 +22,13 @@
             AuthSubnetWhitelistEnabled = true;
             LocalHostAuth = false;
           };
+          Bittorrent = {
+            MaxRatio = 0;
+            MaxRatioAction = 0;
+          };
+          Connection = {
+            GlobalUPLimit = 10;
+          };
         };
       };
     };
