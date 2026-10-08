@@ -12,11 +12,11 @@
         Type = "oneshot";
         RemainAfterExit = true;
         TimeoutStartSec = "120s";
+        StateDirectory = "wireguard";
+        WorkingDirectory = "/var/lib/wireguard";
       };
 
       script = ''
-        mkdir -p /var/lib/wireguard
-        cd /var/lib/wireguard
         if [ ! -f /var/lib/wireguard/wgcf-profile.conf ]; then
           echo "Waiting for internet/DNS to reach Cloudflare API..."
           for i in $(seq 1 30); do
@@ -40,14 +40,7 @@
       after = [ "wgcf-bootstrap.service" "network-online.target" ];
       wants = [ "network-online.target" "qbittorrent.service" ];
       requires = [ "wgcf-bootstrap.service" ];
-      preStart = ''
-        for i in $(seq 1 60); do
-          if ${pkgs.iputils}/bin/ping -c 1 engage.cloudflareclient.com >/dev/null 2>&1; then
-            break
-          fi
-          sleep 2
-        done
-      '';
+      preStart = "${pkgs.iputils}/bin/ping -c 1 -w 120 engage.cloudflareclient.com >/dev/null 2>&1 || true";
       serviceConfig = {
         Restart = "on-failure";
         RestartSec = "5s";

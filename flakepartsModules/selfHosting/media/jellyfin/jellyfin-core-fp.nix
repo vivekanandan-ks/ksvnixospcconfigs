@@ -54,10 +54,10 @@
       };
 
       systemd.services.jellyfin-auto-scan = {
-        serviceConfig.Type = "oneshot";
-        script = ''
-          ${pkgs.curl}/bin/curl -s -X POST -H "X-MediaBrowser-Token: a3b9c8d7e6f5a4b3c2d1e0f9a8b7c6d5" http://127.0.0.1:8096/Library/Refresh >/dev/null || true
-        '';
+        serviceConfig = {
+          Type = "oneshot";
+          ExecStart = "-${pkgs.curl}/bin/curl -s -X POST -H 'X-MediaBrowser-Token: a3b9c8d7e6f5a4b3c2d1e0f9a8b7c6d5' http://127.0.0.1:8096/Library/Refresh";
+        };
       };
     };
   };

@@ -39,18 +39,7 @@
         IOSchedulingClass = "best-effort";
         IOSchedulingPriority = 7;
       };
-      preStart = ''
-        echo "Waiting for Seerr API to become responsive..."
-        for i in $(seq 1 300); do
-          if ${pkgs.curl}/bin/curl -sf http://127.0.0.1:5055/api/v1/status >/dev/null 2>&1; then
-            echo "Seerr API is ready."
-            exit 0
-          fi
-          sleep 2
-        done
-        echo "Timed out waiting for Seerr API"
-        exit 1
-      '';
+      preStart = "${pkgs.curl}/bin/curl -sf --retry 150 --retry-delay 2 --retry-all-errors http://127.0.0.1:5055/api/v1/status >/dev/null 2>&1";
     };
 
     # Allow local home Wi-Fi to reach the Seerr web UI

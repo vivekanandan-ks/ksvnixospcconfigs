@@ -16,16 +16,7 @@
         Environment = [ "LIBGL_ALWAYS_SOFTWARE=1" ];
         ExecStartPost = lib.mkForce [
           ""
-          "${pkgs.writeShellScript "wait-for-flaresolverr" ''
-            for i in $(seq 1 240); do
-              if ${pkgs.curl}/bin/curl -sf http://127.0.0.1:8191/ >/dev/null 2>&1; then
-                exit 0
-              fi
-              sleep 1
-            done
-            echo "FlareSolverr did not become ready within 240s"
-            exit 1
-          ''}"
+          "${pkgs.curl}/bin/curl -sf --retry 240 --retry-delay 1 --retry-all-errors http://127.0.0.1:8191/"
         ];
       };
     };

@@ -37,7 +37,7 @@
     };
 
     # Disable ModemManager (no cellular modem hardware installed)
-    systemd.services.ModemManager.enable = false;
+    networking.modemmanager.enable = false;
 
     # Firmware update daemon (UEFI/BIOS & hardware peripherals via fwupdmgr)
     #services.fwupd.enable = true;

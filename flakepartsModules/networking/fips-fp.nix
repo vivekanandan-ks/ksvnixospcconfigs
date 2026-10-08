@@ -18,10 +18,11 @@
   # ---------------------------------------------------------------------------
   flake.nixosModules = lib.optionalAttrs (inputs ? fips) {
     fips = {
-    config,
-    pkgs,
-    ...
-  }: let
+      config,
+      pkgs,
+      username,
+      ...
+    }: let
     # Hostname -> Ethernet Interface mapping (Zero options boilerplate)
     hostEthernetMap = {
       ksvnixospc = "enp3s0";
@@ -149,12 +150,26 @@
       inputs.fips.overlays.default
     ];
 
-    # Enable FIPS service and systemd-resolved DNS routing
+    # Enable FIPS service (disable upstream global resolved pollution)
     services.fips = {
       enable = true;
       openFirewall = true; # Opens UDP 2121 on physical interfaces for mesh wire packets
       configFile = fipsConfig;
-      dns.enable = true; # Routes ~fips queries via systemd-resolved to [::1]:5354
+      dns.enable = false; # Handled natively via dnsDelegates below
+    };
+
+    # Make CLI tools (fipsctl, fipstop) available in user PATH
+    environment.systemPackages = [
+      config.services.fips.package
+    ];
+
+    # Allow user to run fipsctl / fipstop without sudo
+    users.users.${username}.extraGroups = [ "fips" ];
+
+    # Native NixOS Split DNS Delegation (systemd 258+ / systemd.dns-delegate(5))
+    services.resolved.dnsDelegates."fips".Delegate = {
+      DNS = "[::1]:5354";
+      Domains = "fips";
     };
 
     # Ensure Bluetooth daemon is available for the BLE transport

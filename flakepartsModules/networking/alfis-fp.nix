@@ -55,39 +55,10 @@ _: {
       };
     };
 
-    # Split DNS: Route .ygg and .anon to Alfis strictly on the Yggdrasil interface
-    # without hijacking global system DNS in resolved.conf
-    systemd.services.alfis-dns-route = {
-      description = "Split DNS routing for Alfis (.ygg and .anon via Yggdrasil interface)";
-      after = ["alfis.service" "yggdrasil.service" "systemd-resolved.service"];
-      wants = ["alfis.service" "yggdrasil.service" "systemd-resolved.service"];
-      partOf = ["yggdrasil.service"];
-      wantedBy = ["multi-user.target"];
-      serviceConfig = {
-        Type = "oneshot";
-        RemainAfterExit = true;
-        ExecStart = pkgs.writeShellScript "alfis-dns-route" ''
-          for i in $(seq 1 30); do
-            IFACE=""
-            if ${pkgs.iproute2}/bin/ip link show tun0 >/dev/null 2>&1; then
-              IFACE="tun0"
-            elif ${pkgs.iproute2}/bin/ip link show ygg0 >/dev/null 2>&1; then
-              IFACE="ygg0"
-            fi
-            if [ -n "$IFACE" ]; then
-              ${pkgs.systemd}/bin/resolvectl dns "$IFACE" 127.0.0.1:5335
-              ${pkgs.systemd}/bin/resolvectl domain "$IFACE" "~ygg" "~anon"
-              ${pkgs.systemd}/bin/resolvectl default-route "$IFACE" no
-              ${pkgs.systemd}/bin/resolvectl dnsovertls "$IFACE" no
-              ${pkgs.systemd}/bin/resolvectl dnssec "$IFACE" no
-              exit 0
-            fi
-            sleep 1
-          done
-          echo "Warning: Yggdrasil interface (tun0/ygg0) not found within 30 seconds."
-          exit 0
-        '';
-      };
+    # Native Split DNS: Route .ygg and .anon to Alfis via systemd 258+ dnsDelegates
+    services.resolved.dnsDelegates."alfis".Delegate = {
+      DNS = "127.0.0.1:5335";
+      Domains = "ygg anon";
     };
   };
 }
