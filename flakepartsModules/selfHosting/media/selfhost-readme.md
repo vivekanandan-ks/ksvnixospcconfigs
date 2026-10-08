@@ -146,7 +146,6 @@ flakepartsModules/selfHosting/media/
 │   ├── prowlarr-fp.nix                # Prowlarr indexer synchronizer
 │   ├── radarr-fp.nix                  # Radarr movie management
 │   ├── recyclarr-fp.nix               # Recyclarr TRaSH sync timer
-│   ├── seerr-fp.nix                   # Seerr request UI
 │   ├── sonarr-anime-fp.nix            # Dedicated anime instance (Port 8990)
 │   └── sonarr-fp.nix                  # Standard TV instance (Port 8989)
 └── torrent/
