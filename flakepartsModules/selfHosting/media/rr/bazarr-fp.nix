@@ -12,6 +12,11 @@
           port = 6767;
           instance_name = "Homelab Bazarr";
 
+          # Master Integration Toggles (Required by Bazarr to activate workers)
+          use_radarr = true;
+          use_sonarr = true;
+          use_jellyfin = true;
+
           # Subtitle placement: Save directly in the movie/show folder alongside the video file
           subfolder = "current";
 
@@ -91,6 +96,11 @@
           update_movie_library = true;
           update_series_library = true;
           refresh_method = "immediate";
+        };
+
+        # --- Authentication / Internal API Key ---
+        auth = {
+          apikey = "c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8";
         };
       };
     };
