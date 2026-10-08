@@ -137,6 +137,10 @@
         treefmt-nix.follows = "treefmt-nix";
       };
     };
+    fips = {
+      url = "github:jmcorgan/fips";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     flake-file = {
       url = "github:denful/flake-file";
     };
