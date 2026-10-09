@@ -3,27 +3,34 @@
   lib,
   ...
 }: {
-  flake.nixosModules.selfHosting = lib.mkIf (inputs ? nixflix) {
-    nixflix.navidrome = {
-      enable = true;
-      group = "media";
+  flake.nixosModules.selfHosting = lib.mkIf (inputs ? nixflix) (
+    let
+      port = 4533;
+    in
+    {
+      nixflix.navidrome = {
+        enable = true;
+        group = "media";
 
-      users = {
-        admin = {
-          userName = "admin";
-          isAdmin = true;
-          password = "admin123";
+        users = {
+          admin = {
+            userName = "admin";
+            isAdmin = true;
+            password = "admin123";
+          };
+        };
+
+        settings = {
+          Port = port;
+          Address = "0.0.0.0";
+          MusicFolder = "/data/media/music";
+          ScanSchedule = "@every 1h";
         };
       };
 
-      settings = {
-        Port = 4533;
-        Address = "0.0.0.0";
-        MusicFolder = "/data/media/music";
-        ScanSchedule = "@every 1h";
-      };
-    };
+      localAliases."navidrome.local" = port;
 
-    networking.firewall.allowedTCPPorts = [ 4533 ];
-  };
+      networking.firewall.allowedTCPPorts = [ port ];
+    }
+  );
 }

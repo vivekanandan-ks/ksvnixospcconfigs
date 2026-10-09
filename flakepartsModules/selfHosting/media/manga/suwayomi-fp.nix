@@ -4,6 +4,8 @@
   ...
 }: {
   flake.nixosModules.selfHosting = {pkgs, ...}: let
+    port = 4567;
+
     # Declarative extension packages (Pre-compiled desktop JARs bypassing dex2jar)
     mangaExtensions = [
       # 1. MangaDex
@@ -116,10 +118,13 @@
         IOSchedulingPriority = 7;
       };
 
+      # Expose friendly mDNS domain
+      localAliases."suwayomi.local" = port;
+
       # Allow incoming Web UI connections from LAN & NetBird (trusted)
       networking.firewall.extraCommands = ''
-        iptables -A nixos-fw -p tcp --dport 4567 -s 192.168.0.0/16 -j nixos-fw-accept
-        iptables -A nixos-fw -p tcp --dport 4567 -s 10.0.0.0/8 -j nixos-fw-accept
+        iptables -A nixos-fw -p tcp --dport ${toString port} -s 192.168.0.0/16 -j nixos-fw-accept
+        iptables -A nixos-fw -p tcp --dport ${toString port} -s 10.0.0.0/8 -j nixos-fw-accept
       '';
 
       # 2. Declarative Extension Provisioner & Settings Service (Native Localhost)
@@ -134,10 +139,10 @@
           ExecStart = pkgs.writeShellScript "suwayomi-preload-extensions" ''
             set -euo pipefail
 
-            echo "Waiting for Suwayomi-Server API on localhost:4567..."
+            echo "Waiting for Suwayomi-Server API on localhost:${toString port}..."
             SERVER_ONLINE=0
             for i in $(seq 1 60); do
-              if ${pkgs.curl}/bin/curl -s -f http://127.0.0.1:4567/api/v1/meta >/dev/null 2>&1; then
+              if ${pkgs.curl}/bin/curl -s -f http://127.0.0.1:${toString port}/api/v1/meta >/dev/null 2>&1; then
                 echo "Suwayomi-Server is online."
                 SERVER_ONLINE=1
                 break
