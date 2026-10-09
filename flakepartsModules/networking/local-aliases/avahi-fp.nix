@@ -16,6 +16,7 @@
         enable = true;
         addresses = true;
         workstation = true;
+        userServices = true;
       };
     };
 
@@ -31,7 +32,8 @@
     # Dynamic mDNS alias broadcaster (active only when aliases exist)
     systemd.services.avahi-publish-aliases = lib.mkIf hasAliases {
       description = "Publish dynamic .local mDNS aliases";
-      after = [ "network.target" "avahi-daemon.service" ];
+      wants = [ "network-online.target" ];
+      after = [ "network-online.target" "avahi-daemon.service" ];
       requires = [ "avahi-daemon.service" ];
       wantedBy = [ "multi-user.target" ];
 
@@ -39,7 +41,7 @@
 
       serviceConfig = {
         Restart = "always";
-        RestartSec = "2s";
+        RestartSec = "5s";
         KillMode = "mixed";
       };
 
