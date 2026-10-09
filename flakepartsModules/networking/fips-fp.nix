@@ -62,11 +62,23 @@
           persistent = true;
         };
         rendezvous = {
-          # Nostr internet discovery using creator's built-in default relays
+          # Nostr internet discovery with public relays including Primal
           nostr = {
             enabled = true;
             advertise = true;
             policy = "open"; # Ambient public discovery like standard Yggdrasil
+            advert_relays = [
+              "wss://relay.damus.io"
+              "wss://nos.lol"
+              "wss://offchain.pub"
+              "wss://relay.primal.net"
+            ];
+            dm_relays = [
+              "wss://relay.damus.io"
+              "wss://nos.lol"
+              "wss://offchain.pub"
+              "wss://relay.primal.net"
+            ];
           };
           # Local mDNS discovery for sub-second pairing on local Wi-Fi / LAN
           lan = {
