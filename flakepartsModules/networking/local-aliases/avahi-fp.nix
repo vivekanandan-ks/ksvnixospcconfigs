@@ -11,14 +11,17 @@
       nssmdns4 = true;
       nssmdns6 = true;
       openFirewall = false; # Scoped strictly to Wi-Fi below
-      denyInterfaces = [ "wt0" "wg-br" "tun0" "tailscale0" "docker0" "podman0" ];
+      denyInterfaces = [ "wt0" "wg0" "wg-br" "veth-wg-br" "fips0" "tun0" "tailscale0" "docker0" "podman0" ];
       publish = {
         enable = true;
         addresses = true;
-        workstation = true;
+        workstation = false;
         userServices = true;
       };
     };
+
+    # Silence dbus-broker warning about missing upstream netdev group
+    users.groups.netdev = { };
 
     # Prevent systemd-resolved from competing for UDP port 5353
     services.resolved.settings.Resolve.MulticastDNS = "no";
@@ -54,23 +57,29 @@
           exit 1
         fi
 
-        echo "Broadcasting aliases on $IFACE (IPv4: $IP4)"
+        echo "Broadcasting ${toString (builtins.length (builtins.attrNames cfg))} aliases on $IFACE ($IP4)"
         for alias in ${lib.escapeShellArgs (lib.attrNames cfg)}; do
-          avahi-publish -a -R -f "$alias" "$IP4" &
+          avahi-publish -a -R -f "$alias" "$IP4" >/dev/null &
         done
 
         IP6=$(ip -6 -br addr show dev "$IFACE" scope global 2>/dev/null | awk '{split($3, a, "/"); print a[1]; exit}')
         if [ -n "$IP6" ]; then
-          echo "Broadcasting aliases on $IFACE (IPv6: $IP6)"
           for alias in ${lib.escapeShellArgs (lib.attrNames cfg)}; do
-            avahi-publish -a -R -f "$alias" "$IP6" &
+            avahi-publish -a -R -f "$alias" "$IP6" >/dev/null &
           done
         fi
 
-        ( ip monitor address dev "$IFACE" | head -n 1 ) &
+        (
+          ip monitor address dev "$IFACE" | while read -r _; do
+            NEW_IP=$(ip -4 -br addr show dev "$IFACE" 2>/dev/null | awk '{split($3, a, "/"); print a[1]; exit}')
+            if [ -n "$NEW_IP" ] && [ "$NEW_IP" != "$IP4" ]; then
+              echo "IP address changed from $IP4 to $NEW_IP. Refreshing aliases..." >&2
+              exit 0
+            fi
+          done
+        ) &
 
         wait -n
-        echo "Network change or daemon restart detected. Refreshing aliases..."
         exit 0
       '';
     };
