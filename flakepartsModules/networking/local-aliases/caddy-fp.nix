@@ -22,6 +22,10 @@
       networking.firewall.extraCommands = ''
         iptables -A nixos-fw -i wl+ -p tcp --dport 80 -s 192.168.0.0/16 -j nixos-fw-accept
         iptables -A nixos-fw -i wl+ -p tcp --dport 80 -s 10.0.0.0/8 -j nixos-fw-accept
+
+        # Fast TCP Reset on port 443 so mobile browsers drop HTTPS-First probing in <1ms
+        iptables -A nixos-fw -i wl+ -p tcp --dport 443 -s 192.168.0.0/16 -j REJECT --reject-with tcp-reset
+        iptables -A nixos-fw -i wl+ -p tcp --dport 443 -s 10.0.0.0/8 -j REJECT --reject-with tcp-reset
       '';
     };
   };
