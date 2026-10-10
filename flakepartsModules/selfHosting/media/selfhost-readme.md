@@ -17,10 +17,8 @@ All services bind to the local network interface and have their corresponding TC
 | **Radarr** | `7878` | `radarr.local` | `http://radarr.local`<br>`http://<host>:7878` | Configured on initial launch | Movies management, metadata scraper, and automated downloader. |
 | **Sonarr (Standard)** | `8989` | `sonarr.local` | `http://sonarr.local`<br>`http://<host>:8989` | Configured on initial launch | Television shows management, season tracking, and downloader. |
 | **Sonarr (Anime)** | `8990` | — | `http://<host>:8990` | Configured on initial launch | Dedicated Anime instance with TRaSH anime release group scoring. |
-| **Lidarr** | `8686` | — | `http://<host>:8686` | Configured on initial launch | Music collection manager; searches trackers and upgrades to FLAC. |
 | **slskd (Soulseek)** | `5030` | `slskd.local` | `http://slskd.local`<br>`http://<host>:5030` | `admin` / `admin123` | Modern Soulseek P2P web client for direct Anime OST, soundtrack & track downloads. |
 | **Navidrome** | `4533` | `navidrome.local` | `http://navidrome.local`<br>`http://<host>:4533` | `admin` / `admin123` | High-performance, Subsonic-compatible dedicated music streaming server. |
-| **Seerr** | `5055` | — | `http://<host>:5055` | Configured via Jellyfin login | 1-click media request portal for family and guests. |
 | **Suwayomi** | `4567` | `suwayomi.local` | `http://suwayomi.local`<br>`http://<host>:4567` | *N/A (Local / NetBird)* | Manga/Manhwa scraper & auto-downloader strictly confined in VPN (`wg`). |
 | **Komga** | `25600` | `komga.local` | `http://komga.local`<br>`http://<host>:25600` | Configured on initial launch | Multi-user Manga, Manhwa, and Comic reading server with OPDS feeds. |
 | **Recyclarr** | *N/A* | — | Background Timer | *N/A (CLI)* | Automatically synchronizes TRaSH Guides quality profiles and regex rules. |
@@ -37,7 +35,7 @@ All media and persistent state files are structured with uniform permissions und
 │   ├── movies/      # Radarr & Jellyfin
 │   ├── tv/          # Sonarr (Standard) & Jellyfin
 │   ├── anime/       # Sonarr (Anime) & Jellyfin
-│   ├── music/       # Lidarr, Navidrome & Jellyfin
+│   ├── music/       # Navidrome, slskd & Jellyfin
 │   └── manga/       # Suwayomi, Komga & Jellyfin
 └── torrents/
     ├── incomplete/  # qBittorrent in-progress downloads
@@ -74,15 +72,12 @@ All media and persistent state files are structured with uniform permissions und
 - **Hardware Acceleration:**
   - Host-specific Intel Haswell Gen 7.5 VA-API (`/dev/dri/renderD128`) enabled on `ksvnixospc` for thumbnail scrubbing and fallback trickplay.
 
-### Dedicated Music Ecosystem: Navidrome + Lidarr + slskd (Soulseek)
+### Dedicated Music Ecosystem: Navidrome + slskd (Soulseek)
 - **slskd (Port 5030 / `slskd.local`):**
   - Modern web client for the Soulseek P2P network, purpose-built for unfindable Anime OSTs, movie scores, video game soundtracks, and individual lossless tracks.
   - Downloads directly into `/data/media/music` with zero post-processing delay; Navidrome and Jellyfin immediately pick up newly completed albums.
   - Shares `/data/media/music` with an ultra-low 50 KiB/s upload throttle to prevent peer auto-bans without consuming home internet bandwidth.
   - Confined to Local Wi-Fi and NetBird via `iptables`; no WAN ports are exposed to external scanners.
-- **Lidarr (Port 8686):**
-  - Manages mainstream music metadata, discographies, and automated tracker downloads into `/data/media/music`.
-  - Default quality profile uses **Lossless (FLAC)** as the cutoff target, falling back to **MP3-320** if lossless is not yet available, and automatically upgrading when a FLAC release appears.
 - **Navidrome (Port 4533 / `navidrome.local`):**
   - Ultra-lightweight Subsonic music server (~30MB–50MB RAM, built in Go).
   - Instant library scanning of `/data/media/music`.
@@ -117,9 +112,8 @@ All media and persistent state files are structured with uniform permissions und
 
 ### Automation & Management
 - **Radarr (Port 7878 / `radarr.local`):** Movies management, metadata scraper, and automated downloader.
-- **Prowlarr (Port 9696):** Synchronizes indexers and download clients across Radarr, Sonarr, Sonarr Anime, and Lidarr in one place.
+- **Prowlarr (Port 9696):** Synchronizes indexers and download clients across Radarr, Sonarr, and Sonarr Anime in one place.
 - **FlareSolverr (Port 8191):** Solves Cloudflare Turnstile/DDoS challenges silently in the background for private and public trackers.
-- **Seerr (Port 5055):** User-friendly media discovery and request front-end. Users request titles, and Seerr sends commands to Radarr or Sonarr.
 - **Recyclarr:** Periodic systemd timer synchronizing TRaSH Guides formats and size profiles directly into Radarr and Sonarr instances.
 
 ---
@@ -143,7 +137,6 @@ flakepartsModules/selfHosting/media/
 │   └── slskd-fp.nix                   # slskd Soulseek P2P web client (Port 5030)
 ├── rr/
 │   ├── flaresolverr-fp.nix            # FlareSolverr Cloudflare bypass proxy
-│   ├── lidarr-fp.nix                  # Lidarr music downloader
 │   ├── prowlarr-fp.nix                # Prowlarr indexer synchronizer
 │   ├── radarr-fp.nix                  # Radarr movie management
 │   ├── recyclarr-fp.nix               # Recyclarr TRaSH sync timer

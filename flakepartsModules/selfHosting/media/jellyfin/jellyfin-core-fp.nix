@@ -52,6 +52,7 @@
             "/data/media/tv"
             "/data/media/anime"
             "/data/media/music"
+            "/data/media/videos"
           ];
         };
       };
