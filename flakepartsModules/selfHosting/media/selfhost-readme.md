@@ -6,24 +6,24 @@ This directory contains the declarative media infrastructure for the homelab, sh
 
 ## 1. Service Directory & Port Map
 
-All services bind to the local network interface and have their corresponding TCP ports opened in `networking.firewall.allowedTCPPorts`.
+All services bind to the local network interface and have their corresponding TCP ports opened in `networking.firewall.allowedTCPPorts`. Services with configured `localAliases` are broadcast across the LAN via Avahi mDNS and reverse-proxied over HTTP (port 80) by Caddy, allowing portless access via `.local` domain names.
 
-| Service | Port | Web UI URL | Default Credentials | Purpose |
-| :--- | :---: | :--- | :--- | :--- |
-| **Jellyfin** | `8096` | `http://<host>:8096` | `admin` / `admin123`<br>`user` / `user123` | Central media streaming server for Movies, TV, Anime, and Music. |
-| **qBittorrent** | `8282` | `http://<host>:8282` | `admin` / `adminadmin` *(prompted to change)* | Torrent client strictly confined inside WireGuard VPN namespace (`wg`). |
-| **FlareSolverr** | `8191` | `http://<host>:8191` | *N/A (API)* | Headless solver proxy to bypass Cloudflare protection on indexers. |
-| **Prowlarr** | `9696` | `http://<host>:9696` | Configured on initial launch | Centralized indexer and tracker manager. Syncs to all `*arr` instances. |
-| **Radarr** | `7878` | `http://<host>:7878` | Configured on initial launch | Movies management, metadata scraper, and automated downloader. |
-| **Sonarr (Standard)** | `8989` | `http://<host>:8989` | Configured on initial launch | Television shows management, season tracking, and downloader. |
-| **Sonarr (Anime)** | `8990` | `http://<host>:8990` | Configured on initial launch | Dedicated Anime instance with TRaSH anime release group scoring. |
-| **Lidarr** | `8686` | `http://<host>:8686` | Configured on initial launch | Music collection manager; searches trackers and upgrades to FLAC. |
-| **slskd (Soulseek)** | `5030` | `http://<host>:5030` | `admin` / `admin123` | Modern Soulseek P2P web client for direct Anime OST, soundtrack & track downloads. |
-| **Navidrome** | `4533` | `http://<host>:4533` | `admin` / `admin123` | High-performance, Subsonic-compatible dedicated music streaming server. |
-| **Seerr** | `5055` | `http://<host>:5055` | Configured via Jellyfin login | 1-click media request portal for family and guests. |
-| **Suwayomi** | `4567` | `http://<host>:4567` | *N/A (Local / NetBird)* | Manga/Manhwa scraper & auto-downloader strictly confined in VPN (`wg`). |
-| **Komga** | `25600` | `http://<host>:25600` | Configured on initial launch | Multi-user Manga, Manhwa, and Comic reading server with OPDS feeds. |
-| **Recyclarr** | *N/A* | Background Timer | *N/A (CLI)* | Automatically synchronizes TRaSH Guides quality profiles and regex rules. |
+| Service | Port | Local Domain (.local) | Web UI URL | Default Credentials | Purpose |
+| :--- | :---: | :---: | :--- | :--- | :--- |
+| **Jellyfin** | `8096` | `jellyfin.local` | `http://jellyfin.local`<br>`http://<host>:8096` | `admin` / `admin123`<br>`user` / `user123` | Central media streaming server for Movies, TV, Anime, and Music. |
+| **qBittorrent** | `8282` | `torrent.local` | `http://torrent.local`<br>`http://<host>:8282` | `admin` / `adminadmin` *(prompted to change)* | Torrent client strictly confined inside WireGuard VPN namespace (`wg`). |
+| **FlareSolverr** | `8191` | — | `http://<host>:8191` | *N/A (API)* | Headless solver proxy to bypass Cloudflare protection on indexers. |
+| **Prowlarr** | `9696` | — | `http://<host>:9696` | Configured on initial launch | Centralized indexer and tracker manager. Syncs to all `*arr` instances. |
+| **Radarr** | `7878` | `radarr.local` | `http://radarr.local`<br>`http://<host>:7878` | Configured on initial launch | Movies management, metadata scraper, and automated downloader. |
+| **Sonarr (Standard)** | `8989` | `sonarr.local` | `http://sonarr.local`<br>`http://<host>:8989` | Configured on initial launch | Television shows management, season tracking, and downloader. |
+| **Sonarr (Anime)** | `8990` | — | `http://<host>:8990` | Configured on initial launch | Dedicated Anime instance with TRaSH anime release group scoring. |
+| **Lidarr** | `8686` | — | `http://<host>:8686` | Configured on initial launch | Music collection manager; searches trackers and upgrades to FLAC. |
+| **slskd (Soulseek)** | `5030` | `slskd.local` | `http://slskd.local`<br>`http://<host>:5030` | `admin` / `admin123` | Modern Soulseek P2P web client for direct Anime OST, soundtrack & track downloads. |
+| **Navidrome** | `4533` | `navidrome.local` | `http://navidrome.local`<br>`http://<host>:4533` | `admin` / `admin123` | High-performance, Subsonic-compatible dedicated music streaming server. |
+| **Seerr** | `5055` | — | `http://<host>:5055` | Configured via Jellyfin login | 1-click media request portal for family and guests. |
+| **Suwayomi** | `4567` | `suwayomi.local` | `http://suwayomi.local`<br>`http://<host>:4567` | *N/A (Local / NetBird)* | Manga/Manhwa scraper & auto-downloader strictly confined in VPN (`wg`). |
+| **Komga** | `25600` | `komga.local` | `http://komga.local`<br>`http://<host>:25600` | Configured on initial launch | Multi-user Manga, Manhwa, and Comic reading server with OPDS feeds. |
+| **Recyclarr** | *N/A* | — | Background Timer | *N/A (CLI)* | Automatically synchronizes TRaSH Guides quality profiles and regex rules. |
 
 ---
 
@@ -62,7 +62,7 @@ All media and persistent state files are structured with uniform permissions und
 
 ## 3. Architecture & Service Breakdown
 
-### Central Streaming: Jellyfin
+### Central Streaming: Jellyfin (`jellyfin.local`)
 - **Libraries Configured:**
   - `Movies` $\rightarrow$ `/data/media/movies`
   - `TV Shows` $\rightarrow$ `/data/media/tv`
@@ -75,7 +75,7 @@ All media and persistent state files are structured with uniform permissions und
   - Host-specific Intel Haswell Gen 7.5 VA-API (`/dev/dri/renderD128`) enabled on `ksvnixospc` for thumbnail scrubbing and fallback trickplay.
 
 ### Dedicated Music Ecosystem: Navidrome + Lidarr + slskd (Soulseek)
-- **slskd (Port 5030):**
+- **slskd (Port 5030 / `slskd.local`):**
   - Modern web client for the Soulseek P2P network, purpose-built for unfindable Anime OSTs, movie scores, video game soundtracks, and individual lossless tracks.
   - Downloads directly into `/data/media/music` with zero post-processing delay; Navidrome and Jellyfin immediately pick up newly completed albums.
   - Shares `/data/media/music` with an ultra-low 50 KiB/s upload throttle to prevent peer auto-bans without consuming home internet bandwidth.
@@ -83,7 +83,7 @@ All media and persistent state files are structured with uniform permissions und
 - **Lidarr (Port 8686):**
   - Manages mainstream music metadata, discographies, and automated tracker downloads into `/data/media/music`.
   - Default quality profile uses **Lossless (FLAC)** as the cutoff target, falling back to **MP3-320** if lossless is not yet available, and automatically upgrading when a FLAC release appears.
-- **Navidrome (Port 4533):**
+- **Navidrome (Port 4533 / `navidrome.local`):**
   - Ultra-lightweight Subsonic music server (~30MB–50MB RAM, built in Go).
   - Instant library scanning of `/data/media/music`.
   - Seamlessly integrates with dedicated mobile music apps:
@@ -92,7 +92,7 @@ All media and persistent state files are structured with uniform permissions und
     - **Desktop:** *Feishin*, *Sonixd*, or web browser.
 
 ### Dedicated Anime vs. Standard TV: Sonarr Dual-Instance
-- **Sonarr Standard (Port 8989):** Focuses exclusively on western/standard television shows using TRaSH SQP-1 (1080p) web/bluray releases.
+- **Sonarr Standard (Port 8989 / `sonarr.local`):** Focuses exclusively on western/standard television shows using TRaSH SQP-1 (1080p) web/bluray releases.
 - **Sonarr Anime (Port 8990):** Dedicated instance for Japanese animation with TRaSH scoring:
   - **Top Priority (`+500`):** Japanese Audio / English Soft-subs (SubsPlease, Erai-raws, Commie, Dame-Desu-Yo).
   - **Fallback Priority (`+100`):** Dual Audio (Japanese + English).
@@ -100,22 +100,23 @@ All media and persistent state files are structured with uniform permissions und
   - **Quality Floor:** Minimum 720p/1080p, rejecting low-bitrate SD rips.
 
 ### Torrent Confinement & VPN Killswitch
-- **qBittorrent (Port 8282):**
+- **qBittorrent (Port 8282 / `torrent.local`):**
   - Bound strictly inside a WireGuard network namespace (`wg`).
   - Automated `wgcf` key generation bootstrap guarantees zero setup overhead.
   - **Fail-safe Kill Switch:** If the VPN connection drops, torrent network traffic stops instantly. No torrent traffic can leak over the host's cleartext LAN/WAN interfaces.
-  - Local Web UI is forwarded through firewall translation so you can access `http://<host>:8282` from your home network without VPN friction.
+  - Local Web UI is forwarded through firewall translation and reverse-proxied so you can access `http://torrent.local` or `http://<host>:8282` from your home network without VPN friction.
 
 ### Dedicated Manga & Manhwa Ecosystem: Suwayomi + Komga
-- **Suwayomi-Server (Port 4567):**
+- **Suwayomi-Server (Port 4567 / `suwayomi.local`):**
   - Confined strictly inside the WireGuard (`wg`) network namespace via Cloudflare WARP with a fail-safe kill switch. Zero outbound scraper traffic or DNS lookups leak outside the tunnel.
   - Pre-configured with the official community Keiyoushi extension index (`https://raw.githubusercontent.com/keiyoushi/extensions/repo/index.min.json`) for 1-click source installation (MangaDex, Asura Scans, MangaLife, Webtoons, etc.).
   - Automatically compiles downloaded chapters into clean `.cbz` archives and embeds standard `ComicInfo.xml` metadata directly into `/data/media/manga`.
-- **Komga (Port 25600):**
+- **Komga (Port 25600 / `komga.local`):**
   - Purpose-built manga and comic media server with native multi-user support, independent reading progress, and continuous vertical scrolling for manhwa.
   - Native integration with **Mihon** (Android) via the Komga extension, **Tachimanga** / **Paperback** (iOS) via OPDS feeds, and desktop web browsers.
 
 ### Automation & Management
+- **Radarr (Port 7878 / `radarr.local`):** Movies management, metadata scraper, and automated downloader.
 - **Prowlarr (Port 9696):** Synchronizes indexers and download clients across Radarr, Sonarr, Sonarr Anime, and Lidarr in one place.
 - **FlareSolverr (Port 8191):** Solves Cloudflare Turnstile/DDoS challenges silently in the background for private and public trackers.
 - **Seerr (Port 5055):** User-friendly media discovery and request front-end. Users request titles, and Seerr sends commands to Radarr or Sonarr.
