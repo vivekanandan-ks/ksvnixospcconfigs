@@ -2,9 +2,10 @@
   flake.nixosModules.selfHosting = {
     lib,
     pkgs,
+    username,
     ...
   }: {
-    # 1. Automatically ensure all media and torrent directories exist on boot with proper root:media permissions
+    # 1. Automatically ensure all media and torrent directories exist on boot with proper user:media permissions
     systemd.tmpfiles.rules = let
       mediaDirs = [
         "/data/media"
@@ -18,8 +19,11 @@
         "/data/torrents/complete"
       ];
     in
-      [ "z /data 0775 root media -" ]
-      ++ map (dir: "d ${dir} 0775 root media -") mediaDirs;
+      [
+        "Z /data 0775 ${username} media -"
+        "a+ /data - - - - d:u::rwx,d:g::rwx,d:m::rwx,d:u:${username}:rwx,d:g:media:rwx"
+      ]
+      ++ map (dir: "d ${dir} 0775 ${username} media -") mediaDirs;
 
     # 2. Harden nixflix-setup-dirs so transient warnings or path checks don't block boot
     systemd.services.nixflix-setup-dirs = {

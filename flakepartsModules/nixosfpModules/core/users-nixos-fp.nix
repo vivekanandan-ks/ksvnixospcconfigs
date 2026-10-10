@@ -17,6 +17,7 @@
         "networkmanager"
         "wheel"
         "systemd-journal"
+        "media"
       ];
       hashedPassword = "$6$DmrUUL7YWFMar6aA$sAoRlSbFH/GYETfXGTGa6GSTEsBEP1lQ6oRdXlQUsqhRB7OTI2vTmVlx64B2ihcez8B0q0l8/Vx1pO8c82bxm0";
       shell = self.personas.ksv.personalShell pkgs-unstable;
