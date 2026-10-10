@@ -22,16 +22,19 @@
 
     # Give Lidarr ample time to initialize SQLite DB without systemd killing it at boot
     systemd.services.lidarr.serviceConfig = {
-      TimeoutStartSec = 120;
-      Nice = 10;
-      IOSchedulingClass = "best-effort";
-      IOSchedulingPriority = 7;
+      TimeoutStartSec = 300;
     };
     systemd.services.lidarr-config.serviceConfig = {
-      TimeoutStartSec = 120;
-      Nice = 10;
-      IOSchedulingClass = "best-effort";
-      IOSchedulingPriority = 7;
+      TimeoutStartSec = 300;
+    };
+
+    systemd.services.lidarr-downloadclients = {
+      requires = lib.mkForce [ "lidarr.service" "qbittorrent.service" ];
+      wants = [ "lidarr-config.service" ];
+      serviceConfig = {
+        Restart = "on-failure";
+        RestartSec = "10s";
+      };
     };
 
     networking.firewall.allowedTCPPorts = [ 8686 ];

@@ -21,16 +21,19 @@
 
       # Give Sonarr ample time to initialize SQLite DB without systemd killing it at boot
       systemd.services.sonarr.serviceConfig = {
-        TimeoutStartSec = 120;
-        Nice = 10;
-        IOSchedulingClass = "best-effort";
-        IOSchedulingPriority = 7;
+        TimeoutStartSec = 300;
       };
       systemd.services.sonarr-config.serviceConfig = {
-        TimeoutStartSec = 120;
-        Nice = 10;
-        IOSchedulingClass = "best-effort";
-        IOSchedulingPriority = 7;
+        TimeoutStartSec = 300;
+      };
+
+      systemd.services.sonarr-downloadclients = {
+        requires = lib.mkForce [ "sonarr.service" "qbittorrent.service" ];
+        wants = [ "sonarr-config.service" ];
+        serviceConfig = {
+          Restart = "on-failure";
+          RestartSec = "10s";
+        };
       };
 
       # Allow local home Wi-Fi to reach Sonarr dashboard

@@ -84,17 +84,20 @@
       after = [ "flaresolverr.service" ];
       wants = [ "flaresolverr.service" ];
       serviceConfig = {
-        TimeoutStartSec = 120;
-        Nice = 10;
-        IOSchedulingClass = "best-effort";
-        IOSchedulingPriority = 7;
+        TimeoutStartSec = 300;
       };
     };
     systemd.services.prowlarr-config.serviceConfig = {
-      TimeoutStartSec = 120;
-      Nice = 10;
-      IOSchedulingClass = "best-effort";
-      IOSchedulingPriority = 7;
+      TimeoutStartSec = 300;
+    };
+
+    systemd.services.prowlarr-downloadclients = {
+      requires = lib.mkForce [ "prowlarr.service" "qbittorrent.service" ];
+      wants = [ "prowlarr-config.service" ];
+      serviceConfig = {
+        Restart = "on-failure";
+        RestartSec = "10s";
+      };
     };
 
     # Ensure indexer creation waits for network connectivity and proxy registration (FlareSolverr)

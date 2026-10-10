@@ -27,18 +27,21 @@
           fi
         '';
         serviceConfig = {
-          TimeoutStartSec = 120;
-          Nice = 10;
-          IOSchedulingClass = "best-effort";
-          IOSchedulingPriority = 7;
+          TimeoutStartSec = 300;
         };
       };
 
       systemd.services.radarr-config.serviceConfig = {
-        TimeoutStartSec = 120;
-        Nice = 10;
-        IOSchedulingClass = "best-effort";
-        IOSchedulingPriority = 7;
+        TimeoutStartSec = 300;
+      };
+
+      systemd.services.radarr-downloadclients = {
+        requires = lib.mkForce [ "radarr.service" "qbittorrent.service" ];
+        wants = [ "radarr-config.service" ];
+        serviceConfig = {
+          Restart = "on-failure";
+          RestartSec = "10s";
+        };
       };
 
       systemd.services.radarr-notifications.serviceConfig = {

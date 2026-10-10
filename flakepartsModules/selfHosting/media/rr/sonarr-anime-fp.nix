@@ -16,16 +16,19 @@
 
     # Give Sonarr Anime ample time to initialize SQLite DB without systemd killing it at boot
     systemd.services.sonarr-anime.serviceConfig = {
-      TimeoutStartSec = 120;
-      Nice = 10;
-      IOSchedulingClass = "best-effort";
-      IOSchedulingPriority = 7;
+      TimeoutStartSec = 300;
     };
     systemd.services.sonarr-anime-config.serviceConfig = {
-      TimeoutStartSec = 120;
-      Nice = 10;
-      IOSchedulingClass = "best-effort";
-      IOSchedulingPriority = 7;
+      TimeoutStartSec = 300;
+    };
+
+    systemd.services.sonarr-anime-downloadclients = {
+      requires = lib.mkForce [ "sonarr-anime.service" "qbittorrent.service" ];
+      wants = [ "sonarr-anime-config.service" ];
+      serviceConfig = {
+        Restart = "on-failure";
+        RestartSec = "10s";
+      };
     };
 
     # 2. Allow local home Wi-Fi & NetBird to access Sonarr Anime dashboard
