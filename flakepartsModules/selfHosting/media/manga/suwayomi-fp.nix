@@ -136,12 +136,13 @@
         serviceConfig = {
           Type = "oneshot";
           RemainAfterExit = true;
+          TimeoutStartSec = "360s";
           ExecStart = pkgs.writeShellScript "suwayomi-preload-extensions" ''
             set -euo pipefail
 
             echo "Waiting for Suwayomi-Server API on localhost:${toString port}..."
             SERVER_ONLINE=0
-            for i in $(seq 1 60); do
+            for i in $(seq 1 300); do
               if ${pkgs.curl}/bin/curl -s -f http://127.0.0.1:${toString port}/api/v1/meta >/dev/null 2>&1; then
                 echo "Suwayomi-Server is online."
                 SERVER_ONLINE=1
@@ -151,7 +152,7 @@
             done
 
             if [ "$SERVER_ONLINE" -eq 0 ]; then
-              echo "Suwayomi-Server API did not become ready within 60s. Skipping extension provisioning."
+              echo "Suwayomi-Server API did not become ready within 300s. Skipping extension provisioning."
               exit 1
             fi
 
