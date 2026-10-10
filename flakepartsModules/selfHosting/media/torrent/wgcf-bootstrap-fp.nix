@@ -1,5 +1,5 @@
-{ ... }: {
-  flake.nixosModules.selfHosting = { pkgs, ... }: {
+{ lib, ... }: {
+  flake.nixosModules.selfHosting = { pkgs, config, ... }: lib.mkIf (config.nixflix.vpn.enable or false) {
     systemd.services.wgcf-bootstrap = {
       description = "Automated Declarative Cloudflare WARP WireGuard Generator";
       wantedBy = [ "multi-user.target" ];
