@@ -1,0 +1,10 @@
+identifier: ksvnixospcconfigs
+maintainers:
+  - npub1a7lmem86sz35musrjfwt4j8mkg3rlrnvw7rhcm25deww8n5r8y3qh62zpr
+
+relays:
+  - ws://127.0.0.1:7777
+  - wss://relay.ngit.dev
+  - wss://gitnostr.com
+  - wss://relay.damus.io
+  - wss://nos.lol

@@ -206,7 +206,7 @@ flake.hostModules = lib.optionalAttrs (inputs ? fips) {
       path = "/var/lib/fips/fips.key";
       owner = "root";
       group = "fips";
-      mode = "0600";
+      mode = "0640";
     };
   };
 
@@ -215,7 +215,7 @@ flake.hostModules = lib.optionalAttrs (inputs ? fips) {
       path = "/var/lib/fips/fips.key";
       owner = "root";
       group = "fips";
-      mode = "0600";
+      mode = "0640";
     };
   };
 
@@ -224,7 +224,7 @@ flake.hostModules = lib.optionalAttrs (inputs ? fips) {
       path = "/var/lib/fips/fips.key";
       owner = "root";
       group = "fips";
-      mode = "0600";
+      mode = "0640";
     };
   };
 };

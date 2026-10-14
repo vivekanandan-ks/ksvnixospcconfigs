@@ -190,6 +190,10 @@
     multiverse = {
       url = "github:fzakaria/nixpkgs-multiverse";
     };
+    ngit = {
+      url = "git+https://ngit.dev/ngit.git?ref=stable";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nix-on-droid = {
       url = "github:nix-community/nix-on-droid";
       inputs = {

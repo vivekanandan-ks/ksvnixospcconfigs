@@ -1,4 +1,4 @@
-_: {
+{self, ...}: {
   # Common baseline Nostr configuration imported across all hosts via `common-hosts-fp.nix`
   flake.nixosModules.nostr = {
     lib,
@@ -6,12 +6,12 @@ _: {
     pkgs-stable,
     ...
   }: let
-    # When set, it activates the automated catch-up sync timer across all hosts.
-    # Hex equivalent: efbfbcecfa80a34df203925cbac8fbb2223f8e6c77877c6d546e5ce3ce833922
-    myPubkey = "npub1a7lmem86sz35musrjfwt4j8mkg3rlrnvw7rhcm25deww8n5r8y3qh62zpr";
-
-    # Verified public strfry relays with active NIP-77 Negentropy support
+    # Verified public relays with active NIP-77 Negentropy support
     negentropyRelays = [
+      "wss://relay.ngit.dev"
+      "wss://gitnostr.com"
+      "wss://relay.damus.io"
+      "wss://nos.lol"
       "wss://nostr.oxtr.dev"
       "wss://rele.speyhard.fi"
       "wss://mostro-p2p.tech"
@@ -64,7 +64,7 @@ _: {
     ];
 
     # 4. Automated Catch-Up Service & Timer
-    systemd.services.strfry-catchup = lib.mkIf (myPubkey != "") {
+    systemd.services.strfry-catchup = lib.mkIf (self.personas.ksv.nostr.npub != "") {
       description = "Catch-up sync personal notes from public relays";
       after = ["network-online.target" "strfry.service"];
       wants = ["network-online.target"];
@@ -87,7 +87,7 @@ _: {
             ${pkgs.coreutils}/bin/timeout 15s ${pkgs.nak}/bin/nak sync \
               "$relay" \
               ws://127.0.0.1:7777 \
-              --author "${myPubkey}" || true
+              --author "${self.personas.ksv.nostr.npub}" || true
           done
 
           # Phase 2: Propagate (Push to all relays)
@@ -95,13 +95,13 @@ _: {
             ${pkgs.coreutils}/bin/timeout 15s ${pkgs.nak}/bin/nak sync \
               ws://127.0.0.1:7777 \
               "$relay" \
-              --author "${myPubkey}" || true
+              --author "${self.personas.ksv.nostr.npub}" || true
           done
         '';
       };
     };
 
-    systemd.timers.strfry-catchup = lib.mkIf (myPubkey != "") {
+    systemd.timers.strfry-catchup = lib.mkIf (self.personas.ksv.nostr.npub != "") {
       description = "Timer for Nostr catch-up sync";
       wantedBy = ["timers.target"];
       timerConfig = {
