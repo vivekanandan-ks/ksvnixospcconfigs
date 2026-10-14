@@ -15,34 +15,48 @@
   };
 
   # ---------------------------------------------------------------------------
-  # 2. Home Manager Configuration (Imported across all hosts via common)
+  # 2. NixOS Configuration (Automatically imported across all hosts via common-hosts-fp)
+  # ---------------------------------------------------------------------------
+  flake.nixosModules.nostr-vcs = {
+    config,
+    username,
+    ...
+  }: {
+    sops.secrets.nostr_bunker_uri = {
+      owner = username;
+      group = "users";
+      mode = "0400";
+    };
+
+    sops.templates."git-secrets.inc" = {
+      content = ''
+        [nostr]
+        	bunker-app-key = ${config.sops.placeholder."fips_key_${config.networking.hostName}"}
+        	bunker-uri = ${config.sops.placeholder.nostr_bunker_uri}
+      '';
+      owner = username;
+      group = "users";
+      mode = "0400";
+    };
+  };
+
+  # ---------------------------------------------------------------------------
+  # 3. Home Manager Configuration (Imported across all hosts via common)
   # ---------------------------------------------------------------------------
   flake.homeModules = lib.optionalAttrs (inputs ? ngit) {
     common.nostr-vcs = {
-      lib,
       pkgs,
       ...
-    }: let
-      # Amber's native out-of-the-box active signer relays
-      bunkerRelays = [
-        "wss://relay.nip46.com"
-        "wss://nrs.primal.net"
-        "wss://bucket.coracle.social"
-        "wss://auth.nostr1.com"
-      ];
-
-      # Dynamically format into "relay=wss://...&relay=wss://..."
-      bunkerQuery = lib.concatStringsSep "&" (map (r: "relay=${r}") bunkerRelays);
-    in {
+    }: {
       # A. Install ngit and git-remote-nostr helper
       home.packages = [
         inputs.ngit.packages.${pkgs.stdenv.hostPlatform.system}.default
       ];
 
-      # B. Declarative Git Configuration
+      # B. Declarative Git Configuration (Directly includes in-memory SOPS rendered secret)
       programs.git = {
         includes = [
-          { path = "~/.config/git/secrets.inc"; }
+          { path = "/run/secrets/rendered/git-secrets.inc"; }
         ];
 
         settings = {
@@ -55,44 +69,30 @@
 
             # Master Identity (Amber on mobile, dynamically sourced from personas)
             npub = self.personas.ksv.nostr.npub;
-
-            # Amber Remote Bunker URI (NIP-46 requires 64-character hex public key)
-            bunker-uri = "bunker://${self.personas.ksv.nostr.pubkeyHex}?${bunkerQuery}";
           };
         };
       };
 
-      # C. Automated activation hook to populate the host's FIPS caller ID (bunker-app-key)
-      home.activation.fipsBunkerKey = lib.hm.dag.entryAfter ["writeBoundary"] ''
-        if [ -r /var/lib/fips/fips.key ]; then
-          $DRY_RUN_CMD ${pkgs.coreutils}/bin/mkdir -p $HOME/.config/git
-          $DRY_RUN_CMD ${pkgs.coreutils}/bin/install -m 0600 /dev/null $HOME/.config/git/secrets.inc
-          if [ -z "$DRY_RUN_CMD" ]; then
-            ${pkgs.coreutils}/bin/cat <<EOF > $HOME/.config/git/secrets.inc
-[nostr]
-	bunker-app-key = $(${pkgs.coreutils}/bin/cat /var/lib/fips/fips.key)
-EOF
-          fi
-        fi
-      '';
-
       # C. Declarative Jujutsu Settings & Aliases
       programs.jujutsu.settings = {
         git = {
-          # Automatically fetch from both GitHub and Nostr in parallel
-          fetch = ["origin" "nostr"];
+          # Automatically fetch from both Nostr (origin) and GitHub in parallel
+          fetch = ["origin" "github"];
+
+          # Automatically push to both Nostr (origin) and GitHub in parallel on bare `jj git push`
+          push = ["origin" "github"];
         };
 
         aliases = {
-          # 1. Primary Dual-Push: Pushes to both GitHub & Nostr (signs via Amber)
-          push-all = ["git" "push" "--remote" "origin" "--remote" "nostr"];
+          # 1. Primary Dual-Push: Pushes to both Nostr & GitHub
+          push-all = ["git" "push" "--remote" "origin" "--remote" "github"];
 
           # 2. Targeted Pushes:
-          # Push to GitHub only (when phone is offline or battery is dead)
-          push-gh = ["git" "push" "--remote" "origin"];
+          # Push to Nostr only (primary decentralized forge)
+          push-nostr = ["git" "push" "--remote" "origin"];
 
-          # Push to Nostr only (catches up Nostr once phone is back online)
-          push-nostr = ["git" "push" "--remote" "nostr"];
+          # Push to GitHub only (mirror / fallback when phone is offline)
+          push-gh = ["git" "push" "--remote" "github"];
 
           # 3. Dual-Fetch
           fetch-all = ["git" "fetch" "--all-remotes"];
