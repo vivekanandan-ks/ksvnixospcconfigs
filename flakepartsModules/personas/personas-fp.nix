@@ -16,6 +16,16 @@
     nostr = {
       npub = "npub1a7lmem86sz35musrjfwt4j8mkg3rlrnvw7rhcm25deww8n5r8y3qh62zpr";
       pubkeyHex = "efbfbcecfa80a34df203925cbac8fbb2223f8e6c77877c6d546e5ce3ce833922";
+
+      nip05 = {
+        primary = "vivekanandanks@uid.ovh";
+        alternatives = [
+          "nixjoyer@uid.ovh"
+          "ksvivekanandan@uid.ovh"
+          "ksvivek@uid.ovh"
+          "nixjoyerksv@uid.ovh"
+        ];
+      };
     };
 
     # --- Shell ---
