@@ -32,6 +32,10 @@
         after = [ "network-online.target" ];
         wants = [ "network-online.target" ];
 
+        # Prevent nixos-rebuild/ksvnh from blocking if lyrics are actively downloading
+        stopIfChanged = false;
+        restartIfChanged = false;
+
         serviceConfig = {
           Type = "oneshot";
           User = "slskd";
