@@ -3,15 +3,38 @@
     let
       musicDir = "/data/media/music";
 
+      pythonWithMutagen = pkgs.python3.withPackages (ps: [ ps.mutagen ]);
+
       syncScript = pkgs.writeShellScriptBin "sync-lyrics" ''
         ${pkgs.findutils}/bin/find "${musicDir}" -type f \( -name "*.mp3" -o -name "*.flac" -o -name "*.m4a" -o -name "*.ogg" -o -name "*.opus" \) | while read -r f; do
           lrc="''${f%.*}.lrc"
           if [ ! -f "$lrc" ]; then
-            # Clean filename by stripping bracketed video IDs like [PB4VaN_qV3Q]
-            query=$(basename "''${f%.*}" | ${pkgs.gnused}/bin/sed -E 's/ \[[^]]+\]//g; s/\[[^]]+\]//g')
+            # 1. Try reading Artist and Title directly from embedded metadata tags
+            tag_query=$(${pythonWithMutagen}/bin/python3 -c '
+import sys, mutagen
+try:
+    audio = mutagen.File(sys.argv[1], easy=True)
+    if audio:
+        artist = audio.get("artist", [""])[0].split(",")[0].strip()
+        title = audio.get("title", [""])[0].strip()
+        if artist and title:
+            print(f"{artist} - {title}")
+        elif title:
+            print(title)
+except:
+    pass
+' "$f" 2>/dev/null || true)
+
+            # 2. Fall back to cleaned filename if tags are missing
+            if [ -n "$tag_query" ]; then
+              query="$tag_query"
+            else
+              query=$(basename "''${f%.*}" | ${pkgs.gnused}/bin/sed -E 's/ \[[^]]+\]//g; s/\[[^]]+\]//g')
+            fi
+
             echo "Downloading lyrics for: $query ($(basename "$f"))"
-            ${pkgs.python3Packages.syncedlyrics}/bin/syncedlyrics "$query" -p lrclib musixmatch -o "$lrc" || true
-            sleep 1
+            ${pkgs.python3Packages.syncedlyrics}/bin/syncedlyrics "$query" -o "$lrc" || true
+            sleep 2
           fi
         done
       '';
