@@ -4,11 +4,14 @@
       musicDir = "/data/media/music";
 
       syncScript = pkgs.writeShellScriptBin "sync-lyrics" ''
-        ${pkgs.findutils}/bin/find "${musicDir}" -type f \( -name "*.mp3" -o -name "*.flac" -o -name "*.m4a" -o -name "*.ogg" \) | while read -r f; do
+        ${pkgs.findutils}/bin/find "${musicDir}" -type f \( -name "*.mp3" -o -name "*.flac" -o -name "*.m4a" -o -name "*.ogg" -o -name "*.opus" \) | while read -r f; do
           lrc="''${f%.*}.lrc"
           if [ ! -f "$lrc" ]; then
-            echo "Downloading lyrics for: $(basename "$f")"
-            ${pkgs.python3Packages.syncedlyrics}/bin/syncedlyrics "$(basename "''${f%.*}")" -p lrclib musixmatch -o "$lrc" || true
+            # Clean filename by stripping bracketed video IDs like [PB4VaN_qV3Q]
+            query=$(basename "''${f%.*}" | ${pkgs.gnused}/bin/sed -E 's/ \[[^]]+\]//g; s/\[[^]]+\]//g')
+            echo "Downloading lyrics for: $query ($(basename "$f"))"
+            ${pkgs.python3Packages.syncedlyrics}/bin/syncedlyrics "$query" -p lrclib musixmatch -o "$lrc" || true
+            sleep 1
           fi
         done
       '';
@@ -33,9 +36,13 @@
           Type = "oneshot";
           User = "slskd";
           Group = "media";
+          Environment = [
+            "HOME=/tmp"
+            "XDG_CACHE_HOME=/tmp"
+          ];
           ExecStart = "${syncScript}/bin/sync-lyrics";
           ProtectSystem = "full";
-          ReadWritePaths = [ musicDir ];
+          ReadWritePaths = [ musicDir "/tmp" ];
         };
       };
     }
