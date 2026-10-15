@@ -1,73 +1,71 @@
-{ inputs, lib, ... }: {
-  flake.nixosModules.selfHosting = { pkgs, ... }: lib.mkIf (inputs ? nixflix) (
-    let
-      musicDir = "/data/media/music";
+{
+  self,
+  inputs,
+  lib,
+  ...
+}: {
+  # 1. Declarative Package exposed across all flake systems
+  perSystem = {pkgs, ...}: {
+    packages.lrcget-cli = pkgs.rustPlatform.buildRustPackage {
+      pname = "lrcget-cli";
+      version = "1.0.0-beta";
 
-      pythonWithMutagen = pkgs.python3.withPackages (ps: [ ps.mutagen ]);
-
-      syncScript = pkgs.writeShellScriptBin "sync-lyrics" ''
-        ${pkgs.findutils}/bin/find "${musicDir}" -type f \( -name "*.mp3" -o -name "*.flac" -o -name "*.m4a" -o -name "*.ogg" -o -name "*.opus" \) | while read -r f; do
-          lrc="''${f%.*}.lrc"
-          if [ ! -f "$lrc" ]; then
-            # 1. Try reading Artist and Title directly from embedded metadata tags
-            tag_query=$(${pythonWithMutagen}/bin/python3 -c '
-import sys, mutagen
-try:
-    audio = mutagen.File(sys.argv[1], easy=True)
-    if audio:
-        artist = audio.get("artist", [""])[0].split(",")[0].strip()
-        title = audio.get("title", [""])[0].strip()
-        if artist and title:
-            print(f"{artist} - {title}")
-        elif title:
-            print(title)
-except:
-    pass
-' "$f" 2>/dev/null || true)
-
-            # 2. Fall back to cleaned filename if tags are missing
-            if [ -n "$tag_query" ]; then
-              query="$tag_query"
-            else
-              query=$(basename "''${f%.*}" | ${pkgs.gnused}/bin/sed -E 's/ \[[^]]+\]//g; s/\[[^]]+\]//g')
-            fi
-
-            echo "Downloading lyrics for: $query ($(basename "$f"))"
-            ${pkgs.python3Packages.syncedlyrics}/bin/syncedlyrics "$query" -o "$lrc" || true
-            sleep 2
-          fi
-        done
-      '';
-    in
-    {
-      # 1. Kernel-level filesystem watch (0 RAM while idle)
-      systemd.paths.lyrics-sync = {
-        description = "Watch /data/media/music for downloads";
-        wantedBy = [ "multi-user.target" ];
-        pathConfig = {
-          PathChanged = [ musicDir ];
-        };
+      src = pkgs.fetchFromGitHub {
+        owner = "diego-ninja";
+        repo = "lrcget-cli";
+        rev = "v1.0.0-beta";
+        hash = "sha256-UDu1FlBKKOT4sK9pKcviwc88ArMpdvBC10hpDz4NIqA=";
       };
 
-      # 2. Oneshot sync job triggered automatically when slskd finishes writing files
-      systemd.services.lyrics-sync = {
-        description = "Fetch Missing Lyrics";
-        after = [ "network-online.target" ];
-        wants = [ "network-online.target" ];
+      cargoHash = "sha256-TCzjPEnTeB01yGcc1c+y1+BXcVkJfPyJLIkJnV6FVnY=";
 
-        serviceConfig = {
-          Type = "oneshot";
-          User = "slskd";
-          Group = "media";
-          Environment = [
-            "HOME=/tmp"
-            "XDG_CACHE_HOME=/tmp"
+      # Disable broken upstream unit tests from the beta release
+      doCheck = false;
+    };
+  };
+
+  # 2. Self-Hosting NixOS Service consuming the flake package
+  flake.nixosModules.selfHosting = {pkgs, ...}:
+    lib.mkIf (inputs ? nixflix) (
+      let
+        musicDir = "/data/media/music";
+        lrcgetPkg = self.packages.${pkgs.stdenv.hostPlatform.system}.lrcget-cli;
+      in {
+        systemd.services.lrcget = {
+          description = "LRCGET CLI Lyrics Watcher Daemon";
+          after = [
+            "network-online.target"
+            "slskd.service"
           ];
-          ExecStart = "${syncScript}/bin/sync-lyrics";
-          ProtectSystem = "full";
-          ReadWritePaths = [ musicDir "/tmp" ];
+          wants = ["network-online.target"];
+          wantedBy = ["multi-user.target"];
+
+          serviceConfig = {
+            Type = "simple";
+            User = "slskd";
+            Group = "media";
+
+            # Persistent SQLite database in /var/lib/lrcget (avoids repeat scans)
+            StateDirectory = "lrcget";
+            Environment = [
+              "HOME=/var/lib/lrcget"
+              "XDG_DATA_HOME=/var/lib/lrcget/data"
+              "XDG_CACHE_HOME=/var/lib/lrcget/cache"
+              "XDG_CONFIG_HOME=/var/lib/lrcget/config"
+            ];
+
+            ExecStart = "${lrcgetPkg}/bin/lrcget watch ${musicDir} --initial-scan --fuzzy-search";
+
+            Restart = "on-failure";
+            RestartSec = "10s";
+
+            ProtectSystem = "full";
+            ReadWritePaths = [
+              musicDir
+              "/var/lib/lrcget"
+            ];
+          };
         };
-      };
-    }
-  );
+      }
+    );
 }
