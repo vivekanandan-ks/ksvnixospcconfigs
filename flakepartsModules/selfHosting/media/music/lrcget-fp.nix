@@ -19,6 +19,13 @@
 
       cargoHash = "sha256-TCzjPEnTeB01yGcc1c+y1+BXcVkJfPyJLIkJnV6FVnY=";
 
+      # Fix upstream bug: truncate_path_for_log sliced raw bytes, panicking on multi-byte UTF-8
+      postPatch = ''
+        substituteInPlace src/cli/operations/watch.rs \
+          --replace-fail 'format!("...{}", &path_str[path_str.len() - 57..])' \
+                         'format!("...{}", path_str.chars().skip(path_str.chars().count().saturating_sub(57)).collect::<String>())'
+      '';
+
       # Disable broken upstream unit tests from the beta release
       doCheck = false;
     };
