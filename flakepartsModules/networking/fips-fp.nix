@@ -120,10 +120,10 @@
 
         # 3. Bluetooth BLE transport (offline in-room mesh, defaults to hci0)
         ble = {
-          advertise = true; # Broadcasts FIPS BLE service UUID into the room
-          scan = true; # Scans 2.4 GHz airwaves for nearby peers
-          auto_connect = true;
-          accept_connections = true;
+          advertise = false; # Disabled to prevent background radio scanning conflicts
+          scan = false;
+          auto_connect = false;
+          accept_connections = false;
         };
       };
 
