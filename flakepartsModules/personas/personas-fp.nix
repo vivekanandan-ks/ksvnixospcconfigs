@@ -26,6 +26,11 @@
           "nixjoyerksv@uid.ovh"
         ];
       };
+
+      relay = {
+        pubkeyHex = "f98f3bd52b385d122176ddb6424642eadee4c26b19f1de7970da7cc27713ce03";
+        npub = "npub1lx8nh4ft8pw3ygtkmkmyy3jzat0wfsntr8cau7tsmf7vyacnecps06shyk";
+      };
     };
 
     # --- Shell ---
@@ -50,6 +55,17 @@
         terminal = 11;
         desktop = 9;
         # popups = 18;
+      };
+    };
+
+    # --- Mesh Network Topologies ---
+    network = {
+      netbird = {
+        hosts = {
+          ksvnixospc = "100.75.134.39";
+          deejunixospc = "100.75.157.43";
+          akashnixospc = "100.75.5.254";
+        };
       };
     };
   };
