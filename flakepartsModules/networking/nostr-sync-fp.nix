@@ -7,13 +7,14 @@
   fallbackRelays = [
     "wss://relay.ngit.dev"
     "wss://gitnostr.com"
-    "wss://relay.damus.io"
+    "wss://relay.nostrfy.org"
     "wss://nos.lol"
     "wss://nostr.oxtr.dev"
     "wss://offchain.pub"
     "wss://nostr.bitcoiner.social"
     "wss://purplepag.es"
     "wss://relay.primal.net"
+    "wss://relay.damus.io"
   ];
 in {
   flake.nixosModules.nostr-sync = {

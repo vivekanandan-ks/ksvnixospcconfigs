@@ -68,16 +68,18 @@
             advertise = true;
             policy = "open"; # Ambient public discovery like standard Yggdrasil
             advert_relays = [
-              "wss://relay.damus.io"
+              "wss://relay.nostrfy.org"
+              "wss://relay.primal.net"
               "wss://nos.lol"
               "wss://offchain.pub"
-              "wss://relay.primal.net"
+              "wss://relay.damus.io"
             ];
             dm_relays = [
-              "wss://relay.damus.io"
+              "wss://relay.nostrfy.org"
+              "wss://relay.primal.net"
               "wss://nos.lol"
               "wss://offchain.pub"
-              "wss://relay.primal.net"
+              "wss://relay.damus.io"
             ];
           };
           # Local mDNS discovery for sub-second pairing on local Wi-Fi / LAN

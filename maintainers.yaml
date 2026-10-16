@@ -4,5 +4,6 @@ maintainers:
 relays:
 - wss://relay.ngit.dev
 - wss://gitnostr.com
-- wss://relay.damus.io
+- wss://relay.nostrfy.org
 - wss://nos.lol
+- wss://relay.damus.io
