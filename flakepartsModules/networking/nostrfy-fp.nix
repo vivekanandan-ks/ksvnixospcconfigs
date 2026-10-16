@@ -3,27 +3,7 @@
   inputs,
   lib,
   ...
-}: let
-  # Verified public relays with active NIP-77 Negentropy support
-  negentropyRelays = [
-    "wss://relay.ngit.dev"
-    "wss://gitnostr.com"
-    "wss://relay.damus.io"
-    "wss://nos.lol"
-    "wss://nostr.oxtr.dev"
-    "wss://rele.speyhard.fi"
-    "wss://mostro-p2p.tech"
-    "wss://nostr.data.haus"
-    "wss://relay.shadowbip.com"
-    "wss://relay.nostrdvm.com"
-    "wss://relay.contextvm.org"
-    "wss://relay2.contextvm.org"
-    "wss://nostr.bitcoiner.social"
-    "wss://offchain.pub"
-    "wss://nostr21.com"
-    "wss://relay.mostr.pub"
-  ];
-in {
+}: {
   # ---------------------------------------------------------------------------
   # 1. Package nostrfy under perSystem (Available across all flake systems)
   # ---------------------------------------------------------------------------
@@ -52,7 +32,7 @@ in {
   };
 
   # ---------------------------------------------------------------------------
-  # 2. NixOS Module with SOPS-Managed Secret & 4-Hour Negentropy Catchup
+  # 2. NixOS Module: Relay Daemon, Blossom Media Server & Firewall
   # ---------------------------------------------------------------------------
   flake.nixosModules.nostr = {
     config,
@@ -150,57 +130,9 @@ in {
     # CLI tools
     environment.systemPackages = with pkgs; [
       nostrfyPkg
-      # gossip # Native Rust desktop client (NIP-65) - commented out
       nak
+      jq
+      netcat-openbsd
     ];
-
-    # Automated Catch-Up Service using NIP-77 Negentropy
-    systemd.services.nostrfy-catchup = lib.mkIf (self.personas.ksv.nostr.npub != "") {
-      description = "Catch-up sync personal notes from public relays via NIP-77";
-      after = ["network-online.target" "nostrfy.service"];
-      wants = ["network-online.target"];
-
-      serviceConfig = {
-        Type = "oneshot";
-        User = "nostrfy";
-        WorkingDirectory = "/var/lib/nostrfy";
-        Environment = [
-          "HOME=/var/lib/nostrfy"
-          "XDG_CONFIG_HOME=/var/lib/nostrfy/.config"
-          "XDG_DATA_HOME=/var/lib/nostrfy/.local/share"
-        ];
-        ExecStart = pkgs.writeShellScript "nostrfy-catchup-sync" ''
-          # Phase 1: Aggregate (Pull from all relays)
-          for relay in ${lib.escapeShellArgs negentropyRelays}; do
-            ${pkgs.coreutils}/bin/timeout 15s ${pkgs.nak}/bin/nak sync \
-              "$relay" \
-              ws://127.0.0.1:7777 \
-              --author "${self.personas.ksv.nostr.npub}" || true
-            sleep 1
-          done
-
-          # Phase 2: Propagate (Push to all relays)
-          for relay in ${lib.escapeShellArgs negentropyRelays}; do
-            ${pkgs.coreutils}/bin/timeout 15s ${pkgs.nak}/bin/nak sync \
-              ws://127.0.0.1:7777 \
-              "$relay" \
-              --author "${self.personas.ksv.nostr.npub}" || true
-            sleep 1
-          done
-        '';
-      };
-    };
-
-    # Timer: 4-Hour Interval with Jitter to Eliminate Rate Limits
-    systemd.timers.nostrfy-catchup = lib.mkIf (self.personas.ksv.nostr.npub != "") {
-      description = "Timer for Nostr catch-up sync";
-      wantedBy = ["timers.target"];
-      timerConfig = {
-        OnBootSec = "5m";
-        OnUnitActiveSec = "4h";
-        RandomizedDelaySec = "15m";
-        Persistent = true;
-      };
-    };
   };
 }
