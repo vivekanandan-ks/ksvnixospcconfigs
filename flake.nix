@@ -138,7 +138,7 @@
       };
     };
     fips = {
-      url = "github:jmcorgan/fips";
+      url = "github:jmcorgan/fips/v0.5.3";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     flake-file = {

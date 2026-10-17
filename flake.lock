@@ -701,15 +701,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1791903394,
-        "narHash": "sha256-uJ14p1rNJtw/W+IrNXED4E6eNhRFD3hDOpfIUWV1wdA=",
+        "lastModified": 1792175451,
+        "narHash": "sha256-YrrgcVombiL9tZ4742eSSWfcLBNSCWrtGVfjWy/1rVs=",
         "owner": "jmcorgan",
         "repo": "fips",
-        "rev": "041f93113adca2cf804b31ac85eb5487854169ce",
+        "rev": "f4a5b4a8e61e340e6be7551608109a5c399f8353",
         "type": "github"
       },
       "original": {
         "owner": "jmcorgan",
+        "ref": "v0.5.3",
         "repo": "fips",
         "type": "github"
       }
