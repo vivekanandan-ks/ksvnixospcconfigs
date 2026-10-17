@@ -171,6 +171,13 @@
       dns.enable = false; # Handled natively via dnsDelegates below
     };
 
+    # Ensure declarative fipsConfig always syncs to /var/lib/fips/fips.yaml on service start
+    systemd.services.fips.preStart = lib.mkBefore ''
+      cp -f "${config.services.fips.configFile}" /var/lib/fips/fips.yaml
+      chown root:fips /var/lib/fips/fips.yaml
+      chmod 0664 /var/lib/fips/fips.yaml
+    '';
+
     # Make CLI tools (fipsctl, fipstop) available in user PATH
     environment.systemPackages = [
       config.services.fips.package
