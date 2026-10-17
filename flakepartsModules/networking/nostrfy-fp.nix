@@ -52,10 +52,17 @@
     users.users.nostrfy = {
       isSystemUser = true;
       group = "nostrfy";
+      extraGroups = ["media"];
       home = "/var/lib/nostrfy";
       createHome = true;
     };
     users.groups.nostrfy = {};
+
+    # Declarative storage provisioning with proper permissions and media group ownership
+    systemd.tmpfiles.rules = [
+      "d /data/nostrfy 0775 nostrfy media -"
+      "d /data/nostrfy/blobs 0775 nostrfy media -"
+    ];
 
     # SOPS Secret Declaration
     sops.secrets.nostrfy_relay_private_key = {};
@@ -93,7 +100,7 @@
         [blossom]
         host = "${blossomHost}"
         storage = "local"
-        local_path = "/var/lib/nostrfy/blobs"
+        local_path = "/data/nostrfy/blobs"
         max_upload_bytes = 52428800
         restrict_uploads = true
       '';
@@ -102,11 +109,12 @@
     # Systemd Daemon for nostrfy
     systemd.services.nostrfy = {
       description = "nostrfy - Full-Stack Nostr & Blossom Relay";
-      after = ["network.target" "sops-nix.service"];
+      after = ["network.target" "sops-nix.service" "data.mount"];
+      wants = ["data.mount"];
       wantedBy = ["multi-user.target"];
 
       preStart = ''
-        mkdir -p /var/lib/nostrfy/data /var/lib/nostrfy/blobs
+        mkdir -p /var/lib/nostrfy/data /data/nostrfy/blobs
         # Declaratively ensure our npub is allowlisted for Blossom uploads
         for npub in ${lib.escapeShellArgs blossomAllowedNpubs}; do
           ${nostrfyPkg}/bin/nostrfy --config ${config.sops.templates."nostrfy.toml".path} blossom allow "$npub" || true

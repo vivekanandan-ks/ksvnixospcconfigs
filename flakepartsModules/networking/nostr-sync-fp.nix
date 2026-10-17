@@ -55,9 +55,9 @@ in {
     # Automated High-Performance Nostr & Blossom Catch-Up Service
     # ---------------------------------------------------------------------------
     systemd.services.nostrfy-catchup = lib.mkIf (self.personas.ksv.nostr.npub != "") {
-      description = "Canoe-inspired Multi-Stream Nostr & Blossom Catch-up Service";
-      after = ["network-online.target" "nostrfy.service"];
-      wants = ["network-online.target"];
+      description = "Multi-Stream Nostr & Blossom Catch-up Sync Service";
+      after = ["network-online.target" "nostrfy.service" "tor.service" "data.mount"];
+      wants = ["network-online.target" "tor.service" "data.mount"];
 
       serviceConfig = {
         Type = "oneshot";
@@ -69,8 +69,17 @@ in {
           "XDG_CONFIG_HOME=/var/lib/nostrfy/.config"
           "XDG_DATA_HOME=/var/lib/nostrfy/.local/share"
         ];
-        ExecStart = pkgs.writeShellScript "nostrfy-canoe-sync" ''
+        ExecStart = pkgs.writeShellScript "nostrfy-sync" ''
           set -euo pipefail
+          trap 'rm -f /data/nostrfy/blobs/*/*.tmp 2>/dev/null || true' EXIT
+
+          # Helper wrappers ensuring all public traffic is torified with bounded timeouts
+          tor_nak() {
+            ${pkgs.coreutils}/bin/timeout 25s ${pkgs.torsocks}/bin/torsocks ${pkgs.nak}/bin/nak "$@"
+          }
+          tor_curl() {
+            ${pkgs.coreutils}/bin/timeout 30s ${pkgs.curl}/bin/curl --socks5-hostname 127.0.0.1:9050 "$@"
+          }
 
           START_TIME=$(${pkgs.coreutils}/bin/date +%s)
           AUTHOR_FLAGS=(${lib.escapeShellArgs authorFlags})
@@ -78,8 +87,9 @@ in {
           USER_PAIRS=(${lib.escapeShellArgs userPairs})
           LOCAL_RELAY="ws://127.0.0.1:7777"
           BLOSSOM_HOST="${blossomHost}"
-          BLOSSOM_DIR="/var/lib/nostrfy/blobs"
+          BLOSSOM_DIR="/data/nostrfy/blobs"
           ONLINE_PEERS=0
+          BLOBS_MIRRORED=0
 
           echo "=== [1/4] NetBird Peer-to-Peer Mesh Sync ==="
           PEER_IPS=(${lib.escapeShellArgs peerIps})
@@ -92,6 +102,8 @@ in {
                 "ws://$peer_ip:7777" "$LOCAL_RELAY" "''${AUTHOR_FLAGS[@]}" || true
               ${pkgs.coreutils}/bin/timeout 15s ${pkgs.nak}/bin/nak sync \
                 "$LOCAL_RELAY" "ws://$peer_ip:7777" "''${AUTHOR_FLAGS[@]}" || true
+              ${pkgs.coreutils}/bin/timeout 15s ${pkgs.nak}/bin/nak sync \
+                "ws://$peer_ip:7777" "$LOCAL_RELAY" "''${P_FLAGS[@]}" || true
             else
               echo "Peer $peer_ip is offline/asleep. Skipping."
             fi
@@ -114,32 +126,34 @@ in {
 
           echo "=== [3/4] Multi-Stream Parallel Replication (Authored, Mentions, Mail) ==="
           
-          # Parallel worker function with fail-fast probe
+          # OpSec Fail-Closed Kill-Switch: Ensure Tor SOCKS5 proxy is responsive before connecting to public relays
+          TOR_READY=0
+          for attempt in 1 2 3; do
+            if ${pkgs.netcat-openbsd}/bin/nc -z -w 2 127.0.0.1 9050 2>/dev/null; then
+              TOR_READY=1
+              break
+            fi
+            sleep 1
+          done
+
+          if [ "$TOR_READY" -ne 1 ]; then
+            echo "[-] ERROR: Tor SOCKS5 proxy is offline on 127.0.0.1:9050!"
+            echo "[-] OpSec Kill-Switch ENGAGED: Aborting public relay sync to prevent real IP leak."
+            exit 1
+          fi
+          echo "[+] Tor SOCKS5 proxy is active on 127.0.0.1:9050. Proceeding with torified public replication."
+
+          # Parallel worker function routing all public relay traffic through Tor
           sync_relay() {
             local relay="$1"
-            local clean_host="''${relay#*://}"
-            clean_host="''${clean_host%%/*}"
-            local domain="''${clean_host%%:*}"
-            local port="''${clean_host##*:}"
-            [ "$port" = "$domain" ] && port=443
-
-            # 2-second pre-flight check to fail-fast on dead/blocked public relays
-            if ! ${pkgs.netcat-openbsd}/bin/nc -z -w 2 "$domain" "$port" 2>/dev/null; then
-              echo "[SKIP] $relay is unreachable (pre-flight failed)."
-              return 0
-            fi
-
-            echo "[SYNC] Reconciling with $relay..."
+            echo "[SYNC] Reconciling with $relay via Tor..."
 
             # Stream A: Authored Notes (Two-way sync via NIP-77 for all accounts)
-            ${pkgs.coreutils}/bin/timeout 15s ${pkgs.nak}/bin/nak sync \
-              "$relay" "$LOCAL_RELAY" "''${AUTHOR_FLAGS[@]}" >/dev/null 2>&1 || true
-            ${pkgs.coreutils}/bin/timeout 15s ${pkgs.nak}/bin/nak sync \
-              "$LOCAL_RELAY" "$relay" "''${AUTHOR_FLAGS[@]}" >/dev/null 2>&1 || true
+            tor_nak sync "$relay" "$LOCAL_RELAY" "''${AUTHOR_FLAGS[@]}" >/dev/null 2>&1 || true
+            tor_nak sync "$LOCAL_RELAY" "$relay" "''${AUTHOR_FLAGS[@]}" >/dev/null 2>&1 || true
 
             # Stream B: Mentions, Comments & NIP-34 PRs (for all accounts)
-            ${pkgs.coreutils}/bin/timeout 15s ${pkgs.nak}/bin/nak sync \
-              "$relay" "$LOCAL_RELAY" "''${P_FLAGS[@]}" >/dev/null 2>&1 || true
+            tor_nak sync "$relay" "$LOCAL_RELAY" "''${P_FLAGS[@]}" >/dev/null 2>&1 || true
           }
 
           # Bounded parallelism (3 concurrent workers)
@@ -155,20 +169,12 @@ in {
           done
           wait 2>/dev/null || true
 
-          # Stream C: Encrypted Mail / Gift Wraps (Kind 1059) from Dedicated Messaging Relays
+          # Stream C: Encrypted Mail / Gift Wraps (Kind 1059) from Dedicated Messaging Relays via Tor
           MAIL_TARGETS=($(printf '%s\n' $MESSAGING_RELAYS "wss://relay.damus.io" "wss://nos.lol" \
             | sed -E 's:/*$::' | grep '^wss://' | sort -u))
           for relay in "''${MAIL_TARGETS[@]}"; do
-            local clean_host="''${relay#*://}"
-            clean_host="''${clean_host%%/*}"
-            local domain="''${clean_host%%:*}"
-            local port="''${clean_host##*:}"
-            [ "$port" = "$domain" ] && port=443
-            if ${pkgs.netcat-openbsd}/bin/nc -z -w 2 "$domain" "$port" 2>/dev/null; then
-              echo "[MAIL] Checking $relay..."
-              ${pkgs.coreutils}/bin/timeout 15s ${pkgs.nak}/bin/nak sync \
-                "$relay" "$LOCAL_RELAY" -k 1059 "''${P_FLAGS[@]}" >/dev/null 2>&1 || true
-            fi
+            echo "[MAIL] Checking $relay via Tor..."
+            tor_nak sync "$relay" "$LOCAL_RELAY" -k 1059 "''${P_FLAGS[@]}" >/dev/null 2>&1 || true
           done
 
           echo "=== [4/4] Blossom Media Backfill (BUD-03 & BUD-02) ==="
@@ -178,33 +184,32 @@ in {
             mkdir -p "$BLOSSOM_DIR/$npub"
 
             BLOSSOM_SERVERS=$(${pkgs.nak}/bin/nak req -k 10063 -a "$hex" --limit 1 "$LOCAL_RELAY" 2>/dev/null \
-              | ${pkgs.jq}/bin/jq -r '.tags[]? | select(.[0] == "server") | .[1]' 2>/dev/null || true)
+              | ${pkgs.jq}/bin/jq -r '.tags[]? | select(.[0] == "server") | .[1]' 2>/dev/null | sort -u || true)
 
             for bserver in $BLOSSOM_SERVERS; do
               bserver="''${bserver%/}"
-              echo "Checking Blossom server: $bserver for $npub"
+              echo "Checking Blossom server: $bserver for $npub via Tor"
 
-              BLOBS=$(${pkgs.coreutils}/bin/timeout 10s ${pkgs.curl}/bin/curl -sf "$bserver/list/$hex" 2>/dev/null || true)
+              BLOBS=$(tor_curl -sf "$bserver/list/$hex" 2>/dev/null || true)
 
               if echo "$BLOBS" | ${pkgs.jq}/bin/jq -e 'type == "array"' >/dev/null 2>&1; then
-                echo "$BLOBS" | ${pkgs.jq}/bin/jq -r '.[] | [.sha256, .url, (.size // 0)] | @tsv' | head -n 20 | while IFS=$'\t' read -r sha url size; do
-                  if [ -n "$sha" ] && [ "$size" -le 52428800 ]; then
-                    HTTP_STATUS=$(${pkgs.curl}/bin/curl -s -o /dev/null -w "%{http_code}" -I -H "Host: $BLOSSOM_HOST" "http://127.0.0.1:7777/$sha" 2>/dev/null || true)
-                    if [ "$HTTP_STATUS" != "200" ] && [ ! -f "$BLOSSOM_DIR/$npub/$sha" ] && [ ! -f "$BLOSSOM_DIR/$sha" ]; then
-                      echo "Mirroring missing blob: $sha from $url for $npub"
-                      ${pkgs.coreutils}/bin/timeout 30s ${pkgs.curl}/bin/curl -sfL "$url" -o "$BLOSSOM_DIR/$npub/$sha.tmp" || true
-                      if [ -f "$BLOSSOM_DIR/$npub/$sha.tmp" ]; then
-                        COMPUTED_SHA=$(${pkgs.coreutils}/bin/sha256sum "$BLOSSOM_DIR/$npub/$sha.tmp" | cut -d' ' -f1)
-                        if [ "$COMPUTED_SHA" = "$sha" ]; then
-                          mv "$BLOSSOM_DIR/$npub/$sha.tmp" "$BLOSSOM_DIR/$npub/$sha"
-                          echo "Successfully mirrored: $sha"
-                        else
-                          rm -f "$BLOSSOM_DIR/$npub/$sha.tmp"
-                        fi
+                while IFS=$'\t' read -r sha url; do
+                  sha="''${sha,,}"
+                  if [ -n "$sha" ] && [ ! -f "$BLOSSOM_DIR/$npub/$sha" ] && [ ! -f "$BLOSSOM_DIR/$sha" ]; then
+                    echo "Mirroring missing blob: $sha from $url for $npub via Tor"
+                    tor_curl -sfL "$url" -o "$BLOSSOM_DIR/$npub/$sha.tmp" || true
+                    if [ -f "$BLOSSOM_DIR/$npub/$sha.tmp" ]; then
+                      COMPUTED_SHA=$(${pkgs.coreutils}/bin/sha256sum "$BLOSSOM_DIR/$npub/$sha.tmp" | cut -d' ' -f1)
+                      if [ "$COMPUTED_SHA" = "$sha" ]; then
+                        mv "$BLOSSOM_DIR/$npub/$sha.tmp" "$BLOSSOM_DIR/$npub/$sha"
+                        echo "Successfully mirrored: $sha"
+                        BLOBS_MIRRORED=$((BLOBS_MIRRORED + 1))
+                      else
+                        rm -f "$BLOSSOM_DIR/$npub/$sha.tmp"
                       fi
                     fi
                   fi
-                done
+                done < <(echo "$BLOBS" | ${pkgs.jq}/bin/jq -r '.[] | select((.size // 0) <= 52428800) | [.sha256, .url] | @tsv' | head -n 20)
               fi
             done
           done
@@ -214,10 +219,12 @@ in {
           echo "=================================================="
           echo "       Nostr & Blossom Replication Report         "
           echo "=================================================="
+          echo " OpSec Mode:         Tor SOCKS5 (Fail-Closed)"
           echo " Duration:           ''${ELAPSED}s"
           echo " Accounts Synced:    ''${#USER_PAIRS[@]}"
           echo " NetBird Peers:      ''${ONLINE_PEERS}/''${#PEER_IPS[@]} online"
           echo " Relays Reconciled:  ''${#ALL_RELAYS[@]}"
+          echo " Blobs Mirrored:     ''${BLOBS_MIRRORED}"
           echo " Status:             SUCCESS"
           echo "=================================================="
         '';
