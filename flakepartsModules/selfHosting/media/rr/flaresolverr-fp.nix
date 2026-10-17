@@ -9,14 +9,14 @@
     systemd.services.flaresolverr = {
       after = [ "nixflix-setup-dirs.service" ];
       serviceConfig = {
-        TimeoutStartSec = 240;
+        TimeoutStartSec = 360;
         Nice = 10;
         IOSchedulingClass = "best-effort";
         IOSchedulingPriority = 7;
         Environment = [ "LIBGL_ALWAYS_SOFTWARE=1" ];
         ExecStartPost = lib.mkForce [
           ""
-          "${pkgs.curl}/bin/curl -sf --retry 240 --retry-delay 1 --retry-all-errors http://127.0.0.1:8191/"
+          "${pkgs.curl}/bin/curl -sf --retry 360 --retry-delay 1 --retry-all-errors http://127.0.0.1:8191/"
         ];
       };
     };

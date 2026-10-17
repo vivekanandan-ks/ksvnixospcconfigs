@@ -100,6 +100,17 @@
       };
     };
 
+    # Decouple indexer proxies from hard failure if FlareSolverr takes extra time on cold boot
+    systemd.services.prowlarr-indexer-proxies = {
+      requires = lib.mkForce [ "prowlarr-config.service" "prowlarr-tags.service" ];
+      after = [ "flaresolverr.service" ];
+      wants = [ "flaresolverr.service" ];
+      serviceConfig = {
+        Restart = "on-failure";
+        RestartSec = "15s";
+      };
+    };
+
     # Ensure indexer creation waits for network connectivity and proxy registration (FlareSolverr)
     systemd.services.prowlarr-indexers = {
       after = [ "network-online.target" "prowlarr-indexer-proxies.service" ];
