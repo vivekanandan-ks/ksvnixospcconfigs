@@ -113,7 +113,6 @@
         # 2. Raw L2 Ethernet transport (offline cables / switch)
         ethernet = {
           interface = myEthernetInterface;
-          optional = true; # Safe: daemon will not fail if unplugged
           announce = true; # Broadcast 34-byte beacons (EtherType 0x2121)
           listen = true;
           auto_connect = true;
