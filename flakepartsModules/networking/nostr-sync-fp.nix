@@ -63,6 +63,7 @@ in {
         Type = "oneshot";
         User = "nostrfy";
         Group = "nostrfy";
+        UMask = "0002";
         WorkingDirectory = "/var/lib/nostrfy";
         Environment = [
           "HOME=/var/lib/nostrfy"
@@ -77,8 +78,13 @@ in {
           tor_nak() {
             ${pkgs.coreutils}/bin/timeout 25s ${pkgs.torsocks}/bin/torsocks ${pkgs.nak}/bin/nak "$@"
           }
-          tor_curl() {
-            ${pkgs.coreutils}/bin/timeout 30s ${pkgs.curl}/bin/curl --socks5-hostname 127.0.0.1:9050 "$@"
+          # Fast-fail for lightweight metadata & BUD-02 JSON list endpoints (max 60s)
+          tor_curl_api() {
+            ${pkgs.coreutils}/bin/timeout 60s ${pkgs.curl}/bin/curl --socks5-hostname 127.0.0.1:9050 "$@"
+          }
+          # Generous streaming budget for binary media blobs up to 50MB (max 180s)
+          tor_curl_blob() {
+            ${pkgs.coreutils}/bin/timeout 180s ${pkgs.curl}/bin/curl --socks5-hostname 127.0.0.1:9050 "$@"
           }
 
           START_TIME=$(${pkgs.coreutils}/bin/date +%s)
@@ -190,14 +196,14 @@ in {
               bserver="''${bserver%/}"
               echo "Checking Blossom server: $bserver for $npub via Tor"
 
-              BLOBS=$(tor_curl -sf "$bserver/list/$hex" 2>/dev/null || true)
+              BLOBS=$(tor_curl_api -sf "$bserver/list/$hex" 2>/dev/null || true)
 
               if echo "$BLOBS" | ${pkgs.jq}/bin/jq -e 'type == "array"' >/dev/null 2>&1; then
                 while IFS=$'\t' read -r sha url; do
                   sha="''${sha,,}"
                   if [ -n "$sha" ] && [ ! -f "$BLOSSOM_DIR/$npub/$sha" ] && [ ! -f "$BLOSSOM_DIR/$sha" ]; then
                     echo "Mirroring missing blob: $sha from $url for $npub via Tor"
-                    tor_curl -sfL "$url" -o "$BLOSSOM_DIR/$npub/$sha.tmp" || true
+                    tor_curl_blob -sfL "$url" -o "$BLOSSOM_DIR/$npub/$sha.tmp" || true
                     if [ -f "$BLOSSOM_DIR/$npub/$sha.tmp" ]; then
                       COMPUTED_SHA=$(${pkgs.coreutils}/bin/sha256sum "$BLOSSOM_DIR/$npub/$sha.tmp" | cut -d' ' -f1)
                       if [ "$COMPUTED_SHA" = "$sha" ]; then

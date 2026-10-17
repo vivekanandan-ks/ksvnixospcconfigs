@@ -58,11 +58,6 @@
     };
     users.groups.nostrfy = {};
 
-    # Declarative storage provisioning with proper permissions and media group ownership
-    systemd.tmpfiles.rules = [
-      "d /data/nostrfy 0775 nostrfy media -"
-      "d /data/nostrfy/blobs 0775 nostrfy media -"
-    ];
 
     # SOPS Secret Declaration
     sops.secrets.nostrfy_relay_private_key = {};
@@ -115,6 +110,8 @@
 
       preStart = ''
         mkdir -p /var/lib/nostrfy/data /data/nostrfy/blobs
+        chmod 2775 /data/nostrfy /data/nostrfy/blobs 2>/dev/null || true
+        chgrp media /data/nostrfy /data/nostrfy/blobs 2>/dev/null || true
         # Declaratively ensure our npub is allowlisted for Blossom uploads
         for npub in ${lib.escapeShellArgs blossomAllowedNpubs}; do
           ${nostrfyPkg}/bin/nostrfy --config ${config.sops.templates."nostrfy.toml".path} blossom allow "$npub" || true
@@ -125,6 +122,7 @@
         ExecStart = "${nostrfyPkg}/bin/nostrfy --config ${config.sops.templates."nostrfy.toml".path} start --foreground";
         User = "nostrfy";
         Group = "nostrfy";
+        UMask = "0002";
         WorkingDirectory = "/var/lib/nostrfy";
         Restart = "always";
         RestartSec = "5s";
