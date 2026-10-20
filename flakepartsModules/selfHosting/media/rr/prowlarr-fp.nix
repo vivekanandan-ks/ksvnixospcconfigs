@@ -106,8 +106,8 @@
       after = [ "flaresolverr.service" ];
       wants = [ "flaresolverr.service" ];
       serviceConfig = {
-        Restart = "on-failure";
-        RestartSec = "15s";
+        Restart = lib.mkForce "on-failure";
+        RestartSec = lib.mkForce 15;
       };
     };
 

@@ -21,8 +21,10 @@
     config,
     username,
     ...
-  }: {
-    sops.secrets.nostr_bunker_uri = {
+  }: let
+    bunkerSecretName = "nostr_bunker_uri_${config.networking.hostName}";
+  in {
+    sops.secrets.${bunkerSecretName} = {
       owner = username;
       group = "users";
       mode = "0400";
@@ -32,7 +34,7 @@
       content = ''
         [nostr]
         	bunker-app-key = ${config.sops.placeholder."fips_key_${config.networking.hostName}"}
-        	bunker-uri = ${config.sops.placeholder.nostr_bunker_uri}
+        	bunker-uri = ${config.sops.placeholder.${bunkerSecretName}}
       '';
       owner = username;
       group = "users";
