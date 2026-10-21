@@ -68,6 +68,65 @@ PluginComponent {
     ]
     property var firedRuleIds: []
 
+    // --- Live Speed History & Extremes ---
+    property var history5mRx: []
+    property var history5mTx: []
+    property var history1hRx: []
+    property var history1hTx: []
+    property real sessionPeakRx: 0
+    property real sessionPeakTx: 0
+    property real sessionMinRx: 0
+    property real sessionMinTx: 0
+    property real sessionTotalRxBytes: 0
+    property real sessionTotalTxBytes: 0
+    property int sessionSampleCount: 0
+    readonly property real sessionAvgRx: sessionSampleCount > 0 ? (sessionTotalRxBytes / sessionSampleCount) : 0
+    readonly property real sessionAvgTx: sessionSampleCount > 0 ? (sessionTotalTxBytes / sessionSampleCount) : 0
+    property int sampleCounter10s: 0
+
+    Timer {
+        id: liveSampleTimer
+        interval: 1000
+        running: true
+        repeat: true
+        onTriggered: {
+            const rx = DgopService.networkRxRate || 0;
+            const tx = DgopService.networkTxRate || 0;
+
+            // 5-minute rolling buffer (300 data points @ 1s)
+            let h5Rx = [...root.history5mRx, rx];
+            if (h5Rx.length > 300) h5Rx.shift();
+            root.history5mRx = h5Rx;
+
+            let h5Tx = [...root.history5mTx, tx];
+            if (h5Tx.length > 300) h5Tx.shift();
+            root.history5mTx = h5Tx;
+
+            // Extremes tracking
+            if (rx > root.sessionPeakRx) root.sessionPeakRx = rx;
+            if (tx > root.sessionPeakTx) root.sessionPeakTx = tx;
+            if (rx > 0 && (root.sessionMinRx === 0 || rx < root.sessionMinRx)) root.sessionMinRx = rx;
+            if (tx > 0 && (root.sessionMinTx === 0 || tx < root.sessionMinTx)) root.sessionMinTx = tx;
+
+            root.sessionTotalRxBytes += rx;
+            root.sessionTotalTxBytes += tx;
+            root.sessionSampleCount++;
+
+            // 1-hour rolling buffer (360 data points @ 10s)
+            root.sampleCounter10s++;
+            if (root.sampleCounter10s >= 10 || root.history1hRx.length === 0) {
+                root.sampleCounter10s = 0;
+                let h1Rx = [...root.history1hRx, rx];
+                if (h1Rx.length > 360) h1Rx.shift();
+                root.history1hRx = h1Rx;
+
+                let h1Tx = [...root.history1hTx, tx];
+                if (h1Tx.length > 360) h1Tx.shift();
+                root.history1hTx = h1Tx;
+            }
+        }
+    }
+
     // --- 7-Day Weekly Metrics ---
 
     readonly property real weeklyRx: {
@@ -519,17 +578,25 @@ PluginComponent {
     onUptimeTxChanged: root.updateTraffic()
 
     // --- Dropdown Popout Settings ---
-    popoutWidth: 420
-    popoutHeight: 340
+    popoutWidth: 460
+    popoutHeight: 410
 
     popoutContent: Component {
         PopoutComponent {
             id: popout
 
             headerText: I18n.tr("Network Statistics")
-            detailsText: I18n.tr("Uptime / Today / 7-Day")
+            detailsText: {
+                if (popout.activeTab === 0) return I18n.tr("Real-time Throughput & Session Extremes");
+                if (popout.activeTab === 1) return I18n.tr("Uptime / Today / 7-Day Traffic");
+                return I18n.tr("Daily Limits & Notification Rules");
+            }
             showCloseButton: true
 
+            property int activeTab: 0
+            property int liveGraphRange: 0 // 0 = 5m, 1 = 1h
+            property int hoveredPointIndex: -1
+            property real hoverX: 0
             property int selectedDayIndex: -1
             property var daysData: root.getSevenDaysList()
 
@@ -537,7 +604,552 @@ PluginComponent {
                 width: parent.width
                 spacing: Theme.spacingM
 
-                // --- Summary Stats Card (Download & Upload) ---
+                // --- Tab Selection Bar ---
+                Rectangle {
+                    width: parent.width
+                    height: 34
+                    radius: Theme.cornerRadius
+                    color: Theme.nestedSurface
+                    border.width: 1
+                    border.color: Theme.outlineLight
+
+                    Row {
+                        anchors.centerIn: parent
+                        spacing: 4
+
+                        Repeater {
+                            model: [
+                                { id: 0, label: I18n.tr("Live Speed"), icon: "speed" },
+                                { id: 1, label: I18n.tr("7-Day Usage"), icon: "bar_chart" },
+                                { id: 2, label: I18n.tr("Data Quota"), icon: "data_usage" }
+                            ]
+
+                            Rectangle {
+                                id: tabBtn
+                                required property int index
+                                required property var modelData
+
+                                width: (popout.width - Theme.spacingM * 2 - 16) / 3
+                                height: 26
+                                radius: Math.max(2, Theme.cornerRadius - 2)
+                                color: popout.activeTab === tabBtn.modelData.id ? Theme.primary : (tabMouse.containsMouse ? Theme.surfaceTextHover : "transparent")
+
+                                Behavior on color {
+                                    ColorAnimation { duration: Theme.shortDuration }
+                                }
+
+                                Row {
+                                    anchors.centerIn: parent
+                                    spacing: 4
+
+                                    DankIcon {
+                                        name: tabBtn.modelData.icon
+                                        size: 13
+                                        color: popout.activeTab === tabBtn.modelData.id ? Theme.onPrimary : Theme.surfaceText
+                                        anchors.verticalCenter: parent.verticalCenter
+                                    }
+
+                                    StyledText {
+                                        text: tabBtn.modelData.label
+                                        font.pixelSize: 11
+                                        font.bold: popout.activeTab === tabBtn.modelData.id
+                                        color: popout.activeTab === tabBtn.modelData.id ? Theme.onPrimary : Theme.surfaceText
+                                        anchors.verticalCenter: parent.verticalCenter
+                                    }
+                                }
+
+                                MouseArea {
+                                    id: tabMouse
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    cursorShape: Qt.PointingHandCursor
+                                    onClicked: popout.activeTab = tabBtn.modelData.id
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // ==========================================
+                // === TAB 0: LIVE SPEED & GRAPH VIEW ===
+                // ==========================================
+                Column {
+                    id: liveTabCol
+                    visible: popout.activeTab === 0
+                    width: parent.width
+                    spacing: Theme.spacingM
+
+                    // --- Live Rate Banner Card ---
+                    Rectangle {
+                        width: parent.width
+                        height: 48
+                        radius: Theme.cornerRadius
+                        color: Theme.nestedSurface
+                        border.width: 1
+                        border.color: Theme.outlineLight
+
+                        Row {
+                            anchors.centerIn: parent
+                            spacing: Theme.spacingL
+
+                            Row {
+                                spacing: 6
+                                anchors.verticalCenter: parent.verticalCenter
+                                StyledText {
+                                    text: "↓"
+                                    font.pixelSize: 18
+                                    font.bold: true
+                                    color: Theme.info
+                                    anchors.verticalCenter: parent.verticalCenter
+                                }
+                                Column {
+                                    spacing: 0
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    StyledText {
+                                        text: I18n.tr("Download Rate")
+                                        font.pixelSize: 9
+                                        color: Theme.surfaceVariantText
+                                    }
+                                    NumericText {
+                                        isMonospace: true
+                                        text: root.formatSpeed(DgopService.networkRxRate) + "/s"
+                                        font.pixelSize: 13
+                                        font.bold: true
+                                        color: Theme.surfaceText
+                                    }
+                                }
+                            }
+
+                            Rectangle {
+                                width: 1
+                                height: 26
+                                color: Theme.outlineLight
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+
+                            Row {
+                                spacing: 6
+                                anchors.verticalCenter: parent.verticalCenter
+                                StyledText {
+                                    text: "↑"
+                                    font.pixelSize: 18
+                                    font.bold: true
+                                    color: Theme.error
+                                    anchors.verticalCenter: parent.verticalCenter
+                                }
+                                Column {
+                                    spacing: 0
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    StyledText {
+                                        text: I18n.tr("Upload Rate")
+                                        font.pixelSize: 9
+                                        color: Theme.surfaceVariantText
+                                    }
+                                    NumericText {
+                                        isMonospace: true
+                                        text: root.formatSpeed(DgopService.networkTxRate) + "/s"
+                                        font.pixelSize: 13
+                                        font.bold: true
+                                        color: Theme.surfaceText
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    // --- Live Speed Graph Card (5m / 1h) ---
+                    Rectangle {
+                        width: parent.width
+                        height: 180
+                        radius: Theme.cornerRadius
+                        color: Theme.nestedSurface
+                        border.width: 1
+                        border.color: Theme.outlineLight
+                        clip: true
+
+                        // Graph Card Header: Title + Resolution Toggle
+                        Item {
+                            id: graphHeader
+                            anchors.top: parent.top
+                            anchors.topMargin: Theme.spacingS
+                            anchors.left: parent.left
+                            anchors.leftMargin: Theme.spacingM
+                            anchors.right: parent.right
+                            anchors.rightMargin: Theme.spacingM
+                            height: 22
+
+                            StyledText {
+                                anchors.left: parent.left
+                                anchors.verticalCenter: parent.verticalCenter
+                                text: {
+                                    if (popout.hoveredPointIndex >= 0) {
+                                        const rxList = popout.liveGraphRange === 0 ? root.history5mRx : root.history1hRx;
+                                        const txList = popout.liveGraphRange === 0 ? root.history5mTx : root.history1hTx;
+                                        const rx = rxList[popout.hoveredPointIndex] || 0;
+                                        const tx = txList[popout.hoveredPointIndex] || 0;
+                                        const secsAgo = popout.liveGraphRange === 0
+                                            ? `${rxList.length - 1 - popout.hoveredPointIndex}s ago`
+                                            : `${Math.round((rxList.length - 1 - popout.hoveredPointIndex) * 10 / 60)}m ago`;
+                                        return `${secsAgo}:  ↓ ${root.formatSpeed(rx)}/s   ↑ ${root.formatSpeed(tx)}/s`;
+                                    }
+                                    return popout.liveGraphRange === 0 ? I18n.tr("Speed Trend (Last 5 Minutes)") : I18n.tr("Speed Trend (Last 1 Hour)");
+                                }
+                                font.pixelSize: Theme.fontSizeSmall
+                                font.bold: popout.hoveredPointIndex >= 0
+                                color: popout.hoveredPointIndex >= 0 ? Theme.primary : Theme.surfaceText
+                            }
+
+                            // 5m / 1h Resolution Toggle Chips
+                            Row {
+                                anchors.right: parent.right
+                                anchors.verticalCenter: parent.verticalCenter
+                                spacing: 4
+
+                                Rectangle {
+                                    width: 36
+                                    height: 20
+                                    radius: 4
+                                    color: popout.liveGraphRange === 0 ? Theme.primary : (range5Mouse.containsMouse ? Theme.surfaceTextHover : Theme.surfaceContainerHigh)
+                                    border.width: 1
+                                    border.color: popout.liveGraphRange === 0 ? Theme.primary : Theme.outlineLight
+
+                                    StyledText {
+                                        anchors.centerIn: parent
+                                        text: "5m"
+                                        font.pixelSize: 10
+                                        font.bold: true
+                                        color: popout.liveGraphRange === 0 ? Theme.onPrimary : Theme.surfaceText
+                                    }
+
+                                    MouseArea {
+                                        id: range5Mouse
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                        cursorShape: Qt.PointingHandCursor
+                                        onClicked: popout.liveGraphRange = 0
+                                    }
+                                }
+
+                                Rectangle {
+                                    width: 36
+                                    height: 20
+                                    radius: 4
+                                    color: popout.liveGraphRange === 1 ? Theme.primary : (range1hMouse.containsMouse ? Theme.surfaceTextHover : Theme.surfaceContainerHigh)
+                                    border.width: 1
+                                    border.color: popout.liveGraphRange === 1 ? Theme.primary : Theme.outlineLight
+
+                                    StyledText {
+                                        anchors.centerIn: parent
+                                        text: "1h"
+                                        font.pixelSize: 10
+                                        font.bold: true
+                                        color: popout.liveGraphRange === 1 ? Theme.onPrimary : Theme.surfaceText
+                                    }
+
+                                    MouseArea {
+                                        id: range1hMouse
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                        cursorShape: Qt.PointingHandCursor
+                                        onClicked: popout.liveGraphRange = 1
+                                    }
+                                }
+                            }
+                        }
+
+                        // Drawing Area
+                        Item {
+                            id: liveChartArea
+                            anchors.top: graphHeader.bottom
+                            anchors.topMargin: 6
+                            anchors.left: parent.left
+                            anchors.leftMargin: Theme.spacingM
+                            anchors.right: parent.right
+                            anchors.rightMargin: Theme.spacingM
+                            anchors.bottom: parent.bottom
+                            anchors.bottomMargin: Theme.spacingS
+
+                            readonly property var activeRxData: popout.liveGraphRange === 0 ? root.history5mRx : root.history1hRx
+                            readonly property var activeTxData: popout.liveGraphRange === 0 ? root.history5mTx : root.history1hTx
+
+                            readonly property real maxSpeed: {
+                                let m = 50 * 1024;
+                                for (let i = 0; i < activeRxData.length; i++) {
+                                    if (activeRxData[i] > m) m = activeRxData[i];
+                                }
+                                for (let i = 0; i < activeTxData.length; i++) {
+                                    if (activeTxData[i] > m) m = activeTxData[i];
+                                }
+                                return m * 1.15;
+                            }
+
+                            // Horizontal Grid Lines
+                            Repeater {
+                                model: [0.5, 1.0]
+                                Item {
+                                    id: liveGridLine
+                                    required property int index
+                                    required property real modelData
+
+                                    width: liveChartArea.width
+                                    y: liveChartArea.height * (1 - liveGridLine.modelData)
+
+                                    Rectangle {
+                                        width: parent.width
+                                        height: 1
+                                        color: Theme.outlineLight
+                                        opacity: 0.35
+                                    }
+
+                                    StyledText {
+                                        text: root.formatSpeed(liveChartArea.maxSpeed * liveGridLine.modelData) + "/s"
+                                        font.pixelSize: 8
+                                        color: Theme.surfaceVariantText
+                                        opacity: 0.7
+                                        anchors.right: parent.right
+                                        anchors.bottom: parent.top
+                                        anchors.bottomMargin: 1
+                                    }
+                                }
+                            }
+
+                            // Smooth Curves Canvas
+                            Canvas {
+                                id: speedCanvas
+                                anchors.fill: parent
+                                renderStrategy: Canvas.Cooperative
+
+                                property var rx: liveChartArea.activeRxData
+                                property var tx: liveChartArea.activeTxData
+                                property real maxV: liveChartArea.maxSpeed
+
+                                onRxChanged: requestPaint()
+                                onTxChanged: requestPaint()
+                                onWidthChanged: requestPaint()
+                                onHeightChanged: requestPaint()
+
+                                onPaint: {
+                                    const ctx = getContext("2d");
+                                    ctx.reset();
+                                    ctx.clearRect(0, 0, width, height);
+
+                                    if (!rx || rx.length < 2) return;
+
+                                    const count = rx.length;
+                                    const step = width / (count - 1);
+
+                                    function drawLine(data, strokeColor, fillColor) {
+                                        if (!data || data.length === 0) return;
+                                        const pts = [];
+                                        for (let i = 0; i < data.length; i++) {
+                                            const x = i * step;
+                                            const y = height - (Math.min(maxV, Math.max(0, data[i])) / maxV) * height;
+                                            pts.push({ x: x, y: y });
+                                        }
+
+                                        // Area gradient fill
+                                        const grad = ctx.createLinearGradient(0, 0, 0, height);
+                                        grad.addColorStop(0, Theme.withAlpha(strokeColor, 0.22));
+                                        grad.addColorStop(1, Theme.withAlpha(strokeColor, 0.01));
+                                        ctx.fillStyle = grad;
+                                        ctx.beginPath();
+                                        ctx.moveTo(0, height);
+                                        for (let i = 0; i < pts.length; i++) {
+                                            ctx.lineTo(pts[i].x, pts[i].y);
+                                        }
+                                        ctx.lineTo(pts[pts.length - 1].x, height);
+                                        ctx.closePath();
+                                        ctx.fill();
+
+                                        // Stroke curve
+                                        ctx.strokeStyle = strokeColor;
+                                        ctx.lineWidth = 1.8;
+                                        ctx.beginPath();
+                                        for (let i = 0; i < pts.length; i++) {
+                                            if (i === 0) ctx.moveTo(pts[i].x, pts[i].y);
+                                            else ctx.lineTo(pts[i].x, pts[i].y);
+                                        }
+                                        ctx.stroke();
+                                    }
+
+                                    // Draw Tx (Upload - Red/Orange)
+                                    drawLine(tx, Theme.error, Theme.error);
+                                    // Draw Rx (Download - Blue/Cyan)
+                                    drawLine(rx, Theme.info, Theme.info);
+
+                                    // Draw hover scrub cursor line if active
+                                    if (popout.hoveredPointIndex >= 0 && popout.hoveredPointIndex < count) {
+                                        const hx = popout.hoveredPointIndex * step;
+                                        ctx.strokeStyle = Theme.primary;
+                                        ctx.lineWidth = 1;
+                                        ctx.setLineDash([3, 3]);
+                                        ctx.beginPath();
+                                        ctx.moveTo(hx, 0);
+                                        ctx.lineTo(hx, height);
+                                        ctx.stroke();
+                                        ctx.setLineDash([]);
+
+                                        // Cursor point indicators
+                                        const hyRx = height - (Math.min(maxV, Math.max(0, rx[popout.hoveredPointIndex])) / maxV) * height;
+                                        ctx.fillStyle = Theme.info;
+                                        ctx.beginPath();
+                                        ctx.arc(hx, hyRx, 3, 0, 2 * Math.PI);
+                                        ctx.fill();
+
+                                        const hyTx = height - (Math.min(maxV, Math.max(0, tx[popout.hoveredPointIndex])) / maxV) * height;
+                                        ctx.fillStyle = Theme.error;
+                                        ctx.beginPath();
+                                        ctx.arc(hx, hyTx, 3, 0, 2 * Math.PI);
+                                        ctx.fill();
+                                    }
+                                }
+                            }
+
+                            // Mouse scrub area
+                            MouseArea {
+                                anchors.fill: parent
+                                hoverEnabled: true
+                                onPositionChanged: mouse => {
+                                    const data = liveChartArea.activeRxData;
+                                    if (!data || data.length === 0) return;
+                                    const idx = Math.round((mouse.x / width) * (data.length - 1));
+                                    popout.hoveredPointIndex = Math.max(0, Math.min(data.length - 1, idx));
+                                    popout.hoverX = mouse.x;
+                                    speedCanvas.requestPaint();
+                                }
+                                onExited: {
+                                    popout.hoveredPointIndex = -1;
+                                    speedCanvas.requestPaint();
+                                }
+                            }
+                        }
+                    }
+
+                    // --- Session Extremes Row (Peak / Average / Floor) ---
+                    Row {
+                        width: parent.width
+                        spacing: Theme.spacingS
+
+                        // Peak Card
+                        Rectangle {
+                            width: (parent.width - Theme.spacingS * 2) / 3
+                            height: 62
+                            radius: Theme.cornerRadius
+                            color: Theme.nestedSurface
+                            border.width: 1
+                            border.color: Theme.outlineLight
+
+                            Column {
+                                anchors.centerIn: parent
+                                spacing: 1
+                                StyledText {
+                                    text: I18n.tr("Session Peak")
+                                    font.pixelSize: 10
+                                    font.bold: true
+                                    color: Theme.primary
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                }
+                                StyledText {
+                                    text: "↓ " + root.formatSpeed(root.sessionPeakRx) + "/s"
+                                    font.pixelSize: 10
+                                    isMonospace: true
+                                    color: Theme.info
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                }
+                                StyledText {
+                                    text: "↑ " + root.formatSpeed(root.sessionPeakTx) + "/s"
+                                    font.pixelSize: 10
+                                    isMonospace: true
+                                    color: Theme.error
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                }
+                            }
+                        }
+
+                        // Average Card
+                        Rectangle {
+                            width: (parent.width - Theme.spacingS * 2) / 3
+                            height: 62
+                            radius: Theme.cornerRadius
+                            color: Theme.nestedSurface
+                            border.width: 1
+                            border.color: Theme.outlineLight
+
+                            Column {
+                                anchors.centerIn: parent
+                                spacing: 1
+                                StyledText {
+                                    text: I18n.tr("Session Average")
+                                    font.pixelSize: 10
+                                    font.bold: true
+                                    color: Theme.surfaceText
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                }
+                                StyledText {
+                                    text: "↓ " + root.formatSpeed(root.sessionAvgRx) + "/s"
+                                    font.pixelSize: 10
+                                    isMonospace: true
+                                    color: Theme.info
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                }
+                                StyledText {
+                                    text: "↑ " + root.formatSpeed(root.sessionAvgTx) + "/s"
+                                    font.pixelSize: 10
+                                    isMonospace: true
+                                    color: Theme.error
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                }
+                            }
+                        }
+
+                        // Floor Card
+                        Rectangle {
+                            width: (parent.width - Theme.spacingS * 2) / 3
+                            height: 62
+                            radius: Theme.cornerRadius
+                            color: Theme.nestedSurface
+                            border.width: 1
+                            border.color: Theme.outlineLight
+
+                            Column {
+                                anchors.centerIn: parent
+                                spacing: 1
+                                StyledText {
+                                    text: I18n.tr("Active Floor")
+                                    font.pixelSize: 10
+                                    font.bold: true
+                                    color: Theme.surfaceVariantText
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                }
+                                StyledText {
+                                    text: "↓ " + (root.sessionMinRx > 0 ? (root.formatSpeed(root.sessionMinRx) + "/s") : "0 B/s")
+                                    font.pixelSize: 10
+                                    isMonospace: true
+                                    color: Theme.info
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                }
+                                StyledText {
+                                    text: "↑ " + (root.sessionMinTx > 0 ? (root.formatSpeed(root.sessionMinTx) + "/s") : "0 B/s")
+                                    font.pixelSize: 10
+                                    isMonospace: true
+                                    color: Theme.error
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // ==========================================
+                // === TAB 1: 7-DAY USAGE VIEW ===
+                // ==========================================
+                Column {
+                    id: historyTabCol
+                    visible: popout.activeTab === 1
+                    width: parent.width
+                    spacing: Theme.spacingM
+
+                    // --- Summary Stats Card (Download & Upload) ---
                 Rectangle {
                     width: parent.width
                     implicitHeight: statsCol.implicitHeight + Theme.spacingM * 2
@@ -593,71 +1205,6 @@ PluginComponent {
                                 isMonospace: true
                                 color: Theme.surfaceText
                                 anchors.verticalCenter: parent.verticalCenter
-                            }
-                        }
-                    }
-                }
-
-                // --- Quota Progress Bar Card (visible when dataPlanEnabled) ---
-                Rectangle {
-                    visible: root.dataPlanEnabled
-                    width: parent.width
-                    implicitHeight: visible ? (quotaCol.implicitHeight + Theme.spacingM * 2) : 0
-                    radius: Theme.cornerRadius
-                    color: Theme.nestedSurface
-                    border.width: 1
-                    border.color: Theme.outlineLight
-
-                    Column {
-                        id: quotaCol
-                        anchors.centerIn: parent
-                        width: parent.width - Theme.spacingM * 2
-                        spacing: Theme.spacingS
-
-                        Item {
-                            width: parent.width
-                            height: 18
-
-                            StyledText {
-                                anchors.left: parent.left
-                                anchors.verticalCenter: parent.verticalCenter
-                                text: I18n.tr("Daily Quota")
-                                font.pixelSize: Theme.fontSizeSmall
-                                font.bold: true
-                                color: Theme.surfaceText
-                            }
-
-                            StyledText {
-                                anchors.right: parent.right
-                                anchors.verticalCenter: parent.verticalCenter
-                                text: `${root.formatBytes(root.dataPlanUsedBytes)} / ${root.formatBytes(root.dataPlanQuotaBytes)} (${root.dataPlanPercent.toFixed(1)}%)`
-                                font.pixelSize: Theme.fontSizeSmall
-                                isMonospace: true
-                                font.bold: true
-                                color: root.dataPlanPercent >= 100 ? Theme.error : (root.dataPlanPercent >= 80 ? Theme.warning : Theme.primary)
-                            }
-                        }
-
-                        // Progress Bar Track & Indicator
-                        Rectangle {
-                            width: parent.width
-                            height: 8
-                            radius: 4
-                            color: Theme.outlineLight
-                            clip: true
-
-                            Rectangle {
-                                width: Math.min(parent.width, parent.width * root.dataPlanProgress)
-                                height: parent.height
-                                radius: 4
-                                color: root.dataPlanPercent >= 100 ? Theme.error : (root.dataPlanPercent >= 80 ? Theme.warning : Theme.primary)
-
-                                Behavior on width {
-                                    NumberAnimation {
-                                        duration: Theme.shortDuration
-                                        easing.type: Theme.standardEasing
-                                    }
-                                }
                             }
                         }
                     }
@@ -909,9 +1456,84 @@ PluginComponent {
                         }
                     }
                 }
+                }
 
-                // --- Data Plan & Trigger Rules Settings Card ---
-                Rectangle {
+                // ==========================================
+                // === TAB 2: DATA QUOTA & RULES VIEW ===
+                // ==========================================
+                Column {
+                    id: quotaTabCol
+                    visible: popout.activeTab === 2
+                    width: parent.width
+                    spacing: Theme.spacingM
+
+                    // --- Quota Progress Bar Card (visible when dataPlanEnabled) ---
+                    Rectangle {
+                        visible: root.dataPlanEnabled
+                        width: parent.width
+                        implicitHeight: visible ? (quotaCol.implicitHeight + Theme.spacingM * 2) : 0
+                        radius: Theme.cornerRadius
+                        color: Theme.nestedSurface
+                        border.width: 1
+                        border.color: Theme.outlineLight
+
+                        Column {
+                            id: quotaCol
+                            anchors.centerIn: parent
+                            width: parent.width - Theme.spacingM * 2
+                            spacing: Theme.spacingS
+
+                            Item {
+                                width: parent.width
+                                height: 18
+
+                                StyledText {
+                                    anchors.left: parent.left
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    text: I18n.tr("Daily Quota")
+                                    font.pixelSize: Theme.fontSizeSmall
+                                    font.bold: true
+                                    color: Theme.surfaceText
+                                }
+
+                                StyledText {
+                                    anchors.right: parent.right
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    text: `${root.formatBytes(root.dataPlanUsedBytes)} / ${root.formatBytes(root.dataPlanQuotaBytes)} (${root.dataPlanPercent.toFixed(1)}%)`
+                                    font.pixelSize: Theme.fontSizeSmall
+                                    isMonospace: true
+                                    font.bold: true
+                                    color: root.dataPlanPercent >= 100 ? Theme.error : (root.dataPlanPercent >= 80 ? Theme.warning : Theme.primary)
+                                }
+                            }
+
+                            // Progress Bar Track & Indicator
+                            Rectangle {
+                                width: parent.width
+                                height: 8
+                                radius: 4
+                                color: Theme.outlineLight
+                                clip: true
+
+                                Rectangle {
+                                    width: Math.min(parent.width, parent.width * root.dataPlanProgress)
+                                    height: parent.height
+                                    radius: 4
+                                    color: root.dataPlanPercent >= 100 ? Theme.error : (root.dataPlanPercent >= 80 ? Theme.warning : Theme.primary)
+
+                                    Behavior on width {
+                                        NumberAnimation {
+                                            duration: Theme.shortDuration
+                                            easing.type: Theme.standardEasing
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    // --- Data Plan & Trigger Rules Settings Card ---
+                    Rectangle {
                     width: parent.width
                     implicitHeight: planCardCol.implicitHeight + Theme.spacingM * 2
                     radius: Theme.cornerRadius
@@ -1302,6 +1924,7 @@ PluginComponent {
                         }
                     }
                 }
+            }
             }
         }
     }

@@ -189,49 +189,64 @@
         ]
       },
       "locked": {
-        "lastModified": 1791819623,
-        "narHash": "sha256-SQIxNoOG06I7UpXzp2cQJQHy+FZpXxD4zQoNwqSTO5g=",
-        "owner": "AvengeMedia",
-        "repo": "dankcalendar",
-        "rev": "b40f43ca13fc30c99c75aae4ca9dd3d8c9a628e5",
+        "lastModified": 1792544049,
+        "narHash": "sha256-gEJU03lX5rNNjo8rsmIgrrJfrT8Jgi3GdUnLGlAZKRs=",
+        "owner": "duxlabs-dev",
+        "repo": "dux-calendar",
+        "rev": "734d20af76c9f2cdf751086456ad43535777c3f8",
         "type": "github"
       },
       "original": {
-        "owner": "AvengeMedia",
-        "repo": "dankcalendar",
+        "owner": "duxlabs-dev",
+        "repo": "dux-calendar",
         "type": "github"
       }
     },
     "dank-qml-common": {
       "flake": false,
       "locked": {
-        "lastModified": 1791581769,
-        "narHash": "sha256-Q87fFPp2fysHdMrk2/sQ7+c+Sc2RZAQGKnAZWEEFOHQ=",
-        "owner": "AvengeMedia",
-        "repo": "dank-qml-common",
-        "rev": "9314fc4df5a90c95bddcda83d696a1fd8c895aea",
+        "lastModified": 1792513666,
+        "narHash": "sha256-RDqPdPrM5lnwRrfFGLz3IwgTjCV2Ie+nrTD3ldj1t/s=",
+        "owner": "duxlabs-dev",
+        "repo": "dux-qml-common",
+        "rev": "ebf5e6c002da1bdaa4aaa2f319fea7b8507abc42",
         "type": "github"
       },
       "original": {
-        "owner": "AvengeMedia",
-        "repo": "dank-qml-common",
+        "owner": "duxlabs-dev",
+        "repo": "dux-qml-common",
         "type": "github"
       }
     },
     "dank-qml-common_2": {
       "flake": false,
       "locked": {
-        "lastModified": 1791392812,
-        "narHash": "sha256-id6Y5XNO5K3KfXSOsEYVUwiq1ygYGNX5LeKSgHM3GR8=",
-        "owner": "AvengeMedia",
-        "repo": "dank-qml-common",
-        "rev": "1ae722232da7110d26cd2c355b6615e078e94197",
+        "lastModified": 1792513666,
+        "narHash": "sha256-RDqPdPrM5lnwRrfFGLz3IwgTjCV2Ie+nrTD3ldj1t/s=",
+        "owner": "duxlabs-dev",
+        "repo": "dux-qml-common",
+        "rev": "ebf5e6c002da1bdaa4aaa2f319fea7b8507abc42",
         "type": "github"
       },
       "original": {
-        "owner": "AvengeMedia",
-        "ref": "stable-1.6",
-        "repo": "dank-qml-common",
+        "owner": "duxlabs-dev",
+        "repo": "dux-qml-common",
+        "type": "github"
+      }
+    },
+    "dank-qml-common_3": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1792513666,
+        "narHash": "sha256-RDqPdPrM5lnwRrfFGLz3IwgTjCV2Ie+nrTD3ldj1t/s=",
+        "owner": "duxlabs-dev",
+        "repo": "dux-qml-common",
+        "rev": "ebf5e6c002da1bdaa4aaa2f319fea7b8507abc42",
+        "type": "github"
+      },
+      "original": {
+        "owner": "duxlabs-dev",
+        "repo": "dux-qml-common",
         "type": "github"
       }
     },
@@ -424,22 +439,6 @@
         "type": "github"
       }
     },
-    "dms-plugin-pure-lyrics": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1787035389,
-        "narHash": "sha256-qKh+AUsh+dBU/aGLGvXdrmWGzegSm0mFwTQ3xuDFK7M=",
-        "owner": "lildengzi",
-        "repo": "pureLyrics",
-        "rev": "6a803e11110a858779da0be20eeb2f724ed28441",
-        "type": "github"
-      },
-      "original": {
-        "owner": "lildengzi",
-        "repo": "pureLyrics",
-        "type": "github"
-      }
-    },
     "dms-plugin-scratchpad-helper": {
       "flake": false,
       "locked": {
@@ -609,17 +608,38 @@
         ]
       },
       "locked": {
-        "lastModified": 1791395223,
-        "narHash": "sha256-yDBOoDewH8LwfsZrG4x5vaCstmp6w2vV70j9hC6dIuk=",
-        "owner": "AvengeMedia",
-        "repo": "DankMaterialShell",
-        "rev": "4a87e8227daf0840b3376fd5e7f891f5900165a6",
+        "lastModified": 1792523829,
+        "narHash": "sha256-hyWdbsyOGXsJxvXG4Tqg0uRI1s3JwPi8DKyWips3Ta8=",
+        "owner": "duxlabs-dev",
+        "repo": "dux-shell",
+        "rev": "9b413296b16721f7679fb62e624cb1ed2433fa58",
         "type": "github"
       },
       "original": {
-        "owner": "AvengeMedia",
+        "owner": "duxlabs-dev",
         "ref": "stable",
-        "repo": "DankMaterialShell",
+        "repo": "dux-shell",
+        "type": "github"
+      }
+    },
+    "dux-files": {
+      "inputs": {
+        "dank-qml-common": "dank-qml-common_3",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1792524315,
+        "narHash": "sha256-D7Rpu2bKlh46KSA7NGF4jmt3Ji1nscWmdjtCOJAWaiU=",
+        "owner": "duxlabs-dev",
+        "repo": "dux-files",
+        "rev": "f646769cc6de61354402bba0ee8ee3bb7d52d588",
+        "type": "github"
+      },
+      "original": {
+        "owner": "duxlabs-dev",
+        "repo": "dux-files",
         "type": "github"
       }
     },
@@ -1596,7 +1616,6 @@
         "dms-plugin-dank-cleaner": "dms-plugin-dank-cleaner",
         "dms-plugin-hidden-bar": "dms-plugin-hidden-bar",
         "dms-plugin-modern-clock": "dms-plugin-modern-clock",
-        "dms-plugin-pure-lyrics": "dms-plugin-pure-lyrics",
         "dms-plugin-scratchpad-helper": "dms-plugin-scratchpad-helper",
         "dms-plugin-screencapture-toolbar": "dms-plugin-screencapture-toolbar",
         "dms-plugin-screenkey": "dms-plugin-screenkey",
@@ -1608,6 +1627,7 @@
         "dms-plugins-hthienloc": "dms-plugins-hthienloc",
         "dms-plugins-sitolam": "dms-plugins-sitolam",
         "dms-shell": "dms-shell",
+        "dux-files": "dux-files",
         "fast-nix-gc": "fast-nix-gc",
         "fips": "fips",
         "flake-file": "flake-file",

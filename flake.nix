@@ -43,7 +43,7 @@
       };
     };
     dank-calendar = {
-      url = "github:AvengeMedia/dankcalendar";
+      url = "github:duxlabs-dev/dux-calendar";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     determinate = {
@@ -80,10 +80,6 @@
     };
     dms-plugin-modern-clock = {
       url = "github:beefsizzle/ModernClockDMS";
-      flake = false;
-    };
-    dms-plugin-pure-lyrics = {
-      url = "github:lildengzi/pureLyrics";
       flake = false;
     };
     dms-plugin-scratchpad-helper = {
@@ -127,7 +123,11 @@
       flake = false;
     };
     dms-shell = {
-      url = "github:AvengeMedia/DankMaterialShell/stable";
+      url = "github:duxlabs-dev/dux-shell/stable";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    dux-files = {
+      url = "github:duxlabs-dev/dux-files";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     fast-nix-gc = {
