@@ -1063,13 +1063,22 @@ PluginComponent {
 
                     // --- Live Speed Graph Card (5m / 1h) ---
                     Rectangle {
+                        id: speedGraphCard
                         width: parent.width
-                        height: 180
+                        implicitHeight: 180 + ifaceFilterDrawer.implicitHeight + (popout.ifaceMenuOpen ? 6 : 0)
+                        height: implicitHeight
                         radius: Theme.cornerRadius
                         color: Theme.nestedSurface
                         border.width: 1
                         border.color: Theme.outlineLight
                         clip: true
+
+                        Behavior on implicitHeight {
+                            NumberAnimation {
+                                duration: Theme.shortDuration
+                                easing.type: Theme.standardEasing
+                            }
+                        }
 
                         // Graph Card Header: Title + Resolution Toggle
                         Item {
@@ -1218,10 +1227,314 @@ PluginComponent {
                             }
                         }
 
+                        // Collapsible Interface Filter Drawer
+                        Rectangle {
+                            id: ifaceFilterDrawer
+                            anchors.top: graphHeader.bottom
+                            anchors.topMargin: popout.ifaceMenuOpen ? 6 : 0
+                            anchors.left: parent.left
+                            anchors.leftMargin: Theme.spacingM
+                            anchors.right: parent.right
+                            anchors.rightMargin: Theme.spacingM
+                            implicitHeight: popout.ifaceMenuOpen ? Math.min(220, filterDrawerCol.implicitHeight + Theme.spacingS * 2) : 0
+                            visible: implicitHeight > 0
+                            clip: true
+                            radius: 6
+                            color: Theme.surfaceContainerLowest
+                            border.width: popout.ifaceMenuOpen ? 1 : 0
+                            border.color: Theme.outlineLight
+
+                            Behavior on implicitHeight {
+                                NumberAnimation {
+                                    duration: Theme.shortDuration
+                                    easing.type: Theme.standardEasing
+                                }
+                            }
+                            Behavior on anchors.topMargin {
+                                NumberAnimation {
+                                    duration: Theme.shortDuration
+                                    easing.type: Theme.standardEasing
+                                }
+                            }
+
+                            Flickable {
+                                id: drawerFlickable
+                                anchors.fill: parent
+                                anchors.margins: Theme.spacingS
+                                contentHeight: filterDrawerCol.implicitHeight
+                                clip: true
+                                boundsBehavior: Flickable.StopAtBounds
+
+                                Column {
+                                    id: filterDrawerCol
+                                    width: drawerFlickable.width
+                                    spacing: 2
+
+                                    // Drawer Title & Close Button
+                                    Item {
+                                        width: parent.width
+                                        height: 18
+
+                                        StyledText {
+                                            anchors.left: parent.left
+                                            anchors.leftMargin: 4
+                                            anchors.verticalCenter: parent.verticalCenter
+                                            text: I18n.tr("Select Interface Filter")
+                                            font.pixelSize: 9
+                                            font.bold: true
+                                            color: Theme.surfaceVariantText
+                                        }
+
+                                        Rectangle {
+                                            anchors.right: parent.right
+                                            anchors.rightMargin: 4
+                                            anchors.verticalCenter: parent.verticalCenter
+                                            width: 16
+                                            height: 16
+                                            radius: 8
+                                            color: closeDrawerMouse.containsMouse ? Theme.surfaceTextHover : "transparent"
+
+                                            DankIcon {
+                                                anchors.centerIn: parent
+                                                name: "close"
+                                                size: 11
+                                                color: Theme.surfaceVariantText
+                                            }
+
+                                            MouseArea {
+                                                id: closeDrawerMouse
+                                                anchors.fill: parent
+                                                hoverEnabled: true
+                                                cursorShape: Qt.PointingHandCursor
+                                                onClicked: popout.ifaceMenuOpen = false
+                                            }
+                                        }
+                                    }
+
+                                    // "All Networks (Physical)" Option
+                                    Rectangle {
+                                        width: parent.width
+                                        height: 26
+                                        radius: 4
+                                        color: allRowMouse.containsMouse ? Theme.surfaceTextHover : "transparent"
+
+                                        Row {
+                                            anchors.left: parent.left
+                                            anchors.leftMargin: 4
+                                            anchors.verticalCenter: parent.verticalCenter
+                                            spacing: 6
+
+                                            DankIcon {
+                                                name: root.selectedInterfaceFilter.length === 0 ? "check_box" : "check_box_outline_blank"
+                                                size: 14
+                                                color: root.selectedInterfaceFilter.length === 0 ? Theme.primary : Theme.surfaceVariantText
+                                                anchors.verticalCenter: parent.verticalCenter
+                                            }
+
+                                            DankIcon {
+                                                name: "public"
+                                                size: 13
+                                                color: root.selectedInterfaceFilter.length === 0 ? Theme.primary : Theme.surfaceText
+                                                anchors.verticalCenter: parent.verticalCenter
+                                            }
+
+                                            StyledText {
+                                                text: I18n.tr("All Networks (Physical - Wi-Fi + Ethernet)")
+                                                font.pixelSize: 10
+                                                font.bold: root.selectedInterfaceFilter.length === 0
+                                                color: root.selectedInterfaceFilter.length === 0 ? Theme.primary : Theme.surfaceText
+                                                anchors.verticalCenter: parent.verticalCenter
+                                            }
+                                        }
+
+                                        StyledText {
+                                            anchors.right: parent.right
+                                            anchors.rightMargin: 4
+                                            anchors.verticalCenter: parent.verticalCenter
+                                            text: root.formatSpeed(root.totalPhysicalRxRate) + "/s"
+                                            font.pixelSize: 9
+                                            isMonospace: true
+                                            color: Theme.surfaceVariantText
+                                        }
+
+                                        MouseArea {
+                                            id: allRowMouse
+                                            anchors.fill: parent
+                                            hoverEnabled: true
+                                            cursorShape: Qt.PointingHandCursor
+                                            onClicked: root.clearInterfaceFilter()
+                                        }
+                                    }
+
+                                    // Physical Hardware Divider & Header
+                                    Rectangle {
+                                        width: parent.width
+                                        height: 1
+                                        color: Theme.outlineLight
+                                        opacity: 0.4
+                                    }
+
+                                    StyledText {
+                                        text: I18n.tr("PHYSICAL HARDWARE")
+                                        font.pixelSize: 8
+                                        font.bold: true
+                                        color: Theme.surfaceVariantText
+                                        leftPadding: 4
+                                        topPadding: 2
+                                        bottomPadding: 2
+                                    }
+
+                                    Repeater {
+                                        model: root.discoveredInterfaces.filter(function(item) { return item.isPhysical; })
+
+                                        Rectangle {
+                                            id: physRow
+                                            required property var modelData
+                                            width: filterDrawerCol.width
+                                            height: 26
+                                            radius: 4
+                                            color: physRowMouse.containsMouse ? Theme.surfaceTextHover : "transparent"
+
+                                            readonly property bool isChecked: root.selectedInterfaceFilter.includes(physRow.modelData.dev)
+
+                                            Row {
+                                                anchors.left: parent.left
+                                                anchors.leftMargin: 4
+                                                anchors.verticalCenter: parent.verticalCenter
+                                                spacing: 6
+
+                                                DankIcon {
+                                                    name: physRow.isChecked ? "check_box" : "check_box_outline_blank"
+                                                    size: 14
+                                                    color: physRow.isChecked ? Theme.primary : Theme.surfaceVariantText
+                                                    anchors.verticalCenter: parent.verticalCenter
+                                                }
+
+                                                DankIcon {
+                                                    name: physRow.modelData.icon
+                                                    size: 13
+                                                    color: physRow.isChecked ? Theme.primary : Theme.surfaceText
+                                                    anchors.verticalCenter: parent.verticalCenter
+                                                }
+
+                                                StyledText {
+                                                    text: `${physRow.modelData.name} (${physRow.modelData.dev})`
+                                                    font.pixelSize: 10
+                                                    font.bold: physRow.isChecked
+                                                    color: physRow.isChecked ? Theme.primary : Theme.surfaceText
+                                                    anchors.verticalCenter: parent.verticalCenter
+                                                }
+                                            }
+
+                                            StyledText {
+                                                anchors.right: parent.right
+                                                anchors.rightMargin: 4
+                                                anchors.verticalCenter: parent.verticalCenter
+                                                text: root.formatSpeed(physRow.modelData.rxRate) + "/s"
+                                                font.pixelSize: 9
+                                                isMonospace: true
+                                                color: physRow.modelData.rxRate > 0 ? Theme.info : Theme.surfaceVariantText
+                                            }
+
+                                            MouseArea {
+                                                id: physRowMouse
+                                                anchors.fill: parent
+                                                hoverEnabled: true
+                                                cursorShape: Qt.PointingHandCursor
+                                                onClicked: root.toggleInterfaceFilter(physRow.modelData.dev)
+                                            }
+                                        }
+                                    }
+
+                                    // Overlays & Tunnels Divider & Header
+                                    Rectangle {
+                                        visible: root.discoveredInterfaces.some(function(item) { return !item.isPhysical; })
+                                        width: parent.width
+                                        height: 1
+                                        color: Theme.outlineLight
+                                        opacity: 0.4
+                                    }
+
+                                    StyledText {
+                                        visible: root.discoveredInterfaces.some(function(item) { return !item.isPhysical; })
+                                        text: I18n.tr("OVERLAYS & TUNNELS")
+                                        font.pixelSize: 8
+                                        font.bold: true
+                                        color: Theme.surfaceVariantText
+                                        leftPadding: 4
+                                        topPadding: 2
+                                        bottomPadding: 2
+                                    }
+
+                                    Repeater {
+                                        model: root.discoveredInterfaces.filter(function(item) { return !item.isPhysical; })
+
+                                        Rectangle {
+                                            id: virtRow
+                                            required property var modelData
+                                            width: filterDrawerCol.width
+                                            height: 26
+                                            radius: 4
+                                            color: virtRowMouse.containsMouse ? Theme.surfaceTextHover : "transparent"
+
+                                            readonly property bool isChecked: root.selectedInterfaceFilter.includes(virtRow.modelData.dev)
+
+                                            Row {
+                                                anchors.left: parent.left
+                                                anchors.leftMargin: 4
+                                                anchors.verticalCenter: parent.verticalCenter
+                                                spacing: 6
+
+                                                DankIcon {
+                                                    name: virtRow.isChecked ? "check_box" : "check_box_outline_blank"
+                                                    size: 14
+                                                    color: virtRow.isChecked ? Theme.primary : Theme.surfaceVariantText
+                                                    anchors.verticalCenter: parent.verticalCenter
+                                                }
+
+                                                DankIcon {
+                                                    name: virtRow.modelData.icon
+                                                    size: 13
+                                                    color: virtRow.isChecked ? Theme.primary : Theme.surfaceText
+                                                    anchors.verticalCenter: parent.verticalCenter
+                                                }
+
+                                                StyledText {
+                                                    text: `${virtRow.modelData.name} (${virtRow.modelData.dev})`
+                                                    font.pixelSize: 10
+                                                    font.bold: virtRow.isChecked
+                                                    color: virtRow.isChecked ? Theme.primary : Theme.surfaceText
+                                                    anchors.verticalCenter: parent.verticalCenter
+                                                }
+                                            }
+
+                                            StyledText {
+                                                anchors.right: parent.right
+                                                anchors.rightMargin: 4
+                                                anchors.verticalCenter: parent.verticalCenter
+                                                text: root.formatSpeed(virtRow.modelData.rxRate) + "/s"
+                                                font.pixelSize: 9
+                                                isMonospace: true
+                                                color: virtRow.modelData.rxRate > 0 ? Theme.info : Theme.surfaceVariantText
+                                            }
+
+                                            MouseArea {
+                                                id: virtRowMouse
+                                                anchors.fill: parent
+                                                hoverEnabled: true
+                                                cursorShape: Qt.PointingHandCursor
+                                                onClicked: root.toggleInterfaceFilter(virtRow.modelData.dev)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
                         // Drawing Area
                         Item {
                             id: liveChartArea
-                            anchors.top: graphHeader.bottom
+                            anchors.top: ifaceFilterDrawer.bottom
                             anchors.topMargin: 6
                             anchors.left: parent.left
                             anchors.leftMargin: Theme.spacingM
@@ -2288,258 +2601,7 @@ PluginComponent {
             }
             }
 
-            // --- Floating Interface Filter Dropdown Popover ---
-            MouseArea {
-                anchors.fill: parent
-                z: 150
-                visible: popout.ifaceMenuOpen
-                onClicked: popout.ifaceMenuOpen = false
-            }
 
-            Rectangle {
-                id: ifaceDropdownMenu
-                visible: popout.ifaceMenuOpen
-                z: 200
-                anchors.top: parent.top
-                anchors.topMargin: 112
-                anchors.right: parent.right
-                anchors.rightMargin: Theme.spacingM
-                width: 250
-                height: Math.min(260, menuCol.implicitHeight + Theme.spacingS * 2)
-                radius: Theme.cornerRadius
-                color: Theme.surface
-                border.width: 1
-                border.color: Theme.outlineLight
-                clip: true
-
-                Flickable {
-                    anchors.fill: parent
-                    anchors.margins: Theme.spacingS
-                    contentHeight: menuCol.implicitHeight
-                    boundsBehavior: Flickable.StopAtBounds
-
-                    Column {
-                        id: menuCol
-                        width: parent.width
-                        spacing: 2
-
-                        // "All Networks (Physical)" Option
-                        Rectangle {
-                            width: parent.width
-                            height: 28
-                            radius: 4
-                            color: allRowMouse.containsMouse ? Theme.surfaceTextHover : "transparent"
-
-                            Row {
-                                anchors.left: parent.left
-                                anchors.leftMargin: 4
-                                anchors.verticalCenter: parent.verticalCenter
-                                spacing: 6
-
-                                DankIcon {
-                                    name: root.selectedInterfaceFilter.length === 0 ? "check_box" : "check_box_outline_blank"
-                                    size: 14
-                                    color: root.selectedInterfaceFilter.length === 0 ? Theme.primary : Theme.surfaceVariantText
-                                    anchors.verticalCenter: parent.verticalCenter
-                                }
-
-                                DankIcon {
-                                    name: "public"
-                                    size: 13
-                                    color: root.selectedInterfaceFilter.length === 0 ? Theme.primary : Theme.surfaceText
-                                    anchors.verticalCenter: parent.verticalCenter
-                                }
-
-                                StyledText {
-                                    text: I18n.tr("All Networks (Physical)")
-                                    font.pixelSize: 10
-                                    font.bold: root.selectedInterfaceFilter.length === 0
-                                    color: root.selectedInterfaceFilter.length === 0 ? Theme.primary : Theme.surfaceText
-                                    anchors.verticalCenter: parent.verticalCenter
-                                }
-                            }
-
-                            StyledText {
-                                anchors.right: parent.right
-                                anchors.rightMargin: 4
-                                anchors.verticalCenter: parent.verticalCenter
-                                text: root.formatSpeed(root.totalPhysicalRxRate) + "/s"
-                                font.pixelSize: 9
-                                isMonospace: true
-                                color: Theme.surfaceVariantText
-                            }
-
-                            MouseArea {
-                                id: allRowMouse
-                                anchors.fill: parent
-                                hoverEnabled: true
-                                cursorShape: Qt.PointingHandCursor
-                                onClicked: root.clearInterfaceFilter()
-                            }
-                        }
-
-                        // Physical Hardware Divider & Header
-                        Rectangle {
-                            width: parent.width
-                            height: 1
-                            color: Theme.outlineLight
-                            opacity: 0.4
-                        }
-
-                        StyledText {
-                            text: I18n.tr("PHYSICAL HARDWARE")
-                            font.pixelSize: 8
-                            font.bold: true
-                            color: Theme.surfaceVariantText
-                            leftPadding: 4
-                            topPadding: 2
-                            bottomPadding: 2
-                        }
-
-                        Repeater {
-                            model: root.discoveredInterfaces.filter(function(item) { return item.isPhysical; })
-
-                            Rectangle {
-                                id: physRow
-                                required property var modelData
-                                width: menuCol.width
-                                height: 26
-                                radius: 4
-                                color: physRowMouse.containsMouse ? Theme.surfaceTextHover : "transparent"
-
-                                readonly property bool isChecked: root.selectedInterfaceFilter.includes(physRow.modelData.dev)
-
-                                Row {
-                                    anchors.left: parent.left
-                                    anchors.leftMargin: 4
-                                    anchors.verticalCenter: parent.verticalCenter
-                                    spacing: 6
-
-                                    DankIcon {
-                                        name: physRow.isChecked ? "check_box" : "check_box_outline_blank"
-                                        size: 14
-                                        color: physRow.isChecked ? Theme.primary : Theme.surfaceVariantText
-                                        anchors.verticalCenter: parent.verticalCenter
-                                    }
-
-                                    DankIcon {
-                                        name: physRow.modelData.icon
-                                        size: 13
-                                        color: physRow.isChecked ? Theme.primary : Theme.surfaceText
-                                        anchors.verticalCenter: parent.verticalCenter
-                                    }
-
-                                    StyledText {
-                                        text: `${physRow.modelData.name} (${physRow.modelData.dev})`
-                                        font.pixelSize: 10
-                                        font.bold: physRow.isChecked
-                                        color: physRow.isChecked ? Theme.primary : Theme.surfaceText
-                                        anchors.verticalCenter: parent.verticalCenter
-                                    }
-                                }
-
-                                StyledText {
-                                    anchors.right: parent.right
-                                    anchors.rightMargin: 4
-                                    anchors.verticalCenter: parent.verticalCenter
-                                    text: root.formatSpeed(physRow.modelData.rxRate) + "/s"
-                                    font.pixelSize: 9
-                                    isMonospace: true
-                                    color: physRow.modelData.rxRate > 0 ? Theme.info : Theme.surfaceVariantText
-                                }
-
-                                MouseArea {
-                                    id: physRowMouse
-                                    anchors.fill: parent
-                                    hoverEnabled: true
-                                    cursorShape: Qt.PointingHandCursor
-                                    onClicked: root.toggleInterfaceFilter(physRow.modelData.dev)
-                                }
-                            }
-                        }
-
-                        // Overlays & Tunnels Divider & Header
-                        Rectangle {
-                            width: parent.width
-                            height: 1
-                            color: Theme.outlineLight
-                            opacity: 0.4
-                        }
-
-                        StyledText {
-                            text: I18n.tr("OVERLAYS & TUNNELS")
-                            font.pixelSize: 8
-                            font.bold: true
-                            color: Theme.surfaceVariantText
-                            leftPadding: 4
-                            topPadding: 2
-                            bottomPadding: 2
-                        }
-
-                        Repeater {
-                            model: root.discoveredInterfaces.filter(function(item) { return !item.isPhysical; })
-
-                            Rectangle {
-                                id: virtRow
-                                required property var modelData
-                                width: menuCol.width
-                                height: 26
-                                radius: 4
-                                color: virtRowMouse.containsMouse ? Theme.surfaceTextHover : "transparent"
-
-                                readonly property bool isChecked: root.selectedInterfaceFilter.includes(virtRow.modelData.dev)
-
-                                Row {
-                                    anchors.left: parent.left
-                                    anchors.leftMargin: 4
-                                    anchors.verticalCenter: parent.verticalCenter
-                                    spacing: 6
-
-                                    DankIcon {
-                                        name: virtRow.isChecked ? "check_box" : "check_box_outline_blank"
-                                        size: 14
-                                        color: virtRow.isChecked ? Theme.primary : Theme.surfaceVariantText
-                                        anchors.verticalCenter: parent.verticalCenter
-                                    }
-
-                                    DankIcon {
-                                        name: virtRow.modelData.icon
-                                        size: 13
-                                        color: virtRow.isChecked ? Theme.primary : Theme.surfaceText
-                                        anchors.verticalCenter: parent.verticalCenter
-                                    }
-
-                                    StyledText {
-                                        text: `${virtRow.modelData.name} (${virtRow.modelData.dev})`
-                                        font.pixelSize: 10
-                                        font.bold: virtRow.isChecked
-                                        color: virtRow.isChecked ? Theme.primary : Theme.surfaceText
-                                        anchors.verticalCenter: parent.verticalCenter
-                                    }
-                                }
-
-                                StyledText {
-                                    anchors.right: parent.right
-                                    anchors.rightMargin: 4
-                                    anchors.verticalCenter: parent.verticalCenter
-                                    text: root.formatSpeed(virtRow.modelData.rxRate) + "/s"
-                                    font.pixelSize: 9
-                                    isMonospace: true
-                                    color: virtRow.modelData.rxRate > 0 ? Theme.info : Theme.surfaceVariantText
-                                }
-
-                                MouseArea {
-                                    id: virtRowMouse
-                                    anchors.fill: parent
-                                    hoverEnabled: true
-                                    cursorShape: Qt.PointingHandCursor
-                                    onClicked: root.toggleInterfaceFilter(virtRow.modelData.dev)
-                                }
-                            }
-                        }
-                    }
-                }
-            }
         }
     }
 
