@@ -14,6 +14,7 @@ PluginComponent {
     Component.onCompleted: {
         DgopService.addRef(["network"]);
         if (uptimeProc) uptimeProc.running = true;
+        if (netDevProc) netDevProc.running = true;
         root.checkDayRollover();
     }
 
@@ -84,45 +85,329 @@ PluginComponent {
     readonly property real sessionAvgTx: sessionSampleCount > 0 ? (sessionTotalTxBytes / sessionSampleCount) : 0
     property int sampleCounter10s: 0
 
+    // --- Discovered Network Devices & Multi-Filter State ---
+    property var discoveredInterfaces: []
+    property var prevInterfaceBytes: ({})
+    property var interfaceHistory5m: ({})
+    property var interfaceHistory1h: ({})
+    property var selectedInterfaceFilter: [] // Array of dev strings. Empty = All Networks (Physical Total)
+
+    property real activeRxRate: 0
+    property real activeTxRate: 0
+    property real totalPhysicalRxRate: 0
+    property real totalPhysicalTxRate: 0
+
+    readonly property real displayRxRate: (root.activeRxRate > 0 || root.activeTxRate > 0 || root.selectedInterfaceFilter.length > 0) ? root.activeRxRate : (DgopService.networkRxRate || 0)
+    readonly property real displayTxRate: (root.activeRxRate > 0 || root.activeTxRate > 0 || root.selectedInterfaceFilter.length > 0) ? root.activeTxRate : (DgopService.networkTxRate || 0)
+
+    function getInterfaceIcon(dev) {
+        if (!dev) return "public";
+        if (dev.startsWith("wl")) return "wifi";
+        if (dev.startsWith("en") || dev.startsWith("eth")) return "lan";
+        if (dev.startsWith("wt")) return "hub";
+        if (dev.startsWith("fips")) return "security";
+        if (dev.startsWith("tun") || dev.startsWith("wg")) return "shield";
+        if (dev.startsWith("tailscale")) return "vpn_lock";
+        return "settings_ethernet";
+    }
+
+    function getFilterButtonLabel() {
+        if (root.selectedInterfaceFilter.length === 0) {
+            return I18n.tr("All Networks");
+        }
+        if (root.selectedInterfaceFilter.length === 1) {
+            const dev = root.selectedInterfaceFilter[0];
+            for (let i = 0; i < root.discoveredInterfaces.length; i++) {
+                if (root.discoveredInterfaces[i].dev === dev) {
+                    return `${root.discoveredInterfaces[i].name} (${dev})`;
+                }
+            }
+            return dev;
+        }
+        if (root.selectedInterfaceFilter.length === 2) {
+            return root.selectedInterfaceFilter.join(" + ");
+        }
+        return `${root.selectedInterfaceFilter[0]} + ${root.selectedInterfaceFilter[1]} + ${root.selectedInterfaceFilter.length - 2}`;
+    }
+
+    function toggleInterfaceFilter(dev) {
+        let list = [...root.selectedInterfaceFilter];
+        const idx = list.indexOf(dev);
+        if (idx >= 0) {
+            list.splice(idx, 1);
+        } else {
+            list.push(dev);
+        }
+        root.selectedInterfaceFilter = list;
+        root.rebuildActiveHistory();
+    }
+
+    function clearInterfaceFilter() {
+        root.selectedInterfaceFilter = [];
+        root.rebuildActiveHistory();
+    }
+
+    function rebuildActiveHistory() {
+        const isFilterEmpty = root.selectedInterfaceFilter.length === 0;
+        let targetDevs = [];
+        if (isFilterEmpty) {
+            for (let i = 0; i < root.discoveredInterfaces.length; i++) {
+                if (root.discoveredInterfaces[i].isPhysical) {
+                    targetDevs.push(root.discoveredInterfaces[i].dev);
+                }
+            }
+        } else {
+            targetDevs = root.selectedInterfaceFilter;
+        }
+
+        // Rebuild 5m buffer
+        let max5mLen = 0;
+        for (let d of targetDevs) {
+            const h = root.interfaceHistory5m[d];
+            if (h && h.rx.length > max5mLen) max5mLen = h.rx.length;
+        }
+        let new5mRx = [];
+        let new5mTx = [];
+        for (let idx = 0; idx < max5mLen; idx++) {
+            let rSum = 0;
+            let tSum = 0;
+            for (let d of targetDevs) {
+                const h = root.interfaceHistory5m[d];
+                if (h && h.rx.length > idx) {
+                    rSum += (h.rx[idx] || 0);
+                    tSum += (h.tx[idx] || 0);
+                }
+            }
+            new5mRx.push(rSum);
+            new5mTx.push(tSum);
+        }
+        root.history5mRx = new5mRx;
+        root.history5mTx = new5mTx;
+
+        // Rebuild 1h buffer
+        let max1hLen = 0;
+        for (let d of targetDevs) {
+            const h = root.interfaceHistory1h[d];
+            if (h && h.rx.length > max1hLen) max1hLen = h.rx.length;
+        }
+        let new1hRx = [];
+        let new1hTx = [];
+        for (let idx = 0; idx < max1hLen; idx++) {
+            let rSum = 0;
+            let tSum = 0;
+            for (let d of targetDevs) {
+                const h = root.interfaceHistory1h[d];
+                if (h && h.rx.length > idx) {
+                    rSum += (h.rx[idx] || 0);
+                    tSum += (h.tx[idx] || 0);
+                }
+            }
+            new1hRx.push(rSum);
+            new1hTx.push(tSum);
+        }
+        root.history1hRx = new1hRx;
+        root.history1hTx = new1hTx;
+
+        // Recalculate extremes
+        root.sessionPeakRx = 0;
+        root.sessionPeakTx = 0;
+        root.sessionMinRx = 0;
+        root.sessionMinTx = 0;
+        root.sessionTotalRxBytes = 0;
+        root.sessionTotalTxBytes = 0;
+        root.sessionSampleCount = 0;
+
+        for (let i = 0; i < new5mRx.length; i++) {
+            const rxVal = new5mRx[i];
+            const txVal = new5mTx[i] || 0;
+            if (rxVal > root.sessionPeakRx) root.sessionPeakRx = rxVal;
+            if (txVal > root.sessionPeakTx) root.sessionPeakTx = txVal;
+            if (rxVal > 0 && (root.sessionMinRx === 0 || rxVal < root.sessionMinRx)) root.sessionMinRx = rxVal;
+            if (txVal > 0 && (root.sessionMinTx === 0 || txVal < root.sessionMinTx)) root.sessionMinTx = txVal;
+            root.sessionTotalRxBytes += rxVal;
+            root.sessionTotalTxBytes += txVal;
+            root.sessionSampleCount++;
+        }
+
+        // Current rates
+        let curRx = 0;
+        let curTx = 0;
+        for (let iface of root.discoveredInterfaces) {
+            if (targetDevs.includes(iface.dev)) {
+                curRx += (iface.rxRate || 0);
+                curTx += (iface.txRate || 0);
+            }
+        }
+        root.activeRxRate = curRx;
+        root.activeTxRate = curTx;
+    }
+
+    function parseNetDevOutput(text) {
+        if (!text || !text.trim()) return;
+        const now = Date.now();
+        const lines = text.trim().split("\n");
+        const list = [];
+        let physRxRate = 0;
+        let physTxRate = 0;
+        let selRxRate = 0;
+        let selTxRate = 0;
+        const isFilterEmpty = root.selectedInterfaceFilter.length === 0;
+
+        for (let i = 2; i < lines.length; i++) {
+            const line = lines[i];
+            const colonIdx = line.indexOf(":");
+            if (colonIdx === -1) continue;
+            const dev = line.substring(0, colonIdx).trim();
+            if (dev === "lo") continue; // Exclude loopback
+
+            const rest = line.substring(colonIdx + 1).trim();
+            const stats = rest.split(/\s+/);
+            if (stats.length < 9) continue;
+            const rx = parseInt(stats[0], 10) || 0;
+            const tx = parseInt(stats[8], 10) || 0;
+
+            let rxRate = 0;
+            let txRate = 0;
+            const prev = root.prevInterfaceBytes[dev];
+            if (prev) {
+                const dt = Math.max(0.5, (now - prev.time) / 1000);
+                rxRate = Math.max(0, (rx - prev.rx) / dt);
+                txRate = Math.max(0, (tx - prev.tx) / dt);
+            }
+            root.prevInterfaceBytes[dev] = { rx: rx, tx: tx, time: now };
+
+            const isPhysical = dev.startsWith("wl") || dev.startsWith("en") || dev.startsWith("eth");
+            let icon = "settings_ethernet";
+            let friendlyName = dev;
+            if (dev.startsWith("wl")) { icon = "wifi"; friendlyName = "Wi-Fi"; }
+            else if (dev.startsWith("en") || dev.startsWith("eth")) { icon = "lan"; friendlyName = "Ethernet"; }
+            else if (dev.startsWith("wt")) { icon = "hub"; friendlyName = "NetBird"; }
+            else if (dev.startsWith("fips")) { icon = "security"; friendlyName = "FIPS Mesh"; }
+            else if (dev.startsWith("tun") || dev.startsWith("wg")) { icon = "shield"; friendlyName = "VPN Tunnel"; }
+            else if (dev.startsWith("tailscale")) { icon = "vpn_lock"; friendlyName = "Tailscale"; }
+
+            list.push({
+                dev: dev,
+                name: friendlyName,
+                icon: icon,
+                isPhysical: isPhysical,
+                rx: rx,
+                tx: tx,
+                rxRate: rxRate,
+                txRate: txRate
+            });
+
+            // Store per-device 5m rolling history
+            if (!root.interfaceHistory5m[dev]) root.interfaceHistory5m[dev] = { rx: [], tx: [] };
+            let h5 = root.interfaceHistory5m[dev];
+            h5.rx.push(rxRate);
+            if (h5.rx.length > 300) h5.rx.shift();
+            h5.tx.push(txRate);
+            if (h5.tx.length > 300) h5.tx.shift();
+
+            // Store per-device 1h rolling history
+            if (!root.interfaceHistory1h[dev]) root.interfaceHistory1h[dev] = { rx: [], tx: [] };
+            if (root.sampleCounter10s >= 10 || root.interfaceHistory1h[dev].rx.length === 0) {
+                let h1 = root.interfaceHistory1h[dev];
+                h1.rx.push(rxRate);
+                if (h1.rx.length > 360) h1.rx.shift();
+                h1.tx.push(txRate);
+                if (h1.tx.length > 360) h1.tx.shift();
+            }
+
+            if (isPhysical) {
+                physRxRate += rxRate;
+                physTxRate += txRate;
+            }
+
+            if (!isFilterEmpty && root.selectedInterfaceFilter.includes(dev)) {
+                selRxRate += rxRate;
+                selTxRate += txRate;
+            }
+        }
+
+        root.totalPhysicalRxRate = physRxRate;
+        root.totalPhysicalTxRate = physTxRate;
+        root.discoveredInterfaces = list;
+
+        // Determine active rate
+        const rx = isFilterEmpty ? physRxRate : selRxRate;
+        const tx = isFilterEmpty ? physTxRate : selTxRate;
+        root.activeRxRate = rx;
+        root.activeTxRate = tx;
+
+        // Active 5-minute rolling buffer
+        let h5Rx = [...root.history5mRx, rx];
+        if (h5Rx.length > 300) h5Rx.shift();
+        root.history5mRx = h5Rx;
+
+        let h5Tx = [...root.history5mTx, tx];
+        if (h5Tx.length > 300) h5Tx.shift();
+        root.history5mTx = h5Tx;
+
+        // Extremes tracking for active stream
+        if (rx > root.sessionPeakRx) root.sessionPeakRx = rx;
+        if (tx > root.sessionPeakTx) root.sessionPeakTx = tx;
+        if (rx > 0 && (root.sessionMinRx === 0 || rx < root.sessionMinRx)) root.sessionMinRx = rx;
+        if (tx > 0 && (root.sessionMinTx === 0 || tx < root.sessionMinTx)) root.sessionMinTx = tx;
+
+        root.sessionTotalRxBytes += rx;
+        root.sessionTotalTxBytes += tx;
+        root.sessionSampleCount++;
+
+        // 1-hour rolling buffer (360 data points @ 10s)
+        root.sampleCounter10s++;
+        if (root.sampleCounter10s >= 10 || root.history1hRx.length === 0) {
+            root.sampleCounter10s = 0;
+            let h1Rx = [...root.history1hRx, rx];
+            if (h1Rx.length > 360) h1Rx.shift();
+            root.history1hRx = h1Rx;
+
+            let h1Tx = [...root.history1hTx, tx];
+            if (h1Tx.length > 360) h1Tx.shift();
+            root.history1hTx = h1Tx;
+        }
+    }
+
     Timer {
         id: liveSampleTimer
         interval: 1000
         running: true
         repeat: true
         onTriggered: {
-            const rx = DgopService.networkRxRate || 0;
-            const tx = DgopService.networkTxRate || 0;
+            if (netDevProc && !netDevProc.running) {
+                netDevProc.running = true;
+            } else if (!netDevProc) {
+                const rx = DgopService.networkRxRate || 0;
+                const tx = DgopService.networkTxRate || 0;
+                let h5Rx = [...root.history5mRx, rx];
+                if (h5Rx.length > 300) h5Rx.shift();
+                root.history5mRx = h5Rx;
 
-            // 5-minute rolling buffer (300 data points @ 1s)
-            let h5Rx = [...root.history5mRx, rx];
-            if (h5Rx.length > 300) h5Rx.shift();
-            root.history5mRx = h5Rx;
+                let h5Tx = [...root.history5mTx, tx];
+                if (h5Tx.length > 300) h5Tx.shift();
+                root.history5mTx = h5Tx;
 
-            let h5Tx = [...root.history5mTx, tx];
-            if (h5Tx.length > 300) h5Tx.shift();
-            root.history5mTx = h5Tx;
+                if (rx > root.sessionPeakRx) root.sessionPeakRx = rx;
+                if (tx > root.sessionPeakTx) root.sessionPeakTx = tx;
+                if (rx > 0 && (root.sessionMinRx === 0 || rx < root.sessionMinRx)) root.sessionMinRx = rx;
+                if (tx > 0 && (root.sessionMinTx === 0 || tx < root.sessionMinTx)) root.sessionMinTx = tx;
 
-            // Extremes tracking
-            if (rx > root.sessionPeakRx) root.sessionPeakRx = rx;
-            if (tx > root.sessionPeakTx) root.sessionPeakTx = tx;
-            if (rx > 0 && (root.sessionMinRx === 0 || rx < root.sessionMinRx)) root.sessionMinRx = rx;
-            if (tx > 0 && (root.sessionMinTx === 0 || tx < root.sessionMinTx)) root.sessionMinTx = tx;
+                root.sessionTotalRxBytes += rx;
+                root.sessionTotalTxBytes += tx;
+                root.sessionSampleCount++;
 
-            root.sessionTotalRxBytes += rx;
-            root.sessionTotalTxBytes += tx;
-            root.sessionSampleCount++;
+                root.sampleCounter10s++;
+                if (root.sampleCounter10s >= 10 || root.history1hRx.length === 0) {
+                    root.sampleCounter10s = 0;
+                    let h1Rx = [...root.history1hRx, rx];
+                    if (h1Rx.length > 360) h1Rx.shift();
+                    root.history1hRx = h1Rx;
 
-            // 1-hour rolling buffer (360 data points @ 10s)
-            root.sampleCounter10s++;
-            if (root.sampleCounter10s >= 10 || root.history1hRx.length === 0) {
-                root.sampleCounter10s = 0;
-                let h1Rx = [...root.history1hRx, rx];
-                if (h1Rx.length > 360) h1Rx.shift();
-                root.history1hRx = h1Rx;
-
-                let h1Tx = [...root.history1hTx, tx];
-                if (h1Tx.length > 360) h1Tx.shift();
-                root.history1hTx = h1Tx;
+                    let h1Tx = [...root.history1hTx, tx];
+                    if (h1Tx.length > 360) h1Tx.shift();
+                    root.history1hTx = h1Tx;
+                }
             }
         }
     }
@@ -549,6 +834,19 @@ PluginComponent {
         }
     }
 
+    Process {
+        id: netDevProc
+        command: ["cat", "/proc/net/dev"]
+        running: false
+        stdout: StdioCollector {
+            onStreamFinished: {
+                if (text && text.trim()) {
+                    root.parseNetDevOutput(text);
+                }
+            }
+        }
+    }
+
     // --- Quickshell Native File Storage ---
     FileView {
         id: historyFile
@@ -587,7 +885,12 @@ PluginComponent {
 
             headerText: I18n.tr("Network Statistics")
             detailsText: {
-                if (popout.activeTab === 0) return I18n.tr("Real-time Throughput & Session Extremes");
+                if (popout.activeTab === 0) {
+                    if (root.selectedInterfaceFilter.length > 0) {
+                        return `${I18n.tr("Filtered")}: ${root.getFilterButtonLabel()}`;
+                    }
+                    return I18n.tr("Real-time Throughput & Session Extremes");
+                }
                 if (popout.activeTab === 1) return I18n.tr("Uptime / Today / 7-Day Traffic");
                 return I18n.tr("Daily Limits & Notification Rules");
             }
@@ -599,6 +902,7 @@ PluginComponent {
             property real hoverX: 0
             property int selectedDayIndex: -1
             property var daysData: root.getSevenDaysList()
+            property bool ifaceMenuOpen: false
 
             Column {
                 width: parent.width
@@ -706,13 +1010,13 @@ PluginComponent {
                                     spacing: 0
                                     anchors.verticalCenter: parent.verticalCenter
                                     StyledText {
-                                        text: I18n.tr("Download Rate")
+                                        text: root.selectedInterfaceFilter.length > 0 ? (root.getFilterButtonLabel() + " ↓") : I18n.tr("Download Rate")
                                         font.pixelSize: 9
                                         color: Theme.surfaceVariantText
                                     }
                                     NumericText {
                                         isMonospace: true
-                                        text: root.formatSpeed(DgopService.networkRxRate) + "/s"
+                                        text: root.formatSpeed(root.displayRxRate) + "/s"
                                         font.pixelSize: 13
                                         font.bold: true
                                         color: Theme.surfaceText
@@ -741,13 +1045,13 @@ PluginComponent {
                                     spacing: 0
                                     anchors.verticalCenter: parent.verticalCenter
                                     StyledText {
-                                        text: I18n.tr("Upload Rate")
+                                        text: root.selectedInterfaceFilter.length > 0 ? (root.getFilterButtonLabel() + " ↑") : I18n.tr("Upload Rate")
                                         font.pixelSize: 9
                                         color: Theme.surfaceVariantText
                                     }
                                     NumericText {
                                         isMonospace: true
-                                        text: root.formatSpeed(DgopService.networkTxRate) + "/s"
+                                        text: root.formatSpeed(root.displayTxRate) + "/s"
                                         font.pixelSize: 13
                                         font.bold: true
                                         color: Theme.surfaceText
@@ -780,7 +1084,10 @@ PluginComponent {
 
                             StyledText {
                                 anchors.left: parent.left
+                                anchors.right: headerControlsRow.left
+                                anchors.rightMargin: 6
                                 anchors.verticalCenter: parent.verticalCenter
+                                elide: Text.ElideRight
                                 text: {
                                     if (popout.hoveredPointIndex >= 0) {
                                         const rxList = popout.liveGraphRange === 0 ? root.history5mRx : root.history1hRx;
@@ -799,59 +1106,113 @@ PluginComponent {
                                 color: popout.hoveredPointIndex >= 0 ? Theme.primary : Theme.surfaceText
                             }
 
-                            // 5m / 1h Resolution Toggle Chips
+                            // Controls Row: Dropdown Button + Resolution Toggle
                             Row {
+                                id: headerControlsRow
                                 anchors.right: parent.right
                                 anchors.verticalCenter: parent.verticalCenter
-                                spacing: 4
+                                spacing: 5
 
+                                // Interface Filter Dropdown Button
                                 Rectangle {
-                                    width: 36
+                                    id: ifaceDropdownBtn
+                                    width: ifaceBtnRow.implicitWidth + 12
                                     height: 20
                                     radius: 4
-                                    color: popout.liveGraphRange === 0 ? Theme.primary : (range5Mouse.containsMouse ? Theme.surfaceTextHover : Theme.surfaceContainerHigh)
+                                    color: popout.ifaceMenuOpen ? Theme.primary : (ifaceBtnMouse.containsMouse ? Theme.surfaceTextHover : Theme.surfaceContainerHigh)
                                     border.width: 1
-                                    border.color: popout.liveGraphRange === 0 ? Theme.primary : Theme.outlineLight
+                                    border.color: popout.ifaceMenuOpen ? Theme.primary : Theme.outlineLight
 
-                                    StyledText {
+                                    Row {
+                                        id: ifaceBtnRow
                                         anchors.centerIn: parent
-                                        text: "5m"
-                                        font.pixelSize: 10
-                                        font.bold: true
-                                        color: popout.liveGraphRange === 0 ? Theme.onPrimary : Theme.surfaceText
+                                        spacing: 3
+
+                                        DankIcon {
+                                            name: root.selectedInterfaceFilter.length === 0 ? "public" : (root.selectedInterfaceFilter.length === 1 ? root.getInterfaceIcon(root.selectedInterfaceFilter[0]) : "tune")
+                                            size: 11
+                                            color: popout.ifaceMenuOpen ? Theme.onPrimary : Theme.surfaceText
+                                            anchors.verticalCenter: parent.verticalCenter
+                                        }
+
+                                        StyledText {
+                                            text: root.getFilterButtonLabel()
+                                            font.pixelSize: 9
+                                            font.bold: true
+                                            color: popout.ifaceMenuOpen ? Theme.onPrimary : Theme.surfaceText
+                                            anchors.verticalCenter: parent.verticalCenter
+                                        }
+
+                                        DankIcon {
+                                            name: popout.ifaceMenuOpen ? "arrow_drop_up" : "arrow_drop_down"
+                                            size: 13
+                                            color: popout.ifaceMenuOpen ? Theme.onPrimary : Theme.surfaceText
+                                            anchors.verticalCenter: parent.verticalCenter
+                                        }
                                     }
 
                                     MouseArea {
-                                        id: range5Mouse
+                                        id: ifaceBtnMouse
                                         anchors.fill: parent
                                         hoverEnabled: true
                                         cursorShape: Qt.PointingHandCursor
-                                        onClicked: popout.liveGraphRange = 0
+                                        onClicked: popout.ifaceMenuOpen = !popout.ifaceMenuOpen
                                     }
                                 }
 
-                                Rectangle {
-                                    width: 36
-                                    height: 20
-                                    radius: 4
-                                    color: popout.liveGraphRange === 1 ? Theme.primary : (range1hMouse.containsMouse ? Theme.surfaceTextHover : Theme.surfaceContainerHigh)
-                                    border.width: 1
-                                    border.color: popout.liveGraphRange === 1 ? Theme.primary : Theme.outlineLight
+                                // 5m / 1h Resolution Toggle Chips
+                                Row {
+                                    spacing: 2
+                                    anchors.verticalCenter: parent.verticalCenter
 
-                                    StyledText {
-                                        anchors.centerIn: parent
-                                        text: "1h"
-                                        font.pixelSize: 10
-                                        font.bold: true
-                                        color: popout.liveGraphRange === 1 ? Theme.onPrimary : Theme.surfaceText
+                                    Rectangle {
+                                        width: 32
+                                        height: 20
+                                        radius: 4
+                                        color: popout.liveGraphRange === 0 ? Theme.primary : (range5Mouse.containsMouse ? Theme.surfaceTextHover : Theme.surfaceContainerHigh)
+                                        border.width: 1
+                                        border.color: popout.liveGraphRange === 0 ? Theme.primary : Theme.outlineLight
+
+                                        StyledText {
+                                            anchors.centerIn: parent
+                                            text: "5m"
+                                            font.pixelSize: 10
+                                            font.bold: true
+                                            color: popout.liveGraphRange === 0 ? Theme.onPrimary : Theme.surfaceText
+                                        }
+
+                                        MouseArea {
+                                            id: range5Mouse
+                                            anchors.fill: parent
+                                            hoverEnabled: true
+                                            cursorShape: Qt.PointingHandCursor
+                                            onClicked: popout.liveGraphRange = 0
+                                        }
                                     }
 
-                                    MouseArea {
-                                        id: range1hMouse
-                                        anchors.fill: parent
-                                        hoverEnabled: true
-                                        cursorShape: Qt.PointingHandCursor
-                                        onClicked: popout.liveGraphRange = 1
+                                    Rectangle {
+                                        width: 32
+                                        height: 20
+                                        radius: 4
+                                        color: popout.liveGraphRange === 1 ? Theme.primary : (range1hMouse.containsMouse ? Theme.surfaceTextHover : Theme.surfaceContainerHigh)
+                                        border.width: 1
+                                        border.color: popout.liveGraphRange === 1 ? Theme.primary : Theme.outlineLight
+
+                                        StyledText {
+                                            anchors.centerIn: parent
+                                            text: "1h"
+                                            font.pixelSize: 10
+                                            font.bold: true
+                                            color: popout.liveGraphRange === 1 ? Theme.onPrimary : Theme.surfaceText
+                                        }
+
+                                        MouseArea {
+                                            id: range1hMouse
+                                            anchors.fill: parent
+                                            hoverEnabled: true
+                                            cursorShape: Qt.PointingHandCursor
+                                            onClicked: popout.liveGraphRange = 1
+                                        }
                                     }
                                 }
                             }
@@ -1926,6 +2287,259 @@ PluginComponent {
                 }
             }
             }
+
+            // --- Floating Interface Filter Dropdown Popover ---
+            MouseArea {
+                anchors.fill: parent
+                z: 150
+                visible: popout.ifaceMenuOpen
+                onClicked: popout.ifaceMenuOpen = false
+            }
+
+            Rectangle {
+                id: ifaceDropdownMenu
+                visible: popout.ifaceMenuOpen
+                z: 200
+                anchors.top: parent.top
+                anchors.topMargin: 112
+                anchors.right: parent.right
+                anchors.rightMargin: Theme.spacingM
+                width: 250
+                height: Math.min(260, menuCol.implicitHeight + Theme.spacingS * 2)
+                radius: Theme.cornerRadius
+                color: Theme.surface
+                border.width: 1
+                border.color: Theme.outlineLight
+                clip: true
+
+                Flickable {
+                    anchors.fill: parent
+                    anchors.margins: Theme.spacingS
+                    contentHeight: menuCol.implicitHeight
+                    boundsBehavior: Flickable.StopAtBounds
+
+                    Column {
+                        id: menuCol
+                        width: parent.width
+                        spacing: 2
+
+                        // "All Networks (Physical)" Option
+                        Rectangle {
+                            width: parent.width
+                            height: 28
+                            radius: 4
+                            color: allRowMouse.containsMouse ? Theme.surfaceTextHover : "transparent"
+
+                            Row {
+                                anchors.left: parent.left
+                                anchors.leftMargin: 4
+                                anchors.verticalCenter: parent.verticalCenter
+                                spacing: 6
+
+                                DankIcon {
+                                    name: root.selectedInterfaceFilter.length === 0 ? "check_box" : "check_box_outline_blank"
+                                    size: 14
+                                    color: root.selectedInterfaceFilter.length === 0 ? Theme.primary : Theme.surfaceVariantText
+                                    anchors.verticalCenter: parent.verticalCenter
+                                }
+
+                                DankIcon {
+                                    name: "public"
+                                    size: 13
+                                    color: root.selectedInterfaceFilter.length === 0 ? Theme.primary : Theme.surfaceText
+                                    anchors.verticalCenter: parent.verticalCenter
+                                }
+
+                                StyledText {
+                                    text: I18n.tr("All Networks (Physical)")
+                                    font.pixelSize: 10
+                                    font.bold: root.selectedInterfaceFilter.length === 0
+                                    color: root.selectedInterfaceFilter.length === 0 ? Theme.primary : Theme.surfaceText
+                                    anchors.verticalCenter: parent.verticalCenter
+                                }
+                            }
+
+                            StyledText {
+                                anchors.right: parent.right
+                                anchors.rightMargin: 4
+                                anchors.verticalCenter: parent.verticalCenter
+                                text: root.formatSpeed(root.totalPhysicalRxRate) + "/s"
+                                font.pixelSize: 9
+                                isMonospace: true
+                                color: Theme.surfaceVariantText
+                            }
+
+                            MouseArea {
+                                id: allRowMouse
+                                anchors.fill: parent
+                                hoverEnabled: true
+                                cursorShape: Qt.PointingHandCursor
+                                onClicked: root.clearInterfaceFilter()
+                            }
+                        }
+
+                        // Physical Hardware Divider & Header
+                        Rectangle {
+                            width: parent.width
+                            height: 1
+                            color: Theme.outlineLight
+                            opacity: 0.4
+                        }
+
+                        StyledText {
+                            text: I18n.tr("PHYSICAL HARDWARE")
+                            font.pixelSize: 8
+                            font.bold: true
+                            color: Theme.surfaceVariantText
+                            leftPadding: 4
+                            topPadding: 2
+                            bottomPadding: 2
+                        }
+
+                        Repeater {
+                            model: root.discoveredInterfaces.filter(function(item) { return item.isPhysical; })
+
+                            Rectangle {
+                                id: physRow
+                                required property var modelData
+                                width: menuCol.width
+                                height: 26
+                                radius: 4
+                                color: physRowMouse.containsMouse ? Theme.surfaceTextHover : "transparent"
+
+                                readonly property bool isChecked: root.selectedInterfaceFilter.includes(physRow.modelData.dev)
+
+                                Row {
+                                    anchors.left: parent.left
+                                    anchors.leftMargin: 4
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    spacing: 6
+
+                                    DankIcon {
+                                        name: physRow.isChecked ? "check_box" : "check_box_outline_blank"
+                                        size: 14
+                                        color: physRow.isChecked ? Theme.primary : Theme.surfaceVariantText
+                                        anchors.verticalCenter: parent.verticalCenter
+                                    }
+
+                                    DankIcon {
+                                        name: physRow.modelData.icon
+                                        size: 13
+                                        color: physRow.isChecked ? Theme.primary : Theme.surfaceText
+                                        anchors.verticalCenter: parent.verticalCenter
+                                    }
+
+                                    StyledText {
+                                        text: `${physRow.modelData.name} (${physRow.modelData.dev})`
+                                        font.pixelSize: 10
+                                        font.bold: physRow.isChecked
+                                        color: physRow.isChecked ? Theme.primary : Theme.surfaceText
+                                        anchors.verticalCenter: parent.verticalCenter
+                                    }
+                                }
+
+                                StyledText {
+                                    anchors.right: parent.right
+                                    anchors.rightMargin: 4
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    text: root.formatSpeed(physRow.modelData.rxRate) + "/s"
+                                    font.pixelSize: 9
+                                    isMonospace: true
+                                    color: physRow.modelData.rxRate > 0 ? Theme.info : Theme.surfaceVariantText
+                                }
+
+                                MouseArea {
+                                    id: physRowMouse
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    cursorShape: Qt.PointingHandCursor
+                                    onClicked: root.toggleInterfaceFilter(physRow.modelData.dev)
+                                }
+                            }
+                        }
+
+                        // Overlays & Tunnels Divider & Header
+                        Rectangle {
+                            width: parent.width
+                            height: 1
+                            color: Theme.outlineLight
+                            opacity: 0.4
+                        }
+
+                        StyledText {
+                            text: I18n.tr("OVERLAYS & TUNNELS")
+                            font.pixelSize: 8
+                            font.bold: true
+                            color: Theme.surfaceVariantText
+                            leftPadding: 4
+                            topPadding: 2
+                            bottomPadding: 2
+                        }
+
+                        Repeater {
+                            model: root.discoveredInterfaces.filter(function(item) { return !item.isPhysical; })
+
+                            Rectangle {
+                                id: virtRow
+                                required property var modelData
+                                width: menuCol.width
+                                height: 26
+                                radius: 4
+                                color: virtRowMouse.containsMouse ? Theme.surfaceTextHover : "transparent"
+
+                                readonly property bool isChecked: root.selectedInterfaceFilter.includes(virtRow.modelData.dev)
+
+                                Row {
+                                    anchors.left: parent.left
+                                    anchors.leftMargin: 4
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    spacing: 6
+
+                                    DankIcon {
+                                        name: virtRow.isChecked ? "check_box" : "check_box_outline_blank"
+                                        size: 14
+                                        color: virtRow.isChecked ? Theme.primary : Theme.surfaceVariantText
+                                        anchors.verticalCenter: parent.verticalCenter
+                                    }
+
+                                    DankIcon {
+                                        name: virtRow.modelData.icon
+                                        size: 13
+                                        color: virtRow.isChecked ? Theme.primary : Theme.surfaceText
+                                        anchors.verticalCenter: parent.verticalCenter
+                                    }
+
+                                    StyledText {
+                                        text: `${virtRow.modelData.name} (${virtRow.modelData.dev})`
+                                        font.pixelSize: 10
+                                        font.bold: virtRow.isChecked
+                                        color: virtRow.isChecked ? Theme.primary : Theme.surfaceText
+                                        anchors.verticalCenter: parent.verticalCenter
+                                    }
+                                }
+
+                                StyledText {
+                                    anchors.right: parent.right
+                                    anchors.rightMargin: 4
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    text: root.formatSpeed(virtRow.modelData.rxRate) + "/s"
+                                    font.pixelSize: 9
+                                    isMonospace: true
+                                    color: virtRow.modelData.rxRate > 0 ? Theme.info : Theme.surfaceVariantText
+                                }
+
+                                MouseArea {
+                                    id: virtRowMouse
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    cursorShape: Qt.PointingHandCursor
+                                    onClicked: root.toggleInterfaceFilter(virtRow.modelData.dev)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -1984,7 +2598,7 @@ PluginComponent {
 
                     NumericText {
                         isMonospace: true
-                        text: root.formatSpeed(DgopService.networkRxRate)
+                        text: root.formatSpeed(root.displayRxRate)
                         font.pixelSize: Math.max(9, Math.round(Theme.barTextSize(root.barThickness, root.barConfig?.fontScale, root.barConfig?.maximizeWidgetText) * 0.78))
                         color: Theme.widgetTextColor
                         anchors.verticalCenter: parent.verticalCenter
@@ -2005,7 +2619,7 @@ PluginComponent {
 
                     NumericText {
                         isMonospace: true
-                        text: root.formatSpeed(DgopService.networkTxRate)
+                        text: root.formatSpeed(root.displayTxRate)
                         font.pixelSize: Math.max(9, Math.round(Theme.barTextSize(root.barThickness, root.barConfig?.fontScale, root.barConfig?.maximizeWidgetText) * 0.78))
                         color: Theme.widgetTextColor
                         anchors.verticalCenter: parent.verticalCenter
@@ -2067,7 +2681,7 @@ PluginComponent {
 
                 NumericText {
                     isMonospace: true
-                    text: root.formatSpeed(DgopService.networkRxRate)
+                    text: root.formatSpeed(root.displayRxRate)
                     font.pixelSize: Math.max(9, Math.round(Theme.barTextSize(root.barThickness, root.barConfig?.fontScale, root.barConfig?.maximizeWidgetText) * 0.78))
                     color: Theme.widgetTextColor
                     anchors.horizontalCenter: parent.horizontalCenter
@@ -2083,7 +2697,7 @@ PluginComponent {
 
                 NumericText {
                     isMonospace: true
-                    text: root.formatSpeed(DgopService.networkTxRate)
+                    text: root.formatSpeed(root.displayTxRate)
                     font.pixelSize: Math.max(9, Math.round(Theme.barTextSize(root.barThickness, root.barConfig?.fontScale, root.barConfig?.maximizeWidgetText) * 0.78))
                     color: Theme.widgetTextColor
                     anchors.horizontalCenter: parent.horizontalCenter
