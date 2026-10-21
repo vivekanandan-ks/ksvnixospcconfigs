@@ -1,0 +1,10 @@
+{
+  "id": "desktopLyrics",
+  "name": "Desktop Lyrics",
+  "description": "Desktop lyrics powered by Dux Lyrical Engine",
+  "version": "1.0.0",
+  "icon": "music_note",
+  "type": "desktop",
+  "capabilities": ["desktop-widget", "lyrics"],
+  "component": "./DesktopLyricsWidget.qml"
+}

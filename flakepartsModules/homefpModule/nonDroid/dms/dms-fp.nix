@@ -4,7 +4,7 @@
   ...
 }: {
   flake-file.inputs = {
-    dms-shell.url = "github:AvengeMedia/DankMaterialShell/stable";
+    dms-shell.url = "github:duxlabs-dev/dux-shell/stable";
   };
 
   flake.homeModules.nonDroid.dms = {
