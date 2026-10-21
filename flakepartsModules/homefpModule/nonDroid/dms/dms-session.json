@@ -1,39 +1,76 @@
 {
-  "configVersion": 4,
-  "terminalOverride": "kitty",
-  "wallpaperTransition": "portal",
-  "includedTransitions": ["fade", "wipe", "disc", "stripes", "iris bloom", "pixelate", "portal"],
-  "wallpaperCyclingEnabled": true,
-  "wallpaperCyclingRandom": true,
-  "wallpaperCyclingMode": "interval",
-  "wallpaperCyclingInterval": 300,
-  "wallpaperCyclingTime": "06:00",
-  "perMonitorWallpaper": true,
-  "monitorWallpaperFillModes": {
-    "HEADLESS-1": "Fill"
-  },
-  "desktopWidgetInstancePositions": {
-    "dw_modern_clock": {
-      "eDP-1": {
-        "height": 136.31640625,
-        "width": 543.546875,
-        "x": 795.8828125,
-        "y": 64.6484375
+   "configVersion" : 7,
+   "desktopWidgetInstancePositions" : {
+      "dw_desktop_lyrics" : {
+         "eDP-1" : {
+            "height" : 226.234375,
+            "width" : 633.828125,
+            "x" : 719.1875,
+            "y" : 536.39453125
+         }
+      },
+      "dw_modern_clock" : {
+         "eDP-1" : {
+            "height" : 136.31640625,
+            "width" : 543.546875,
+            "x" : 795.8828125,
+            "y" : 64.6484375
+         }
+      },
+      "lock_auth" : {
+         "_synced" : {}
+      },
+      "lock_clock" : {
+         "_synced" : {
+            "x" : 0.0175695461200586,
+            "y" : 0.03125
+         }
+      },
+      "lw_1792586307190_ubkxsvtsl" : {
+         "_synced" : {
+            "anchorY" : "center",
+            "x" : 0.0351390922401171,
+            "y" : 0
+         }
+      },
+      "lw_1792586458852_0c7pra8xg" : {
+         "_synced" : {
+            "anchorX" : "end",
+            "anchorY" : "end",
+            "x" : 0.0175695461200586,
+            "y" : 0.03125
+         }
       }
-    },
-    "dw_desktop_lyrics": {
-      "eDP-1": {
-        "height": 226.234375,
-        "width": 633.828125,
-        "x": 719.1875,
-        "y": 536.39453125
+   },
+   "dockPins" : {
+      "dock" : []
+   },
+   "islandFreePositions" : {
+      "[\"eDP-1\",\"island\"]" : {
+         "x" : 0.5,
+         "y" : 0.045
       }
-    }
-  },
-  "islandFreePositions": {
-    "[\"eDP-1\",\"island\"]": {
-      "x": 0.5,
-      "y": 0.045
-    }
-  }
+   },
+   "lastPlayerIdentity" : "VLC media player",
+   "launcherQueryHistory" : [
+      "dfil"
+   ],
+   "lockScreenAutoPositions" : {
+      "eDP-1" : {
+         "height" : 768,
+         "positions" : {},
+         "width" : 1366
+      }
+   },
+   "monitorWallpaperFillModes" : {
+      "HEADLESS-1" : "Fill"
+   },
+   "perMonitorWallpaper" : true,
+   "terminalOverride" : "kitty",
+   "wallpaperCyclingEnabled" : true,
+   "wallpaperCyclingInterval" : 300,
+   "wallpaperCyclingMode" : "interval",
+   "wallpaperCyclingRandom" : true,
+   "wallpaperCyclingTime" : "06:00",
+   "wallpaperTransition" : "portal"
 }
