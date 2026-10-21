@@ -318,7 +318,6 @@
       "borderEnabled": false,
       "bottomGap": 0,
       "centerWidgets": [
-        "island",
         "capsLockIndicator"
       ],
       "clickThrough": false,
@@ -464,6 +463,19 @@
       "shadowDirection": "top",
       "shadowColorMode": "default",
       "shadowCustomColor": "#000000"
+    },
+    {
+      "id": "island",
+      "name": "Dynamic Island",
+      "enabled": true,
+      "island": true,
+      "islandFloating": true,
+      "islandPlacement": "free",
+      "islandSatellitesEnabled": false,
+      "screenPreferences": [
+        "all"
+      ],
+      "showOnLastDisplay": true
     }
   ],
   "desktopClockCustomColor": {
