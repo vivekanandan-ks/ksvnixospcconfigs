@@ -37,6 +37,10 @@ $character\
 # Disable the blank line at the start of the prompt
 # add_newline = false
 
+# Accommodate slow HDD disk seeks during directory changes
+command_timeout = 1500
+scan_timeout = 100
+
 [status]
 disabled = false
 format = '[(${status})](fg:red) '
@@ -128,6 +132,7 @@ disabled = true
 [custom.jj]
 when = "jj-starship detect"
 shell = ["jj-starship"]
+ignore_timeout = true
 # Wrap the output so it fits the pastel-powerline background color style
 format = "[$output ](bg:#FCA17D)"
 

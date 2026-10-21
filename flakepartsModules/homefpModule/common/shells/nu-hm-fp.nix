@@ -204,7 +204,7 @@ _: {
 
             $env.config.hooks.pre_prompt ++= [
               { # atuin history to nushell history
-                history --clear ; atuin history list --format "{command}\t{directory}" |
+                history --clear ; atuin history list --format "{command}\t{directory}" e> /dev/null |
                 lines | split column "\t" command cwd | history import
               }
               {
