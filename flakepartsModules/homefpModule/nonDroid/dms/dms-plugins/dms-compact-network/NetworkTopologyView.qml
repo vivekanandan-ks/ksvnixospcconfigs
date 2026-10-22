@@ -26,45 +26,45 @@ Item {
     readonly property real rxRate: rootWidget ? rootWidget.displayRxRate : 0
     readonly property real txRate: rootWidget ? rootWidget.displayTxRate : 0
 
-    // Normalized speed multipliers (0.2 idle crawl up to 5.0 fast sprint)
-    readonly property real rxSpeedMult: (rxRate > 512) ? Math.min(5.0, 0.8 + Math.log10(rxRate / 512) * 1.0) : 0.25
-    readonly property real txSpeedMult: (txRate > 512) ? Math.min(5.0, 0.8 + Math.log10(txRate / 512) * 1.0) : 0.25
+    // Normalized speed factors (idle crawl up to fast sprint)
+    readonly property real rxSpeedMult: (rxRate > 512) ? Math.min(4.5, 0.8 + Math.log10(rxRate / 512) * 0.9) : 0.35
+    readonly property real txSpeedMult: (txRate > 512) ? Math.min(4.5, 0.8 + Math.log10(txRate / 512) * 0.9) : 0.35
 
-    // High-performance VSync animation clock (active only when visible)
-    property real animTime: 0
-    NumberAnimation on animTime {
+    // Native VSync Animation Clock (Runs only when tab is visible)
+    property real animPhase: 0
+    NumberAnimation on animPhase {
         from: 0
-        to: 3600
-        duration: 3600000 // 1 hour continuous loop
+        to: 100000
+        duration: 100000000 // Continuous smooth increment
         loops: Animation.Infinite
         running: topo.visible && !SessionService.locked
     }
 
-    onAnimTimeChanged: {
-        if (wavesCanvas.available) {
-            wavesCanvas.requestPaint();
-        }
-    }
-
-    // --- Cached Node Coordinates (Eliminates mapToItem from paint loop) ---
-    property real hwX: 0
-    property real hwY: 0
-    property real netX: 0
-    property real netY: 0
-    property var virtCoords: []
+    // --- Cached Node Coordinates for 100% GPU Scene-Graph Rendering ---
+    property real hwX: 250
+    property real hwY: 170
+    property real netX: 440
+    property real netY: 170
+    property var virtCoords: [
+        { x: 40, y: 70 },
+        { x: 40, y: 120 },
+        { x: 40, y: 170 },
+        { x: 40, y: 220 },
+        { x: 40, y: 270 }
+    ]
 
     function updateCoords() {
-        if (!wavesCanvas.available) return;
+        if (!topo.visible) return;
 
         let hw = topo.activeCarrierItem;
         if (hw) {
-            let pt = hw.mapToItem(wavesCanvas, hw.width / 2, hw.height / 2);
+            let pt = hw.mapToItem(topo, hw.width / 2, hw.height / 2);
             topo.hwX = pt.x;
             topo.hwY = pt.y;
         }
 
-        if (internetSphere) {
-            let pt = internetSphere.mapToItem(wavesCanvas, internetSphere.width / 2, internetSphere.height / 2);
+        if (internetDisc) {
+            let pt = internetDisc.mapToItem(topo, internetDisc.width / 2, internetDisc.height / 2);
             topo.netX = pt.x;
             topo.netY = pt.y;
         }
@@ -74,10 +74,10 @@ Item {
         for (let i = 0; i < nodes.length; i++) {
             let n = nodes[i];
             if (n) {
-                let pt = n.mapToItem(wavesCanvas, n.width / 2, n.height / 2);
+                let pt = n.mapToItem(topo, n.width / 2, n.height / 2);
                 c.push({ x: pt.x, y: pt.y });
             } else {
-                c.push({ x: 0, y: 0 });
+                c.push({ x: 40, y: 70 + i * 50 });
             }
         }
         topo.virtCoords = c;
@@ -112,16 +112,32 @@ Item {
         return wifiSphere;
     }
 
-    // Static stardust seeds for GPU-accelerated canvas background rendering
-    readonly property var starSeeds: [
-        { x: 0.05, y: 0.15, r: 1.0, c: 0 }, { x: 0.15, y: 0.45, r: 1.4, c: 1 },
-        { x: 0.22, y: 0.82, r: 1.1, c: 2 }, { x: 0.35, y: 0.25, r: 1.6, c: 0 },
-        { x: 0.42, y: 0.65, r: 1.0, c: 1 }, { x: 0.52, y: 0.18, r: 1.3, c: 2 },
-        { x: 0.62, y: 0.78, r: 1.5, c: 0 }, { x: 0.72, y: 0.32, r: 1.0, c: 1 },
-        { x: 0.80, y: 0.60, r: 1.2, c: 2 }, { x: 0.88, y: 0.12, r: 1.4, c: 0 },
-        { x: 0.94, y: 0.85, r: 1.1, c: 1 }, { x: 0.28, y: 0.55, r: 1.2, c: 2 },
-        { x: 0.48, y: 0.88, r: 1.3, c: 0 }, { x: 0.68, y: 0.14, r: 1.1, c: 1 }
-    ]
+    readonly property var virtNodesList: [nodeNetBird, nodeWireGuard, nodeYggdrasil, nodeTor, nodeFips]
+
+    // Packet Bead Component: Ultra-fast native quad with glowing halo
+    component PacketBead: Item {
+        id: bead
+        property color beadColor: topo.colRx
+        width: 12
+        height: 12
+
+        Rectangle {
+            anchors.centerIn: parent
+            width: 10
+            height: 10
+            radius: 5
+            color: bead.beadColor
+            opacity: 0.35
+        }
+
+        Rectangle {
+            anchors.centerIn: parent
+            width: 3.5
+            height: 3.5
+            radius: 2
+            color: "#ffffff"
+        }
+    }
 
     // Background Canvas: Deep Night Sky Card with Border
     Rectangle {
@@ -138,6 +154,39 @@ Item {
             onClicked: {
                 topo.selectedNodeIndex = -1;
                 topo.selectedNodeData = null;
+            }
+        }
+
+        // --- Static Starfield Painted Once (0% CPU During Animations) ---
+        Canvas {
+            id: bgCanvas
+            anchors.fill: parent
+            renderStrategy: Canvas.Cooperative
+            onWidthChanged: requestPaint()
+            onHeightChanged: requestPaint()
+            onPaint: {
+                let ctx = getContext("2d");
+                ctx.clearRect(0, 0, width, height);
+
+                let starSeeds = [
+                    { x: 0.05, y: 0.15, r: 1.0, c: 0 }, { x: 0.15, y: 0.45, r: 1.4, c: 1 },
+                    { x: 0.22, y: 0.82, r: 1.1, c: 2 }, { x: 0.35, y: 0.25, r: 1.6, c: 0 },
+                    { x: 0.42, y: 0.65, r: 1.0, c: 1 }, { x: 0.52, y: 0.18, r: 1.3, c: 2 },
+                    { x: 0.62, y: 0.78, r: 1.5, c: 0 }, { x: 0.72, y: 0.32, r: 1.0, c: 1 },
+                    { x: 0.80, y: 0.60, r: 1.2, c: 2 }, { x: 0.88, y: 0.12, r: 1.4, c: 0 },
+                    { x: 0.94, y: 0.85, r: 1.1, c: 1 }, { x: 0.28, y: 0.55, r: 1.2, c: 2 },
+                    { x: 0.48, y: 0.88, r: 1.3, c: 0 }, { x: 0.68, y: 0.14, r: 1.1, c: 1 }
+                ];
+
+                for (let s = 0; s < starSeeds.length; s++) {
+                    let st = starSeeds[s];
+                    let sx = st.x * width;
+                    let sy = st.y * height;
+                    ctx.fillStyle = st.c === 0 ? Qt.rgba(topo.colRx.r, topo.colRx.g, topo.colRx.b, 0.45)
+                                  : (st.c === 1 ? Qt.rgba(topo.colTx.r, topo.colTx.g, topo.colTx.b, 0.45)
+                                  : Qt.rgba(0.9, 0.95, 1.0, 0.35));
+                    ctx.fillRect(sx, sy, st.r, st.r);
+                }
             }
         }
 
@@ -195,225 +244,132 @@ Item {
             }
         }
 
-        // --- High-Performance GPU-Optimized Canvas Layer ---
-        Canvas {
-            id: wavesCanvas
+        // --- 100% GPU-ACCELERATED VECTOR CONDUITS (Shape.CurveRenderer) ---
+        Shape {
+            id: gpuShapes
             anchors.fill: parent
-            antialiasing: true
+            preferredRendererType: Shape.CurveRenderer
 
-            onPaint: {
-                let ctx = getContext("2d");
-                let w = width;
-                let h = height;
-                ctx.clearRect(0, 0, w, h);
+            // 1. Hardware <===> Internet Trunk Conduits
+            // Downstream Track (Cyan, Top rail: Internet -> Hardware)
+            ShapePath {
+                strokeColor: Qt.rgba(topo.colRx.r, topo.colRx.g, topo.colRx.b, 0.35)
+                strokeWidth: 2
+                fillColor: "transparent"
+                capStyle: ShapePath.RoundCap
+                startX: topo.hwX
+                startY: topo.hwY - 6
+                PathLine { x: topo.netX; y: topo.netY - 6 }
+            }
 
-                let t = topo.animTime;
+            // Upstream Track (Magenta, Bottom rail: Hardware -> Internet)
+            ShapePath {
+                strokeColor: Qt.rgba(topo.colTx.r, topo.colTx.g, topo.colTx.b, 0.35)
+                strokeWidth: 2
+                fillColor: "transparent"
+                capStyle: ShapePath.RoundCap
+                startX: topo.hwX
+                startY: topo.hwY + 6
+                PathLine { x: topo.netX; y: topo.netY + 6 }
+            }
 
-                // 1. Ultra-fast Ambient Stardust in Canvas (Zero QML Item Overhead)
-                let stars = topo.starSeeds;
-                let sLen = stars.length;
-                for (let s = 0; s < sLen; s++) {
-                    let st = stars[s];
-                    let sx = (st.x * w + t * 8 * (0.2 + (s % 3) * 0.15)) % w;
-                    let sy = st.y * h + 2 * Math.sin(t * 1.2 + s);
-                    let alpha = 0.15 + 0.35 * (0.5 + 0.5 * Math.sin(t * 1.8 + s));
-                    ctx.fillStyle = st.c === 0 ? Qt.rgba(topo.colRx.r, topo.colRx.g, topo.colRx.b, alpha)
-                                  : (st.c === 1 ? Qt.rgba(topo.colTx.r, topo.colTx.g, topo.colTx.b, alpha)
-                                  : Qt.rgba(0.9, 0.95, 1.0, alpha));
-                    ctx.fillRect(sx, sy, st.r, st.r);
+            // 2. Virtual <===> Hardware Flexible Optical Tubes (Curved Bezier)
+            Repeater {
+                model: 5
+                ShapePath {
+                    required property int index
+                    readonly property var coord: (topo.virtCoords && topo.virtCoords.length > index) ? topo.virtCoords[index] : null
+                    readonly property bool isActive: (topo.virtNodesList[index] && topo.virtNodesList[index].isActive)
+
+                    strokeColor: Qt.rgba(topo.colVirtual.r, topo.colVirtual.g, topo.colVirtual.b, isActive ? 0.55 : 0.15)
+                    strokeWidth: isActive ? 2.5 : 1.2
+                    fillColor: "transparent"
+                    capStyle: ShapePath.RoundCap
+
+                    startX: coord ? coord.x : 40
+                    startY: coord ? coord.y : (70 + index * 50)
+                    PathQuad {
+                        x: topo.hwX
+                        y: topo.hwY
+                        controlX: coord ? (coord.x + topo.hwX) / 2 : 145
+                        controlY: coord ? coord.y : (70 + index * 50)
+                    }
                 }
+            }
+        }
 
-                // Check cached positions (fall back safely if not yet cached)
-                let targetX = topo.hwX;
-                let targetY = topo.hwY;
-                let netX = topo.netX;
-                let netY = topo.netY;
+        // --- HARDWARE-ACCELERATED LIVE DATA PACKETS ("TO AND FRO") ---
+        Item {
+            id: livePacketsLayer
+            anchors.fill: parent
 
-                if (targetX === 0 || netX === 0) {
-                    topo.updateCoords();
-                    targetX = topo.hwX;
-                    targetY = topo.hwY;
-                    netX = topo.netX;
-                    netY = topo.netY;
-                    if (targetX === 0 || netX === 0) return;
+            // 1. Inward Download Packets (Internet -> Hardware)
+            Repeater {
+                model: 3
+                PacketBead {
+                    required property int index
+                    beadColor: topo.colRx
+                    readonly property real prog: ((topo.animPhase * topo.rxSpeedMult * 0.35 + index * 0.33) % 1.0)
+                    x: (1 - prog) * topo.netX + prog * topo.hwX - width / 2
+                    y: (topo.hwY - 6) - height / 2
+                    visible: topo.rxRate > 0 || index === 0
                 }
+            }
 
-                let rxSpeed = topo.rxSpeedMult;
-                let txSpeed = topo.txSpeedMult;
-
-                // 2. High-Speed Trunk Conduits (Middle Hardware <===> Right Internet)
-                // Downstream Trunk (Top track: Internet -> Hardware)
-                let trunkTopY_net = netY - 5;
-                let trunkTopY_hw = targetY - 5;
-                let trunkMidX = (targetX + netX) / 2;
-
-                // Outer casing for download trunk
-                ctx.beginPath();
-                ctx.moveTo(targetX, trunkTopY_hw);
-                ctx.lineTo(netX, trunkTopY_net);
-                ctx.strokeStyle = Qt.rgba(topo.colRx.r, topo.colRx.g, topo.colRx.b, 0.18);
-                ctx.lineWidth = 3;
-                ctx.stroke();
-
-                // Inner core line
-                ctx.beginPath();
-                ctx.moveTo(targetX, trunkTopY_hw);
-                ctx.lineTo(netX, trunkTopY_net);
-                ctx.strokeStyle = Qt.rgba(topo.colRx.r, topo.colRx.g, topo.colRx.b, 0.45);
-                ctx.lineWidth = 1.0;
-                ctx.stroke();
-
-                // Upstream Trunk (Bottom track: Hardware -> Internet)
-                let trunkBotY_net = netY + 5;
-                let trunkBotY_hw = targetY + 5;
-
-                // Outer casing for upload trunk
-                ctx.beginPath();
-                ctx.moveTo(targetX, trunkBotY_hw);
-                ctx.lineTo(netX, trunkBotY_net);
-                ctx.strokeStyle = Qt.rgba(topo.colTx.r, topo.colTx.g, topo.colTx.b, 0.18);
-                ctx.lineWidth = 3;
-                ctx.stroke();
-
-                // Inner core line
-                ctx.beginPath();
-                ctx.moveTo(targetX, trunkBotY_hw);
-                ctx.lineTo(netX, trunkBotY_net);
-                ctx.strokeStyle = Qt.rgba(topo.colTx.r, topo.colTx.g, topo.colTx.b, 0.45);
-                ctx.lineWidth = 1.0;
-                ctx.stroke();
-
-                // 3. Bidirectional Live Packets Between Hardware & Internet
-                // Inward Packets (Download / Rx: Internet -> Hardware)
-                let rxBeadCount = (topo.rxRate > 1024 * 1024) ? 4 : ((topo.rxRate > 1024 * 50) ? 3 : 2);
-                for (let b = 0; b < rxBeadCount; b++) {
-                    let p = ((t * rxSpeed * 0.45 + b / rxBeadCount) % 1.0);
-                    // Inward: from netX to targetX
-                    let bx = (1 - p) * netX + p * targetX;
-                    let by = (1 - p) * trunkTopY_net + p * trunkTopY_hw;
-
-                    // Double-pass hardware glow (zero CPU Gaussian blur)
-                    ctx.beginPath();
-                    ctx.arc(bx, by, 4.2, 0, Math.PI * 2);
-                    ctx.fillStyle = Qt.rgba(topo.colRx.r, topo.colRx.g, topo.colRx.b, 0.35);
-                    ctx.fill();
-
-                    ctx.beginPath();
-                    ctx.arc(bx, by, 2.0, 0, Math.PI * 2);
-                    ctx.fillStyle = "#ffffff";
-                    ctx.fill();
+            // 2. Outward Upload Packets (Hardware -> Internet)
+            Repeater {
+                model: 3
+                PacketBead {
+                    required property int index
+                    beadColor: topo.colTx
+                    readonly property real prog: ((topo.animPhase * topo.txSpeedMult * 0.35 + index * 0.33) % 1.0)
+                    x: (1 - prog) * topo.hwX + prog * topo.netX - width / 2
+                    y: (topo.hwY + 6) - height / 2
+                    visible: topo.txRate > 0 || index === 0
                 }
+            }
 
-                // Outward Packets (Upload / Tx: Hardware -> Internet)
-                let txBeadCount = (topo.txRate > 1024 * 512) ? 4 : ((topo.txRate > 1024 * 20) ? 3 : 2);
-                for (let b = 0; b < txBeadCount; b++) {
-                    let p = ((t * txSpeed * 0.45 + b / txBeadCount) % 1.0);
-                    // Outward: from targetX to netX
-                    let bx = (1 - p) * targetX + p * netX;
-                    let by = (1 - p) * trunkBotY_hw + p * trunkBotY_net;
+            // 3. Virtual Node Packets (Bidirectional Along Curved Conduits)
+            Repeater {
+                model: 5
+                Item {
+                    id: virtPacketGroup
+                    required property int index
+                    readonly property var coord: (topo.virtCoords && topo.virtCoords.length > index) ? topo.virtCoords[index] : null
+                    readonly property bool isActive: (topo.virtNodesList[index] && topo.virtNodesList[index].isActive)
+                    readonly property real vnX: coord ? coord.x : 40
+                    readonly property real vnY: coord ? coord.y : (70 + index * 50)
+                    readonly property real cpX: (vnX + topo.hwX) / 2
+                    readonly property real cpY: vnY
 
-                    // Double-pass hardware glow (zero CPU Gaussian blur)
-                    ctx.beginPath();
-                    ctx.arc(bx, by, 4.2, 0, Math.PI * 2);
-                    ctx.fillStyle = Qt.rgba(topo.colTx.r, topo.colTx.g, topo.colTx.b, 0.35);
-                    ctx.fill();
+                    // Download Packet (Hardware -> Virtual Interface)
+                    PacketBead {
+                        beadColor: topo.colRx
+                        visible: virtPacketGroup.isActive
+                        readonly property real p: ((topo.animPhase * topo.rxSpeedMult * 0.25 + virtPacketGroup.index * 0.2) % 1.0)
+                        readonly property real mt: 1 - p
+                        x: (mt * mt * topo.hwX + 2 * mt * p * virtPacketGroup.cpX + p * p * virtPacketGroup.vnX) - width / 2
+                        y: (mt * mt * topo.hwY + 2 * mt * p * virtPacketGroup.cpY + p * p * virtPacketGroup.vnY) - height / 2
+                    }
 
-                    ctx.beginPath();
-                    ctx.arc(bx, by, 2.0, 0, Math.PI * 2);
-                    ctx.fillStyle = "#ffffff";
-                    ctx.fill();
-                }
+                    // Upload Packet (Virtual Interface -> Hardware)
+                    PacketBead {
+                        beadColor: topo.colTx
+                        visible: virtPacketGroup.isActive
+                        readonly property real p: ((topo.animPhase * topo.txSpeedMult * 0.25 + virtPacketGroup.index * 0.2) % 1.0)
+                        readonly property real mt: 1 - p
+                        x: (mt * mt * virtPacketGroup.vnX + 2 * mt * p * virtPacketGroup.cpX + p * p * topo.hwX) - width / 2
+                        y: (mt * mt * virtPacketGroup.vnY + 2 * mt * p * virtPacketGroup.cpY + p * p * topo.hwY) - height / 2
+                    }
 
-                // 4. Concentric Radiowave Ripples (Active Hardware Carrier)
-                let numWaves = 3;
-                for (let w = 0; w < numWaves; w++) {
-                    let wProg = ((t * rxSpeed * 0.2 + w * 0.33) % 1.0);
-                    let r = 16 + wProg * 70;
-                    let alpha = Math.max(0.04, 0.5 * (1.0 - wProg));
-
-                    ctx.beginPath();
-                    ctx.arc(targetX, targetY, r, -Math.PI * 0.3, Math.PI * 0.3, false);
-                    ctx.strokeStyle = Qt.rgba(topo.colRx.r, topo.colRx.g, topo.colRx.b, alpha);
-                    ctx.lineWidth = 1.3;
-                    ctx.stroke();
-                }
-
-                // 5. Flexible Optical Tubes (Left Virtual <===> Middle Hardware)
-                let virtNodes = [nodeNetBird, nodeWireGuard, nodeYggdrasil, nodeTor, nodeFips];
-                let coords = topo.virtCoords;
-                let cLen = coords ? coords.length : 0;
-
-                for (let v = 0; v < cLen; v++) {
-                    let vc = coords[v];
-                    let node = virtNodes[v];
-                    if (!vc || !node || vc.x === 0) continue;
-
-                    let vnX = vc.x;
-                    let vnY = vc.y;
-                    let cpX = (vnX + targetX) / 2;
-                    let cpY = vnY;
-                    let isActive = node.isActive;
-
-                    // Outer transparent casing
-                    ctx.beginPath();
-                    ctx.moveTo(vnX, vnY);
-                    ctx.quadraticCurveTo(cpX, cpY, targetX, targetY);
-                    ctx.strokeStyle = Qt.rgba(topo.colVirtual.r, topo.colVirtual.g, topo.colVirtual.b, isActive ? 0.30 : 0.10);
-                    ctx.lineWidth = isActive ? 3.0 : 1.6;
-                    ctx.stroke();
-
-                    // Inner glowing optical thread
-                    ctx.beginPath();
-                    ctx.moveTo(vnX, vnY);
-                    ctx.quadraticCurveTo(cpX, cpY, targetX, targetY);
-                    ctx.strokeStyle = Qt.rgba(topo.colVirtual.r, topo.colVirtual.g, topo.colVirtual.b, isActive ? 0.70 : 0.20);
-                    ctx.lineWidth = isActive ? 1.2 : 0.6;
-                    ctx.stroke();
-
-                    // Bidirectional data packets along the conduit
-                    if (isActive) {
-                        // Inward packet (Hardware -> Virtual / Local Host for Download)
-                        let pIn = ((t * rxSpeed * 0.35 + v * 0.2) % 1.0);
-                        let mtIn = 1 - pIn;
-                        let dotInX = mtIn * mtIn * targetX + 2 * mtIn * pIn * cpX + pIn * pIn * vnX;
-                        let dotInY = mtIn * mtIn * targetY + 2 * mtIn * pIn * cpY + pIn * pIn * vnY;
-
-                        ctx.beginPath();
-                        ctx.arc(dotInX, dotInY, 3.8, 0, Math.PI * 2);
-                        ctx.fillStyle = Qt.rgba(topo.colRx.r, topo.colRx.g, topo.colRx.b, 0.30);
-                        ctx.fill();
-
-                        ctx.beginPath();
-                        ctx.arc(dotInX, dotInY, 1.8, 0, Math.PI * 2);
-                        ctx.fillStyle = "#ffffff";
-                        ctx.fill();
-
-                        // Outward packet (Virtual -> Hardware for Upload)
-                        let pOut = ((t * txSpeed * 0.35 + v * 0.2) % 1.0);
-                        let mtOut = 1 - pOut;
-                        let dotOutX = mtOut * mtOut * vnX + 2 * mtOut * pOut * cpX + pOut * pOut * targetX;
-                        let dotOutY = mtOut * mtOut * vnY + 2 * mtOut * pOut * cpY + pOut * pOut * targetY;
-
-                        ctx.beginPath();
-                        ctx.arc(dotOutX, dotOutY, 3.8, 0, Math.PI * 2);
-                        ctx.fillStyle = Qt.rgba(topo.colTx.r, topo.colTx.g, topo.colTx.b, 0.30);
-                        ctx.fill();
-
-                        ctx.beginPath();
-                        ctx.arc(dotOutX, dotOutY, 1.8, 0, Math.PI * 2);
-                        ctx.fillStyle = "#ffffff";
-                        ctx.fill();
-                    } else {
-                        // Subtle idle pulse
-                        let pIdle = ((t * 0.15 + v * 0.2) % 1.0);
-                        let mt = 1 - pIdle;
-                        let dotX = mt * mt * vnX + 2 * mt * pIdle * cpX + pIdle * pIdle * targetX;
-                        let dotY = mt * mt * vnY + 2 * mt * pIdle * cpY + pIdle * pIdle * targetY;
-
-                        ctx.beginPath();
-                        ctx.arc(dotX, dotY, 1.5, 0, Math.PI * 2);
-                        ctx.fillStyle = Qt.rgba(1, 1, 1, 0.25);
-                        ctx.fill();
+                    // Idle pulse bead for standby node
+                    PacketBead {
+                        beadColor: Qt.rgba(1, 1, 1, 0.4)
+                        visible: !virtPacketGroup.isActive
+                        readonly property real p: ((topo.animPhase * 0.12 + virtPacketGroup.index * 0.2) % 1.0)
+                        readonly property real mt: 1 - p
+                        x: (mt * mt * virtPacketGroup.vnX + 2 * mt * p * virtPacketGroup.cpX + p * p * topo.hwX) - width / 2
+                        y: (mt * mt * virtPacketGroup.vnY + 2 * mt * p * virtPacketGroup.cpY + p * p * topo.hwY) - height / 2
                     }
                 }
             }
@@ -721,7 +677,7 @@ Item {
                     // Aura Ring
                     Rectangle {
                         anchors.centerIn: parent
-                        width: parent.width + 6 + Math.sin(topo.animTime * 4) * 3
+                        width: parent.width + 6 + Math.sin(topo.animPhase * 3) * 3
                         height: width
                         radius: width / 2
                         color: "transparent"
@@ -877,63 +833,54 @@ Item {
             }
 
             // 3. RIGHT COLUMN: Internet Sphere (WAN / Gateway)
-            Item {
+            Column {
                 id: rightCol
                 anchors.right: parent.right
                 anchors.rightMargin: 16
                 anchors.verticalCenter: parent.verticalCenter
-                width: 64
-                height: 64
+                spacing: 4
 
-                Item {
-                    id: internetSphere
-                    anchors.centerIn: parent
-                    width: 56
-                    height: 56
+                // Internet Sphere Disc
+                Rectangle {
+                    id: internetDisc
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    width: 50
+                    height: 50
+                    radius: 25
+                    color: topo.selectedNodeIndex === 30 ? Theme.primary : "#0a1124"
+                    border.width: 1.5
+                    border.color: Qt.rgba(topo.colRx.r, topo.colRx.g, topo.colRx.b, 0.6)
 
-                    // Nocturnal Internet Globe Disc
-                    Rectangle {
+                    DankIcon {
                         anchors.centerIn: parent
-                        width: 52
-                        height: 52
-                        radius: 26
-                        color: "#0a1124"
-                        border.width: 1.5
-                        border.color: Qt.rgba(topo.colRx.r, topo.colRx.g, topo.colRx.b, 0.5)
-
-                        DankIcon {
-                            anchors.centerIn: parent
-                            name: "public"
-                            size: 24
-                            color: Theme.surfaceText
-                            opacity: 0.90
-                        }
+                        name: "public"
+                        size: 24
+                        color: topo.selectedNodeIndex === 30 ? Theme.onPrimary : Theme.surfaceText
+                        opacity: 0.95
                     }
+                }
 
-                    StyledText {
-                        anchors.top: parent.bottom
-                        anchors.topMargin: 4
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        text: "Internet"
-                        font.pixelSize: 9
-                        font.bold: true
-                        color: Theme.surfaceText
-                    }
+                StyledText {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    text: "Internet"
+                    font.pixelSize: 9
+                    font.bold: true
+                    color: Theme.surfaceText
+                }
 
-                    MouseArea {
-                        anchors.fill: parent
-                        cursorShape: Qt.PointingHandCursor
-                        onClicked: {
-                            topo.selectedNodeIndex = 30;
-                            topo.selectedNodeData = {
-                                title: "Internet Gateway (WAN)",
-                                dev: "Default Gateway",
-                                status: "Global Internet Backbone",
-                                rx: topo.rxRate,
-                                tx: topo.txRate,
-                                extra: "Live bidirectional packet transmission & reception"
-                            };
-                        }
+                MouseArea {
+                    anchors.fill: parent
+                    cursorShape: Qt.PointingHandCursor
+                    onClicked: {
+                        topo.selectedNodeIndex = 30;
+                        topo.selectedNodeData = {
+                            title: "Internet Gateway (WAN)",
+                            dev: "Default Gateway",
+                            status: "Global Internet Backbone",
+                            rx: topo.rxRate,
+                            tx: topo.txRate,
+                            extra: "Live bidirectional packet transmission & reception"
+                        };
                     }
                 }
             }
