@@ -1,6 +1,14 @@
 {
    "configVersion" : 7,
    "desktopWidgetInstancePositions" : {
+      "dw_abyss" : {
+         "eDP-1" : {
+            "height" : 380,
+            "width" : 440,
+            "x" : 20,
+            "y" : 194
+         }
+      },
       "dw_desktop_lyrics" : {
          "eDP-1" : {
             "height" : 226.234375,
@@ -15,6 +23,14 @@
             "width" : 543.546875,
             "x" : 795.8828125,
             "y" : 64.6484375
+         }
+      },
+      "dw_orbit_bluetooth" : {
+         "eDP-1" : {
+            "height" : 380,
+            "width" : 440,
+            "x" : 463,
+            "y" : 194
          }
       },
       "lock_auth" : {

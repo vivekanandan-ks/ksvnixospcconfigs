@@ -876,8 +876,8 @@ PluginComponent {
     onUptimeTxChanged: root.updateTraffic()
 
     // --- Dropdown Popout Settings ---
-    popoutWidth: 460
-    popoutHeight: 410
+    popoutWidth: 500
+    popoutHeight: 460
 
     popoutContent: Component {
         PopoutComponent {
@@ -891,7 +891,8 @@ PluginComponent {
                     }
                     return I18n.tr("Real-time Throughput & Session Extremes");
                 }
-                if (popout.activeTab === 1) return I18n.tr("Uptime / Today / 7-Day Traffic");
+                if (popout.activeTab === 1) return I18n.tr("Spherical Topology & Data Flow");
+                if (popout.activeTab === 2) return I18n.tr("Uptime / Today / 7-Day Traffic");
                 return I18n.tr("Daily Limits & Notification Rules");
             }
             showCloseButton: true
@@ -924,8 +925,9 @@ PluginComponent {
                         Repeater {
                             model: [
                                 { id: 0, label: I18n.tr("Live Speed"), icon: "speed" },
-                                { id: 1, label: I18n.tr("7-Day Usage"), icon: "bar_chart" },
-                                { id: 2, label: I18n.tr("Data Quota"), icon: "data_usage" }
+                                { id: 1, label: I18n.tr("Topology"), icon: "hub" },
+                                { id: 2, label: I18n.tr("7-Day Usage"), icon: "bar_chart" },
+                                { id: 3, label: I18n.tr("Data Quota"), icon: "data_usage" }
                             ]
 
                             Rectangle {
@@ -933,7 +935,7 @@ PluginComponent {
                                 required property int index
                                 required property var modelData
 
-                                width: (popout.width - Theme.spacingM * 2 - 16) / 3
+                                width: (popout.width - Theme.spacingM * 2 - 20) / 4
                                 height: 26
                                 radius: Math.max(2, Theme.cornerRadius - 2)
                                 color: popout.activeTab === tabBtn.modelData.id ? Theme.primary : (tabMouse.containsMouse ? Theme.surfaceTextHover : "transparent")
@@ -1815,11 +1817,21 @@ PluginComponent {
                 }
 
                 // ==========================================
-                // === TAB 1: 7-DAY USAGE VIEW ===
+                // === TAB 1: NETWORK TOPOLOGY VIEW ===
+                // ==========================================
+                NetworkTopologyView {
+                    id: topoView
+                    visible: popout.activeTab === 1
+                    width: parent.width
+                    rootWidget: root
+                }
+
+                // ==========================================
+                // === TAB 2: 7-DAY USAGE VIEW ===
                 // ==========================================
                 Column {
                     id: historyTabCol
-                    visible: popout.activeTab === 1
+                    visible: popout.activeTab === 2
                     width: parent.width
                     spacing: Theme.spacingM
 
@@ -2133,11 +2145,11 @@ PluginComponent {
                 }
 
                 // ==========================================
-                // === TAB 2: DATA QUOTA & RULES VIEW ===
+                // === TAB 3: DATA QUOTA & RULES VIEW ===
                 // ==========================================
                 Column {
                     id: quotaTabCol
-                    visible: popout.activeTab === 2
+                    visible: popout.activeTab === 3
                     width: parent.width
                     spacing: Theme.spacingM
 

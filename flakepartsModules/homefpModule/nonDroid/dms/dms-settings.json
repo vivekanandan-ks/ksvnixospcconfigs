@@ -12,6 +12,8 @@
          "borderEnabled" : false,
          "bottomGap" : 0,
          "centerWidgets" : [
+            "orbitBluetooth",
+            "abyss",
             "capsLockIndicator"
          ],
          "clickThrough" : false,
@@ -388,8 +390,24 @@
          "col" : 0,
          "enabled" : true,
          "h" : 1,
-         "id" : "edit",
+         "id" : "plugin_orbitBluetooth",
          "row" : 6,
+         "w" : 4
+      },
+      {
+         "col" : 4,
+         "enabled" : true,
+         "h" : 1,
+         "id" : "plugin_abyss",
+         "row" : 6,
+         "w" : 4
+      },
+      {
+         "col" : 0,
+         "enabled" : true,
+         "h" : 1,
+         "id" : "edit",
+         "row" : 7,
          "small" : true,
          "w" : 1
       },
@@ -398,7 +416,7 @@
          "enabled" : true,
          "h" : 1,
          "id" : "runningApps",
-         "row" : 7,
+         "row" : 8,
          "small" : true,
          "w" : 4
       }
@@ -504,6 +522,28 @@
          "id" : "dw_desktop_lyrics",
          "name" : "Desktop Lyrics",
          "widgetType" : "desktopLyrics"
+      },
+      {
+         "config" : {
+            "displayPreferences" : [
+               "all"
+            ]
+         },
+         "enabled" : true,
+         "id" : "dw_orbit_bluetooth",
+         "name" : "Orbit Bluetooth",
+         "widgetType" : "orbitBluetooth"
+      },
+      {
+         "config" : {
+            "displayPreferences" : [
+               "all"
+            ]
+         },
+         "enabled" : true,
+         "id" : "dw_abyss",
+         "name" : "Abyss",
+         "widgetType" : "abyss"
       }
    ],
    "dmsWindowsFloatingSeeded" : [

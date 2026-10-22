@@ -327,6 +327,22 @@
         "type": "github"
       }
     },
+    "dms-plugin-abyss": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1791732105,
+        "narHash": "sha256-BC7tbo8609pBvGbHy0YbCtDks7dAO+CRl37FcOmz0As=",
+        "owner": "lung595",
+        "repo": "Abyss",
+        "rev": "c35e0516348301cff034a3b85f79c99c1f9da672",
+        "type": "github"
+      },
+      "original": {
+        "owner": "lung595",
+        "repo": "Abyss",
+        "type": "github"
+      }
+    },
     "dms-plugin-ambient-sound": {
       "flake": false,
       "locked": {
@@ -436,6 +452,22 @@
       "original": {
         "owner": "beefsizzle",
         "repo": "ModernClockDMS",
+        "type": "github"
+      }
+    },
+    "dms-plugin-orbit-bluetooth": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1791811630,
+        "narHash": "sha256-Yd/a5sJW7ONjlc9HFzODH//E1JSdx/AWFYzFR59CIYQ=",
+        "owner": "lung595",
+        "repo": "orbitBluetooth",
+        "rev": "dbbda495270fd6311adbe996be57e51e86cfb7d3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "lung595",
+        "repo": "orbitBluetooth",
         "type": "github"
       }
     },
@@ -1609,6 +1641,7 @@
         "dank-calendar": "dank-calendar",
         "determinate": "determinate",
         "disko": "disko",
+        "dms-plugin-abyss": "dms-plugin-abyss",
         "dms-plugin-ambient-sound": "dms-plugin-ambient-sound",
         "dms-plugin-battery-osd": "dms-plugin-battery-osd",
         "dms-plugin-battery-plus": "dms-plugin-battery-plus",
@@ -1616,6 +1649,7 @@
         "dms-plugin-dank-cleaner": "dms-plugin-dank-cleaner",
         "dms-plugin-hidden-bar": "dms-plugin-hidden-bar",
         "dms-plugin-modern-clock": "dms-plugin-modern-clock",
+        "dms-plugin-orbit-bluetooth": "dms-plugin-orbit-bluetooth",
         "dms-plugin-scratchpad-helper": "dms-plugin-scratchpad-helper",
         "dms-plugin-screencapture-toolbar": "dms-plugin-screencapture-toolbar",
         "dms-plugin-screenkey": "dms-plugin-screenkey",

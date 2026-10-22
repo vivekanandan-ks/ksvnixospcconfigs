@@ -54,6 +54,10 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    dms-plugin-abyss = {
+      url = "github:lung595/Abyss";
+      flake = false;
+    };
     dms-plugin-ambient-sound = {
       url = "github:hthienloc/dms-ambient-sound";
       flake = false;
@@ -80,6 +84,10 @@
     };
     dms-plugin-modern-clock = {
       url = "github:beefsizzle/ModernClockDMS";
+      flake = false;
+    };
+    dms-plugin-orbit-bluetooth = {
+      url = "github:lung595/orbitBluetooth";
       flake = false;
     };
     dms-plugin-scratchpad-helper = {
