@@ -3,18 +3,21 @@
    "desktopWidgetInstancePositions" : {
       "dw_abyss" : {
          "eDP-1" : {
-            "height" : 380,
-            "width" : 440,
-            "x" : 20,
-            "y" : 194
+            "anchorY" : "end",
+            "height" : 377.53515625,
+            "width" : 455.83203125,
+            "x" : 24,
+            "y" : 24
          }
       },
       "dw_desktop_lyrics" : {
          "eDP-1" : {
-            "height" : 226.234375,
-            "width" : 633.828125,
-            "x" : 719.1875,
-            "y" : 536.39453125
+            "anchorX" : "end",
+            "anchorY" : "end",
+            "height" : 146.48828125,
+            "width" : 416.53125,
+            "x" : 24,
+            "y" : 24
          }
       },
       "dw_modern_clock" : {
@@ -27,10 +30,12 @@
       },
       "dw_orbit_bluetooth" : {
          "eDP-1" : {
-            "height" : 380,
-            "width" : 440,
-            "x" : 463,
-            "y" : 194
+            "anchorX" : "end",
+            "anchorY" : "center",
+            "height" : 312.65625,
+            "width" : 473.9140625,
+            "x" : 24,
+            "y" : 0
          }
       },
       "lock_auth" : {
@@ -63,8 +68,8 @@
    },
    "islandFreePositions" : {
       "[\"eDP-1\",\"island\"]" : {
-         "x" : 0.5,
-         "y" : 0.045
+         "x" : 0.3853606646581066,
+         "y" : 0.022135416666666668
       }
    },
    "lastPlayerIdentity" : "VLC media player",
