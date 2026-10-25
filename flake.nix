@@ -14,6 +14,7 @@
       "https://nix-community.cachix.org"
       "https://cache.thalheim.io"
       "https://install.determinate.systems"
+      "https://wvhulle.cachix.org"
       "https://devenv.cachix.org"
     ];
     extra-trusted-public-keys = [
@@ -25,6 +26,7 @@
       "cache.thalheim.io-1:R7msbosLEZKrxk/lKxf9BTjOOH7Ax3H0Qj0/6wiHOgc="
       "determinate.systems:2f5mBvfSEjPpdnsbvY+JnsrWvSAUVM+HxFpYr0WXB44="
       "cache.flakehub.com-3:hJuILl5sVK4iKm86JzgdXW12Y2Hwd5G07qKtHTOcDCM="
+      "wvhulle.cachix.org-1:heXx8DZMiRsKUx6l1TxNoF+Nmtmz66QEdsonQzc1ir0="
       "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
     ];
     max-jobs = 2;
@@ -34,6 +36,10 @@
     base16-schemes = {
       url = "github:tinted-theming/schemes";
       flake = false;
+    };
+    bootvine = {
+      url = "git+https://codeberg.org/wvhulle/bootvine";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     chaotic = {
       url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
