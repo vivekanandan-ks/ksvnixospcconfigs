@@ -23,6 +23,9 @@
       config = {
         allowUnfree = true;
         nvidia.acceptLicense = true;
+        problems.handlers = {
+          fastmcp-slim.broken = "warn";
+        };
       };
       fastFallback = "eval"; # Seamless fallback for unfree packages
     };
