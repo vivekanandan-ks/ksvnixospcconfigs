@@ -23,9 +23,9 @@
         name = "Mangakakalot";
         pkgName = "eu.kanade.tachiyomi.extension.en.mangakakalot";
         file = pkgs.fetchurl {
-          name = "tachiyomi-en.mangakakalot-v1.6.24.jar";
-          url = "https://github.com/keiyoushi/extensions/releases/download/19c8e5f-0/tachiyomi-en.mangakakalot-v1.6.24.jar";
-          hash = "sha256-NBby4L8/ggd0NxJCL3ZzD26R+GbpzomD+E+aFFJu5EM=";
+          name = "tachiyomi-en.mangakakalot-v1.6.26.jar";
+          url = "https://github.com/keiyoushi/extensions/releases/download/4136d30/tachiyomi-en.mangakakalot-v1.6.26.jar";
+          hash = "sha256-6VV6pEoimXVfmBOCYylXKdVYk3V8SKcXQTehZE3bWqM=";
         };
       }
       # 3. Asura Scans
@@ -43,9 +43,9 @@
       #   name = "Flame Comics";
       #   pkgName = "eu.kanade.tachiyomi.extension.en.flamecomics";
       #   file = pkgs.fetchurl {
-      #     name = "tachiyomi-en.flamecomics-v1.6.0.jar";
-      #     url = "https://github.com/keiyoushi/extensions/releases/download/06f6d69/tachiyomi-en.flamecomics-v1.6.0.jar";
-      #     hash = "sha256-x+vQ2VFnjNBOZTwUk/bZgPm+OjrnKQru1tGjMJzCwoo=";
+      #     name = "tachiyomi-en.flamecomics-v1.6.1.jar";
+      #     url = "https://github.com/keiyoushi/extensions/releases/download/cfc0199/tachiyomi-en.flamecomics-v1.6.1.jar";
+      #     hash = "sha256-lHcW2d5nrodNKae/+l8JREwMjyL+EfSI2SZCFZwKIFQ=";
       #   };
       # }
       # 5. MangaFire
@@ -53,9 +53,9 @@
         name = "MangaFire";
         pkgName = "eu.kanade.tachiyomi.extension.all.mangafire";
         file = pkgs.fetchurl {
-          name = "tachiyomi-all.mangafire-v1.6.34.jar";
-          url = "https://github.com/keiyoushi/extensions/releases/download/19c8e5f-0/tachiyomi-all.mangafire-v1.6.34.jar";
-          hash = "sha256-uMC0JXRE2Lj/Ki41RFZV1zBa57jszmNcqRqhcw9fer4=";
+          name = "tachiyomi-all.mangafire-v1.6.35.jar";
+          url = "https://github.com/keiyoushi/extensions/releases/download/f1edb03/tachiyomi-all.mangafire-v1.6.35.jar";
+          hash = "sha256-sniIsB2m8G1uty88cjSCg8VRIaAU9FydlUxHSlp5+uc=";
         };
       }
     ];
