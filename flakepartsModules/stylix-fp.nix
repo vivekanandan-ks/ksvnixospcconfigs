@@ -13,10 +13,24 @@
 
   flake = {
     nixosModules.stylix = _: {
-      # stylix
-      # for some reason some options aren't working when I use stylix with nixosModules
-      # but works good when used as homeModule in home.nix
-      # imports = [ inputs.stylix.nixosModules.stylix ];
+      imports = [
+        inputs.stylix.nixosModules.stylix
+      ];
+
+      stylix = {
+        enable = true;
+        autoEnable = false; # Do not touch any system options or packages automatically
+        homeManagerIntegration.autoImport = false; # Avoid duplicate imports & conflicts with Home Manager
+
+        # Safe system targets with zero desktop breakage risk:
+        targets.console.enable = true; # Themes early boot kernel VT palette via vt.default_* (for bootvine)
+        targets.kmscon.enable = true; # Themes high-res TTYs (services.kmscon)
+        targets.limine.enable = true; # Themes Limine bootloader terminal colors
+        targets.limine.image.enable = false; # Preserves your custom wallpapers in limine-nixos-fp.nix
+
+        base16Scheme = self.personas.ksv.themeScheme;
+        polarity = self.personas.ksv.theme_polarity;
+      };
     };
 
     homeModules.common.stylix = {
@@ -44,7 +58,8 @@
       #stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-frappe.yaml";
       #stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-macchiato.yaml";
       #stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
-      stylix.base16Scheme = "${inputs.base16-schemes}/base16/catppuccin-mocha.yaml";
+      #stylix.base16Scheme = "${inputs.base16-schemes}/base16/catppuccin-mocha.yaml";
+      stylix.base16Scheme = self.personas.ksv.themeScheme;
 
       stylix.opacity = {
         #applications = 0.7;

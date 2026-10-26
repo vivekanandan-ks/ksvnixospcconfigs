@@ -43,6 +43,7 @@
 
     # --- Theming (Single Source of Truth) ---
     theme_polarity = "dark"; # "dark" | "light"
+    themeScheme = "${inputs.base16-schemes}/base16/catppuccin-mocha.yaml";
 
     # --- Typography / Fonts ---
     font = {
