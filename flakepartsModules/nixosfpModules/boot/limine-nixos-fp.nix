@@ -9,6 +9,8 @@
       limine = {
         enable = true;
         style.wallpapers = lib.filesystem.listFilesRecursive self.personas.ksv.currentWallpaperSet;
+        # Restore Limine's default 50% neutral tint over wallpapers instead of Stylix's solid background
+        style.graphicalTerminal.background = lib.mkForce null;
 
         extraEntries = lib.mkIf (config.networking.hostName == "deejunixospc") ''
           /Windows
