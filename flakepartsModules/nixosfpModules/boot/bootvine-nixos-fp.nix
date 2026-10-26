@@ -31,9 +31,6 @@
       # };
     };
 
-    # Upstream recommendations:
-    # Enables systemd in initrd so bootvine follows boot from ~1s after kernel through switch-root
-    boot.initrd.systemd.enable = lib.mkDefault true;
 
     # Suppresses non-error kernel console messages so the bootvine tree stays clean
     boot.consoleLogLevel = lib.mkDefault 3;
