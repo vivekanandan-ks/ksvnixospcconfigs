@@ -6,20 +6,21 @@
   # 1. Shared Nix settings (applied to both /etc/nix/nix.conf and ~/.config/nix/nix.conf)
   # Automatically populated from all distributed flake-file.nixConfig declarations across the codebase
   commonSettings = {
-    # Enable modern CLI commands and flakes
-    experimental-features = [
-      "nix-command"
-      "flakes"
-    ];
-
     # Auto-optimise store on new builds
     auto-optimise-store = true;
 
     # Allow import-from-derivation
     allow-import-from-derivation = true;
 
-    # Limit CPU usage (inherited from flake-file.nixConfig)
-    inherit (config.flake-file.nixConfig) max-jobs cores;
+    # Inherit CPU limits, parallel evaluation, and experimental features from flake-file
+    inherit
+      (config.flake-file.nixConfig)
+      max-jobs
+      cores
+      eval-cores
+      eval-max-fibers
+      extra-experimental-features
+      ;
 
     # Inherit all distributed substituters and trusted keys merged by flake-file
     extra-substituters = config.flake-file.nixConfig.extra-substituters;
@@ -38,6 +39,15 @@ in {
   flake-file.nixConfig = {
     max-jobs = 2;
     cores = 2;
+    eval-cores = 2;
+    eval-max-fibers = 4;
+
+    extra-experimental-features = [
+      "nix-command"
+      "flakes"
+      "baked-derivations"
+      "pipe-operators"
+    ];
 
     extra-substituters = [
       "https://cache.nixos.org"

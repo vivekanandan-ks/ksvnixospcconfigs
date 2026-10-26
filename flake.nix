@@ -6,6 +6,14 @@
 
   nixConfig = {
     cores = 2;
+    eval-cores = 2;
+    eval-max-fibers = 4;
+    extra-experimental-features = [
+      "nix-command"
+      "flakes"
+      "baked-derivations"
+      "pipe-operators"
+    ];
     extra-substituters = [
       "https://vicinae.cachix.org"
       "https://nyx-cache.chaotic.cx/"

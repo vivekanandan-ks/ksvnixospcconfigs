@@ -1,4 +1,8 @@
-{ inputs, lib, ... }: {
+{
+  inputs,
+  lib,
+  ...
+}: {
   flake.nixosModules.selfHosting = lib.mkIf (inputs ? nixflix) {
     nixflix.recyclarr = {
       enable = true;
@@ -7,8 +11,8 @@
     };
 
     systemd.services.recyclarr = {
-      wants = [ "network-online.target" ];
-      after = [ "network-online.target" ];
+      wants = ["network-online.target"];
+      after = ["network-online.target"];
       preStart = lib.mkBefore ''
         # Clear corrupted incomplete clone if FETCH_HEAD is missing
         if [ -d /var/lib/recyclarr/resources/trash-guides/git/official/.git ] && [ ! -f /var/lib/recyclarr/resources/trash-guides/git/official/.git/FETCH_HEAD ]; then

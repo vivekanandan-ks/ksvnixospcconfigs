@@ -1,17 +1,20 @@
-{ lib, ... }: {
-  flake.nixosModules.localAliases = { config, lib, pkgs, ... }:
-  let
+_: {
+  flake.nixosModules.localAliases = {
+    config,
+    lib,
+    pkgs,
+    ...
+  }: let
     cfg = config.localAliases;
-    hasAliases = cfg != { };
-  in
-  {
+    hasAliases = cfg != {};
+  in {
     # Base Avahi daemon & Wi-Fi mDNS firewall (always active on host)
     services.avahi = {
       enable = true;
       nssmdns4 = true;
       nssmdns6 = true;
       openFirewall = false; # Scoped strictly to Wi-Fi below
-      denyInterfaces = [ "wt0" "wg0" "wg-br" "veth-wg-br" "fips0" "tun0" "tailscale0" "docker0" "podman0" ];
+      denyInterfaces = ["wt0" "wg0" "wg-br" "veth-wg-br" "fips0" "tun0" "tailscale0" "docker0" "podman0"];
       publish = {
         enable = true;
         addresses = true;
@@ -21,7 +24,7 @@
     };
 
     # Silence dbus-broker warning about missing upstream netdev group
-    users.groups.netdev = { };
+    users.groups.netdev = {};
 
     # Prevent systemd-resolved from competing for UDP port 5353
     services.resolved.settings.Resolve.MulticastDNS = "no";
@@ -35,12 +38,12 @@
     # Dynamic mDNS alias broadcaster (active only when aliases exist)
     systemd.services.avahi-publish-aliases = lib.mkIf hasAliases {
       description = "Publish dynamic .local mDNS aliases";
-      wants = [ "network-online.target" ];
-      after = [ "network-online.target" "avahi-daemon.service" ];
-      requires = [ "avahi-daemon.service" ];
-      wantedBy = [ "multi-user.target" ];
+      wants = ["network-online.target"];
+      after = ["network-online.target" "avahi-daemon.service"];
+      requires = ["avahi-daemon.service"];
+      wantedBy = ["multi-user.target"];
 
-      path = with pkgs; [ avahi iproute2 gawk gnugrep coreutils ];
+      path = with pkgs; [avahi iproute2 gawk gnugrep coreutils];
 
       serviceConfig = {
         Restart = "always";

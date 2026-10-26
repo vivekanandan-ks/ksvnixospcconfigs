@@ -1,4 +1,8 @@
-{ inputs, lib, ... }: {
+{
+  inputs,
+  lib,
+  ...
+}: {
   flake.nixosModules.selfHosting = lib.mkIf (inputs ? nixflix) {
     nixflix.prowlarr = {
       enable = true;
@@ -81,8 +85,8 @@
     # Give Prowlarr ample time to initialize SQLite DB without systemd killing it at boot,
     # and ensure FlareSolverr is active before Prowlarr runs its proxy health checks
     systemd.services.prowlarr = {
-      after = [ "flaresolverr.service" ];
-      wants = [ "flaresolverr.service" ];
+      after = ["flaresolverr.service"];
+      wants = ["flaresolverr.service"];
       serviceConfig = {
         TimeoutStartSec = 300;
       };
@@ -92,8 +96,8 @@
     };
 
     systemd.services.prowlarr-downloadclients = {
-      requires = lib.mkForce [ "prowlarr.service" "qbittorrent.service" ];
-      wants = [ "prowlarr-config.service" ];
+      requires = lib.mkForce ["prowlarr.service" "qbittorrent.service"];
+      wants = ["prowlarr-config.service"];
       serviceConfig = {
         Restart = "on-failure";
         RestartSec = "10s";
@@ -102,9 +106,9 @@
 
     # Decouple indexer proxies from hard failure if FlareSolverr takes extra time on cold boot
     systemd.services.prowlarr-indexer-proxies = {
-      requires = lib.mkForce [ "prowlarr-config.service" "prowlarr-tags.service" ];
-      after = [ "flaresolverr.service" ];
-      wants = [ "flaresolverr.service" ];
+      requires = lib.mkForce ["prowlarr-config.service" "prowlarr-tags.service"];
+      after = ["flaresolverr.service"];
+      wants = ["flaresolverr.service"];
       serviceConfig = {
         Restart = lib.mkForce "on-failure";
         RestartSec = lib.mkForce 15;
@@ -113,8 +117,8 @@
 
     # Ensure indexer creation waits for network connectivity and proxy registration (FlareSolverr)
     systemd.services.prowlarr-indexers = {
-      after = [ "network-online.target" "prowlarr-indexer-proxies.service" ];
-      wants = [ "network-online.target" "prowlarr-indexer-proxies.service" ];
+      after = ["network-online.target" "prowlarr-indexer-proxies.service"];
+      wants = ["network-online.target" "prowlarr-indexer-proxies.service"];
     };
 
     # Allow local home Wi-Fi to reach Prowlarr dashboard

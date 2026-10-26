@@ -1,6 +1,5 @@
 _: {
   flake.nixosModules.alfis = {
-    pkgs,
     pkgs-unstable,
     ...
   }: let

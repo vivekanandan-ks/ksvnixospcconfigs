@@ -1,22 +1,27 @@
-{ lib, ... }: {
-  flake.nixosModules.localAliases = { config, lib, ... }:
-  let
+_: {
+  flake.nixosModules.localAliases = {
+    config,
+    lib,
+    ...
+  }: let
     cfg = config.localAliases;
-    hasAliases = cfg != { };
-  in
-  {
+    hasAliases = cfg != {};
+  in {
     config = lib.mkIf hasAliases {
       services.caddy = {
         enable = true;
-        virtualHosts = lib.mapAttrs' (host: port:
-          lib.nameValuePair "http://${host}" {
-            extraConfig = ''
-              reverse_proxy 127.0.0.1:${toString port} {
-                flush_interval -1
+        virtualHosts =
+          lib.mapAttrs' (
+            host: port:
+              lib.nameValuePair "http://${host}" {
+                extraConfig = ''
+                  reverse_proxy 127.0.0.1:${toString port} {
+                    flush_interval -1
+                  }
+                '';
               }
-            '';
-          }
-        ) cfg;
+          )
+          cfg;
       };
 
       networking.firewall.extraCommands = ''

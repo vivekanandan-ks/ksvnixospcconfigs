@@ -1,97 +1,95 @@
 {
-   "configVersion" : 7,
-   "desktopWidgetInstancePositions" : {
-      "dw_abyss" : {
-         "eDP-1" : {
-            "anchorY" : "end",
-            "height" : 377.53515625,
-            "width" : 455.83203125,
-            "x" : 24,
-            "y" : 24
-         }
-      },
-      "dw_desktop_lyrics" : {
-         "eDP-1" : {
-            "anchorX" : "end",
-            "anchorY" : "end",
-            "height" : 146.48828125,
-            "width" : 416.53125,
-            "x" : 24,
-            "y" : 24
-         }
-      },
-      "dw_modern_clock" : {
-         "eDP-1" : {
-            "height" : 136.31640625,
-            "width" : 543.546875,
-            "x" : 795.8828125,
-            "y" : 64.6484375
-         }
-      },
-      "dw_orbit_bluetooth" : {
-         "eDP-1" : {
-            "anchorX" : "end",
-            "anchorY" : "center",
-            "height" : 312.65625,
-            "width" : 473.9140625,
-            "x" : 24,
-            "y" : 0
-         }
-      },
-      "lock_auth" : {
-         "_synced" : {}
-      },
-      "lock_clock" : {
-         "_synced" : {
-            "x" : 0.0175695461200586,
-            "y" : 0.03125
-         }
-      },
-      "lw_1792586307190_ubkxsvtsl" : {
-         "_synced" : {
-            "anchorY" : "center",
-            "x" : 0.0351390922401171,
-            "y" : 0
-         }
-      },
-      "lw_1792586458852_0c7pra8xg" : {
-         "_synced" : {
-            "anchorX" : "end",
-            "anchorY" : "end",
-            "x" : 0.0175695461200586,
-            "y" : 0.03125
-         }
+  "configVersion": 7,
+  "desktopWidgetInstancePositions": {
+    "dw_abyss": {
+      "eDP-1": {
+        "anchorY": "end",
+        "height": 377.53515625,
+        "width": 455.83203125,
+        "x": 24,
+        "y": 24
       }
-   },
-   "dockPins" : {
-      "dock" : []
-   },
-   "islandFreePositions" : {
-      "[\"eDP-1\",\"island\"]" : {
-         "x" : 0.3853606646581066,
-         "y" : 0.022135416666666668
+    },
+    "dw_desktop_lyrics": {
+      "eDP-1": {
+        "anchorX": "end",
+        "anchorY": "end",
+        "height": 146.48828125,
+        "width": 416.53125,
+        "x": 24,
+        "y": 24
       }
-   },
-   "lastPlayerIdentity" : "VLC media player",
-   "launcherQueryHistory" : [
-      "dfil"
-   ],
-   "lockScreenAutoPositions" : {
-      "eDP-1" : {
-         "height" : 768,
-         "positions" : {},
-         "width" : 1366
+    },
+    "dw_modern_clock": {
+      "eDP-1": {
+        "height": 136.31640625,
+        "width": 543.546875,
+        "x": 795.8828125,
+        "y": 64.6484375
       }
-   },
-   "monitorWallpaperFillModes" : {
-      "HEADLESS-1" : "Fill"
-   },
-   "perMonitorWallpaper" : true,
-   "terminalOverride" : "kitty",
-   "wallpaperCyclingEnabled" : true,
-   "wallpaperCyclingInterval" : 300,
-   "wallpaperCyclingMode" : "interval",
-   "wallpaperCyclingRandom" : true,
-   "wallpaperCyclingTime" : "06:00",
-   "wallpaperTransition" : "portal"
+    },
+    "dw_orbit_bluetooth": {
+      "eDP-1": {
+        "anchorX": "end",
+        "anchorY": "center",
+        "height": 312.65625,
+        "width": 473.9140625,
+        "x": 24,
+        "y": 0
+      }
+    },
+    "lock_auth": {
+      "_synced": {}
+    },
+    "lock_clock": {
+      "_synced": {
+        "x": 0.0175695461200586,
+        "y": 0.03125
+      }
+    },
+    "lw_1792586307190_ubkxsvtsl": {
+      "_synced": {
+        "anchorY": "center",
+        "x": 0.0351390922401171,
+        "y": 0
+      }
+    },
+    "lw_1792586458852_0c7pra8xg": {
+      "_synced": {
+        "anchorX": "end",
+        "anchorY": "end",
+        "x": 0.0175695461200586,
+        "y": 0.03125
+      }
+    }
+  },
+  "dockPins": {
+    "dock": []
+  },
+  "islandFreePositions": {
+    "[\"eDP-1\",\"island\"]": {
+      "x": 0.3853606646581066,
+      "y": 0.022135416666666668
+    }
+  },
+  "lastPlayerIdentity": "VLC media player",
+  "launcherQueryHistory": ["dfil"],
+  "lockScreenAutoPositions": {
+    "eDP-1": {
+      "height": 768,
+      "positions": {},
+      "width": 1366
+    }
+  },
+  "monitorWallpaperFillModes": {
+    "HEADLESS-1": "Fill"
+  },
+  "perMonitorWallpaper": true,
+  "terminalOverride": "kitty",
+  "wallpaperCyclingEnabled": true,
+  "wallpaperCyclingInterval": 300,
+  "wallpaperCyclingMode": "interval",
+  "wallpaperCyclingRandom": true,
+  "wallpaperCyclingTime": "06:00",
+  "wallpaperTransition": "portal"
 }

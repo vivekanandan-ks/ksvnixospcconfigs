@@ -6,8 +6,7 @@
   flake.nixosModules.selfHosting = lib.mkIf (inputs ? nixflix) (
     let
       port = 4533;
-    in
-    {
+    in {
       nixflix.navidrome = {
         enable = true;
         group = "media";
@@ -30,7 +29,7 @@
 
       localAliases."navidrome.local" = port;
 
-      networking.firewall.allowedTCPPorts = [ port ];
+      networking.firewall.allowedTCPPorts = [port];
     }
   );
 }

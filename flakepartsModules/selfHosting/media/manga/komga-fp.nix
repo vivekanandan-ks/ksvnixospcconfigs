@@ -1,4 +1,4 @@
-{ ... }: {
+_: {
   flake.nixosModules.selfHosting = let
     port = 25600;
   in {
@@ -16,7 +16,7 @@
     localAliases."komga.local" = port;
 
     # Ensure komga system user has read/group access to /data/media/manga
-    users.users.komga.extraGroups = [ "media" ];
+    users.users.komga.extraGroups = ["media"];
 
     # Deprioritize background scanning I/O
     systemd.services.komga.serviceConfig = {

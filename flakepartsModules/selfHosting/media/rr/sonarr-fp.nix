@@ -1,9 +1,12 @@
-{ inputs, lib, ... }: {
+{
+  inputs,
+  lib,
+  ...
+}: {
   flake.nixosModules.selfHosting = lib.mkIf (inputs ? nixflix) (
     let
       port = 8989;
-    in
-    {
+    in {
       nixflix.sonarr = {
         enable = true;
         config = {
@@ -28,8 +31,8 @@
       };
 
       systemd.services.sonarr-downloadclients = {
-        requires = lib.mkForce [ "sonarr.service" "qbittorrent.service" ];
-        wants = [ "sonarr-config.service" ];
+        requires = lib.mkForce ["sonarr.service" "qbittorrent.service"];
+        wants = ["sonarr-config.service"];
         serviceConfig = {
           Restart = "on-failure";
           RestartSec = "10s";

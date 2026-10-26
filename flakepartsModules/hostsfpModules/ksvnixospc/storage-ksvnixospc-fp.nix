@@ -4,8 +4,8 @@
     fileSystems."/data" = {
       device = "/mnt/storage/237GB/selfHost";
       fsType = "none";
-      options = [ "bind" "nofail" ];
-      depends = [ "/mnt/storage/237GB" ];
+      options = ["bind" "nofail"];
+      depends = ["/mnt/storage/237GB"];
     };
   };
 }

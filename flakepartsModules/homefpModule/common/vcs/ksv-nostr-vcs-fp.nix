@@ -46,10 +46,7 @@
   # 3. Home Manager Configuration (Imported across all hosts via common)
   # ---------------------------------------------------------------------------
   flake.homeModules = lib.optionalAttrs (inputs ? ngit) {
-    common.nostr-vcs = {
-      pkgs,
-      ...
-    }: {
+    common.nostr-vcs = {pkgs, ...}: {
       # A. Install ngit and git-remote-nostr helper
       home.packages = [
         inputs.ngit.packages.${pkgs.stdenv.hostPlatform.system}.default
@@ -58,7 +55,7 @@
       # B. Declarative Git Configuration (Directly includes in-memory SOPS rendered secret)
       programs.git = {
         includes = [
-          { path = "/run/secrets/rendered/git-secrets.inc"; }
+          {path = "/run/secrets/rendered/git-secrets.inc";}
         ];
 
         settings = {
@@ -100,8 +97,8 @@
           fetch-all = ["git" "fetch" "--all-remotes"];
 
           # 4. First-Class Nostr PR & Collaboration Commands
-          pr = ["util" "exec" "--" "ngit" "send"];              # Propose a PR
-          prs = ["util" "exec" "--" "ngit" "list"];             # List open PRs
+          pr = ["util" "exec" "--" "ngit" "send"]; # Propose a PR
+          prs = ["util" "exec" "--" "ngit" "list"]; # List open PRs
           pr-co = ["util" "exec" "--" "ngit" "pr" "checkout"]; # Checkout a PR locally
           pr-merge = ["util" "exec" "--" "ngit" "pr" "merge"]; # Merge a PR
 

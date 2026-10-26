@@ -3,10 +3,7 @@
     dux-files.url = "github:duxlabs-dev/dux-files";
   };
 
-  flake.homeModules.nonDroid.dux-files = {
-    lib,
-    ...
-  }: {
+  flake.homeModules.nonDroid.dux-files = {lib, ...}: {
     imports = [
       inputs.dux-files.homeModules.dux-files
     ];

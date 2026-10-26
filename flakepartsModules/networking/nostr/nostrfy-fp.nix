@@ -1,6 +1,5 @@
 {
   self,
-  inputs,
   lib,
   ...
 }: {
@@ -57,7 +56,6 @@
       createHome = true;
     };
     users.groups.nostrfy = {};
-
 
     # SOPS Secret Declaration
     sops.secrets.nostrfy_relay_private_key = {};

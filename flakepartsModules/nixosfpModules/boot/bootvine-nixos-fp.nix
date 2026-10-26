@@ -31,7 +31,6 @@
       # };
     };
 
-
     # Suppresses non-error kernel console messages so the bootvine tree stays clean
     boot.consoleLogLevel = lib.mkDefault 3;
   };

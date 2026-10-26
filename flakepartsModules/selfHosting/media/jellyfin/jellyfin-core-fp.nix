@@ -26,7 +26,7 @@
         enable = true;
         mediaDir = "/data/media";
         stateDir = "/var/lib";
-        mediaUsers = [ username ];
+        mediaUsers = [username];
 
         jellyfin = {
           enable = true;
@@ -45,7 +45,7 @@
 
       # Automatically trigger a Jellyfin scan whenever new files finish downloading
       systemd.paths.jellyfin-auto-scan = {
-        wantedBy = [ "multi-user.target" ];
+        wantedBy = ["multi-user.target"];
         pathConfig = {
           PathChanged = [
             "/data/media/movies"

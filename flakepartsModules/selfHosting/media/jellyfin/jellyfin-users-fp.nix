@@ -21,7 +21,7 @@
         mutable = false;
         policy = {
           isAdministrator = false;
-          enableContentDeletion = false;     # Prevents accidental deletion of media files
+          enableContentDeletion = false; # Prevents accidental deletion of media files
           enableCollectionManagement = false;
           enableUserPreferenceAccess = false;
           enableVideoPlaybackTranscoding = false; # Enforce 100% Direct Play (client decodes)

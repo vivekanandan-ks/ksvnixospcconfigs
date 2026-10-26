@@ -292,9 +292,7 @@
           "id": "controlCenterButton"
         }
       ],
-      "screenPreferences": [
-        "all"
-      ],
+      "screenPreferences": ["all"],
       "scrollYBehavior": "workspace",
       "showOnLastDisplay": true,
       "widgetFollowInterfaceStyle": true,

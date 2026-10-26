@@ -1,6 +1,5 @@
 {
   self,
-  lib,
   ...
 }: let
   # Verified public fallback hubs with active NIP-77 Negentropy support
@@ -26,7 +25,7 @@ in {
     # Dynamically select NetBird peer IPs, excluding the current host
     peerIps = lib.attrValues (
       lib.filterAttrs (host: _: host != config.networking.hostName)
-        self.personas.ksv.network.netbird.hosts
+      self.personas.ksv.network.netbird.hosts
     );
     blossomHost =
       self.personas.ksv.network.netbird.hosts.${config.networking.hostName}
@@ -131,7 +130,7 @@ in {
           echo "Discovered ''${#ALL_RELAYS[@]} active relays for parallel reconciliation across ''${#USER_PAIRS[@]} account(s)."
 
           echo "=== [3/4] Multi-Stream Parallel Replication (Authored, Mentions, Mail) ==="
-          
+                  
           # OpSec Fail-Closed Kill-Switch: Ensure Tor SOCKS5 proxy is responsive before connecting to public relays
           TOR_READY=0
           for attempt in 1 2 3; do

@@ -1,8 +1,8 @@
-{ lib, ... }: {
-  flake.nixosModules.localAliases = { lib, ... }: {
+_: {
+  flake.nixosModules.localAliases = {lib, ...}: {
     options.localAliases = lib.mkOption {
       type = lib.types.attrsOf lib.types.port;
-      default = { };
+      default = {};
       description = "Mapping of .local domain aliases to localhost ports.";
       example = {
         "jellyfin.local" = 8096;
