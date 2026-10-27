@@ -5,6 +5,7 @@ _: {
     lib,
     #pkgs,
     pkgs-unstable,
+    pkgs-stable,
     ...
   }: {
     programs.mcp = {
@@ -12,12 +13,12 @@ _: {
       servers = {
         nixos = {
           # https://mcp-nixos.io/usage
-          command = lib.getExe pkgs-unstable.mcp-nixos;
+          command = lib.getExe pkgs-stable.mcp-nixos;
           args = [];
         };
 
         git = {
-          command = lib.getExe pkgs-unstable.mcp-server-git;
+          command = lib.getExe pkgs-stable.mcp-server-git;
           args = [];
         };
 
@@ -32,7 +33,7 @@ _: {
         };
 
         fetch = {
-          command = lib.getExe pkgs-unstable.mcp-server-fetch;
+          command = lib.getExe pkgs-stable.mcp-server-fetch;
           args = [];
         };
 

@@ -23,6 +23,7 @@ _: {
       {
         enable = true;
         package = pkgs-unstable.nushell;
+        loadSessionVariables = true;
         /*
           plugins = with pkgs-unstable.nushellPlugins; [
           #gstat

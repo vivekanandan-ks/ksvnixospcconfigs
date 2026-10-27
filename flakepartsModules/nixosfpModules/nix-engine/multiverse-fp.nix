@@ -17,7 +17,11 @@
   };
 
   # Configure per-system module arguments
-  perSystem = {system, ...}: let
+  perSystem = {
+    lib,
+    system,
+    ...
+  }: let
     mv = inputs.multiverse.lib.mkMultiverse {
       inherit system;
       config = {
@@ -36,7 +40,8 @@
       # 1. Unstable Native: For complex NixOS/HM modules, login shells, and services
       pkgs-unstable = mv.tip;
       # 2. Stable Channel: Access official stable packages on-demand with zero flake inputs
-      pkgs-stable = mv.at "26.05";
+      pkgs-stable = mv.at (lib.last mv.releases);
+      # pkgs-stable = mv.at "26.05";
       # 3. Flake Tip: Synthesized flake object (.lib.nixosSystem, .legacyPackages, etc.)
       # flake-tip = mv.flakeAt "tip";
     };
