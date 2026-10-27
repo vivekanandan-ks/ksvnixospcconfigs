@@ -72,8 +72,8 @@ PluginComponent {
     // --- Live Speed History & Extremes ---
     property var history5mRx: []
     property var history5mTx: []
-    property var history1hRx: []
-    property var history1hTx: []
+    property var history30mRx: []
+    property var history30mTx: []
     property real sessionPeakRx: 0
     property real sessionPeakTx: 0
     property real sessionMinRx: 0
@@ -89,7 +89,7 @@ PluginComponent {
     property var discoveredInterfaces: []
     property var prevInterfaceBytes: ({})
     property var interfaceHistory5m: ({})
-    property var interfaceHistory1h: ({})
+    property var interfaceHistory30m: ({})
     property var selectedInterfaceFilter: [] // Array of dev strings. Empty = All Networks (Physical Total)
 
     property real activeRxRate: 0
@@ -102,12 +102,19 @@ PluginComponent {
 
     function getInterfaceIcon(dev) {
         if (!dev) return "public";
-        if (dev.startsWith("wl")) return "wifi";
-        if (dev.startsWith("en") || dev.startsWith("eth")) return "lan";
-        if (dev.startsWith("wt")) return "hub";
-        if (dev.startsWith("fips")) return "security";
-        if (dev.startsWith("tun") || dev.startsWith("wg")) return "shield";
-        if (dev.startsWith("tailscale")) return "vpn_lock";
+        const d = dev.toLowerCase();
+        if (d.startsWith("wl")) return "wifi";
+        if (d.startsWith("en") || d.startsWith("eth")) return "lan";
+        if (d.startsWith("wt")) return "hub";
+        if (d.startsWith("fips")) return "verified_user";
+        if (d.startsWith("wg")) return "security";
+        if (d.includes("tor") || d.includes("onion")) return "vpn_lock";
+        if (d.startsWith("tailscale")) return "vpn_lock";
+        if (d.startsWith("ygg")) return "device_hub";
+        if (d.startsWith("podman") || d.startsWith("cni-podman") || d.startsWith("pasta")) return "inventory_2";
+        if (d.startsWith("docker") || (d.startsWith("br-") && d.length === 15)) return "dns";
+        if (d.startsWith("veth")) return "device_hub";
+        if (d.startsWith("tun") || d.startsWith("tap") || d.startsWith("ppp")) return "shield";
         return "settings_ethernet";
     }
 
@@ -184,29 +191,29 @@ PluginComponent {
         root.history5mRx = new5mRx;
         root.history5mTx = new5mTx;
 
-        // Rebuild 1h buffer
-        let max1hLen = 0;
+        // Rebuild 30m buffer (180 data points @ 10s)
+        let max30mLen = 0;
         for (let d of targetDevs) {
-            const h = root.interfaceHistory1h[d];
-            if (h && h.rx.length > max1hLen) max1hLen = h.rx.length;
+            const h = root.interfaceHistory30m[d];
+            if (h && h.rx.length > max30mLen) max30mLen = h.rx.length;
         }
-        let new1hRx = [];
-        let new1hTx = [];
-        for (let idx = 0; idx < max1hLen; idx++) {
+        let new30mRx = [];
+        let new30mTx = [];
+        for (let idx = 0; idx < max30mLen; idx++) {
             let rSum = 0;
             let tSum = 0;
             for (let d of targetDevs) {
-                const h = root.interfaceHistory1h[d];
+                const h = root.interfaceHistory30m[d];
                 if (h && h.rx.length > idx) {
                     rSum += (h.rx[idx] || 0);
                     tSum += (h.tx[idx] || 0);
                 }
             }
-            new1hRx.push(rSum);
-            new1hTx.push(tSum);
+            new30mRx.push(rSum);
+            new30mTx.push(tSum);
         }
-        root.history1hRx = new1hRx;
-        root.history1hTx = new1hTx;
+        root.history30mRx = new30mRx;
+        root.history30mTx = new30mTx;
 
         // Recalculate extremes
         root.sessionPeakRx = 0;
@@ -279,16 +286,25 @@ PluginComponent {
             const isPhysical = dev.startsWith("wl") || dev.startsWith("en") || dev.startsWith("eth");
             let icon = "settings_ethernet";
             let friendlyName = dev;
-            if (dev.startsWith("wl")) { icon = "wifi"; friendlyName = "Wi-Fi"; }
-            else if (dev.startsWith("en") || dev.startsWith("eth")) { icon = "lan"; friendlyName = "Ethernet"; }
-            else if (dev.startsWith("wt")) { icon = "hub"; friendlyName = "NetBird"; }
-            else if (dev.startsWith("fips")) { icon = "security"; friendlyName = "FIPS Mesh"; }
-            else if (dev.startsWith("tun") || dev.startsWith("wg")) { icon = "shield"; friendlyName = "VPN Tunnel"; }
-            else if (dev.startsWith("tailscale")) { icon = "vpn_lock"; friendlyName = "Tailscale"; }
+            let subType = isPhysical ? "Physical Carrier" : "Virtual Interface";
+            const d = dev.toLowerCase();
+            if (d.startsWith("wl")) { icon = "wifi"; friendlyName = "Wi-Fi"; subType = "Wireless 802.11"; }
+            else if (d.startsWith("en") || d.startsWith("eth")) { icon = "lan"; friendlyName = "Ethernet"; subType = "Wired LAN"; }
+            else if (d.startsWith("wt")) { icon = "hub"; friendlyName = "NetBird"; subType = "P2P WireGuard Mesh"; }
+            else if (d.startsWith("fips")) { icon = "verified_user"; friendlyName = "FIPS Mesh"; subType = "FIPS 140-2 Crypto"; }
+            else if (d.startsWith("wg")) { icon = "security"; friendlyName = `WireGuard (${dev})`; subType = "Kernel Crypto Tunnel"; }
+            else if (d.includes("tor") || d.includes("onion")) { icon = "vpn_lock"; friendlyName = "Tor"; subType = "Onion Proxy Circuit"; }
+            else if (d.startsWith("tailscale")) { icon = "vpn_lock"; friendlyName = "Tailscale"; subType = "Tailscale Mesh"; }
+            else if (d.startsWith("ygg")) { icon = "device_hub"; friendlyName = "Yggdrasil"; subType = "IPv6 Encrypted Mesh"; }
+            else if (d.startsWith("podman") || d.startsWith("cni-podman") || d.startsWith("pasta")) { icon = "inventory_2"; friendlyName = `Podman (${dev})`; subType = "Podman Container Network"; }
+            else if (d.startsWith("docker") || (d.startsWith("br-") && d.length === 15)) { icon = "dns"; friendlyName = `Docker (${dev})`; subType = "Docker Bridge Network"; }
+            else if (d.startsWith("veth")) { icon = "device_hub"; friendlyName = `veth (${dev})`; subType = "Container Veth Pair"; }
+            else if (d.startsWith("tun") || d.startsWith("tap") || d.startsWith("ppp")) { icon = "shield"; friendlyName = `VPN (${dev})`; subType = "Encrypted Tunnel"; }
 
             list.push({
                 dev: dev,
                 name: friendlyName,
+                subType: subType,
                 icon: icon,
                 isPhysical: isPhysical,
                 rx: rx,
@@ -305,14 +321,14 @@ PluginComponent {
             h5.tx.push(txRate);
             if (h5.tx.length > 300) h5.tx.shift();
 
-            // Store per-device 1h rolling history
-            if (!root.interfaceHistory1h[dev]) root.interfaceHistory1h[dev] = { rx: [], tx: [] };
-            if (root.sampleCounter10s >= 10 || root.interfaceHistory1h[dev].rx.length === 0) {
-                let h1 = root.interfaceHistory1h[dev];
-                h1.rx.push(rxRate);
-                if (h1.rx.length > 360) h1.rx.shift();
-                h1.tx.push(txRate);
-                if (h1.tx.length > 360) h1.tx.shift();
+            // Store per-device 30m rolling history (180 points @ 10s)
+            if (!root.interfaceHistory30m[dev]) root.interfaceHistory30m[dev] = { rx: [], tx: [] };
+            if (root.sampleCounter10s >= 10 || root.interfaceHistory30m[dev].rx.length === 0) {
+                let h30 = root.interfaceHistory30m[dev];
+                h30.rx.push(rxRate);
+                if (h30.rx.length > 180) h30.rx.shift();
+                h30.tx.push(txRate);
+                if (h30.tx.length > 180) h30.tx.shift();
             }
 
             if (isPhysical) {
@@ -355,17 +371,17 @@ PluginComponent {
         root.sessionTotalTxBytes += tx;
         root.sessionSampleCount++;
 
-        // 1-hour rolling buffer (360 data points @ 10s)
+        // 30-minute rolling buffer (180 data points @ 10s)
         root.sampleCounter10s++;
-        if (root.sampleCounter10s >= 10 || root.history1hRx.length === 0) {
+        if (root.sampleCounter10s >= 10 || root.history30mRx.length === 0) {
             root.sampleCounter10s = 0;
-            let h1Rx = [...root.history1hRx, rx];
-            if (h1Rx.length > 360) h1Rx.shift();
-            root.history1hRx = h1Rx;
+            let h30Rx = [...root.history30mRx, rx];
+            if (h30Rx.length > 180) h30Rx.shift();
+            root.history30mRx = h30Rx;
 
-            let h1Tx = [...root.history1hTx, tx];
-            if (h1Tx.length > 360) h1Tx.shift();
-            root.history1hTx = h1Tx;
+            let h30Tx = [...root.history30mTx, tx];
+            if (h30Tx.length > 180) h30Tx.shift();
+            root.history30mTx = h30Tx;
         }
     }
 
@@ -398,15 +414,15 @@ PluginComponent {
                 root.sessionSampleCount++;
 
                 root.sampleCounter10s++;
-                if (root.sampleCounter10s >= 10 || root.history1hRx.length === 0) {
+                if (root.sampleCounter10s >= 10 || root.history30mRx.length === 0) {
                     root.sampleCounter10s = 0;
-                    let h1Rx = [...root.history1hRx, rx];
-                    if (h1Rx.length > 360) h1Rx.shift();
-                    root.history1hRx = h1Rx;
+                    let h30Rx = [...root.history30mRx, rx];
+                    if (h30Rx.length > 180) h30Rx.shift();
+                    root.history30mRx = h30Rx;
 
-                    let h1Tx = [...root.history1hTx, tx];
-                    if (h1Tx.length > 360) h1Tx.shift();
-                    root.history1hTx = h1Tx;
+                    let h30Tx = [...root.history30mTx, tx];
+                    if (h30Tx.length > 180) h30Tx.shift();
+                    root.history30mTx = h30Tx;
                 }
             }
         }
@@ -877,7 +893,7 @@ PluginComponent {
 
     // --- Dropdown Popout Settings ---
     popoutWidth: 500
-    popoutHeight: 460
+    popoutHeight: 650
 
     popoutContent: Component {
         PopoutComponent {
@@ -891,14 +907,14 @@ PluginComponent {
                     }
                     return I18n.tr("Real-time Throughput & Session Extremes");
                 }
-                if (popout.activeTab === 1) return I18n.tr("Spherical Topology & Data Flow");
-                if (popout.activeTab === 2) return I18n.tr("Uptime / Today / 7-Day Traffic");
+                if (popout.activeTab === 1) return I18n.tr("Uptime / Today / 7-Day Traffic");
                 return I18n.tr("Daily Limits & Notification Rules");
             }
             showCloseButton: true
 
             property int activeTab: 0
-            property int liveGraphRange: 0 // 0 = 5m, 1 = 1h
+            property int liveGraphRange: 0 // 0 = 5m, 1 = 30m
+            property string expandedInterface: "" // Expanded interface in live list
             property int hoveredPointIndex: -1
             property real hoverX: 0
             property int selectedDayIndex: -1
@@ -925,9 +941,8 @@ PluginComponent {
                         Repeater {
                             model: [
                                 { id: 0, label: I18n.tr("Live Speed"), icon: "speed" },
-                                { id: 1, label: I18n.tr("Topology"), icon: "hub" },
-                                { id: 2, label: I18n.tr("7-Day Usage"), icon: "bar_chart" },
-                                { id: 3, label: I18n.tr("Data Quota"), icon: "data_usage" }
+                                { id: 1, label: I18n.tr("7-Day Usage"), icon: "bar_chart" },
+                                { id: 2, label: I18n.tr("Data Quota"), icon: "data_usage" }
                             ]
 
                             Rectangle {
@@ -935,7 +950,7 @@ PluginComponent {
                                 required property int index
                                 required property var modelData
 
-                                width: (popout.width - Theme.spacingM * 2 - 20) / 4
+                                width: (popout.width - Theme.spacingM * 2 - 16) / 3
                                 height: 26
                                 radius: Math.max(2, Theme.cornerRadius - 2)
                                 color: popout.activeTab === tabBtn.modelData.id ? Theme.primary : (tabMouse.containsMouse ? Theme.surfaceTextHover : "transparent")
@@ -1101,8 +1116,8 @@ PluginComponent {
                                 elide: Text.ElideRight
                                 text: {
                                     if (popout.hoveredPointIndex >= 0) {
-                                        const rxList = popout.liveGraphRange === 0 ? root.history5mRx : root.history1hRx;
-                                        const txList = popout.liveGraphRange === 0 ? root.history5mTx : root.history1hTx;
+                                        const rxList = popout.liveGraphRange === 0 ? root.history5mRx : root.history30mRx;
+                                        const txList = popout.liveGraphRange === 0 ? root.history5mTx : root.history30mTx;
                                         const rx = rxList[popout.hoveredPointIndex] || 0;
                                         const tx = txList[popout.hoveredPointIndex] || 0;
                                         const secsAgo = popout.liveGraphRange === 0
@@ -1110,7 +1125,7 @@ PluginComponent {
                                             : `${Math.round((rxList.length - 1 - popout.hoveredPointIndex) * 10 / 60)}m ago`;
                                         return `${secsAgo}:  ↓ ${root.formatSpeed(rx)}/s   ↑ ${root.formatSpeed(tx)}/s`;
                                     }
-                                    return popout.liveGraphRange === 0 ? I18n.tr("Speed Trend (Last 5 Minutes)") : I18n.tr("Speed Trend (Last 1 Hour)");
+                                    return popout.liveGraphRange === 0 ? I18n.tr("Speed Trend (Last 5 Minutes)") : I18n.tr("Speed Trend (Last 30 Minutes)");
                                 }
                                 font.pixelSize: Theme.fontSizeSmall
                                 font.bold: popout.hoveredPointIndex >= 0
@@ -1171,7 +1186,7 @@ PluginComponent {
                                     }
                                 }
 
-                                // 5m / 1h Resolution Toggle Chips
+                                // 5m / 30m Resolution Toggle Chips
                                 Row {
                                     spacing: 2
                                     anchors.verticalCenter: parent.verticalCenter
@@ -1205,20 +1220,20 @@ PluginComponent {
                                         width: 32
                                         height: 20
                                         radius: 4
-                                        color: popout.liveGraphRange === 1 ? Theme.primary : (range1hMouse.containsMouse ? Theme.surfaceTextHover : Theme.surfaceContainerHigh)
+                                        color: popout.liveGraphRange === 1 ? Theme.primary : (range30mMouse.containsMouse ? Theme.surfaceTextHover : Theme.surfaceContainerHigh)
                                         border.width: 1
                                         border.color: popout.liveGraphRange === 1 ? Theme.primary : Theme.outlineLight
 
                                         StyledText {
                                             anchors.centerIn: parent
-                                            text: "1h"
+                                            text: "30m"
                                             font.pixelSize: 10
                                             font.bold: true
                                             color: popout.liveGraphRange === 1 ? Theme.onPrimary : Theme.surfaceText
                                         }
 
                                         MouseArea {
-                                            id: range1hMouse
+                                            id: range30mMouse
                                             anchors.fill: parent
                                             hoverEnabled: true
                                             cursorShape: Qt.PointingHandCursor
@@ -1545,8 +1560,8 @@ PluginComponent {
                             anchors.bottom: parent.bottom
                             anchors.bottomMargin: Theme.spacingS
 
-                            readonly property var activeRxData: popout.liveGraphRange === 0 ? root.history5mRx : root.history1hRx
-                            readonly property var activeTxData: popout.liveGraphRange === 0 ? root.history5mTx : root.history1hTx
+                            readonly property var activeRxData: popout.liveGraphRange === 0 ? root.history5mRx : root.history30mRx
+                            readonly property var activeTxData: popout.liveGraphRange === 0 ? root.history5mTx : root.history30mTx
 
                             readonly property real maxSpeed: {
                                 let m = 50 * 1024;
@@ -1814,24 +1829,311 @@ PluginComponent {
                             }
                         }
                     }
+
+                    // --- Live Dynamic Interface Usage Card (Interactive & Expandable) ---
+                    Rectangle {
+                        width: parent.width
+                        implicitHeight: ifaceCardCol.implicitHeight + Theme.spacingM * 2
+                        radius: Theme.cornerRadius
+                        color: Theme.nestedSurface
+                        border.width: 1
+                        border.color: Theme.outlineLight
+
+                        Column {
+                            id: ifaceCardCol
+                            anchors.centerIn: parent
+                            width: parent.width - Theme.spacingM * 2
+                            spacing: Theme.spacingS
+
+                            // Header: Title & Active Count Badge
+                            Item {
+                                width: parent.width
+                                height: 20
+
+                                Row {
+                                    anchors.left: parent.left
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    spacing: 6
+
+                                    DankIcon {
+                                        name: "swap_calls"
+                                        size: 14
+                                        color: Theme.primary
+                                        anchors.verticalCenter: parent.verticalCenter
+                                    }
+
+                                    StyledText {
+                                        text: I18n.tr("Live Interface Usage")
+                                        font.pixelSize: Theme.fontSizeSmall
+                                        font.bold: true
+                                        color: Theme.surfaceText
+                                        anchors.verticalCenter: parent.verticalCenter
+                                    }
+                                }
+
+                                Rectangle {
+                                    anchors.right: parent.right
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    width: activeCountText.implicitWidth + 10
+                                    height: 18
+                                    radius: 9
+                                    color: Theme.withAlpha(Theme.primary, 0.15)
+
+                                    readonly property int activeCount: {
+                                        let c = 0;
+                                        for (let i = 0; i < root.discoveredInterfaces.length; i++) {
+                                            if (root.discoveredInterfaces[i].rxRate > 0 || root.discoveredInterfaces[i].txRate > 0) c++;
+                                        }
+                                        return c;
+                                    }
+
+                                    StyledText {
+                                        id: activeCountText
+                                        anchors.centerIn: parent
+                                        text: `${parent.activeCount} active`
+                                        font.pixelSize: 8
+                                        font.bold: true
+                                        color: Theme.primary
+                                    }
+                                }
+                            }
+
+                            // Divider
+                            Rectangle {
+                                width: parent.width
+                                height: 1
+                                color: Theme.outlineLight
+                                opacity: 0.35
+                            }
+
+                            // Scrollable list container for multiple interfaces (Docker, Podman, VPNs, Wi-Fi)
+                            Flickable {
+                                id: ifaceFlickable
+                                width: parent.width
+                                implicitHeight: Math.min(240, ifaceListCol.implicitHeight)
+                                contentHeight: ifaceListCol.implicitHeight
+                                clip: true
+                                boundsBehavior: Flickable.StopAtBounds
+
+                                Column {
+                                    id: ifaceListCol
+                                    width: ifaceFlickable.width
+                                    spacing: Theme.spacingXS
+
+                                    Repeater {
+                                        model: {
+                                            if (!root.discoveredInterfaces || root.discoveredInterfaces.length === 0) return [];
+                                            let copy = [...root.discoveredInterfaces];
+                                            copy.sort((a, b) => ((b.rxRate + b.txRate) - (a.rxRate + a.txRate)));
+                                            return copy;
+                                        }
+
+                                        Rectangle {
+                                            id: ifaceRowItem
+                                            required property var modelData
+                                            required property int index
+
+                                            readonly property bool isSelected: root.selectedInterfaceFilter.includes(ifaceRowItem.modelData.dev)
+                                            readonly property bool isExpanded: popout.expandedInterface === ifaceRowItem.modelData.dev
+                                            readonly property bool isActiveRate: ifaceRowItem.modelData.rxRate > 0 || ifaceRowItem.modelData.txRate > 0
+
+                                            width: ifaceListCol.width
+                                            height: isExpanded ? 116 : 38
+                                            radius: 6
+                                            color: ifaceRowMouse.containsMouse ? Theme.surfaceTextHover : (isSelected ? Theme.surfaceContainerHighest : (isActiveRate ? Theme.surfaceContainerHigh : "transparent"))
+                                            border.width: 1
+                                            border.color: isSelected ? Theme.primary : (isActiveRate ? Theme.withAlpha(Theme.primary, 0.25) : Theme.withAlpha(Theme.outlineLight, 0.25))
+
+                                            Behavior on height {
+                                                NumberAnimation { duration: Theme.shortDuration; easing.type: Theme.standardEasing }
+                                            }
+
+                                            Column {
+                                                anchors.fill: parent
+                                                anchors.margins: Theme.spacingS
+                                                spacing: 4
+
+                                                // Main Row
+                                                Row {
+                                                    width: parent.width
+
+                                                    // Left icon & labels
+                                                    Row {
+                                                        spacing: Theme.spacingS
+                                                        anchors.verticalCenter: parent.verticalCenter
+
+                                                        Rectangle {
+                                                            width: 22
+                                                            height: 22
+                                                            radius: 11
+                                                            color: ifaceRowItem.isSelected ? Theme.primary : (ifaceRowItem.isActiveRate ? Theme.withAlpha(Theme.primary, 0.18) : Theme.surfaceContainerLowest)
+
+                                                            DankIcon {
+                                                                anchors.centerIn: parent
+                                                                name: ifaceRowItem.modelData.icon || "settings_ethernet"
+                                                                size: 12
+                                                                color: ifaceRowItem.isSelected ? Theme.onPrimary : (ifaceRowItem.isActiveRate ? Theme.primary : Theme.surfaceVariantText)
+                                                            }
+                                                        }
+
+                                                        Column {
+                                                            spacing: 0
+                                                            anchors.verticalCenter: parent.verticalCenter
+
+                                                            Row {
+                                                                spacing: 4
+                                                                StyledText {
+                                                                    text: ifaceRowItem.modelData.name || ifaceRowItem.modelData.dev
+                                                                    font.pixelSize: 11
+                                                                    font.bold: true
+                                                                    color: ifaceRowItem.isSelected ? Theme.primary : Theme.surfaceText
+                                                                }
+                                                                StyledText {
+                                                                    text: `(${ifaceRowItem.modelData.dev})`
+                                                                    font.pixelSize: 8
+                                                                    isMonospace: true
+                                                                    color: Theme.surfaceVariantText
+                                                                    anchors.verticalCenter: parent.verticalCenter
+                                                                }
+                                                            }
+
+                                                            StyledText {
+                                                                text: ifaceRowItem.modelData.subType || "Interface"
+                                                                font.pixelSize: 8
+                                                                color: Theme.surfaceVariantText
+                                                            }
+                                                        }
+                                                    }
+
+                                                    // Right rates
+                                                    Row {
+                                                        anchors.right: parent.right
+                                                        anchors.verticalCenter: parent.verticalCenter
+                                                        spacing: Theme.spacingS
+
+                                                        Column {
+                                                            spacing: 0
+                                                            anchors.verticalCenter: parent.verticalCenter
+
+                                                            Row {
+                                                                spacing: 3
+                                                                anchors.right: parent.right
+                                                                StyledText { text: "↓"; font.pixelSize: 9; font.bold: true; color: Theme.info }
+                                                                NumericText {
+                                                                    isMonospace: true
+                                                                    text: root.formatSpeed(ifaceRowItem.modelData.rxRate) + "/s"
+                                                                    font.pixelSize: 10
+                                                                    font.bold: ifaceRowItem.modelData.rxRate > 0
+                                                                    color: ifaceRowItem.modelData.rxRate > 0 ? Theme.surfaceText : Theme.surfaceVariantText
+                                                                }
+                                                            }
+
+                                                            Row {
+                                                                spacing: 3
+                                                                anchors.right: parent.right
+                                                                StyledText { text: "↑"; font.pixelSize: 9; font.bold: true; color: Theme.error }
+                                                                NumericText {
+                                                                    isMonospace: true
+                                                                    text: root.formatSpeed(ifaceRowItem.modelData.txRate) + "/s"
+                                                                    font.pixelSize: 10
+                                                                    font.bold: ifaceRowItem.modelData.txRate > 0
+                                                                    color: ifaceRowItem.modelData.txRate > 0 ? Theme.surfaceText : Theme.surfaceVariantText
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+
+                                                // Expanded details drawer (Live mini-graph & lifetime stats)
+                                                Column {
+                                                    visible: ifaceRowItem.isExpanded
+                                                    width: parent.width
+                                                    spacing: 3
+
+                                                    Canvas {
+                                                        id: ifaceSparkline
+                                                        width: parent.width
+                                                        height: 34
+                                                        renderStrategy: Canvas.Cooperative
+                                                        property var rxData: popout.liveGraphRange === 0 ? (root.interfaceHistory5m[ifaceRowItem.modelData.dev]?.rx || []) : (root.interfaceHistory30m[ifaceRowItem.modelData.dev]?.rx || [])
+                                                        property var txData: popout.liveGraphRange === 0 ? (root.interfaceHistory5m[ifaceRowItem.modelData.dev]?.tx || []) : (root.interfaceHistory30m[ifaceRowItem.modelData.dev]?.tx || [])
+
+                                                        onRxDataChanged: requestPaint()
+                                                        onTxDataChanged: requestPaint()
+
+                                                        onPaint: {
+                                                            const ctx = getContext("2d");
+                                                            ctx.reset();
+                                                            ctx.clearRect(0, 0, width, height);
+                                                            if (!rxData || rxData.length < 2) return;
+                                                            const count = rxData.length;
+                                                            const step = width / (count - 1);
+                                                            let maxV = 10 * 1024;
+                                                            for (let i = 0; i < count; i++) {
+                                                                if (rxData[i] > maxV) maxV = rxData[i];
+                                                                if (txData && txData[i] > maxV) maxV = txData[i];
+                                                            }
+                                                            function drawMini(data, col) {
+                                                                ctx.strokeStyle = col;
+                                                                ctx.lineWidth = 1.3;
+                                                                ctx.beginPath();
+                                                                for (let i = 0; i < data.length; i++) {
+                                                                    const x = i * step;
+                                                                    const y = height - (Math.min(maxV, Math.max(0, data[i])) / maxV) * (height - 2) - 1;
+                                                                    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                                                                }
+                                                                ctx.stroke();
+                                                            }
+                                                            if (txData && txData.length > 0) drawMini(txData, Theme.error);
+                                                            drawMini(rxData, Theme.info);
+                                                        }
+                                                    }
+
+                                                    Row {
+                                                        width: parent.width
+                                                        StyledText {
+                                                            anchors.left: parent.left
+                                                            text: `Session: ↓ ${root.formatBytes(ifaceRowItem.modelData.rx)}  ↑ ${root.formatBytes(ifaceRowItem.modelData.tx)}`
+                                                            font.pixelSize: 8
+                                                            isMonospace: true
+                                                            color: Theme.surfaceVariantText
+                                                        }
+
+                                                        StyledText {
+                                                            anchors.right: parent.right
+                                                            text: ifaceRowItem.isSelected ? I18n.tr("Filtered in main graph") : I18n.tr("Click to filter main graph")
+                                                            font.pixelSize: 8
+                                                            font.bold: ifaceRowItem.isSelected
+                                                            color: ifaceRowItem.isSelected ? Theme.primary : Theme.surfaceVariantText
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+                                            MouseArea {
+                                                id: ifaceRowMouse
+                                                anchors.fill: parent
+                                                hoverEnabled: true
+                                                cursorShape: Qt.PointingHandCursor
+                                                onClicked: {
+                                                    popout.expandedInterface = (popout.expandedInterface === ifaceRowItem.modelData.dev) ? "" : ifaceRowItem.modelData.dev;
+                                                    root.toggleInterfaceFilter(ifaceRowItem.modelData.dev);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
 
                 // ==========================================
-                // === TAB 1: NETWORK TOPOLOGY VIEW ===
-                // ==========================================
-                NetworkTopologyView {
-                    id: topoView
-                    visible: popout.activeTab === 1
-                    width: parent.width
-                    rootWidget: root
-                }
-
-                // ==========================================
-                // === TAB 2: 7-DAY USAGE VIEW ===
+                // === TAB 1: 7-DAY USAGE VIEW ===
                 // ==========================================
                 Column {
                     id: historyTabCol
-                    visible: popout.activeTab === 2
+                    visible: popout.activeTab === 1
                     width: parent.width
                     spacing: Theme.spacingM
 
@@ -2145,11 +2447,11 @@ PluginComponent {
                 }
 
                 // ==========================================
-                // === TAB 3: DATA QUOTA & RULES VIEW ===
+                // === TAB 2: DATA QUOTA & RULES VIEW ===
                 // ==========================================
                 Column {
                     id: quotaTabCol
-                    visible: popout.activeTab === 3
+                    visible: popout.activeTab === 2
                     width: parent.width
                     spacing: Theme.spacingM
 
