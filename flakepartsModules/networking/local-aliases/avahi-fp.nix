@@ -14,12 +14,16 @@ _: {
       nssmdns4 = true;
       nssmdns6 = true;
       openFirewall = false; # Scoped strictly to Wi-Fi below
-      denyInterfaces = ["wt0" "wg0" "wg-br" "veth-wg-br" "fips0" "tun0" "tailscale0" "docker0" "podman0"];
-      publish = {
-        enable = true;
-        addresses = true;
-        workstation = false;
-        userServices = true;
+      settings = {
+        server = {
+          deny-interfaces = ["wt0" "wg0" "wg-br" "veth-wg-br" "fips0" "tun0" "tailscale0" "docker0" "podman0"];
+        };
+        publish = {
+          disable-publishing = false;
+          disable-user-service-publishing = false;
+          publish-addresses = true;
+          publish-workstation = false;
+        };
       };
     };
 
