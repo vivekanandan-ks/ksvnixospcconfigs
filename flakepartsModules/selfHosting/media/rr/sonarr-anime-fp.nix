@@ -3,7 +3,8 @@
   lib,
   ...
 }: {
-  flake.nixosModules.selfHosting = lib.mkIf (inputs ? nixflix) {
+  flake.nixosModules.selfHosting = {pkgs, ...}:
+    lib.mkIf (inputs ? nixflix) {
     # 1. Dedicated Sonarr instance for Anime (Port 8990)
     nixflix.sonarr-anime = {
       enable = true;
@@ -18,9 +19,16 @@
       };
     };
 
-    # Give Sonarr Anime ample time to initialize SQLite DB without systemd killing it at boot
-    systemd.services.sonarr-anime.serviceConfig = {
-      TimeoutStartSec = 300;
+    # Give Sonarr Anime ample time to initialize SQLite DB and ensure AllowedHosts is empty so 0.0.0.0 is accepted
+    systemd.services.sonarr-anime = {
+      preStart = ''
+        if [ -f /var/lib/sonarr-anime/config.xml ]; then
+          ${pkgs.gnused}/bin/sed -i 's|<AllowedHosts>.*</AllowedHosts>|<AllowedHosts></AllowedHosts>|g' /var/lib/sonarr-anime/config.xml
+        fi
+      '';
+      serviceConfig = {
+        TimeoutStartSec = 300;
+      };
     };
     systemd.services.sonarr-anime-config.serviceConfig = {
       TimeoutStartSec = 300;
