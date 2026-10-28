@@ -22,6 +22,12 @@
             use_sonarr = true;
             use_jellyfin = true;
 
+            # Persist default profile assignment (Profile ID 1: eng sub)
+            movie_default_enabled = true;
+            movie_default_profile = 1;
+            serie_default_enabled = true;
+            serie_default_profile = 1;
+
             # Subtitle placement: Save directly in the movie/show folder alongside the video file
             subfolder = "current";
 
@@ -50,10 +56,15 @@
             ignore_pgs_subs = true;
             ignore_vobsub_subs = true;
 
-            # Account-free subtitle providers (matched by hash & release name)
+            # 100% Free / Zero-Credential Subtitle Providers
             enabled_providers = [
-              "bsplayer"
               "embeddedsubtitles"
+              "gestdown"
+              "tvsubtitles"
+              "subtitlecat"
+              "animetosho_xyz"
+              "shooter"
+              "zimuku"
             ];
 
             multithreading = true;
