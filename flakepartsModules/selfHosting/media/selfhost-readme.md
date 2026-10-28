@@ -6,22 +6,22 @@ This directory contains the declarative media infrastructure for the homelab, sh
 
 ## 1. Service Directory & Port Map
 
-All services bind to the local network interface and have their corresponding TCP ports opened in `networking.firewall.allowedTCPPorts`. Services with configured `localAliases` are broadcast across the LAN via Avahi mDNS and reverse-proxied over HTTP (port 80) by Caddy, allowing portless access via `.local` domain names.
+All services run with their default ports and have corresponding HTTPS reverse-proxy ports (`port + 10000`) provisioned by Caddy via `localServicesPorts`. Services can be accessed over TLS on local Wi-Fi, NetBird, and FIPS via `https://<host>:<httpsPort>` or `https://<ip>:<httpsPort>`.
 
-| Service               |  Port   | Local Domain (.local) | Web UI URL                                       | Default Credentials                           | Purpose                                                                            |
-| :-------------------- | :-----: | :-------------------: | :----------------------------------------------- | :-------------------------------------------- | :--------------------------------------------------------------------------------- |
-| **Jellyfin**          | `8096`  |   `jellyfin.local`    | `http://jellyfin.local`<br>`http://<host>:8096`  | `admin` / `admin123`<br>`user` / `user123`    | Central media streaming server for Movies, TV, Anime, and Music.                   |
-| **qBittorrent**       | `8282`  |    `torrent.local`    | `http://torrent.local`<br>`http://<host>:8282`   | `admin` / `adminadmin` _(prompted to change)_ | Torrent client strictly confined inside WireGuard VPN namespace (`wg`).            |
-| **FlareSolverr**      | `8191`  |           —           | `http://<host>:8191`                             | _N/A (API)_                                   | Headless solver proxy to bypass Cloudflare protection on indexers.                 |
-| **Prowlarr**          | `9696`  |           —           | `http://<host>:9696`                             | Configured on initial launch                  | Centralized indexer and tracker manager. Syncs to all `*arr` instances.            |
-| **Radarr**            | `7878`  |    `radarr.local`     | `http://radarr.local`<br>`http://<host>:7878`    | Configured on initial launch                  | Movies management, metadata scraper, and automated downloader.                     |
-| **Sonarr (Standard)** | `8989`  |    `sonarr.local`     | `http://sonarr.local`<br>`http://<host>:8989`    | Configured on initial launch                  | Television shows management, season tracking, and downloader.                      |
-| **Sonarr (Anime)**    | `8990`  |           —           | `http://<host>:8990`                             | Configured on initial launch                  | Dedicated Anime instance with TRaSH anime release group scoring.                   |
-| **slskd (Soulseek)**  | `5030`  |     `slskd.local`     | `http://slskd.local`<br>`http://<host>:5030`     | `admin` / `admin123`                          | Modern Soulseek P2P web client for direct Anime OST, soundtrack & track downloads. |
-| **Navidrome**         | `4533`  |   `navidrome.local`   | `http://navidrome.local`<br>`http://<host>:4533` | `admin` / `admin123`                          | High-performance, Subsonic-compatible dedicated music streaming server.            |
-| **Suwayomi**          | `4567`  |   `suwayomi.local`    | `http://suwayomi.local`<br>`http://<host>:4567`  | _N/A (Local / NetBird)_                       | Manga/Manhwa scraper & auto-downloader strictly confined in VPN (`wg`).            |
-| **Komga**             | `25600` |     `komga.local`     | `http://komga.local`<br>`http://<host>:25600`    | Configured on initial launch                  | Multi-user Manga, Manhwa, and Comic reading server with OPDS feeds.                |
-| **Recyclarr**         |  _N/A_  |           —           | Background Timer                                 | _N/A (CLI)_                                   | Automatically synchronizes TRaSH Guides quality profiles and regex rules.          |
+| Service               | Backend Port | HTTPS Port | Web UI URL (HTTPS)                                | Default Credentials                           | Purpose                                                                            |
+| :-------------------- | :----------: | :--------: | :------------------------------------------------ | :-------------------------------------------- | :--------------------------------------------------------------------------------- |
+| **Jellyfin**          | `8096`       | `18096`    | `https://<host>:18096`<br>`https://<ip>:18096`    | `admin` / `admin123`<br>`user` / `user123`    | Central media streaming server for Movies, TV, Anime, and Music.                   |
+| **qBittorrent**       | `8282`       | `18282`    | `https://<host>:18282`<br>`https://<ip>:18282`    | `admin` / `adminadmin` _(prompted to change)_ | Torrent client strictly confined inside WireGuard VPN namespace (`wg`).            |
+| **FlareSolverr**      | `8191`       | —          | `http://<host>:8191`                              | _N/A (API)_                                   | Headless solver proxy to bypass Cloudflare protection on indexers.                 |
+| **Prowlarr**          | `9696`       | —          | `http://<host>:9696`                              | Configured on initial launch                  | Centralized indexer and tracker manager. Syncs to all `*arr` instances.            |
+| **Radarr**            | `7878`       | `17878`    | `https://<host>:17878`<br>`https://<ip>:17878`    | Configured on initial launch                  | Movies management, metadata scraper, and automated downloader.                     |
+| **Sonarr (Standard)** | `8989`       | `18989`    | `https://<host>:18989`<br>`https://<ip>:18989`    | Configured on initial launch                  | Television shows management, season tracking, and downloader.                      |
+| **Sonarr (Anime)**    | `8990`       | —          | `http://<host>:8990`                              | Configured on initial launch                  | Dedicated Anime instance with TRaSH anime release group scoring.                   |
+| **slskd (Soulseek)**  | `5030`       | `15030`    | `https://<host>:15030`<br>`https://<ip>:15030`    | `admin` / `admin123`                          | Modern Soulseek P2P web client for direct Anime OST, soundtrack & track downloads. |
+| **Navidrome**         | `4533`       | `14533`    | `https://<host>:14533`<br>`https://<ip>:14533`    | `admin` / `admin123`                          | High-performance, Subsonic-compatible dedicated music streaming server.            |
+| **Suwayomi**          | `4567`       | `14567`    | `https://<host>:14567`<br>`https://<ip>:14567`    | _N/A (Local / NetBird)_                       | Manga/Manhwa scraper & auto-downloader strictly confined in VPN (`wg`).            |
+| **Komga**             | `25600`      | `35600`    | `https://<host>:35600`<br>`https://<ip>:35600`    | Configured on initial launch                  | Multi-user Manga, Manhwa, and Comic reading server with OPDS feeds.                |
+| **Recyclarr**         | _N/A_        | —          | Background Timer                                  | _N/A (CLI)_                                   | Automatically synchronizes TRaSH Guides quality profiles and regex rules.          |
 
 ---
 

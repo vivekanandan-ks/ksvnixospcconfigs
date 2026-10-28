@@ -21,7 +21,9 @@
         };
 
         # Expose friendly mDNS domain
-        localAliases."radarr.local" = port;
+        localServicesPorts.radarr = {
+          proxyPort = port;
+        };
 
         # Give Radarr ample time to initialize SQLite DB and ensure AllowedHosts is empty so 0.0.0.0 is accepted
         systemd.services.radarr = {

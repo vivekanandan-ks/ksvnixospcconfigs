@@ -20,7 +20,9 @@
       };
 
       # Expose friendly mDNS domain
-      localAliases."sonarr.local" = port;
+      localServicesPorts.sonarr = {
+        proxyPort = port;
+      };
 
       # Give Sonarr ample time to initialize SQLite DB without systemd killing it at boot
       systemd.services.sonarr.serviceConfig = {

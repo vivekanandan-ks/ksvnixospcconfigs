@@ -119,7 +119,9 @@
       };
 
       # Expose friendly mDNS domain
-      localAliases."suwayomi.local" = port;
+      localServicesPorts.suwayomi = {
+        proxyPort = port;
+      };
 
       # Allow incoming Web UI connections from LAN & NetBird (trusted)
       networking.firewall.extraCommands = ''

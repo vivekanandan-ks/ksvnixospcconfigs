@@ -27,7 +27,9 @@
         };
       };
 
-      localAliases."navidrome.local" = port;
+      localServicesPorts.navidrome = {
+        proxyPort = port;
+      };
 
       networking.firewall.allowedTCPPorts = [port];
     }

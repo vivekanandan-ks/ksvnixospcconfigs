@@ -20,7 +20,9 @@
     ];
 
     config = lib.mkIf (inputs ? nixflix) {
-      localAliases."jellyfin.local" = config.nixflix.jellyfin.network.internalHttpPort;
+      localServicesPorts.jellyfin = {
+        proxyPort = config.nixflix.jellyfin.network.internalHttpPort;
+      };
 
       nixflix = {
         enable = true;

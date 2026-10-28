@@ -43,7 +43,9 @@
         };
 
         # Expose friendly mDNS domain
-        localAliases."torrent.local" = port;
+        localServicesPorts.torrent = {
+          proxyPort = port;
+        };
 
         # Allow local home Wi-Fi to reach qBittorrent Web UI
         networking.firewall.extraCommands = ''

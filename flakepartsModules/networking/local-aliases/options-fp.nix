@@ -1,12 +1,12 @@
 _: {
-  flake.nixosModules.localAliases = {lib, ...}: {
-    options.localAliases = lib.mkOption {
-      type = lib.types.attrsOf lib.types.port;
+  flake.nixosModules.localServices = {lib, ...}: {
+    options.localServicesPorts = lib.mkOption {
+      type = lib.types.attrsOf (lib.types.attrsOf lib.types.port);
       default = {};
-      description = "Mapping of .local domain aliases to localhost ports.";
+      description = "Mapping of service names to port configurations ({ proxyPort, listenPort ? proxyPort + 10000 }).";
       example = {
-        "jellyfin.local" = 8096;
-        "navidrome.local" = 4533;
+        navidrome = { proxyPort = 4533; };
+        komga = { proxyPort = 25600; listenPort = 25601; };
       };
     };
   };

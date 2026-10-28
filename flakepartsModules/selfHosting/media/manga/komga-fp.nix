@@ -13,7 +13,9 @@ _: {
       };
     };
 
-    localAliases."komga.local" = port;
+    localServicesPorts.komga = {
+      proxyPort = port;
+    };
 
     # Ensure komga system user has read/group access to /data/media/manga
     users.users.komga.extraGroups = ["media"];
