@@ -45,6 +45,9 @@
         # Expose friendly mDNS domain
         localServicesPorts.torrent = {
           proxyPort = port;
+          title = "qBittorrent";
+          category = "Torrents";
+          role = "admin";
         };
 
         # Allow local home Wi-Fi to reach qBittorrent Web UI

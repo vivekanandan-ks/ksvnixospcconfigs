@@ -22,6 +22,9 @@
     config = lib.mkIf (inputs ? nixflix) {
       localServicesPorts.jellyfin = {
         proxyPort = config.nixflix.jellyfin.network.internalHttpPort;
+        title = "Jellyfin";
+        category = "Media";
+        role = "user";
       };
 
       nixflix = {

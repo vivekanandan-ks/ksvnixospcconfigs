@@ -121,6 +121,9 @@
       # Expose friendly mDNS domain
       localServicesPorts.suwayomi = {
         proxyPort = port;
+        title = "Suwayomi";
+        category = "Manga";
+        role = "admin";
       };
 
       # Allow incoming Web UI connections from LAN & NetBird (trusted)

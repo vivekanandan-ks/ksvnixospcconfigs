@@ -62,6 +62,9 @@
         # Expose friendly mDNS domain
         localServicesPorts.slskd = {
           proxyPort = port;
+          title = "slskd";
+          category = "Music";
+          role = "admin";
         };
 
         # 2. Grant slskd write permissions to /data/media/music

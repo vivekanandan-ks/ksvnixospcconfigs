@@ -23,6 +23,9 @@
         # Expose friendly mDNS domain
         localServicesPorts.radarr = {
           proxyPort = port;
+          title = "Radarr";
+          category = "Automation";
+          role = "admin";
         };
 
         # Give Radarr ample time to initialize SQLite DB and ensure AllowedHosts is empty so 0.0.0.0 is accepted

@@ -29,6 +29,9 @@
 
       localServicesPorts.navidrome = {
         proxyPort = port;
+        title = "Navidrome";
+        category = "Music";
+        role = "user";
       };
 
       networking.firewall.allowedTCPPorts = [port];

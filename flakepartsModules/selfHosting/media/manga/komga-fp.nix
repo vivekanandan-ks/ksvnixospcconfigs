@@ -15,6 +15,9 @@ _: {
 
     localServicesPorts.komga = {
       proxyPort = port;
+      title = "Komga";
+      category = "Manga";
+      role = "user";
     };
 
     # Ensure komga system user has read/group access to /data/media/manga
