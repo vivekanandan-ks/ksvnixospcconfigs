@@ -71,7 +71,12 @@ _: {
       services.caddy.virtualHosts."https://:${toString portalPort}" = {
         extraConfig = ''
           # Homelab Portal
-          tls internal
+          tls internal {
+            protocols tls1.3
+          }
+
+          ${config.localServicesSecuritySnippet}
+
           root * ${portalHtml}
           file_server
         '';

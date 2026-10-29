@@ -24,7 +24,12 @@ _: {
               lib.nameValuePair "https://:${toString listenPort}" {
                 extraConfig = ''
                   # ${name} HTTPS reverse proxy
-                  tls internal
+                  tls internal {
+                    protocols tls1.3
+                  }
+
+                  ${config.localServicesSecuritySnippet}
+
                   reverse_proxy 127.0.0.1:${toString proxyPort} {
                     flush_interval -1
                   }
