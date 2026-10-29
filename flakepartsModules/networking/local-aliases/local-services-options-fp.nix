@@ -13,6 +13,11 @@ _: {
     options.localServicesSecuritySnippet = lib.mkOption {
       type = lib.types.lines;
       default = ''
+        log {
+          output stdout
+          format json
+        }
+
         header {
           X-Content-Type-Options "nosniff"
           X-Frame-Options "SAMEORIGIN"

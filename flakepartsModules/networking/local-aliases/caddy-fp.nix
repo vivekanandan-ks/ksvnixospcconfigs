@@ -39,9 +39,10 @@ _: {
           services;
       };
 
-      # Allow local Wi-Fi and NetBird to reach all active HTTPS ports
+      # Allow local Wi-Fi and NetBird to reach all active HTTPS ports (with connection limits)
       networking.firewall.extraCommands = ''
         ${lib.concatMapStringsSep "\n" (port: ''
+          iptables -A nixos-fw -p tcp --dport ${toString port} -m connlimit --connlimit-above 80 -j REJECT
           iptables -A nixos-fw -p tcp --dport ${toString port} -s 192.168.0.0/16 -j nixos-fw-accept
           iptables -A nixos-fw -p tcp --dport ${toString port} -s 10.0.0.0/8 -j nixos-fw-accept
         '') listenPorts}
