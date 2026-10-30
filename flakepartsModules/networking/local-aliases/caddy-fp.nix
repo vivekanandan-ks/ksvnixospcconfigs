@@ -18,6 +18,15 @@ _: {
     config = lib.mkIf hasServices {
       services.caddy = {
         enable = true;
+        # Slowloris defense: drop stalled connections while keeping large uploads safe
+        globalConfig = ''
+          servers {
+            timeouts {
+              read_header 10s
+              idle 2m
+            }
+          }
+        '';
         virtualHosts =
           lib.mapAttrs' (
             name: { proxyPort, listenPort }:
@@ -45,8 +54,22 @@ _: {
           iptables -A nixos-fw -p tcp --dport ${toString port} -m connlimit --connlimit-above 80 -j REJECT
           iptables -A nixos-fw -p tcp --dport ${toString port} -s 192.168.0.0/16 -j nixos-fw-accept
           iptables -A nixos-fw -p tcp --dport ${toString port} -s 10.0.0.0/8 -j nixos-fw-accept
+          iptables -A nixos-fw -p tcp --dport ${toString port} -s 100.64.0.0/10 -j nixos-fw-accept
         '') listenPorts}
       '';
+
+      # Hardened systemd sandbox for Caddy process isolation
+      systemd.services.caddy.serviceConfig = {
+        ProtectSystem = "strict";
+        ProtectHome = true;
+        PrivateTmp = true;
+        NoNewPrivileges = true;
+        CapabilityBoundingSet = [ "CAP_NET_BIND_SERVICE" ];
+        ProtectKernelTunables = true;
+        ProtectControlGroups = true;
+        RestrictAddressFamilies = [ "AF_INET" "AF_INET6" "AF_UNIX" ];
+        MemoryDenyWriteExecute = true;
+      };
     };
   };
 }

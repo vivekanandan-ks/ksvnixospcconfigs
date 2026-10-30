@@ -18,6 +18,12 @@ _: {
           format json
         }
 
+        encode {
+          zstd
+          gzip
+          minimum_length 512
+        }
+
         header {
           X-Content-Type-Options "nosniff"
           X-Frame-Options "SAMEORIGIN"

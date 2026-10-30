@@ -87,6 +87,7 @@ _: {
         iptables -A nixos-fw -p tcp --dport ${toString portalPort} -m connlimit --connlimit-above 80 -j REJECT
         iptables -A nixos-fw -p tcp --dport ${toString portalPort} -s 192.168.0.0/16 -j nixos-fw-accept
         iptables -A nixos-fw -p tcp --dport ${toString portalPort} -s 10.0.0.0/8 -j nixos-fw-accept
+        iptables -A nixos-fw -p tcp --dport ${toString portalPort} -s 100.64.0.0/10 -j nixos-fw-accept
       '';
     };
   };

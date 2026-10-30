@@ -5,14 +5,15 @@ _: {
       enable = true;
       autoUpdateService = true; # Daily threat intelligence updates
 
-      # Automatically pull Caddy and HTTP vulnerability scenarios
+      # Automatically pull Caddy, HTTP, and SSH vulnerability scenarios
       hub.collections = [
         "crowdsecurity/caddy"
         "crowdsecurity/http-cve"
+        "crowdsecurity/sshd"
       ];
 
       settings = {
-        # Read Caddy's structured JSON logs directly from systemd journal
+        # Read Caddy and SSH structured logs directly from systemd journal
         acquisitions = [
           {
             source = "journalctl";
@@ -21,6 +22,15 @@ _: {
             ];
             labels = {
               type = "caddy";
+            };
+          }
+          {
+            source = "journalctl";
+            journalctl_filter = [
+              "_SYSTEMD_UNIT=sshd.service"
+            ];
+            labels = {
+              type = "syslog";
             };
           }
         ];
