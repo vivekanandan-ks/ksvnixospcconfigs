@@ -10,6 +10,9 @@ _: {
         "crowdsecurity/caddy"
         "crowdsecurity/http-cve"
         "crowdsecurity/sshd"
+        # --- Activate when opening services to the public internet ---
+        # "crowdsecurity/base-http-scenarios"  # Deep web attack probing (currently bundled via crowdsecurity/caddy)
+        # "crowdsecurity/appsec-generic-rules" # Real-time WAF rules (requires compiling an AppSec bouncer plugin into Caddy)
       ];
 
       settings = {
