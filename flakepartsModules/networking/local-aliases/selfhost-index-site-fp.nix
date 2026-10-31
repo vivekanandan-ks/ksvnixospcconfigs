@@ -72,6 +72,7 @@ _: {
         extraConfig = ''
           # Homelab Portal
           tls internal {
+            on_demand
             protocols tls1.3
           }
 

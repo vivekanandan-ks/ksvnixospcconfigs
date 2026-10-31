@@ -20,6 +20,7 @@ _: {
         enable = true;
         # Slowloris defense: drop stalled connections while keeping large uploads safe
         globalConfig = ''
+          skip_install_trust
           servers {
             timeouts {
               read_header 10s
@@ -34,6 +35,7 @@ _: {
                 extraConfig = ''
                   # ${name} HTTPS reverse proxy
                   tls internal {
+                    on_demand
                     protocols tls1.3
                   }
 
