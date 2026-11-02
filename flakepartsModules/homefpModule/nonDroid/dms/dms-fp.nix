@@ -30,6 +30,16 @@
       folderPath = wallpaperSet2Folder;
     });
     headlessFillModes = lib.genAttrs headlessKeys (_: "Fill");
+
+    rawSession = builtins.fromJSON (builtins.readFile ./dms-session.json);
+    headlessWidgetPositions =
+      lib.mapAttrs (
+        _: screens:
+          if screens ? "eDP-1"
+          then screens // (lib.genAttrs headlessKeys (_: screens."eDP-1"))
+          else screens
+      )
+      rawSession.desktopWidgetInstancePositions;
   in {
     imports = [
       inputs.dms-shell.homeModules.default
@@ -64,7 +74,7 @@
 
       session =
         lib.recursiveUpdate
-        (builtins.fromJSON (builtins.readFile ./dms-session.json))
+        rawSession
         {
           wallpaperPath = "${self.personas.ksv.currentWallpaperSet}/${defaultWallpaper}";
           monitorWallpapers = headlessMonitorWallpapers;
@@ -80,6 +90,7 @@
                 folderPath = self.personas.ksv.currentWallpaperSet;
               };
             };
+          desktopWidgetInstancePositions = headlessWidgetPositions;
         };
 
       settings = lib.mapAttrs (
