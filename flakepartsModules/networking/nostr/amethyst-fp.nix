@@ -8,11 +8,11 @@
   # ---------------------------------------------------------------------------
   perSystem = {pkgs, ...}: let
     pname = "amethyst-desktop";
-    version = "1.20.0";
+    version = "1.21.0";
 
     src = pkgs.fetchurl {
       url = "https://github.com/vitorpamplona/amethyst/releases/download/v${version}/amethyst-desktop-${version}-x86_64.AppImage";
-      hash = "sha256-60nulHPeyDeIA5BPW1i37JeFHZTDANe6ggYNMT43LGI=";
+      hash = "sha256-4R8+GwOmDaboQA/6IMATLhY1dvCGGYb6r6Ht/PFwZyg=";
     };
 
     appimageContents = pkgs.appimageTools.extract {

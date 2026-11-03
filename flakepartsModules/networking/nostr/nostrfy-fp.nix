@@ -9,13 +9,13 @@
   perSystem = {pkgs, ...}: {
     packages.nostrfy = pkgs.rustPlatform.buildRustPackage rec {
       pname = "nostrfy";
-      version = "0.1.25";
+      version = "0.1.26";
 
       src = pkgs.fetchFromGitHub {
         owner = "iqbqioza";
         repo = "nostrfy";
         rev = "v${version}";
-        hash = "sha256-u3fvJk3L1vbMpeeUkppwXJ2OKrIyLj4PSPKaccmjCg8=";
+        hash = "sha256-J2JJBQ37zyGClBS0QIG70VAe+mcRuxKCWZFzoaAZ2cQ=";
       };
 
       cargoLock.lockFile = "${src}/Cargo.lock";
