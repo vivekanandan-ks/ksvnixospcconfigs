@@ -1,5 +1,5 @@
 _: {
-  flake.nixosModules.displayManager = {
+  flake.nixosModules.displayManagerLy = {
     username,
     pkgs-unstable,
     ...
