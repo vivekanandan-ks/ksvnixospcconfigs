@@ -96,12 +96,20 @@
       url = "github:hthienloc/dms-hidden-bar";
       flake = false;
     };
+    dms-plugin-mangowm-layout-manager = {
+      url = "github:omarluq/DMSMangoWCLayoutManager";
+      flake = false;
+    };
     dms-plugin-modern-clock = {
       url = "github:beefsizzle/ModernClockDMS";
       flake = false;
     };
     dms-plugin-orbit-bluetooth = {
       url = "github:lung595/orbitBluetooth";
+      flake = false;
+    };
+    dms-plugin-sands = {
+      url = "github:lung595/Sands";
       flake = false;
     };
     dms-plugin-scratchpad-helper = {
@@ -112,8 +120,16 @@
       url = "github:JDKamalakar/DMS-ScreenCapture_Toolbar";
       flake = false;
     };
+    dms-plugin-screencast-picker = {
+      url = "github:psyreactor/dms-screencastPicker";
+      flake = false;
+    };
     dms-plugin-screenkey = {
       url = "github:hthienloc/dms-screenkey";
+      flake = false;
+    };
+    dms-plugin-stickynotes = {
+      url = "github:iSparsh/dms-stickynotes";
       flake = false;
     };
     dms-plugin-storage-monitor = {
@@ -130,6 +146,10 @@
     };
     dms-plugins-avengemedia = {
       url = "github:AvengeMedia/dms-plugins";
+      flake = false;
+    };
+    dms-plugins-conava = {
+      url = "github:Conava/dux-plugins";
       flake = false;
     };
     dms-plugins-dadangdut33 = {

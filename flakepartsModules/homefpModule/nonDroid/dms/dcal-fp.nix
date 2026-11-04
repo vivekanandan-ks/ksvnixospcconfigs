@@ -35,6 +35,10 @@
         syncIntervalMinutes = 30;
         showTrayIcon = true;
         closeBehavior = "minimize";
+        blurEnabled = true;
+        floatingWindowTransparency = 0.50;
+        floatingWindowForegroundLayers = true;
+        floatingWindowForegroundTransparency = 0.75;
       };
     };
 

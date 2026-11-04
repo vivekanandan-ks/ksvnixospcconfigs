@@ -33,6 +33,10 @@
         networkThumbnails = true;
         showSystemPartitions = true;
         openLocationIn = "tab";
+        blurEnabled = true;
+        floatingWindowTransparency = 0.50;
+        floatingWindowForegroundLayers = true;
+        floatingWindowForegroundTransparency = 0.75;
       };
     };
 

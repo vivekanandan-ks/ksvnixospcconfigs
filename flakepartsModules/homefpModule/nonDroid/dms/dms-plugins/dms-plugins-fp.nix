@@ -205,6 +205,7 @@
     dmsExtraPackages = [
       pkgs.socat
       pkgs.udisks2
+      # pkgs.ffmpeg # Uncomment when ready to use DMS 2.1 video wallpapers
     ];
   };
 }

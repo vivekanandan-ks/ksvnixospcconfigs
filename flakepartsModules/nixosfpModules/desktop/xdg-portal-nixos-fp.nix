@@ -15,7 +15,7 @@ _: {
           settings = {
             screencast = {
               chooser_type = "dmenu";
-              chooser_cmd = "${pkgs-unstable.wofi}/bin/wofi --dmenu --prompt 'Select Screen to Share'";
+              chooser_cmd = lib.mkDefault "${pkgs-unstable.wofi}/bin/wofi --dmenu --prompt 'Select Screen to Share'";
               # Alternative with rofi if preferred:
               # chooser_cmd = "${pkgs-unstable.rofi}/bin/rofi -dmenu -i -p 'Select Screen to Share'";
             };

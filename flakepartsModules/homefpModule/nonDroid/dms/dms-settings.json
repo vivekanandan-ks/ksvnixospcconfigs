@@ -37,7 +37,7 @@
           "workspaceActiveAppHighlightEnabled": true,
           "workspaceFollowFocus": true
         },
-        "layout",
+        "mangoWmLayoutManager",
         {
           "enabled": true,
           "id": "music",
@@ -86,7 +86,8 @@
         {
           "clockCompactMode": true,
           "enabled": true,
-          "id": "clock"
+          "id": "clock",
+          "clockClickAction": "dash"
         },
         {
           "enabled": true,
@@ -145,9 +146,21 @@
           "enabled": true,
           "id": "notepadButton",
           "overflowMode": "always"
+        },
+        {
+          "enabled": true,
+          "id": "cast",
+          "overflowMode": "always"
+        },
+        {
+          "enabled": true,
+          "id": "smartTimer",
+          "overflowMode": "always"
         }
       ],
-      "screenPreferences": ["all"],
+      "screenPreferences": [
+        "all"
+      ],
       "scrollEnabled": true,
       "shadowIntensity": 0,
       "shadowOpacity": 0,
@@ -197,7 +210,9 @@
       "popupGapsManual": 4,
       "position": 1,
       "rightWidgets": [],
-      "screenPreferences": ["all"],
+      "screenPreferences": [
+        "all"
+      ],
       "scrollEnabled": true,
       "scrollXBehavior": "focusWindow",
       "scrollYBehavior": "workspace",
@@ -292,14 +307,19 @@
           "id": "controlCenterButton"
         }
       ],
-      "screenPreferences": ["all"],
+      "screenPreferences": [
+        "all"
+      ],
       "scrollYBehavior": "workspace",
       "showOnLastDisplay": true,
       "widgetFollowInterfaceStyle": true,
       "widgetOutlineEnabled": false,
       "widgetOutlineOpacity": 1,
       "widgetOutlineThickness": 1,
-      "widgetStyle": "pills"
+      "widgetStyle": "pills",
+      "islandMediaLyrics": true,
+      "islandDashTabs": true,
+      "islandFreeIconMode": "os"
     }
   ],
   "barElevationEnabled": false,
@@ -325,7 +345,13 @@
       "trigger": "?"
     }
   },
-  "clipboardVisibleEntryActions": ["pin", "edit", "delete", "copy", "paste"],
+  "clipboardVisibleEntryActions": [
+    "pin",
+    "edit",
+    "delete",
+    "copy",
+    "paste"
+  ],
   "clockDateFormat": "ddd MMM d",
   "clockFormat": "24h",
   "configVersion": 42,
@@ -567,7 +593,8 @@
     "media": {
       "albumArtBackdrop": true,
       "animatedArt": true,
-      "artStyle": "cookie"
+      "artStyle": "disc",
+      "smoothLyrics": true
     },
     "wallpaper": {
       "layout": "carousel"
@@ -606,7 +633,9 @@
   "desktopWidgetInstances": [
     {
       "config": {
-        "displayPreferences": ["all"]
+        "displayPreferences": [
+          "all"
+        ]
       },
       "enabled": true,
       "id": "dw_modern_clock",
@@ -616,7 +645,9 @@
     {
       "config": {
         "borderOpacity": 0,
-        "displayPreferences": ["all"],
+        "displayPreferences": [
+          "all"
+        ],
         "fontSize": 22,
         "showOnOverlay": false
       },
@@ -627,7 +658,9 @@
     },
     {
       "config": {
-        "displayPreferences": ["all"]
+        "displayPreferences": [
+          "all"
+        ]
       },
       "enabled": true,
       "id": "dw_orbit_bluetooth",
@@ -636,15 +669,30 @@
     },
     {
       "config": {
-        "displayPreferences": ["all"]
+        "displayPreferences": [
+          "all"
+        ]
       },
       "enabled": true,
       "id": "dw_abyss",
       "name": "Abyss",
       "widgetType": "abyss"
+    },
+    {
+      "config": {
+        "displayPreferences": [
+          "all"
+        ]
+      },
+      "enabled": true,
+      "id": "dw_sticky_notes",
+      "name": "Sticky Notes",
+      "widgetType": "stickyNotes"
     }
   ],
-  "dmsWindowsFloatingSeeded": ["mango"],
+  "dmsWindowsFloatingSeeded": [
+    "mango"
+  ],
   "dockConfigs": [
     {
       "autoHide": true,
@@ -682,7 +730,9 @@
       "order": [],
       "position": 3,
       "restoreSpecialWorkspaceOnClick": false,
-      "screenPreferences": ["all"],
+      "screenPreferences": [
+        "all"
+      ],
       "separatePinnedAndRunningApps": true,
       "showOnFullscreen": false,
       "showOnLastDisplay": true,
@@ -713,7 +763,8 @@
           "id": "dock_trash",
           "widgetId": "dockTrash"
         }
-      ]
+      ],
+      "middleClickAction": "launch"
     }
   ],
   "enableRippleEffects": true,
@@ -733,7 +784,9 @@
         "autoPosition": false,
         "colorMode": "default",
         "customColor": "#ffffff",
-        "displayPreferences": ["all"],
+        "displayPreferences": [
+          "all"
+        ],
         "showAnalogNumbers": false,
         "showAnalogSeconds": true,
         "showDate": true,
@@ -752,7 +805,9 @@
       "config": {
         "colorMode": "default",
         "customColor": "#ffffff",
-        "displayPreferences": ["all"],
+        "displayPreferences": [
+          "all"
+        ],
         "format": "short",
         "syncPositionAcrossScreens": true
       },
@@ -762,7 +817,9 @@
     },
     {
       "config": {
-        "displayPreferences": ["all"],
+        "displayPreferences": [
+          "all"
+        ],
         "passwordVisibility": "always",
         "profileVisibility": "always",
         "style": "expressive",
@@ -775,7 +832,9 @@
     {
       "config": {
         "background": false,
-        "displayPreferences": ["all"],
+        "displayPreferences": [
+          "all"
+        ],
         "showMediaPlayer": true,
         "showWeather": true,
         "syncPositionAcrossScreens": true
@@ -786,7 +845,9 @@
     },
     {
       "config": {
-        "displayPreferences": ["all"],
+        "displayPreferences": [
+          "all"
+        ],
         "shape": "round",
         "syncPositionAcrossScreens": true
       },
@@ -798,7 +859,9 @@
       "config": {
         "colorMode": "default",
         "customColor": "#ffffff",
-        "displayPreferences": ["all"],
+        "displayPreferences": [
+          "all"
+        ],
         "format": "long",
         "syncPositionAcrossScreens": true
       },
@@ -809,7 +872,9 @@
     },
     {
       "config": {
-        "displayPreferences": ["all"],
+        "displayPreferences": [
+          "all"
+        ],
         "shape": "round",
         "syncPositionAcrossScreens": true
       },
@@ -820,7 +885,9 @@
     },
     {
       "config": {
-        "displayPreferences": ["all"],
+        "displayPreferences": [
+          "all"
+        ],
         "syncPositionAcrossScreens": true
       },
       "enabled": true,
@@ -836,7 +903,9 @@
         "autoPosition": false,
         "colorMode": "default",
         "customColor": "#ffffff",
-        "displayPreferences": ["all"],
+        "displayPreferences": [
+          "all"
+        ],
         "showAnalogNumbers": false,
         "showAnalogSeconds": true,
         "showDate": true,
@@ -855,7 +924,9 @@
       "config": {
         "colorMode": "default",
         "customColor": "#ffffff",
-        "displayPreferences": ["all"],
+        "displayPreferences": [
+          "all"
+        ],
         "format": "short",
         "syncPositionAcrossScreens": true
       },
@@ -865,7 +936,9 @@
     },
     {
       "config": {
-        "displayPreferences": ["all"],
+        "displayPreferences": [
+          "all"
+        ],
         "passwordVisibility": "always",
         "profileVisibility": "always",
         "style": "expressive",
@@ -877,7 +950,9 @@
     },
     {
       "config": {
-        "displayPreferences": ["all"],
+        "displayPreferences": [
+          "all"
+        ],
         "mode": 1,
         "syncPositionAcrossScreens": true
       },
@@ -888,7 +963,9 @@
     {
       "config": {
         "background": false,
-        "displayPreferences": ["all"],
+        "displayPreferences": [
+          "all"
+        ],
         "showMediaPlayer": true,
         "showWeather": true,
         "syncPositionAcrossScreens": true
@@ -899,7 +976,9 @@
     },
     {
       "config": {
-        "displayPreferences": ["all"],
+        "displayPreferences": [
+          "all"
+        ],
         "shape": "round",
         "syncPositionAcrossScreens": true
       },
@@ -911,7 +990,9 @@
       "config": {
         "colorMode": "default",
         "customColor": "#ffffff",
-        "displayPreferences": ["all"],
+        "displayPreferences": [
+          "all"
+        ],
         "format": "long",
         "syncPositionAcrossScreens": true
       },
@@ -922,7 +1003,9 @@
     },
     {
       "config": {
-        "displayPreferences": ["all"],
+        "displayPreferences": [
+          "all"
+        ],
         "shape": "round",
         "syncPositionAcrossScreens": true
       },
@@ -933,7 +1016,9 @@
     },
     {
       "config": {
-        "displayPreferences": ["all"],
+        "displayPreferences": [
+          "all"
+        ],
         "syncPositionAcrossScreens": true
       },
       "enabled": true,
@@ -1004,7 +1089,9 @@
   "runDmsMatugenTemplates": false,
   "runUserMatugenTemplates": false,
   "screenPreferences": {
-    "wallpaper": ["all"]
+    "wallpaper": [
+      "all"
+    ]
   },
   "showWeekNumber": true,
   "soundLogin": true,
@@ -1013,5 +1100,20 @@
   "useAutoLocation": true,
   "widgetBackgroundColor": "sc",
   "widgetColorMode": "default",
-  "windSpeedUnit": "ms"
+  "windSpeedUnit": "ms",
+  "sectionDividerOpacity": 0.1,
+  "powerMenuFirmwareSetup": true,
+  "osdNumLockEnabled": true,
+  "osdKeyboardLayoutEnabled": true,
+  "osdInputMethodEnabled": true,
+  "weatherProviders": [
+    {
+      "enabled": true,
+      "id": "openmeteo"
+    },
+    {
+      "enabled": true,
+      "id": "metno"
+    }
+  ]
 }
