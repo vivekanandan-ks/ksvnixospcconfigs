@@ -14,8 +14,8 @@
         pkgName = "eu.kanade.tachiyomi.extension.all.mangadex";
         file = pkgs.fetchurl {
           name = "tachiyomi-all.mangadex-v1.6.1.jar";
-          url = "https://github.com/keiyoushi/extensions/releases/download/eac81a2-0/tachiyomi-all.mangadex-v1.6.1.jar";
-          hash = "sha256-mL+6u0f/WkPRyGbUJygyBcfewij6q9EKSb/JdcJuKyo=";
+          url = "https://github.com/keiyoushi/extensions/releases/download/726723b-0/tachiyomi-all.mangadex-v1.6.1.jar";
+          hash = "sha256-n4TKcCatrT44JGV3yt87JBfpsLB2YeaglFPVqKofA+k=";
         };
       }
       # 2. Mangakakalot
@@ -24,8 +24,8 @@
         pkgName = "eu.kanade.tachiyomi.extension.en.mangakakalot";
         file = pkgs.fetchurl {
           name = "tachiyomi-en.mangakakalot-v1.6.28.jar";
-          url = "https://github.com/keiyoushi/extensions/releases/download/eac81a2-0/tachiyomi-en.mangakakalot-v1.6.28.jar";
-          hash = "sha256-rhRWhCnlNZltNCvCzazM6p7LFv94Vi1IiY3pw7HeRBs=";
+          url = "https://github.com/keiyoushi/extensions/releases/download/726723b-0/tachiyomi-en.mangakakalot-v1.6.28.jar";
+          hash = "sha256-78lezPU0f+/NHAd6tanvms4d1SB9k4KXXmtwG/YMCI4=";
         };
       }
       # 3. Asura Scans
@@ -34,8 +34,8 @@
         pkgName = "eu.kanade.tachiyomi.extension.en.asurascans";
         file = pkgs.fetchurl {
           name = "tachiyomi-en.asurascans-v1.6.71.jar";
-          url = "https://github.com/keiyoushi/extensions/releases/download/eac81a2-0/tachiyomi-en.asurascans-v1.6.71.jar";
-          hash = "sha256-7CGUwPMbouAaeIgg38q34DSNKRrDaL5aeFlieZcwUXg=";
+          url = "https://github.com/keiyoushi/extensions/releases/download/726723b-0/tachiyomi-en.asurascans-v1.6.71.jar";
+          hash = "sha256-ynn1sfU9VS48fTl07HAszwGrWCZJLdr8tmAzlqQbGJo=";
         };
       }
       # 4. Flame Comics (temporarily disabled: upstream flamecomics.xyz domain migrated/redirects to Discord)
@@ -54,8 +54,8 @@
         pkgName = "eu.kanade.tachiyomi.extension.all.mangafire";
         file = pkgs.fetchurl {
           name = "tachiyomi-all.mangafire-v1.6.37.jar";
-          url = "https://github.com/keiyoushi/extensions/releases/download/eac81a2-0/tachiyomi-all.mangafire-v1.6.37.jar";
-          hash = "sha256-pL0huI/iuuII7Sg5kxTyxsnF8lmzeGZEhnEgUyswrno=";
+          url = "https://github.com/keiyoushi/extensions/releases/download/726723b-0/tachiyomi-all.mangafire-v1.6.37.jar";
+          hash = "sha256-xvo0QkC1bSJIUWHcjx2hP77ipyxfgcmw6CLVMkobohk=";
         };
       }
     ];
