@@ -256,7 +256,7 @@
       };
     };
     nixpkgs = {
-      url = "github:nixos/nixpkgs/3ec636362e1816bc2f0888fa0fa2c69f1bc9e504";
+      url = "github:nixos/nixpkgs/1d060086d60cb76a40cf37109f979d88a5bd6396";
     };
     nur = {
       url = "github:nix-community/NUR";
