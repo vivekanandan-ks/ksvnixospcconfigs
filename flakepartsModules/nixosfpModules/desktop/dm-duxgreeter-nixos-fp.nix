@@ -1,6 +1,7 @@
 _: {
   flake.nixosModules.displayManager = {
     config,
+    lib,
     username,
     ...
   }: let
@@ -9,6 +10,11 @@ _: {
       then config.services.displayManager.autoLogin.user
       else username;
   in {
+    imports = [
+      # Compatibility alias: dux-greeter checks `programs.mangowc` instead of `programs.mango`
+      (lib.mkAliasOptionModule [ "programs" "mangowc" ] [ "programs" "mango" ])
+    ];
+
     # Default display manager: Dux Greeter (greetd + Quickshell)
     services.displayManager.dux-greeter = {
       enable = true;
