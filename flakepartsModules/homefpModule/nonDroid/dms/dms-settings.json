@@ -90,21 +90,6 @@
     },
     {
       "config": {
-        "colorMode": "default",
-        "customColor": "#ffffff",
-        "displayPreferences": [
-          "all"
-        ],
-        "format": "long",
-        "syncPositionAcrossScreens": true
-      },
-      "enabled": true,
-      "id": "lw_1792586307190_ubkxsvtsl",
-      "name": "Date",
-      "widgetType": "lockDate"
-    },
-    {
-      "config": {
         "displayPreferences": [
           "all"
         ],
@@ -127,6 +112,30 @@
       "id": "lw_1792586458852_0c7pra8xg",
       "name": "Desktop Lyrics",
       "widgetType": "desktopLyrics"
+    },
+    {
+      "id": "lw_1793826474805_4vtp5yych",
+      "widgetType": "modernClock",
+      "name": "Modern Clock",
+      "enabled": true,
+      "config": {
+        "syncPositionAcrossScreens": true,
+        "displayPreferences": [
+          "all"
+        ],
+        "dayFontFamily": "Gochi Hand",
+        "showTime": false,
+        "use24Hour": true,
+        "scaleWithWidget": false,
+        "useThemeColors": true,
+        "bodyFontFamily": "Gochi Hand",
+        "showSeconds": false,
+        "alignment": "center",
+        "bodyFontSize": 25,
+        "dayFontSize": 50,
+        "dayLetterSpacing": 9,
+        "dateLetterSpacing": 2
+      }
     }
   ],
   "greeterWidgetInstances": [
@@ -205,21 +214,6 @@
       "enabled": false,
       "id": "lock_power",
       "widgetType": "lockPower"
-    },
-    {
-      "config": {
-        "colorMode": "default",
-        "customColor": "#ffffff",
-        "displayPreferences": [
-          "all"
-        ],
-        "format": "long",
-        "syncPositionAcrossScreens": true
-      },
-      "enabled": true,
-      "id": "lw_1792586307190_ubkxsvtsl",
-      "name": "Date",
-      "widgetType": "lockDate"
     },
     {
       "config": {
@@ -1142,14 +1136,26 @@
   "desktopWidgetInstances": [
     {
       "config": {
+        "backgroundOpacity": 0,
         "displayPreferences": [
           "all"
         ],
+        "scaleWithWidget": false,
         "syncPositionAcrossScreens": true,
         "use24Hour": true,
-        "scaleWithWidget": true,
         "useThemeColors": true,
-        "backgroundOpacity": 0
+        "showTime": false,
+        "dayFontFamily": "Gochi Hand",
+        "bodyFontFamily": "Gochi Hand",
+        "showSeconds": false,
+        "bodyFontSize": 25,
+        "dayFontSize": 40,
+        "alignment": "left",
+        "showDate": true,
+        "dayLetterSpacing": 6,
+        "dateLetterSpacing": 3,
+        "timeLetterSpacing": 3,
+        "shadowStrength": 50
       },
       "enabled": true,
       "id": "dw_modern_clock",
@@ -1206,6 +1212,27 @@
       "id": "dw_sticky_notes",
       "name": "Sticky Notes",
       "widgetType": "stickyNotes"
+    },
+    {
+      "id": "dw_1793825465292_7h0wdwsa2",
+      "widgetType": "desktopClock",
+      "name": "Clock",
+      "enabled": true,
+      "config": {
+        "style": "overlap",
+        "transparency": 0,
+        "colorMode": "primary",
+        "customColor": "#ffffff",
+        "showDate": true,
+        "showAnalogNumbers": false,
+        "showAnalogSeconds": true,
+        "displayPreferences": [
+          "all"
+        ],
+        "weight": 900,
+        "fontFamily": "",
+        "syncPositionAcrossScreens": true
+      }
     }
   ],
   "builtInPluginSettings": {

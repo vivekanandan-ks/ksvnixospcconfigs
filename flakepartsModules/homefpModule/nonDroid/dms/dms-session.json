@@ -3,50 +3,59 @@
   "desktopWidgetInstancePositions": {
     "dw_abyss": {
       "_synced": {
-        "x": 0.017569546120058566,
-        "y": 0.03125,
-        "width": 400,
+        "anchorY": "end",
         "height": 340,
-        "anchorY": "end"
+        "width": 400,
+        "x": 0.017569546120058566,
+        "y": 0.03125
       }
     },
     "dw_desktop_lyrics": {
       "_synced": {
-        "x": 0.017569546120058566,
-        "y": 0.03125,
         "anchorX": "end",
         "anchorY": "end",
+        "height": 136.03125,
         "width": 452.015625,
-        "height": 136.03125
+        "x": 0.017569546120058566,
+        "y": 0.03125
       }
     },
     "dw_modern_clock": {
       "_synced": {
-        "width": 418.203125,
-        "height": 114.75,
+        "anchorX": "end",
+        "height": 80,
+        "width": 220,
         "x": 0.017569546120058566,
-        "y": 0.12858072916666666,
-        "anchorX": "end"
+        "y": 0.12396748860677083
       }
     },
     "dw_orbit_bluetooth": {
       "_synced": {
-        "x": 0.009982956625183016,
-        "y": 0.004460652669270833,
         "anchorX": "end",
         "anchorY": "center",
+        "height": 309.04296875,
         "width": 484.94921875,
-        "height": 309.04296875
+        "x": 0.009982956625183016,
+        "y": 0.004460652669270833
       }
     },
     "dw_sticky_notes": {
       "_synced": {
-        "x": 0,
-        "y": 0.03125,
-        "width": 220,
-        "height": 220,
         "anchorX": "center",
-        "anchorY": "end"
+        "anchorY": "end",
+        "height": 220,
+        "width": 220,
+        "x": 0,
+        "y": 0.03125
+      }
+    },
+    "dw_1793825465292_7h0wdwsa2": {
+      "_synced": {
+        "anchorX": "end",
+        "height": 169.9140625,
+        "width": 193.24609375,
+        "x": 0.143919289897511,
+        "y": 0.06635538736979167
       }
     },
     "lock_auth": {
@@ -54,15 +63,8 @@
     },
     "lock_clock": {
       "_synced": {
-        "x": 0.0175695461200586,
+        "x": 0.06479342057101024,
         "y": 0.03125
-      }
-    },
-    "lw_1792586307190_ubkxsvtsl": {
-      "_synced": {
-        "anchorY": "center",
-        "x": 0.0351390922401171,
-        "y": 0
       }
     },
     "lw_1792586458852_0c7pra8xg": {
@@ -71,6 +73,15 @@
         "anchorY": "end",
         "x": 0.0175695461200586,
         "y": 0.03125
+      }
+    },
+    "lw_1793826474805_4vtp5yych": {
+      "_synced": {
+        "anchorY": "center",
+        "height": 110.93359375,
+        "width": 433.31640625,
+        "x": 0.017569546120058566,
+        "y": 0.07172393798828125
       }
     }
   },
