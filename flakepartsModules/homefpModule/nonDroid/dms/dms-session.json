@@ -2,40 +2,51 @@
   "configVersion": 7,
   "desktopWidgetInstancePositions": {
     "dw_abyss": {
-      "eDP-1": {
-        "anchorY": "end",
-        "height": 377.53515625,
-        "width": 455.83203125,
-        "x": 24,
-        "y": 24
+      "_synced": {
+        "x": 0.017569546120058566,
+        "y": 0.03125,
+        "width": 400,
+        "height": 340,
+        "anchorY": "end"
       }
     },
     "dw_desktop_lyrics": {
-      "eDP-1": {
+      "_synced": {
+        "x": 0.017569546120058566,
+        "y": 0.03125,
         "anchorX": "end",
         "anchorY": "end",
-        "height": 146.48828125,
-        "width": 416.53125,
-        "x": 24,
-        "y": 24
+        "width": 452.015625,
+        "height": 136.03125
       }
     },
     "dw_modern_clock": {
-      "eDP-1": {
-        "height": 136.31640625,
-        "width": 543.546875,
-        "x": 795.8828125,
-        "y": 64.6484375
+      "_synced": {
+        "width": 418.203125,
+        "height": 114.75,
+        "x": 0.017569546120058566,
+        "y": 0.12858072916666666,
+        "anchorX": "end"
       }
     },
     "dw_orbit_bluetooth": {
-      "eDP-1": {
+      "_synced": {
+        "x": 0.009982956625183016,
+        "y": 0.004460652669270833,
         "anchorX": "end",
         "anchorY": "center",
-        "height": 312.65625,
-        "width": 473.9140625,
-        "x": 24,
-        "y": 0
+        "width": 484.94921875,
+        "height": 309.04296875
+      }
+    },
+    "dw_sticky_notes": {
+      "_synced": {
+        "x": 0,
+        "y": 0.03125,
+        "width": 220,
+        "height": 220,
+        "anchorX": "center",
+        "anchorY": "end"
       }
     },
     "lock_auth": {
@@ -70,10 +81,16 @@
     "[\"eDP-1\",\"island\"]": {
       "x": 0.3853606646581066,
       "y": 0.022135416666666668
+    },
+    "[\"eDP-1\",\"dot1793803203982\"]": {
+      "x": 0.9809663250366032,
+      "y": 0.9661458333333334
     }
   },
   "lastPlayerIdentity": "VLC media player",
-  "launcherQueryHistory": ["dfil"],
+  "launcherQueryHistory": [
+    "dfil"
+  ],
   "lockScreenAutoPositions": {
     "eDP-1": {
       "height": 768,
