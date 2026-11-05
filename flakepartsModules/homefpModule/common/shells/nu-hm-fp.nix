@@ -210,7 +210,7 @@ _: {
               }
               {
                 # Clean up backup files
-                try { ls ~/.config/nushell/history.txt.bak* } | each { |file| ^rm $file.name } | ignore
+                try { ^rm -f ~/.config/nushell/history.txt.bak* }
               }
             ]
 
