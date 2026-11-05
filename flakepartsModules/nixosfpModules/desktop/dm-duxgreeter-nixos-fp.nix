@@ -19,6 +19,7 @@ _: {
     services.displayManager.dux-greeter = {
       enable = true;
       compositor.name = "mangowc";
+      compositor.customConfig = "# Minimal Mango configuration for dux-greeter";
       configHome = config.users.users.${targetUser}.home;
     };
 
