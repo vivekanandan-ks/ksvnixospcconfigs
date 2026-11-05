@@ -195,7 +195,7 @@
         "displayPreferences": [
           "all"
         ],
-        "showMediaPlayer": true,
+        "showMediaPlayer": false,
         "showWeather": true,
         "syncPositionAcrossScreens": true
       },
@@ -238,6 +238,21 @@
       "enabled": true,
       "id": "greeter_session",
       "widgetType": "greeterSession"
+    },
+    {
+      "id": "gw_1793862806299_dvk5d3xxz",
+      "widgetType": "lockDate",
+      "name": "Date",
+      "enabled": true,
+      "config": {
+        "syncPositionAcrossScreens": true,
+        "displayPreferences": [
+          "all"
+        ],
+        "format": "long",
+        "colorMode": "secondary",
+        "customColor": "#ffffff"
+      }
     }
   ],
   "currentThemeName": "dynamic",
@@ -1260,5 +1275,6 @@
   "frameLauncherArcExtender": false,
   "frameLauncherEdgeHover": true,
   "frameMode": "connected",
-  "configVersion": 42
+  "configVersion": 42,
+  "greeterFollowLockScreen": false
 }
