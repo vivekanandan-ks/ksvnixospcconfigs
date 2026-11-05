@@ -108,9 +108,7 @@
     }
   },
   "lastPlayerIdentity": "VLC media player",
-  "launcherQueryHistory": [
-    "dfil"
-  ],
+  "launcherQueryHistory": ["dfil"],
   "lockScreenAutoPositions": {
     "eDP-1": {
       "height": 768,

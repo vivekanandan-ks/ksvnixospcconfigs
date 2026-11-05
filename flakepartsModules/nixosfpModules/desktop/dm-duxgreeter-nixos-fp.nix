@@ -1,4 +1,4 @@
-_: {
+{self, ...}: {
   flake.nixosModules.displayManager = {
     config,
     lib,
@@ -12,7 +12,7 @@ _: {
   in {
     imports = [
       # Compatibility alias: dux-greeter checks `programs.mangowc` instead of `programs.mango`
-      (lib.mkAliasOptionModule [ "programs" "mangowc" ] [ "programs" "mango" ])
+      (lib.mkAliasOptionModule ["programs" "mangowc"] ["programs" "mango"])
     ];
 
     # Default display manager: Dux Greeter (greetd + Quickshell)
@@ -22,6 +22,13 @@ _: {
       compositor.customConfig = "# Minimal Mango configuration for dux-greeter";
       configHome = config.users.users.${targetUser}.home;
     };
+
+    # Declaratively expose the avatar to dux-greeter and standard AccountsService
+    systemd.tmpfiles.rules = [
+      "d /var/cache/dms-greeter/users/${targetUser} 0755 dms-greeter greeter -"
+      "L+ /var/cache/dms-greeter/users/${targetUser}/profile.png - - - - ${self.personas.ksv.avatar}"
+      "L+ /var/lib/AccountsService/icons/${targetUser} - - - - ${self.personas.ksv.avatar}"
+    ];
 
     # SDDM disabled by default across all hosts
     # (Can be enabled per host using `services.displayManager.dux-greeter.enable = lib.mkForce false;` and `services.displayManager.sddm.enable = lib.mkForce true;`)

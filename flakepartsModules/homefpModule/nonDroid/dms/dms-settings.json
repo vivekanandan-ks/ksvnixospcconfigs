@@ -5,9 +5,7 @@
         "autoPosition": false,
         "colorMode": "default",
         "customColor": "#ffffff",
-        "displayPreferences": [
-          "all"
-        ],
+        "displayPreferences": ["all"],
         "showAnalogNumbers": false,
         "showAnalogSeconds": true,
         "showDate": true,
@@ -26,9 +24,7 @@
       "config": {
         "colorMode": "default",
         "customColor": "#ffffff",
-        "displayPreferences": [
-          "all"
-        ],
+        "displayPreferences": ["all"],
         "format": "short",
         "syncPositionAcrossScreens": true
       },
@@ -38,9 +34,7 @@
     },
     {
       "config": {
-        "displayPreferences": [
-          "all"
-        ],
+        "displayPreferences": ["all"],
         "passwordVisibility": "always",
         "profileVisibility": "always",
         "style": "expressive",
@@ -52,9 +46,7 @@
     },
     {
       "config": {
-        "displayPreferences": [
-          "all"
-        ],
+        "displayPreferences": ["all"],
         "mode": 1,
         "syncPositionAcrossScreens": true
       },
@@ -65,9 +57,7 @@
     {
       "config": {
         "background": false,
-        "displayPreferences": [
-          "all"
-        ],
+        "displayPreferences": ["all"],
         "showMediaPlayer": true,
         "showWeather": true,
         "syncPositionAcrossScreens": true
@@ -78,9 +68,7 @@
     },
     {
       "config": {
-        "displayPreferences": [
-          "all"
-        ],
+        "displayPreferences": ["all"],
         "shape": "round",
         "syncPositionAcrossScreens": true
       },
@@ -90,9 +78,7 @@
     },
     {
       "config": {
-        "displayPreferences": [
-          "all"
-        ],
+        "displayPreferences": ["all"],
         "shape": "round",
         "syncPositionAcrossScreens": true
       },
@@ -103,9 +89,7 @@
     },
     {
       "config": {
-        "displayPreferences": [
-          "all"
-        ],
+        "displayPreferences": ["all"],
         "syncPositionAcrossScreens": true
       },
       "enabled": true,
@@ -120,9 +104,7 @@
       "enabled": true,
       "config": {
         "syncPositionAcrossScreens": true,
-        "displayPreferences": [
-          "all"
-        ],
+        "displayPreferences": ["all"],
         "dayFontFamily": "Gochi Hand",
         "showTime": false,
         "use24Hour": true,
@@ -144,9 +126,7 @@
         "autoPosition": false,
         "colorMode": "default",
         "customColor": "#ffffff",
-        "displayPreferences": [
-          "all"
-        ],
+        "displayPreferences": ["all"],
         "showAnalogNumbers": false,
         "showAnalogSeconds": true,
         "showDate": true,
@@ -165,9 +145,7 @@
       "config": {
         "colorMode": "default",
         "customColor": "#ffffff",
-        "displayPreferences": [
-          "all"
-        ],
+        "displayPreferences": ["all"],
         "format": "short",
         "syncPositionAcrossScreens": true
       },
@@ -177,9 +155,7 @@
     },
     {
       "config": {
-        "displayPreferences": [
-          "all"
-        ],
+        "displayPreferences": ["all"],
         "passwordVisibility": "always",
         "profileVisibility": "always",
         "style": "expressive",
@@ -192,9 +168,7 @@
     {
       "config": {
         "background": false,
-        "displayPreferences": [
-          "all"
-        ],
+        "displayPreferences": ["all"],
         "showMediaPlayer": false,
         "showWeather": true,
         "syncPositionAcrossScreens": true
@@ -205,9 +179,7 @@
     },
     {
       "config": {
-        "displayPreferences": [
-          "all"
-        ],
+        "displayPreferences": ["all"],
         "shape": "round",
         "syncPositionAcrossScreens": true
       },
@@ -217,9 +189,7 @@
     },
     {
       "config": {
-        "displayPreferences": [
-          "all"
-        ],
+        "displayPreferences": ["all"],
         "shape": "round",
         "syncPositionAcrossScreens": true
       },
@@ -230,9 +200,7 @@
     },
     {
       "config": {
-        "displayPreferences": [
-          "all"
-        ],
+        "displayPreferences": ["all"],
         "syncPositionAcrossScreens": true
       },
       "enabled": true,
@@ -246,9 +214,7 @@
       "enabled": true,
       "config": {
         "syncPositionAcrossScreens": true,
-        "displayPreferences": [
-          "all"
-        ],
+        "displayPreferences": ["all"],
         "format": "long",
         "colorMode": "secondary",
         "customColor": "#ffffff"
@@ -286,9 +252,7 @@
       "id": "dock",
       "name": "Right Dock",
       "enabled": true,
-      "screenPreferences": [
-        "all"
-      ],
+      "screenPreferences": ["all"],
       "showOnLastDisplay": true,
       "position": 3,
       "mode": "compact",
@@ -362,9 +326,7 @@
   "popupTransparency": 0.5,
   "floatingWindowSyncGlobal": true,
   "floatingWindowTitleBars": true,
-  "dmsWindowsFloatingSeeded": [
-    "mango"
-  ],
+  "dmsWindowsFloatingSeeded": ["mango"],
   "widgetBackgroundColor": "sc",
   "widgetColorMode": "default",
   "mangoLayoutRadiusOverride": -1,
@@ -728,9 +690,7 @@
   "osdWorkspaceEnabled": true,
   "powerMenuFirmwareSetup": true,
   "screenPreferences": {
-    "wallpaper": [
-      "all"
-    ]
+    "wallpaper": ["all"]
   },
   "connectedFrameBarStyleBackups": {},
   "barConfigs": [
@@ -888,9 +848,7 @@
           "overflowMode": "always"
         }
       ],
-      "screenPreferences": [
-        "all"
-      ],
+      "screenPreferences": ["all"],
       "scrollEnabled": true,
       "shadowIntensity": 0,
       "shadowOpacity": 0,
@@ -940,9 +898,7 @@
       "popupGapsManual": 4,
       "position": 1,
       "rightWidgets": [],
-      "screenPreferences": [
-        "all"
-      ],
+      "screenPreferences": ["all"],
       "scrollEnabled": true,
       "scrollXBehavior": "focusWindow",
       "scrollYBehavior": "workspace",
@@ -1040,9 +996,7 @@
           "id": "controlCenterButton"
         }
       ],
-      "screenPreferences": [
-        "all"
-      ],
+      "screenPreferences": ["all"],
       "scrollYBehavior": "workspace",
       "showOnLastDisplay": true,
       "widgetFollowInterfaceStyle": true,
@@ -1128,9 +1082,7 @@
           "id": "controlCenterButton"
         }
       ],
-      "screenPreferences": [
-        "all"
-      ],
+      "screenPreferences": ["all"],
       "scrollYBehavior": "workspace",
       "showOnLastDisplay": true,
       "widgetFollowInterfaceStyle": true,
@@ -1152,9 +1104,7 @@
     {
       "config": {
         "backgroundOpacity": 0,
-        "displayPreferences": [
-          "all"
-        ],
+        "displayPreferences": ["all"],
         "scaleWithWidget": false,
         "syncPositionAcrossScreens": true,
         "use24Hour": true,
@@ -1180,9 +1130,7 @@
     {
       "config": {
         "borderOpacity": 0,
-        "displayPreferences": [
-          "all"
-        ],
+        "displayPreferences": ["all"],
         "fontSize": 22,
         "showOnOverlay": false,
         "syncPositionAcrossScreens": true
@@ -1194,9 +1142,7 @@
     },
     {
       "config": {
-        "displayPreferences": [
-          "all"
-        ],
+        "displayPreferences": ["all"],
         "syncPositionAcrossScreens": true
       },
       "enabled": true,
@@ -1206,9 +1152,7 @@
     },
     {
       "config": {
-        "displayPreferences": [
-          "all"
-        ],
+        "displayPreferences": ["all"],
         "syncPositionAcrossScreens": true
       },
       "enabled": true,
@@ -1218,9 +1162,7 @@
     },
     {
       "config": {
-        "displayPreferences": [
-          "all"
-        ],
+        "displayPreferences": ["all"],
         "syncPositionAcrossScreens": true
       },
       "enabled": true,
@@ -1241,9 +1183,7 @@
         "showDate": true,
         "showAnalogNumbers": false,
         "showAnalogSeconds": true,
-        "displayPreferences": [
-          "all"
-        ],
+        "displayPreferences": ["all"],
         "weight": 900,
         "fontFamily": "",
         "syncPositionAcrossScreens": true
@@ -1264,13 +1204,7 @@
       "trigger": "?"
     }
   },
-  "clipboardVisibleEntryActions": [
-    "pin",
-    "edit",
-    "delete",
-    "copy",
-    "paste"
-  ],
+  "clipboardVisibleEntryActions": ["pin", "edit", "delete", "copy", "paste"],
   "frameEnabled": false,
   "frameLauncherArcExtender": false,
   "frameLauncherEdgeHover": true,

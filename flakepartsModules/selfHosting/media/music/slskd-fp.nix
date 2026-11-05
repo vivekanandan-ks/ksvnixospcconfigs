@@ -3,10 +3,7 @@
   lib,
   ...
 }: {
-  flake.nixosModules.selfHosting = {
-    config,
-    ...
-  }:
+  flake.nixosModules.selfHosting = {config, ...}:
     lib.mkIf (inputs ? nixflix) (
       let
         port = 5030;

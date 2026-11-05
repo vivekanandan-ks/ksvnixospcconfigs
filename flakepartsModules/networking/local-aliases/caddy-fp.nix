@@ -8,10 +8,12 @@ _: {
     hasServices = rawCfg != {};
 
     # Resolves listenPort to (proxyPort + 10000) unless explicitly overridden
-    services = lib.mapAttrs (_: p: {
-      proxyPort = p.proxyPort;
-      listenPort = p.listenPort or (p.proxyPort + 10000);
-    }) rawCfg;
+    services =
+      lib.mapAttrs (_: p: {
+        inherit (p) proxyPort;
+        listenPort = p.listenPort or (p.proxyPort + 10000);
+      })
+      rawCfg;
 
     listenPorts = map (s: s.listenPort) (builtins.attrValues services);
   in {
@@ -30,7 +32,10 @@ _: {
         '';
         virtualHosts =
           lib.mapAttrs' (
-            name: { proxyPort, listenPort }:
+            name: {
+              proxyPort,
+              listenPort,
+            }:
               lib.nameValuePair "https://:${toString listenPort}" {
                 extraConfig = ''
                   # ${name} HTTPS reverse proxy
@@ -53,11 +58,12 @@ _: {
       # Allow local Wi-Fi and NetBird to reach all active HTTPS ports (with connection limits)
       networking.firewall.extraCommands = ''
         ${lib.concatMapStringsSep "\n" (port: ''
-          iptables -A nixos-fw -p tcp --dport ${toString port} -m connlimit --connlimit-above 80 -j REJECT
-          iptables -A nixos-fw -p tcp --dport ${toString port} -s 192.168.0.0/16 -j nixos-fw-accept
-          iptables -A nixos-fw -p tcp --dport ${toString port} -s 10.0.0.0/8 -j nixos-fw-accept
-          iptables -A nixos-fw -p tcp --dport ${toString port} -s 100.64.0.0/10 -j nixos-fw-accept
-        '') listenPorts}
+            iptables -A nixos-fw -p tcp --dport ${toString port} -m connlimit --connlimit-above 80 -j REJECT
+            iptables -A nixos-fw -p tcp --dport ${toString port} -s 192.168.0.0/16 -j nixos-fw-accept
+            iptables -A nixos-fw -p tcp --dport ${toString port} -s 10.0.0.0/8 -j nixos-fw-accept
+            iptables -A nixos-fw -p tcp --dport ${toString port} -s 100.64.0.0/10 -j nixos-fw-accept
+          '')
+          listenPorts}
       '';
 
       # Hardened systemd sandbox for Caddy process isolation
@@ -66,10 +72,10 @@ _: {
         ProtectHome = true;
         PrivateTmp = true;
         NoNewPrivileges = true;
-        CapabilityBoundingSet = [ "CAP_NET_BIND_SERVICE" ];
+        CapabilityBoundingSet = ["CAP_NET_BIND_SERVICE"];
         ProtectKernelTunables = true;
         ProtectControlGroups = true;
-        RestrictAddressFamilies = [ "AF_INET" "AF_INET6" "AF_UNIX" ];
+        RestrictAddressFamilies = ["AF_INET" "AF_INET6" "AF_UNIX"];
         MemoryDenyWriteExecute = true;
       };
     };

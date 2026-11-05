@@ -12,15 +12,18 @@ _: {
 
     # Render a simple <ul> list for a set of services
     renderList = sMap:
-      lib.concatStringsSep "\n" (lib.mapAttrsToList (name: s:
-        let
-          listenPort = s.listenPort or (s.proxyPort + 10000);
-          title = s.title or name;
-          category = s.category or "";
-          catSpan = if category != "" then "<span>(${category})</span>" else "";
-        in
-          "    <li><a data-port=\"${toString listenPort}\" href=\"#\">${title}</a> ${catSpan}</li>"
-      ) sMap);
+      lib.concatStringsSep "\n" (lib.mapAttrsToList (
+          name: s: let
+            listenPort = s.listenPort or (s.proxyPort + 10000);
+            title = s.title or name;
+            category = s.category or "";
+            catSpan =
+              if category != ""
+              then "<span>(${category})</span>"
+              else "";
+          in "    <li><a data-port=\"${toString listenPort}\" href=\"#\">${title}</a> ${catSpan}</li>"
+        )
+        sMap);
 
     userServices = lib.filterAttrs (_: s: (s.role or "user") == "user") services;
     adminServices = lib.filterAttrs (_: s: (s.role or "user") == "admin") services;
