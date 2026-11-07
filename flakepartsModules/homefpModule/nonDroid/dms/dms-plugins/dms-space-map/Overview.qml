@@ -48,7 +48,15 @@ Scope {
     readonly property var home: Quickshell.screens[0]
     readonly property real cx: home.x + home.width / 2
     readonly property real cy: home.y + home.height / 2
-    readonly property real focal: Math.max(home.width, home.height) * 0.6
+    property real zoomFactor: 1.0
+    Behavior on zoomFactor { Settle { duration: SpaceTheme.ms(220) } }
+    function zoomIn() { zoomFactor = Math.min(3.0, zoomFactor * 1.18) }
+    function zoomOut() { zoomFactor = Math.max(0.35, zoomFactor / 1.18) }
+    function zoomReset() { zoomFactor = 1.0 }
+
+    readonly property real baseFocal: Math.max(home.width, home.height) * 0.6
+    readonly property real focal: baseFocal * zoomFactor
+    onFocalChanged: setView(px, py, pz, yaw, pitch, cam.v)
     readonly property real hover: focal / 35
     readonly property real planetR: 0.5
     readonly property real planetPx: 70
@@ -305,11 +313,14 @@ Scope {
     function screenOf(o) { return project(shown(o)) }
     function distFor(o) { return (o.r ?? planetR) * focal / planetPx }
 
+    property real aimX: cx
+    property real aimY: cy
+
     readonly property var aimed: {
-        let best = null, bestD = 40
+        let best = null, bestD = 55
         const near = (p, o, far) => {
             if (!p || p.z > far) return
-            const d = Math.hypot(p.x - cx, p.y - cy)
+            const d = Math.hypot(p.x - aimX, p.y - aimY)
             if (d < bestD) { bestD = d; best = o }
         }
         const open = bloom > 0.9
@@ -561,8 +572,11 @@ Scope {
     readonly property bool busy: !!gate || takeoff.running || fly.running || descend.running
     readonly property bool drawn: busy || veil > 0 || ascent > 0.001
     onDrawnChanged: if (!drawn) done()
+    readonly property real steerDist: Math.hypot((aimX - cx) / Math.max(1, home.width / 2), (aimY - cy) / Math.max(1, home.height / 2))
+    readonly property bool steering: steerDist > 0.18
+
     readonly property bool flying: kick > 0 || Object.keys(held).length > 0 || Math.hypot(...vel) > 0.05
-        || Math.abs(aimYaw - yaw) > 0.0005 || Math.abs(aimPitch - pitch) > 0.0005
+        || Math.abs(aimYaw - yaw) > 0.0005 || Math.abs(aimPitch - pitch) > 0.0005 || steering
     FrameAnimation {
         running: map.flying && !map.busy
         onTriggered: {
@@ -572,6 +586,17 @@ Scope {
             const go = (k.f ? 1 : 0) - (k.b ? 1 : 0), side = (k.r ? 1 : 0) - (k.l ? 1 : 0)
             if (k.tl) map.aimYaw -= 1.2 * dt
             if (k.tr) map.aimYaw += 1.2 * dt
+
+            // Continuous flight steering when mouse is outside center deadzone
+            if (map.steering && !map.busy) {
+                const srx = (map.aimX - map.cx) / Math.max(1, map.home.width / 2)
+                const sry = (map.aimY - map.cy) / Math.max(1, map.home.height / 2)
+                const d = map.steerDist
+                const norm = Math.min(1.0, (d - 0.18) / (1.0 - 0.18))
+                const rate = (map.held.fast ? 2.8 : 1.6) * Math.pow(norm, 1.3)
+                map.aimYaw += (srx / d) * rate * dt
+                map.aimPitch = Math.max(-1.3, Math.min(1.3, map.aimPitch - (sry / d) * rate * dt))
+            }
             const want = [(f[0] * go + rx * side) * top, f[1] * go * top, (f[2] * go + rz * side) * top]
             const e = 1 - Math.exp(-dt * (go || side ? 4 : 2.2))
             const v = map.vel.map((c, i) => c + (want[i] - c) * e)
@@ -618,11 +643,13 @@ Scope {
     property bool idle: false
     Timer { running: true; interval: 6000; onTriggered: map.idle = true }
     function look(gx, gy) {
+        aimX = gx
+        aimY = gy
         const dx = gx - lastX, dy = gy - lastY
         lastX = gx; lastY = gy
         if (!takeOver() || busy || Math.abs(dx) > 120 || Math.abs(dy) > 120) return
-        aimYaw += dx * 0.0011
-        aimPitch = Math.max(-1.3, Math.min(1.3, aimPitch - dy * 0.0011))
+        aimYaw += dx * 0.0006
+        aimPitch = Math.max(-1.3, Math.min(1.3, aimPitch - dy * 0.0006))
     }
 
     Variants {
@@ -937,14 +964,41 @@ Scope {
                         }
                     }
 
+                    // Center reference dot
                     Item {
                         visible: win.main
                         x: map.cx - win.ox
                         y: map.cy - win.oy
+                        z: 11
+                        opacity: map.ui * 0.3
+                        Rectangle { anchors.centerIn: parent; width: 6; height: 6; radius: 3; color: "transparent"; border.width: 1; border.color: SpaceTheme.dim }
+                    }
+
+                    // Mouse targeting reticle (directly follows mouse position)
+                    Item {
+                        visible: win.main
+                        x: map.aimX - win.ox
+                        y: map.aimY - win.oy
                         z: 12
-                        opacity: map.ui * 0.7
-                        Rectangle { anchors.centerIn: parent; width: 18; height: 18; radius: 9; color: "transparent"; border.width: 1; border.color: SpaceTheme.fg }
-                        Rectangle { anchors.centerIn: parent; width: 2; height: 2; radius: 1; color: SpaceTheme.fg }
+                        opacity: map.ui * 0.85
+                        Rectangle {
+                            anchors.centerIn: parent
+                            width: 20
+                            height: 20
+                            radius: 10
+                            color: "transparent"
+                            border.width: 1.5
+                            border.color: map.aimed ? SpaceTheme.accent : SpaceTheme.fg
+                            Behavior on border.color { ColorAnimation { duration: 150 } }
+                        }
+                        Rectangle {
+                            anchors.centerIn: parent
+                            width: 4
+                            height: 4
+                            radius: 2
+                            color: map.aimed ? SpaceTheme.accent : SpaceTheme.fg
+                            Behavior on color { ColorAnimation { duration: 150 } }
+                        }
                     }
 
                     DecodeText {
@@ -955,7 +1009,7 @@ Scope {
                         opacity: map.ui * (map.idle ? 0 : 1)
                         Behavior on opacity { Settle { duration: SpaceTheme.ms(600) } }
                         decode: false
-                        text: "mouse  look    wasd  fly    shift  fast    q e  turn    tab  next system    space  home    click  select    esc  land"
+                        text: "mouse  aim & steer    scroll  zoom in/out    wasd  fly    shift  fast    q e  turn    tab  next    click  select    esc  exit"
                         color: SpaceTheme.alpha(SpaceTheme.fg, 0.45)
                     }
                 }
@@ -1041,6 +1095,13 @@ Scope {
                 cursorShape: Qt.BlankCursor
                 onPositionChanged: m => map.look(m.x + win.ox, m.y + win.oy)
                 onClicked: map.act()
+                onWheel: wheel => {
+                    if (wheel.angleDelta.y > 0) {
+                        map.zoomIn()
+                    } else if (wheel.angleDelta.y < 0) {
+                        map.zoomOut()
+                    }
+                }
             }
             Item {
                 id: keyCatcher
