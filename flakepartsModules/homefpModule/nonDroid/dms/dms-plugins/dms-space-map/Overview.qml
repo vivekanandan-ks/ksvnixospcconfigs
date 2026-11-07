@@ -96,7 +96,7 @@ Scope {
                 list.push({
                     kind: "ws",
                     id: i,
-                    pos: World.starOf(i),
+                    pos: SpaceWorld.starOf(i),
                     ws: {
                         id: i,
                         toplevels: { values: tagWins }
@@ -185,17 +185,17 @@ Scope {
     ListModel { id: wildModel }
     function reroll() { wildModel.clear(); wild = []; rebuild() }
     Connections {
-        target: World
+        target: SpaceWorld
         function onOffersChanged() { map.reroll() }
     }
-    function hash(a, b, c) { return r3(a + World.seed * 31, b, c) }
+    function hash(a, b, c) { return r3(a + SpaceWorld.seed * 31, b, c) }
     onHereChanged: rebuild()
     function rebuild() {
         const [a0, b0, c0] = here.split(",").map(Number), out = []
         for (let i = -4; i <= 4; i++) for (let j = -2; j <= 2; j++) for (let k = -4; k <= 4; k++) {
             const a = a0 + i, b = b0 + j, c = c0 + k
             if (hash(a, b, c) > density) continue
-            out.push({ kind: "wild", id: a + "," + b + "," + c, hue: World.snap(hash(c, a, b), true), temp: hash(b, a, c), size: 0.6 + hash(a, c, b) * 0.9,
+            out.push({ kind: "wild", id: a + "," + b + "," + c, hue: SpaceWorld.snap(hash(c, a, b), true), temp: hash(b, a, c), size: 0.6 + hash(a, c, b) * 0.9,
                        pos: [(a + hash(b, c, a)) * cell, (b + hash(c, b, a)) * cell * 0.6, (c + hash(a, a, c)) * cell] })
         }
         const byId = {}, have = new Set(), next = wild.slice(), free = []
@@ -224,13 +224,13 @@ Scope {
     function sysRand(s, n) { return r3(Math.round(s.pos[0]) + n * 7919, Math.round(s.pos[1]) + n * 104729, Math.round(s.pos[2])) }
     function sysHue(s) {
         if (s.kind === "wild") return s.hue
-        const placed = World.stars[s.id]
-        return placed?.[3] !== undefined && (World.random || World.themeFor(placed[3])) ? placed[3] : World.snap(sysRand(s, 1))
+        const placed = SpaceWorld.stars[s.id]
+        return placed?.[3] !== undefined && (SpaceWorld.random || SpaceWorld.themeFor(placed[3])) ? placed[3] : SpaceWorld.snap(sysRand(s, 1))
     }
     function worldHue(s, i) {
-        const h = sysHue(s), f = World.random ? null : World.themeFor(h)
+        const h = sysHue(s), f = SpaceWorld.random ? null : SpaceWorld.themeFor(h)
         if (!f) return (h + (i + 1) * 0.618) % 1
-        return World.accentHue(f.t.c[World.pins[f.t.id] ?? 3 + (f.i - 3 + i + 1) % 6])
+        return SpaceWorld.accentHue(f.t.c[SpaceWorld.pins[f.t.id] ?? 3 + (f.i - 3 + i + 1) % 6])
     }
     function sysSeed(s, n = 5) { return 1 + Math.round(sysRand(s, n) * 996) }
     function tiltOf(s) { return 0.22 + sysRand(s, 2) * 0.3 }
@@ -328,7 +328,12 @@ Scope {
     function appOf(w) { return (w?.lastIpcObject?.class || w?.title || "").split(".").pop() }
     function nameOf(ws) { return [...new Set((ws?.toplevels?.values ?? []).map(appOf).filter(x => x))].slice(0, 2).join(" · ") }
     function sysName(id) { return used.find(u => u.id === id)?.special ?? "tag " + String(id).padStart(2, "0") }
-    function currentStar() { return used.find(u => u.id === current) ?? { kind: "ws", id: current, pos: World.starOf(current) } }
+    function currentStar() {
+        const u = Array.isArray(used) ? used : []
+        const found = u.find(x => x && x.id === current)
+        if (found) return found
+        return { kind: "ws", id: current, pos: SpaceWorld.starOf(current) }
+    }
 
     property real go: 0
     readonly property int takeoffMs: 3800
@@ -387,14 +392,21 @@ Scope {
     }
 
     Component.onCompleted: {
-        sel = currentStar()
-        const ho = homeOf(sel), h = ho.pos, e = viewOf(sel, h).e
-        transitKeys = [ho.key, "n" + sel.id]
-        transitLight = [h, sel.pos]
-        transitMoon = moonOf(ho)
-        path = pathTo(h, e, planetDist, hover * 0.6, h)
-        pose(0)
-        rebuild()
+        try {
+            sel = currentStar()
+            const ho = homeOf(sel), h = ho.pos, e = viewOf(sel, h).e
+            transitKeys = [ho.key, "n" + sel.id]
+            transitLight = [h, sel.pos]
+            transitMoon = moonOf(ho)
+            path = pathTo(h, e, planetDist, hover * 0.6, h)
+            pose(0)
+            rebuild()
+        } catch (err) {
+            console.error("SpaceMap onCompleted error:", err)
+            const defaultPos = [0, 0, 0]
+            path = pathTo(defaultPos, [0, 0, 1], planetDist, hover * 0.6, defaultPos)
+            pose(0)
+        }
     }
     property var gate: takeoff
     readonly property bool warm: gate === takeoff
@@ -481,8 +493,8 @@ Scope {
         transitMoon = home ? moonOf(dest) : null
         landHue = dest.hue
         landSeed = dest.seed
-        recolored = landHue !== World.hue || landSeed !== World.landSeed
-        if (recolored) World.reroll(landHue, landSeed)
+        recolored = landHue !== SpaceWorld.hue || landSeed !== SpaceWorld.landSeed
+        if (recolored) SpaceWorld.reroll(landHue, landSeed)
         const l = o.star ? (o.kind === "planet" ? o : o.sys) : o
         shotWs = l.special ? current : l.kind === "planet" ? l.wsid : l.kind === "wild" ? -1 : l.id
         const h = dest.pos, v = [px - h[0], py - h[1], pz - h[2]], L = Math.hypot(...v) || 1, f = fwd()
@@ -495,7 +507,18 @@ Scope {
         gate = descend
     }
     property bool queued: false
-    function close() { if (!busy) warp(currentStar()); else queued = warm || takeoff.running }
+    function close() {
+        try {
+            if (!busy) warp(currentStar())
+            else queued = warm || takeoff.running
+        } catch (err) {
+            console.error("SpaceMap close error, force exiting:", err)
+            takeoff.stop()
+            descend.stop()
+            fly.stop()
+            map.done()
+        }
+    }
     SequentialAnimation {
         id: descend
         property int ms: 4200
@@ -511,14 +534,14 @@ Scope {
     property bool recolored: false
     property bool settled: false
     property real landHue: -1
-    property real landSeed: World.landSeed
+    property real landSeed: SpaceWorld.landSeed
 
     function land() {
         const l = landing.star ? (landing.kind === "planet" ? landing : landing.sys) : landing
         if (l.kind === "wild") {
             let id = 1
             while (used.some(u => u.id === id)) id++
-            World.place(id, l.pos, l.hue)
+            SpaceWorld.place(id, l.pos, l.hue)
             landWs = id
             landHue = l.hue
             MangoService.dispatch("view " + id)
@@ -564,11 +587,21 @@ Scope {
         [Qt.Key_Q]: "tl", [Qt.Key_E]: "tr", [Qt.Key_Shift]: "fast"
     })
     function key(e, down) {
-        if (e.isAutoRepeat || !takeOver() || descend.running) return
-        if (down && e.key === Qt.Key_Escape) return close()
+        if (e.isAutoRepeat) return
+
+        // Instant and safe Escape: abort animations and exit immediately
+        if (down && e.key === Qt.Key_Escape) {
+            takeoff.stop()
+            descend.stop()
+            fly.stop()
+            map.done()
+            return
+        }
+
+        if (!takeOver() || descend.running) return
         if (down && (e.key === Qt.Key_Return || e.key === Qt.Key_Enter)) return act()
         if (down && e.key === Qt.Key_Space) return focus(currentStar())
-        if (down && (e.key === Qt.Key_Tab || e.key === Qt.Key_Backtab) && used.length) {
+        if (down && (e.key === Qt.Key_Tab || e.key === Qt.Key_Backtab) && used && used.length) {
             const i = Math.max(0, used.findIndex(u => u.id === sel?.id))
             return focus(used[(i + (e.key === Qt.Key_Backtab ? used.length - 1 : 1)) % used.length])
         }
@@ -614,7 +647,7 @@ Scope {
                 function onFrameSwapped() {
                     if (map.gate) map.gateFrames++
                     else if (map.poseDirty) map.flyPath()
-                    if (win.main && (takeoff.running || descend.running)) RenderScale.frame()
+                    if (win.main && (takeoff.running || descend.running)) SpaceRenderScale.frame()
                 }
             }
             Item {
@@ -638,9 +671,9 @@ Scope {
                         readonly property real offY: win.oy - map.cy
                         readonly property real sizeW: width
                         readonly property real sizeH: height
-                        readonly property color tint1: Theme.accent
-                        readonly property color tint2: Theme.accent2
-                        readonly property color base: Theme.mix(Theme.bg, "#000000", 0.7)
+                        readonly property color tint1: SpaceTheme.accent
+                        readonly property color tint2: SpaceTheme.accent2
+                        readonly property color base: SpaceTheme.mix(SpaceTheme.bg, "#000000", 0.7)
                         fragmentShader: Qt.resolvedUrl("overview.frag.qsb")
                     }
 
@@ -664,7 +697,7 @@ Scope {
                             y: (p?.y ?? 0) - win.oy - height / 2
                             rotation: Math.atan2(dy, dx) * 180 / Math.PI
                             antialiasing: true
-                            color: Theme.mix(map.colorOf(stemp), Qt.hsla(shue, 0.7, 0.7, 1), 0.5)
+                            color: SpaceTheme.mix(map.colorOf(stemp), Qt.hsla(shue, 0.7, 0.7, 1), 0.5)
                             opacity: (1 - far * far) * Math.min(1, ((p?.z ?? 0) - 3) / 10) * (0.65 + ssize * 0.25)
                             Image {
                                 anchors.centerIn: parent
@@ -713,7 +746,7 @@ Scope {
                             rotation: g ? Math.atan2(g[1].y - g[0].y, g[1].x - g[0].x) * 180 / Math.PI : 0
                             transformOrigin: Item.Left
                             antialiasing: true
-                            color: Theme.alpha(Theme.accent, 0.32 * map.ui)
+                            color: SpaceTheme.alpha(SpaceTheme.accent, 0.32 * map.ui)
                         }
                     }
 
@@ -729,13 +762,13 @@ Scope {
                             Orb {
                                 id: sb
                                 property real boost: u.picked ? 1.7 : 1
-                                Behavior on boost { Settle { duration: Theme.ms(500) } }
+                                Behavior on boost { Settle { duration: SpaceTheme.ms(500) } }
                                 visible: !!u.p && u.p.z > 3
                                 width: map.starSize(u.p?.s ?? 0) * boost
                                 height: width
                                 x: (u.p?.x ?? 0) - win.ox - width / 2
                                 y: (u.p?.y ?? 0) - win.oy - height / 2
-                                tint: Theme.mix("#ffffff", Theme.accent, 0.25)
+                                tint: SpaceTheme.mix("#ffffff", SpaceTheme.accent, 0.25)
                                 core: 0.24
                                 glow: 1
                                 shade: 0
@@ -746,8 +779,8 @@ Scope {
                                 opacity: map.ui
                                 x: (u.p?.x ?? 0) - win.ox + sb.width / 2 + 6
                                 y: (u.p?.y ?? 0) - win.oy - 8
-                                DecodeText { decode: false; text: map.sysName(u.modelData.id) + (u.modelData.id === map.current ? "  ◂" : ""); color: u.picked ? Theme.accent : Theme.fg; opacity: u.picked || map.aimed === u.modelData ? 1 : 0.6 }
-                                DecodeText { decode: false; text: map.nameOf(u.modelData.ws); font.pixelSize: 10; color: Theme.dim; visible: text !== "" && (u.picked || map.aimed === u.modelData || u.modelData.id === map.current) }
+                                DecodeText { decode: false; text: map.sysName(u.modelData.id) + (u.modelData.id === map.current ? "  ◂" : ""); color: u.picked ? SpaceTheme.accent : SpaceTheme.fg; opacity: u.picked || map.aimed === u.modelData ? 1 : 0.6 }
+                                DecodeText { decode: false; text: map.nameOf(u.modelData.ws); font.pixelSize: 10; color: SpaceTheme.dim; visible: text !== "" && (u.picked || map.aimed === u.modelData || u.modelData.id === map.current) }
                             }
                         }
                     }
@@ -770,10 +803,10 @@ Scope {
                             x: map.cx - win.ox + Math.cos(ang) * k
                             y: map.cy - win.oy + Math.sin(ang) * k
                             z: 11
-                            Rectangle { anchors.centerIn: parent; width: 6; height: 6; rotation: 45; antialiasing: true; color: mk.modelData.id === map.current ? Theme.accent : Theme.fg }
+                            Rectangle { anchors.centerIn: parent; width: 6; height: 6; rotation: 45; antialiasing: true; color: mk.modelData.id === map.current ? SpaceTheme.accent : SpaceTheme.fg }
                             Rectangle {
                                 x: Math.cos(mk.ang) * 9 - 3; y: Math.sin(mk.ang) * 9 - 0.5
-                                width: 6; height: 1; rotation: mk.ang * 180 / Math.PI; antialiasing: true; color: Theme.dim
+                                width: 6; height: 1; rotation: mk.ang * 180 / Math.PI; antialiasing: true; color: SpaceTheme.dim
                             }
                             DecodeText {
                                 x: -Math.cos(mk.ang) * 20 - width / 2
@@ -781,7 +814,7 @@ Scope {
                                 decode: false
                                 text: mk.modelData.special ?? String(mk.modelData.id).padStart(2, "0")
                                 font.pixelSize: 9
-                                color: mk.modelData.id === map.current ? Theme.accent : Theme.dim
+                                color: mk.modelData.id === map.current ? SpaceTheme.accent : SpaceTheme.dim
                             }
                         }
                     }
@@ -817,7 +850,7 @@ Scope {
                                 decode: false
                                 text: bd.modelData.kind === "moon" ? (bd.modelData.special ?? "") : map.appOf(bd.modelData.window)
                                 font.pixelSize: 10
-                                color: Theme.accent
+                                color: SpaceTheme.accent
                             }
                         }
                     }
@@ -828,7 +861,7 @@ Scope {
                         x: (p?.x ?? 0) - win.ox
                         y: (p?.y ?? 0) - win.oy
                         z: 8
-                        Rectangle { anchors.centerIn: parent; width: 24; height: 24; rotation: 45; color: "transparent"; antialiasing: true; border.width: 1; border.color: Theme.accent }
+                        Rectangle { anchors.centerIn: parent; width: 24; height: 24; rotation: 45; color: "transparent"; antialiasing: true; border.width: 1; border.color: SpaceTheme.accent }
                     }
 
                     Item {
@@ -843,16 +876,16 @@ Scope {
                             id: card
                             width: 250
                             height: info.height + 22
-                            color: Theme.alpha(Theme.bg, 0.72)
+                            color: SpaceTheme.alpha(SpaceTheme.bg, 0.72)
                             border.width: 1
-                            border.color: Theme.alpha(Theme.fg, 0.08)
-                            Rectangle { width: 2; height: parent.height; color: Theme.accent }
+                            border.color: SpaceTheme.alpha(SpaceTheme.fg, 0.08)
+                            Rectangle { width: 2; height: parent.height; color: SpaceTheme.accent }
                             Column {
                                 id: info
                                 readonly property var o: cardBox.o
                                 readonly property real hue: o ? o.hue ?? map.sysHue(o) : 0
-                                readonly property string accent: World.palette(hue).colors.color9
-                                readonly property string world: World.random ? accent : World.themeFor(hue)?.t.name ?? accent
+                                readonly property string accent: SpaceWorld.palette(hue).colors.color9
+                                readonly property string world: SpaceWorld.random ? accent : SpaceWorld.themeFor(hue)?.t.name ?? accent
                                 readonly property string kind: o?.kind ?? ""
                                 readonly property var wins: kind === "ws" ? (o.ws?.toplevels?.values ?? []) : []
                                 x: 16
@@ -861,7 +894,7 @@ Scope {
                                 spacing: 4
                                 DecodeText {
                                     font.pixelSize: 12
-                                    color: Theme.fg
+                                    color: SpaceTheme.fg
                                     text: info.kind === "ws" ? map.sysName(info.o.id) + (info.o.id === map.current ? "  (you)" : "")
                                         : info.kind === "planet" ? map.appOf(info.o.window) || "planet"
                                         : info.kind === "moon" ? (info.o.natural ? "moon" : info.o.special)
@@ -871,7 +904,7 @@ Scope {
                                 Row {
                                     spacing: 8
                                     DecodeText {
-                                        color: Theme.accent
+                                        color: SpaceTheme.accent
                                         text: info.kind === "ws" ? (info.wins.length + 1) + (info.wins.length ? " planets" : " planet")
                                             : info.kind === "planet" ? "planet of " + map.sysName(info.o.wsid)
                                             : info.kind === "moon" ? (info.o.natural ? "of " + (info.o.sys.kind === "ws" ? map.sysName(info.o.sys.id) : "an uncharted world") : "scratchpad moon")
@@ -882,19 +915,19 @@ Scope {
                                 Repeater {
                                     model: info.wins.slice(0, 8)
                                     DecodeText {
-                                        caps: false; elide: Text.ElideRight; font.pixelSize: 11; color: Theme.dim
+                                        caps: false; elide: Text.ElideRight; font.pixelSize: 11; color: SpaceTheme.dim
                                         required property var modelData
                                         width: info.width
                                         text: "◦ " + (map.appOf(modelData) || "window") + (modelData.title ? "  " + modelData.title : "")
                                     }
                                 }
-                                DecodeText { caps: false; elide: Text.ElideRight; font.pixelSize: 11; color: Theme.dim; width: info.width; visible: info.kind === "planet"; text: info.o?.window?.title ?? "" }
+                                DecodeText { caps: false; elide: Text.ElideRight; font.pixelSize: 11; color: SpaceTheme.dim; width: info.width; visible: info.kind === "planet"; text: info.o?.window?.title ?? "" }
                                 Item {
                                     width: info.width
                                     height: hint.height
                                     DecodeText {
                                         id: hint
-                                        color: Theme.alpha(Theme.fg, 0.4)
+                                        color: SpaceTheme.alpha(SpaceTheme.fg, 0.4)
                                         font.pixelSize: 9
                                         text: !info.kind ? "" : info.o.star ? "click  land" : info.o.id === map.sel?.id ? "click  land here" : "click  fly to it"
                                     }
@@ -910,8 +943,8 @@ Scope {
                         y: map.cy - win.oy
                         z: 12
                         opacity: map.ui * 0.7
-                        Rectangle { anchors.centerIn: parent; width: 18; height: 18; radius: 9; color: "transparent"; border.width: 1; border.color: Theme.fg }
-                        Rectangle { anchors.centerIn: parent; width: 2; height: 2; radius: 1; color: Theme.fg }
+                        Rectangle { anchors.centerIn: parent; width: 18; height: 18; radius: 9; color: "transparent"; border.width: 1; border.color: SpaceTheme.fg }
+                        Rectangle { anchors.centerIn: parent; width: 2; height: 2; radius: 1; color: SpaceTheme.fg }
                     }
 
                     DecodeText {
@@ -920,10 +953,10 @@ Scope {
                         anchors.horizontalCenter: parent.horizontalCenter
                         anchors.bottomMargin: 26
                         opacity: map.ui * (map.idle ? 0 : 1)
-                        Behavior on opacity { Settle { duration: Theme.ms(600) } }
+                        Behavior on opacity { Settle { duration: SpaceTheme.ms(600) } }
                         decode: false
                         text: "mouse  look    wasd  fly    shift  fast    q e  turn    tab  next system    space  home    click  select    esc  land"
-                        color: Theme.alpha(Theme.fg, 0.45)
+                        color: SpaceTheme.alpha(SpaceTheme.fg, 0.45)
                     }
                 }
 
@@ -932,8 +965,8 @@ Scope {
                     z: 50
                     visible: map.warm || map.ground * map.veil > 0
                     opacity: map.warm ? 0.0015 : map.ground * Math.min(1, map.veil * 2)
-                    layer.enabled: visible && RenderScale.scale < 1
-                    layer.textureSize: RenderScale.size(width, height, win.modelData)
+                    layer.enabled: visible && SpaceRenderScale.scale < 1
+                    layer.textureSize: SpaceRenderScale.size(width, height, win.modelData)
                     ws: map.landWs
                     asTheme: true
                     screenX: win.ox
@@ -971,9 +1004,9 @@ Scope {
                             width: modelData.width || 600
                             height: modelData.height || 400
                             radius: 8
-                            color: Theme.alpha(Theme.bg, 0.5)
+                            color: SpaceTheme.alpha(SpaceTheme.bg, 0.5)
                             border.width: 1
-                            border.color: Theme.alpha(Theme.accent, 0.3)
+                            border.color: SpaceTheme.alpha(SpaceTheme.accent, 0.3)
 
                             Column {
                                 anchors.centerIn: parent
@@ -981,17 +1014,17 @@ Scope {
                                 Text {
                                     anchors.horizontalCenter: parent.horizontalCenter
                                     text: modelData.appid || modelData.app_id || "Window"
-                                    font.family: Theme.font
+                                    font.family: SpaceTheme.font
                                     font.pixelSize: 16
                                     font.bold: true
-                                    color: Theme.fg
+                                    color: SpaceTheme.fg
                                 }
                                 Text {
                                     anchors.horizontalCenter: parent.horizontalCenter
                                     text: modelData.title || ""
-                                    font.family: Theme.font
+                                    font.family: SpaceTheme.font
                                     font.pixelSize: 11
-                                    color: Theme.dim
+                                    color: SpaceTheme.dim
                                     elide: Text.ElideRight
                                     width: Math.min(parent.parent.width - 40, 400)
                                     horizontalAlignment: Text.AlignHCenter
@@ -1010,7 +1043,11 @@ Scope {
                 onClicked: map.act()
             }
             Item {
+                id: keyCatcher
                 focus: win.main
+                Component.onCompleted: {
+                    if (win.main) forceActiveFocus()
+                }
                 Keys.onPressed: e => map.key(e, true)
                 Keys.onReleased: e => map.key(e, false)
             }

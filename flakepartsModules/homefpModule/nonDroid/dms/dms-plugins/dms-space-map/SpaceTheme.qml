@@ -1,7 +1,8 @@
 pragma Singleton
 
 import QtQuick
-import qs.Common as DmsCommon
+import Quickshell
+import Quickshell.Io
 
 Singleton {
     id: root

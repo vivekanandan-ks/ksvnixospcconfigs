@@ -1,0 +1,3 @@
+singleton SpaceTheme 1.0 SpaceTheme.qml
+singleton SpaceWorld 1.0 SpaceWorld.qml
+singleton SpaceRenderScale 1.0 SpaceRenderScale.qml

@@ -17,27 +17,27 @@ ShaderEffect {
     property vector4d sun: Qt.vector4d(-0.35, 0.6, 0.7, 0)
     property real kind: 0
     property vector4d moonEnd: Qt.vector4d(0, 0, 0, 0)
-    property real seed: World.landSeed
+    property real seed: SpaceWorld.landSeed
     readonly property real aspect: width / Math.max(1, height)
     property bool asTheme: false
     property real hue: -1
-    readonly property var pal: hue >= 0 ? World.palette(hue).colors : null
-    property color bg: pal ? pal.color0 : Theme.bg
-    property color accent: pal ? pal[asTheme ? "color" + Theme.slotOf("accent") : "color9"] : Theme.accent
-    property color fg: pal ? (asTheme ? Theme.readable(pal.color7) : pal.color15) : Theme.fg
-    property color tone: pal ? pal.color4 : Theme.c(4, "#24324f")
+    readonly property var pal: hue >= 0 ? SpaceWorld.palette(hue).colors : null
+    property color bg: pal ? pal.color0 : SpaceTheme.bg
+    property color accent: pal ? pal[asTheme ? "color" + SpaceTheme.slotOf("accent") : "color9"] : SpaceTheme.accent
+    property color fg: pal ? (asTheme ? SpaceTheme.readable(pal.color7) : pal.color15) : SpaceTheme.fg
+    property color tone: pal ? pal.color4 : SpaceTheme.c(4, "#24324f")
     property int fade: 0
     Behavior on bg { enabled: fade > 0; ColorAnimation { duration: fade; easing.type: Easing.InOutSine } }
     Behavior on accent { enabled: fade > 0; ColorAnimation { duration: fade; easing.type: Easing.InOutSine } }
     Behavior on fg { enabled: fade > 0; ColorAnimation { duration: fade; easing.type: Easing.InOutSine } }
     Behavior on tone { enabled: fade > 0; ColorAnimation { duration: fade; easing.type: Easing.InOutSine } }
-    property color zenith: Theme.mix(bg, "#000000", 0.2)
-    property color horizon: Theme.mix(accent, bg, 0.25)
-    property color warm: Theme.mix(accent, "#ffd9b0", 0.6)
-    property color far: Theme.mix(accent, bg, 0.55)
-    property color near: Theme.mix(tone, "#0e1528", 0.88)
-    property color moon: Theme.mix(fg, accent, 0.4)
-    property color shade: Theme.mix(bg, "#000000", 0.5)
+    property color zenith: SpaceTheme.mix(bg, "#000000", 0.2)
+    property color horizon: SpaceTheme.mix(accent, bg, 0.25)
+    property color warm: SpaceTheme.mix(accent, "#ffd9b0", 0.6)
+    property color far: SpaceTheme.mix(accent, bg, 0.55)
+    property color near: SpaceTheme.mix(tone, "#0e1528", 0.88)
+    property color moon: SpaceTheme.mix(fg, accent, 0.4)
+    property color shade: SpaceTheme.mix(bg, "#000000", 0.5)
     property real moonless: 0
     fragmentShader: Qt.resolvedUrl("terrain.frag.qsb")
 }

@@ -43,8 +43,8 @@ Item {
     Component.onCompleted: run()
     SequentialAnimation {
         id: morph
-        PauseAnimation { duration: Theme.ms(hud.wait) }
-        NumberAnimation { target: hud; property: "k"; to: 1; duration: Theme.ms(Decode.ms(hud.text.length, hud.wait > 0 || hud.from === "")) }
+        PauseAnimation { duration: SpaceTheme.ms(hud.wait) }
+        NumberAnimation { target: hud; property: "k"; to: 1; duration: SpaceTheme.ms(Decode.ms(hud.text.length, hud.wait > 0 || hud.from === "")) }
     }
     readonly property string shown: Decode.frame(from, was, k)
 
@@ -52,11 +52,11 @@ Item {
         id: label
         anchors.fill: parent
         text: hud.shown
-        font.family: Theme.font
+        font.family: SpaceTheme.font
         font.pixelSize: 11
         font.letterSpacing: hud.caps ? 1.6 : 0
         font.capitalization: hud.caps ? Font.AllUppercase : Font.MixedCase
-        color: Theme.dim
+        color: SpaceTheme.dim
         verticalAlignment: Text.AlignVCenter
         textFormat: Text.PlainText
         renderType: Text.NativeRendering

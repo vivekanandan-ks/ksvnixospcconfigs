@@ -82,14 +82,14 @@ Singleton {
 
     function recolor(h) {
         settle(h)
-        Theme.saved = palette(hue)
+        SpaceTheme.saved = palette(hue)
     }
 
     function reroll(h, s) {
         settle(h ?? snap(Math.random()))
         if (s === undefined) { seed = Math.round(Math.random() * 997); landSeed = seed }
         else landSeed = s
-        Theme.saved = palette(hue)
+        SpaceTheme.saved = palette(hue)
     }
 
     function palette(h) {
