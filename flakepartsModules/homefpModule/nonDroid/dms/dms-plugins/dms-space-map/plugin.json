@@ -1,0 +1,19 @@
+{
+  "id": "spaceMap",
+  "name": "Space Map",
+  "description": "Multiplanetary 3D solar system navigation overview for MangoWM",
+  "version": "1.0.0",
+  "author": "elifouts / ported for DMS",
+  "type": "daemon",
+  "capabilities": [
+    "daemon"
+  ],
+  "components": {
+    "daemon": "./SpaceMapDaemon.qml"
+  },
+  "permissions": [
+    "settings_read",
+    "settings_write",
+    "process"
+  ]
+}
