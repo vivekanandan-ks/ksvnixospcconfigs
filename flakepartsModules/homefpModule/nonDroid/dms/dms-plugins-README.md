@@ -16,6 +16,7 @@ This directory houses the declarative configuration for **DankMaterialShell (DMS
 | **`SUPER + ALT + k`**     | Toggle Screenkey Overlay          | **`screenkey`**             | On-screen visualizer for keyboard shortcuts & mouse clicks |
 | **`SUPER + SHIFT + R`**   | Toggle Screen Recording (Portal)  | **`screenRecorderLH`**      | Opens Wayland Portal dialog to record screen or window     |
 | **`SUPER + ALT + R`**     | Toggle Screen Recording (Portal)  | **`screenRecorderLH`**      | Alternative binding for screen recording                   |
+| **`SUPER + ALT + Tab`**   | Toggle 3D Space Map Overview     | **`spaceMap`**              | 3D procedural cosmos workspace navigator & window switcher |
 | **`SUPER + w`**           | Cycle / Toggle Wallpaper Carousel | **`wallpaperCarousel`**     | Rotates through wallpaper sets                             |
 | **`CTRL + ALT + Delete`** | Toggle Power Menu                 | **DMS Core**                | System power actions (Shutdown, Reboot, Lock, Suspend)     |
 
@@ -77,6 +78,35 @@ Configured in `dms-settings.json` under `controlCenterWidgets`:
 - **`batteryOSD`**: Renders an animated Material You fluid wave popup whenever the charger is connected/disconnected or battery level reaches low threshold.
 - **`dankBatteryAlerts`**: System notifications for battery warning (50%) and critical (30%) states.
 - **`batteryChargeControl`**: Battery threshold management integrated into Control Center.
+- **`spaceMap`**: Procedural 3D cosmos workspace navigator and window switcher, with smooth camera flight and dynamic DMS wallpaper theming.
+
+---
+
+## 🪐 3D Space Map Navigation Overview (`spaceMap`)
+
+A 3D procedural cosmic overview for workspaces and windows, inspired by space navigation and dynamically themed to match DMS wallpaper colors (`DmsCommon.Theme`).
+
+### Launch & Exit
+- **Toggle / Launch**: `SUPER + ALT + Tab` (or `dms ipc call spaceMap toggle`)
+- **Instant Exit**: `Escape` (immediately halts all animations and closes)
+
+### In-Flight Shortcuts & Controls
+
+| Input / Shortcut | Action | Description |
+| :--- | :--- | :--- |
+| **`W` / `Up` / `K`** | Fly Forward | Propels camera forward in the facing direction |
+| **`S` / `Down` / `J`** | Fly Backward | Reverses camera movement |
+| **`A` / `Left` / `H`** | Strafe Left | Lateral thrust to the left |
+| **`D` / `Right` / `L`** | Strafe Right | Lateral thrust to the right |
+| **`Q` / `E`** | Turn Left / Right | Continuous yaw turning (1.2 rad/s) |
+| **`Shift` (Hold)** | Flight Boost | Accelerates flight speed from 80 to 260 and increases steering turn rate |
+| **`Mouse Steering`** | Aim & Steer | Inner 45% radius is a calm aiming zone; moving beyond 45% smoothly rotates the camera |
+| **`Scroll Up`** | Zoom In | Increases camera focal length (FOV zoom-in up to 3.0×) |
+| **`Scroll Down`** | Zoom Out | Decreases camera focal length (FOV wide-angle out to 0.35×) |
+| **`Tab` / `Shift + Tab`** | Next / Prev Workspace | Cycles focus across active workspace star systems |
+| **`Space`** | Focus Current Star | Recenters camera focus onto current active workspace star |
+| **`Left Click` / `Enter`** | Target / Warp | Focuses aimed star/planet; second click warps into that workspace/window |
+| **`Escape`** | Instant Exit | Aborts takeoff/descend animations and exits the space map |
 
 ---
 
