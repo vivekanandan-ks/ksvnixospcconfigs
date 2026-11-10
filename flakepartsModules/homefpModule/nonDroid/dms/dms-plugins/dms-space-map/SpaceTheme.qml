@@ -3,25 +3,30 @@ pragma Singleton
 import QtQuick
 import Quickshell
 import Quickshell.Io
+import qs.Common as DmsCommon
 
 Singleton {
     id: root
 
-    readonly property string font: "JetBrainsMono Nerd Font"
+    readonly property string font: DmsCommon.Theme.defaultMonoFontFamily || "JetBrainsMono Nerd Font"
 
     property var saved: null
 
     function c(i, fallback) {
         if (saved && saved.colors && saved.colors["color" + i])
             return saved.colors["color" + i];
+        const dank = DmsCommon.Theme.dank16;
+        if (dank && dank["color" + i])
+            return dank["color" + i];
         return fallback;
     }
 
-    readonly property color accent: c(9, "#8fd3ff")
-    readonly property color accent2: c(13, "#c3a6ff")
-    readonly property color warn: c(1, "#e06c75")
-    readonly property color fg: c(15, "#d8e2f0")
-    readonly property color bg: c(0, "#05070c")
+    // Dynamic DMS Matugen wallpaper-derived theme colors
+    readonly property color accent: DmsCommon.Theme.primary || c(9, "#8fd3ff")
+    readonly property color accent2: DmsCommon.Theme.secondary || c(13, "#c3a6ff")
+    readonly property color warn: DmsCommon.Theme.error || c(1, "#e06c75")
+    readonly property color fg: DmsCommon.Theme.surfaceText || c(15, "#d8e2f0")
+    readonly property color bg: DmsCommon.Theme.background || c(0, "#05070c")
     readonly property color dim: alpha(fg, 0.5)
     readonly property color faint: alpha(fg, 0.14)
     readonly property color edge: alpha(accent, 0.35)

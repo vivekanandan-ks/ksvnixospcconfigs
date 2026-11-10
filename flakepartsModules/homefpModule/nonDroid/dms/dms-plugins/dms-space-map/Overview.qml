@@ -573,7 +573,7 @@ Scope {
     readonly property bool drawn: busy || veil > 0 || ascent > 0.001
     onDrawnChanged: if (!drawn) done()
     readonly property real steerDist: Math.hypot((aimX - cx) / Math.max(1, home.width / 2), (aimY - cy) / Math.max(1, home.height / 2))
-    readonly property bool steering: steerDist > 0.18
+    readonly property bool steering: steerDist > 0.50
 
     readonly property bool flying: kick > 0 || Object.keys(held).length > 0 || Math.hypot(...vel) > 0.05
         || Math.abs(aimYaw - yaw) > 0.0005 || Math.abs(aimPitch - pitch) > 0.0005 || steering
@@ -587,13 +587,13 @@ Scope {
             if (k.tl) map.aimYaw -= 1.2 * dt
             if (k.tr) map.aimYaw += 1.2 * dt
 
-            // Continuous flight steering when mouse is outside center deadzone
+            // Gentle continuous flight steering when mouse is outside the 50% deadzone
             if (map.steering && !map.busy) {
                 const srx = (map.aimX - map.cx) / Math.max(1, map.home.width / 2)
                 const sry = (map.aimY - map.cy) / Math.max(1, map.home.height / 2)
                 const d = map.steerDist
-                const norm = Math.min(1.0, (d - 0.18) / (1.0 - 0.18))
-                const rate = (map.held.fast ? 2.8 : 1.6) * Math.pow(norm, 1.3)
+                const norm = Math.min(1.0, (d - 0.50) / (1.0 - 0.50))
+                const rate = (map.held.fast ? 1.0 : 0.45) * Math.pow(norm, 1.8)
                 map.aimYaw += (srx / d) * rate * dt
                 map.aimPitch = Math.max(-1.3, Math.min(1.3, map.aimPitch - (sry / d) * rate * dt))
             }
@@ -645,11 +645,8 @@ Scope {
     function look(gx, gy) {
         aimX = gx
         aimY = gy
-        const dx = gx - lastX, dy = gy - lastY
-        lastX = gx; lastY = gy
-        if (!takeOver() || busy || Math.abs(dx) > 120 || Math.abs(dy) > 120) return
-        aimYaw += dx * 0.0006
-        aimPitch = Math.max(-1.3, Math.min(1.3, aimPitch - dy * 0.0006))
+        lastX = gx
+        lastY = gy
     }
 
     Variants {
@@ -988,7 +985,7 @@ Scope {
                             radius: 10
                             color: "transparent"
                             border.width: 1.5
-                            border.color: map.aimed ? SpaceTheme.accent : SpaceTheme.fg
+                            border.color: map.aimed ? SpaceTheme.accent : map.steering ? SpaceTheme.alpha(SpaceTheme.accent, 0.5) : SpaceTheme.fg
                             Behavior on border.color { ColorAnimation { duration: 150 } }
                         }
                         Rectangle {
@@ -996,7 +993,7 @@ Scope {
                             width: 4
                             height: 4
                             radius: 2
-                            color: map.aimed ? SpaceTheme.accent : SpaceTheme.fg
+                            color: map.aimed ? SpaceTheme.accent : map.steering ? SpaceTheme.alpha(SpaceTheme.accent, 0.5) : SpaceTheme.fg
                             Behavior on color { ColorAnimation { duration: 150 } }
                         }
                     }
