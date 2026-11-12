@@ -60,8 +60,14 @@
 
         settings = {
           nostr = {
-            # Strictly restrict event publication to the 5 relays in maintainers.yaml
+            # Strictly restrict event publication to the relays in maintainers.yaml
             repo-relay-only = true;
+
+            # 5 Dedicated Git GRASP mirrors used during `ngit init`
+            grasp-default-set = "relay.ngit.dev;gitnostr.com;ngit.danconwaydev.com;git.shakespeare.diy;git.nostrhub.io";
+
+            # Full trusted discovery pool for profile lookup, NIP-05, and signer bootstrapping
+            relay-default-set = "wss://relay.ngit.dev;wss://gitnostr.com;wss://ngit.danconwaydev.com;wss://git.shakespeare.diy;wss://git.nostrhub.io;wss://relay.nostrfy.org;wss://nos.lol;wss://purplepag.es;wss://relay.primal.net;wss://relay.damus.io;wss://nostr.oxtr.dev;wss://offchain.pub;wss://nostr.bitcoiner.social";
 
             # Keep bookmark/branch list clean from foreign draft PRs
             auto-pr-branches = false;

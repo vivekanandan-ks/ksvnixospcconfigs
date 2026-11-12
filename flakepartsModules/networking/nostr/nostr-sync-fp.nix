@@ -6,6 +6,9 @@
   fallbackRelays = [
     "wss://relay.ngit.dev"
     "wss://gitnostr.com"
+    "wss://ngit.danconwaydev.com"
+    "wss://git.shakespeare.diy"
+    "wss://git.nostrhub.io"
     "wss://relay.nostrfy.org"
     "wss://nos.lol"
     "wss://nostr.oxtr.dev"

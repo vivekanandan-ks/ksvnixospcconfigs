@@ -2,8 +2,19 @@ identifier: ksvnixospcconfigs
 maintainers:
 - npub1a7lmem86sz35musrjfwt4j8mkg3rlrnvw7rhcm25deww8n5r8y3qh62zpr
 relays:
+# 1. Dedicated Git GRASP Mirrors (Smart-HTTP Git Hosting & State)
 - wss://relay.ngit.dev
 - wss://gitnostr.com
+- wss://ngit.danconwaydev.com
+- wss://git.shakespeare.diy
+- wss://git.nostrhub.io
+
+# 2. General Public Metadata & PR Relays (From FIPS & Nostr-Sync)
 - wss://relay.nostrfy.org
 - wss://nos.lol
 - wss://relay.damus.io
+- wss://relay.primal.net
+- wss://purplepag.es
+- wss://offchain.pub
+- wss://nostr.oxtr.dev
+- wss://nostr.bitcoiner.social
