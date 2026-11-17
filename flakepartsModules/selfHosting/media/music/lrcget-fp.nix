@@ -26,6 +26,9 @@
                          'format!("...{}", path_str.chars().skip(path_str.chars().count().saturating_sub(57)).collect::<String>())'
       '';
 
+      nativeBuildInputs = [ pkgs.pkg-config ];
+      buildInputs = [ pkgs.sqlite ];
+
       # Disable broken upstream unit tests from the beta release
       doCheck = false;
     };

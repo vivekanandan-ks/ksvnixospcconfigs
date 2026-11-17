@@ -47,7 +47,11 @@
     };
     bootvine = {
       url = "git+https://codeberg.org/wvhulle/bootvine";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        flake-parts.follows = "flake-parts";
+        import-tree.follows = "import-tree";
+        nixpkgs.follows = "nixpkgs";
+      };
     };
     chaotic = {
       url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
@@ -256,7 +260,7 @@
       };
     };
     nixpkgs = {
-      url = "github:nixos/nixpkgs/1d060086d60cb76a40cf37109f979d88a5bd6396";
+      url = "github:nixos/nixpkgs/04906337b6d53e8bb0eaf0470ae9f070a4d4eb55";
     };
     nur = {
       url = "github:nix-community/NUR";
