@@ -107,10 +107,10 @@
     };
 
     home.shellAliases = {
-      rm = "echo Use 'rip' instead of rm.";
+      # rm = "echo Use 'rip' instead of rm.";
       rip = "rip --graveyard ~/.local/share/Trash/files/rip2trash";
-      df = "echo try duf instead";
-      grep = "echo 'try ripgrep or ripgrep-all and rg or rga is the command'";
+      # df = "echo try duf instead";
+      # grep = "echo 'try ripgrep or ripgrep-all and rg or rga is the command'";
       #man = "batman";
       man = "env BAT_PAGER='less -RF' BAT_STYLE='grid,numbers' batman";
       #nman = "env BAT_STYLE='grid,numbers' batman";
