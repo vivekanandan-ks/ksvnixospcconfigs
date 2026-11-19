@@ -1,8 +1,5 @@
 _: {
-  flake.nixosModules.alfis = {
-    pkgs-unstable,
-    ...
-  }: let
+  flake.nixosModules.alfis = {pkgs-unstable, ...}: let
     alfisConfig = (pkgs-unstable.formats.toml {}).generate "alfis.toml" {
       # Genesis block hash of the Alfis blockchain (mandatory for consensus)
       origin = "0000001D2A77D63477172678502E51DE7F346061FF7EB188A2445ECA3FC0780E";

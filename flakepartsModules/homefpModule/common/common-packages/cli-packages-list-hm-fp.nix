@@ -45,6 +45,7 @@ _: {
         #micro
         #wakatime-cli
         nix-output-monitor
+        nix-update
         #devenv
       ];
     #++
