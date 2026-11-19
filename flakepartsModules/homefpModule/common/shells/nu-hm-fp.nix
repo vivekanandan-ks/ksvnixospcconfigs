@@ -38,10 +38,11 @@ _: {
           show_banner = false;
           highlight_resolved_externals = true;
           edit_mode = "helix";
-          auto_pairs = {
-            enable = true;
-            pairs = ["()" "[]" "{}" "\"\"" "''" "``"];
-          };
+          # auto_pairs requires Nushell 0.117.0+ (uncomment when nixpkgs updates past 0.116.1)
+          # auto_pairs = {
+          #   enable = true;
+          #   pairs = ["()" "[]" "{}" "\"\"" "''" "``"];
+          # };
           tui = {
             border_type = "rounded";
           };
