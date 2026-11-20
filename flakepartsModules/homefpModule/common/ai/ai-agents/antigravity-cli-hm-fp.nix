@@ -5,7 +5,11 @@
   };
 
   flake.homeModules.common = {
-    antigravity-cli = {pkgs-unstable, ...}: {
+    antigravity-cli = {
+      lib,
+      pkgs-unstable,
+      ...
+    }: {
       home.sessionVariables = {
         # Limit libuv worker threads to prevent background agent from saturating all CPU cores (2C/4T)
         UV_THREADPOOL_SIZE = "2";
@@ -17,17 +21,13 @@
         defaultModel = "gemini-3.6-flash";
         enableMcpIntegration = true;
 
-        context = {
-          GEMINI = self.aiContext.GEMINI;
-          CONTEXT = self.aiContext.CONTEXT;
-        };
+        # Automatically pass all context contributions across the dendritic tree
+        context = self.aiContext;
 
         settings = {
           toolPermission = "always-proceed";
-          context.fileName = [
-            (baseNameOf self.aiContext.GEMINI)
-            (baseNameOf self.aiContext.CONTEXT)
-          ];
+          # Automatically discover all context filenames without hardcoding
+          context.fileName = lib.mapAttrsToList (_name: path: baseNameOf (toString path)) self.aiContext;
         };
       };
     };

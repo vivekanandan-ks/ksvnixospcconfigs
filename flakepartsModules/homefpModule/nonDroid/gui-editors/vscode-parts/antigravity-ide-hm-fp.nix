@@ -1,6 +1,7 @@
 {self, ...}: {
   flake.homeModules.nonDroid.antigravity-ide = {
     config,
+    lib,
     pkgs-unstable,
     ...
   }: let
@@ -40,10 +41,8 @@
             "antigravity.agent.autoFixErrors" = true;
             "antigravity.agent.toolPermission" = "always-proceed";
 
-            "antigravity.agent.rulesFiles" = [
-              "${self.aiContext.GEMINI}"
-              "${self.aiContext.CONTEXT}"
-            ];
+            "antigravity.agent.rulesFiles" =
+              lib.mapAttrsToList (_name: path: toString path) self.aiContext;
           };
       };
     };
