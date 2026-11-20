@@ -4,5 +4,9 @@ _: {
       src = ./dms-compact-network;
       enable = true;
     };
+
+    dms.extraRightWidgets = [
+      "compactNetwork"
+    ];
   };
 }

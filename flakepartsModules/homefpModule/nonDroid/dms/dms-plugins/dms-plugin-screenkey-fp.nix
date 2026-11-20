@@ -40,6 +40,17 @@
       pkgs.python3
     ];
 
+    dms.extraControlCenterWidgets = [
+      {
+        col = 6;
+        enabled = true;
+        h = 1;
+        id = "plugin_screenkey";
+        row = 4;
+        w = 2;
+      }
+    ];
+
     # MangoWM keybinding to toggle Screenkey overlay
     wayland.windowManager.mango.settings.bind = lib.mkAfter [
       "SUPER+ALT, k, spawn, dms ipc call screenkey toggle"

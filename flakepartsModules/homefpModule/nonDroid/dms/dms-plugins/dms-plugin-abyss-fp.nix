@@ -19,5 +19,20 @@
       pkgs.wl-clipboard
       pkgs.iproute2
     ];
+
+    dms.extraRightWidgets = [
+      "abyss"
+    ];
+
+    dms.extraControlCenterWidgets = [
+      {
+        col = 4;
+        enabled = true;
+        h = 1;
+        id = "plugin_abyss";
+        row = 6;
+        w = 4;
+      }
+    ];
   };
 }

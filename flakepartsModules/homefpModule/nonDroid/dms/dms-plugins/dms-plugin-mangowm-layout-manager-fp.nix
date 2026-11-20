@@ -11,5 +11,7 @@
       src = inputs.dms-plugin-mangowm-layout-manager;
       enable = true;
     };
+
+    dms.extraLeftWidgets = ["mangoWmLayoutManager"];
   };
 }

@@ -49,7 +49,7 @@
         nativeBuildInputs = [pkgs.makeWrapper];
         postBuild = ''
           wrapProgram $out/bin/dms \
-            --prefix PATH : ${lib.makeBinPath config.dmsExtraPackages}
+            --prefix PATH : ${lib.makeBinPath (config.dmsExtraPackages ++ config.dms.extraPackages)}
         '';
         meta.mainProgram = "dms";
       };
@@ -82,14 +82,8 @@
                 folderPath = self.personas.ksv.currentWallpaperSet;
               };
             };
+          terminalOverride = "ghostty";
         };
-
-      settings = lib.mapAttrs (
-        name: value:
-          if name == "barConfigs"
-          then value
-          else lib.mkForce value
-      ) (builtins.fromJSON (builtins.readFile ./dms-settings.json));
     };
   };
 }

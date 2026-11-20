@@ -18,5 +18,20 @@
       pkgs.cava
       pkgs.pulseaudio
     ];
+
+    dms.extraRightWidgets = [
+      "orbitBluetooth"
+    ];
+
+    dms.extraControlCenterWidgets = [
+      {
+        col = 0;
+        enabled = true;
+        h = 1;
+        id = "plugin_orbitBluetooth";
+        row = 6;
+        w = 4;
+      }
+    ];
   };
 }
