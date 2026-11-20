@@ -1,55 +1,41 @@
-{self, ...}: {
+_: {
   flake.homeModules.nonDroid.dms-settings = {lib, ...}: {
     programs.dank-material-shell.settings = lib.mapAttrs (_: lib.mkForce) {
-      # Version & Base Meta
-      configVersion = 7;
-      interfaceStyle = "material";
-      density = "comfortable";
-
-      # Typography (Sourced from personas)
-      fontFamily = self.personas.ksv.font.monospace.name;
-      monoFontFamily = self.personas.ksv.font.monospace.name;
-      textRenderType = 0;
-
-      # Theming
+      acLockTimeout = 180;
+      acMonitorTimeout = 180;
+      acPostLockMonitorTimeout = 60;
+      animationDuration = 750;
+      audioShowStreamDevices = true;
+      barElevationEnabled = false;
+      batteryLockTimeout = 180;
+      batteryMonitorTimeout = 180;
+      batteryPostLockMonitorTimeout = 60;
+      bluetoothMprisEnabled = true;
+      blurBorderEnabled = false;
+      blurEnabled = false;
+      blurLayerOutlineOpacity = 0;
+      blurredWallpaperLayer = false;
+      builtInPluginSettings = {
+        dms_clipboard_search = {
+          trigger = "cb";
+        };
+        dms_power = {
+          trigger = "pw";
+        };
+        dms_qr_generator = {
+          trigger = "qrg";
+        };
+        dms_settings_search = {
+          trigger = "?";
+        };
+      };
+      clipboardVisibleEntryActions = [ "pin" "edit" "delete" "copy" "paste" ];
+      clockDateFormat = "ddd MMM d";
+      clockFormat = "24h";
+      configVersion = 42;
+      connectedFrameBarStyleBackups = { };
       currentThemeCategory = "dynamic";
       currentThemeName = "dynamic";
-      customThemeFile = "";
-      matugenScheme = "scheme-tonal-spot";
-      matugenSpec = "";
-      runUserMatugenTemplates = true;
-      runDmsMatugenTemplates = true;
-      widgetBackgroundColor = "surface";
-      widgetColorMode = "primary";
-
-      # Visual Effects & Elevation
-      blurEnabled = true;
-      blurBorderEnabled = true;
-      blurLayerOutlineOpacity = 0.1;
-      blurredWallpaperLayer = true;
-      foregroundLayerTransparency = 0.9;
-      popupTransparency = 0.9;
-      sectionDividerOpacity = 0.1;
-      m3ElevationEnabled = true;
-      m3ElevationIntensity = 1;
-      m3ElevationOpacity = 0.1;
-      modalElevationEnabled = true;
-      barElevationEnabled = true;
-      popoutElevationEnabled = true;
-      enableRippleEffects = true;
-      focusRingEnabled = true;
-      focusRingWidth = 2;
-      radiusMode = "normal";
-      radiusStrength = 1;
-      mangoLayoutRadiusOverride = 0;
-
-      # Motion & Animations
-      animationDuration = 300;
-      motionEffect = 1;
-      reduceMotion = false;
-      springBounce = 0.2;
-
-      # Cursor (Sourced to match system Stylix cursor)
       cursorSettings = {
         dwl = {
           cursorHideTimeout = 0;
@@ -66,44 +52,14 @@
           hideAfterInactiveMs = 0;
           hideWhenTyping = false;
         };
-        size = 36;
-        theme = "Bibata_Ghost";
+        size = 24;
+        theme = "Bibata_Spirit";
       };
-
-      # Clock & Locale
-      clockFormat = "HH:mm";
-      clockDateFormat = "ddd, MMM d";
-      firstDayOfWeek = 1;
-      showWeekNumber = false;
-      useFahrenheit = false;
-      useAutoLocation = false;
-      windSpeedUnit = "km/h";
-
-      # Audio & Bluetooth
-      audioShowStreamDevices = false;
-      bluetoothMprisEnabled = true;
-      mediaLyricsProviders = [
-        "lrclib"
-        "netease"
-      ];
-      weatherProviders = [
-        "open-meteo"
-      ];
-
-      # Launcher & Dash
-      launcherStyle = "spotlight";
-      launcherUseOverlayLayer = true;
-      dankLauncherV2Size = "compact";
-      dankLauncherV2UnloadOnClose = false;
-      dankLauncherV2IncludeFilesInAll = false;
-      dankLauncherV2IncludeFoldersInAll = false;
-      spotlightBarShowModeChips = true;
-      rememberLastQuery = true;
-      dashTabs = [
-        "weather"
-        "music"
-        "calendar"
-      ];
+      customThemeFile = "";
+      dankLauncherV2IncludeFilesInAll = true;
+      dankLauncherV2IncludeFoldersInAll = true;
+      dankLauncherV2Size = "micro";
+      dankLauncherV2UnloadOnClose = true;
       dashOptions = {
         battery = {
           health = true;
@@ -129,89 +85,128 @@
           layout = "carousel";
         };
       };
-
-      # Power Menu & Idle Timeouts
-      powerMenuGridLayout = true;
-      powerMenuFirmwareSetup = true;
-      powerMenuActions = [
-        "lock"
-        "suspend"
-        "hibernate"
-        "reboot"
-        "shutdown"
-        "logout"
-        "firmware"
-        "restart-session"
-        "cancel"
+      dashTabs = [
+        {
+          enabled = true;
+          id = "overview";
+        }
+        {
+          enabled = true;
+          id = "media";
+        }
+        {
+          enabled = true;
+          id = "weather";
+        }
+        {
+          enabled = true;
+          id = "wallpaper";
+        }
+        {
+          enabled = true;
+          id = "wellbeing";
+        }
+        {
+          enabled = true;
+          id = "settings";
+        }
+        {
+          enabled = true;
+          id = "notifications";
+        }
       ];
-      lockBeforeSuspend = true;
-      fadeToDpmsEnabled = true;
-      soundLogin = true;
-      acMonitorTimeout = 300;
-      acLockTimeout = 600;
-      acPostLockMonitorTimeout = 30;
-      batteryMonitorTimeout = 180;
-      batteryLockTimeout = 300;
-      batteryPostLockMonitorTimeout = 15;
-
-      # Notifications & OSD
-      notificationAnimationDuration = 200;
-      notificationPopupShadowEnabled = true;
-      notificationShowTimeoutBar = true;
-      modalDarkenBackground = true;
-      osdAlwaysShowValue = false;
-      osdPosition = 1;
-      osdVolumeEnabled = true;
-      osdMediaPlaybackEnabled = true;
-      osdNumLockEnabled = true;
-      osdKeyboardLayoutEnabled = true;
-      osdInputMethodEnabled = true;
-      osdPowerProfileEnabled = true;
-      osdWorkspaceEnabled = true;
-
-      # Window Rules & Frame Mode
-      floatingWindowSyncGlobal = true;
-      floatingWindowTitleBars = true;
-      dmsWindowsFloatingSeeded = [
-        "org.gnome.World.PikaBackup"
+      density = "dense";
+      desktopWidgetInstances = [
+        {
+          config = {
+            alignment = "left";
+            backgroundOpacity = 0;
+            bodyFontFamily = "Gochi Hand";
+            bodyFontSize = 25;
+            dateLetterSpacing = 3;
+            dayFontFamily = "Gochi Hand";
+            dayFontSize = 40;
+            dayLetterSpacing = 6;
+            displayPreferences = [ "all" ];
+            scaleWithWidget = false;
+            shadowStrength = 50;
+            showDate = true;
+            showSeconds = false;
+            showTime = false;
+            syncPositionAcrossScreens = true;
+            timeLetterSpacing = 3;
+            use24Hour = true;
+            useThemeColors = true;
+          };
+          enabled = true;
+          id = "dw_modern_clock";
+          name = "Modern Clock";
+          widgetType = "modernClock";
+        }
+        {
+          config = {
+            borderOpacity = 0;
+            displayPreferences = [ "all" ];
+            fontSize = 22;
+            showOnOverlay = false;
+            syncPositionAcrossScreens = true;
+          };
+          enabled = true;
+          id = "dw_desktop_lyrics";
+          name = "Desktop Lyrics";
+          widgetType = "desktopLyrics";
+        }
+        {
+          config = {
+            displayPreferences = [ "all" ];
+            syncPositionAcrossScreens = true;
+          };
+          enabled = true;
+          id = "dw_orbit_bluetooth";
+          name = "Orbit Bluetooth";
+          widgetType = "orbitBluetooth";
+        }
+        {
+          config = {
+            displayPreferences = [ "all" ];
+            syncPositionAcrossScreens = true;
+          };
+          enabled = true;
+          id = "dw_abyss";
+          name = "Abyss";
+          widgetType = "abyss";
+        }
+        {
+          config = {
+            displayPreferences = [ "all" ];
+            syncPositionAcrossScreens = true;
+          };
+          enabled = true;
+          id = "dw_sticky_notes";
+          name = "Sticky Notes";
+          widgetType = "stickyNotes";
+        }
+        {
+          config = {
+            colorMode = "primary";
+            customColor = "#ffffff";
+            displayPreferences = [ "all" ];
+            fontFamily = "";
+            showAnalogNumbers = false;
+            showAnalogSeconds = true;
+            showDate = true;
+            style = "overlap";
+            syncPositionAcrossScreens = true;
+            transparency = 0;
+            weight = 900;
+          };
+          enabled = true;
+          id = "dw_1793825465292_7h0wdwsa2";
+          name = "Clock";
+          widgetType = "desktopClock";
+        }
       ];
-      frameEnabled = false;
-      frameLauncherArcExtender = false;
-      frameLauncherEdgeHover = false;
-      frameMode = "none";
-      muxType = "tmux";
-      greeterFollowLockScreen = true;
-
-      # Built-in Plugins & Actions
-      builtInPluginSettings = {
-        dms_clipboard_search = {
-          trigger = "cb";
-        };
-        dms_power = {
-          trigger = "pw";
-        };
-        dms_qr_generator = {
-          trigger = "qrg";
-        };
-        dms_settings_search = {
-          trigger = "?";
-        };
-      };
-      clipboardVisibleEntryActions = [
-        "pin"
-        "edit"
-        "delete"
-        "copy"
-        "paste"
-      ];
-      screenPreferences = {
-        wallpaper = [
-          "all"
-        ];
-      };
-      connectedFrameBarStyleBackups = {};
-
-      # Dock Configs
+      dmsWindowsFloatingSeeded = [ "mango" ];
       dockConfigs = [
         {
           autoHide = true;
@@ -247,12 +242,10 @@
           mode = "compact";
           name = "Right Dock";
           openOnOverview = false;
-          order = [];
+          order = [ ];
           position = 3;
           restoreSpecialWorkspaceOnClick = false;
-          screenPreferences = [
-            "all"
-          ];
+          screenPreferences = [ "all" ];
           separatePinnedAndRunningApps = true;
           showOnFullscreen = false;
           showOnLastDisplay = true;
@@ -286,120 +279,27 @@
           ];
         }
       ];
-
-      # Desktop, Greeter, and Lock Screen Widget Instances
-      desktopWidgetInstances = [
-        {
-          config = {
-            alignment = "left";
-            backgroundOpacity = 0;
-            bodyFontFamily = "Gochi Hand";
-            bodyFontSize = 25;
-            dateLetterSpacing = 3;
-            dayFontFamily = "Gochi Hand";
-            dayFontSize = 40;
-            dayLetterSpacing = 6;
-            displayPreferences = [
-              "all"
-            ];
-            scaleWithWidget = false;
-            shadowStrength = 50;
-            showDate = true;
-            showSeconds = false;
-            showTime = false;
-            syncPositionAcrossScreens = true;
-            timeLetterSpacing = 3;
-            use24Hour = true;
-            useThemeColors = true;
-          };
-          enabled = true;
-          id = "dw_modern_clock";
-          name = "Modern Clock";
-          widgetType = "modernClock";
-        }
-        {
-          config = {
-            borderOpacity = 0;
-            displayPreferences = [
-              "all"
-            ];
-            fontSize = 22;
-            showOnOverlay = false;
-            syncPositionAcrossScreens = true;
-          };
-          enabled = true;
-          id = "dw_desktop_lyrics";
-          name = "Desktop Lyrics";
-          widgetType = "desktopLyrics";
-        }
-        {
-          config = {
-            displayPreferences = [
-              "all"
-            ];
-            syncPositionAcrossScreens = true;
-          };
-          enabled = true;
-          id = "dw_orbit_bluetooth";
-          name = "Orbit Bluetooth";
-          widgetType = "orbitBluetooth";
-        }
-        {
-          config = {
-            displayPreferences = [
-              "all"
-            ];
-            syncPositionAcrossScreens = true;
-          };
-          enabled = true;
-          id = "dw_abyss";
-          name = "Abyss";
-          widgetType = "abyss";
-        }
-        {
-          config = {
-            displayPreferences = [
-              "all"
-            ];
-            syncPositionAcrossScreens = true;
-          };
-          enabled = true;
-          id = "dw_sticky_notes";
-          name = "Sticky Notes";
-          widgetType = "stickyNotes";
-        }
-        {
-          config = {
-            colorMode = "primary";
-            customColor = "#ffffff";
-            displayPreferences = [
-              "all"
-            ];
-            fontFamily = "";
-            showAnalogNumbers = false;
-            showAnalogSeconds = true;
-            showDate = true;
-            style = "overlap";
-            syncPositionAcrossScreens = true;
-            transparency = 0;
-            weight = 900;
-          };
-          enabled = true;
-          id = "dw_1793825465292_7h0wdwsa2";
-          name = "Clock";
-          widgetType = "desktopClock";
-        }
-      ];
-
+      enableRippleEffects = true;
+      fadeToDpmsEnabled = false;
+      firstDayOfWeek = 1;
+      floatingWindowSyncGlobal = true;
+      floatingWindowTitleBars = true;
+      focusRingEnabled = true;
+      focusRingWidth = 1.5;
+      fontFamily = "DejaVu Sans";
+      foregroundLayerTransparency = 0.7;
+      frameEnabled = false;
+      frameLauncherArcExtender = false;
+      frameLauncherEdgeHover = true;
+      frameMode = "connected";
+      greeterFollowLockScreen = false;
       greeterWidgetInstances = [
         {
           config = {
             autoPosition = false;
             colorMode = "default";
             customColor = "#ffffff";
-            displayPreferences = [
-              "all"
-            ];
+            displayPreferences = [ "all" ];
             showAnalogNumbers = false;
             showAnalogSeconds = true;
             showDate = true;
@@ -418,9 +318,7 @@
           config = {
             colorMode = "default";
             customColor = "#ffffff";
-            displayPreferences = [
-              "all"
-            ];
+            displayPreferences = [ "all" ];
             format = "short";
             syncPositionAcrossScreens = true;
           };
@@ -430,9 +328,7 @@
         }
         {
           config = {
-            displayPreferences = [
-              "all"
-            ];
+            displayPreferences = [ "all" ];
             passwordVisibility = "always";
             profileVisibility = "always";
             style = "expressive";
@@ -445,9 +341,7 @@
         {
           config = {
             background = false;
-            displayPreferences = [
-              "all"
-            ];
+            displayPreferences = [ "all" ];
             showMediaPlayer = false;
             showWeather = true;
             syncPositionAcrossScreens = true;
@@ -458,9 +352,7 @@
         }
         {
           config = {
-            displayPreferences = [
-              "all"
-            ];
+            displayPreferences = [ "all" ];
             shape = "round";
             syncPositionAcrossScreens = true;
           };
@@ -470,9 +362,7 @@
         }
         {
           config = {
-            displayPreferences = [
-              "all"
-            ];
+            displayPreferences = [ "all" ];
             shape = "round";
             syncPositionAcrossScreens = true;
           };
@@ -483,9 +373,7 @@
         }
         {
           config = {
-            displayPreferences = [
-              "all"
-            ];
+            displayPreferences = [ "all" ];
             syncPositionAcrossScreens = true;
           };
           enabled = true;
@@ -496,9 +384,7 @@
           config = {
             colorMode = "secondary";
             customColor = "#ffffff";
-            displayPreferences = [
-              "all"
-            ];
+            displayPreferences = [ "all" ];
             format = "long";
             syncPositionAcrossScreens = true;
           };
@@ -508,16 +394,17 @@
           widgetType = "lockDate";
         }
       ];
-
+      interfaceStyle = "expressive";
+      launcherStyle = "full";
+      launcherUseOverlayLayer = true;
+      lockBeforeSuspend = true;
       lockScreenWidgetInstances = [
         {
           config = {
             autoPosition = false;
             colorMode = "default";
             customColor = "#ffffff";
-            displayPreferences = [
-              "all"
-            ];
+            displayPreferences = [ "all" ];
             showAnalogNumbers = false;
             showAnalogSeconds = true;
             showDate = true;
@@ -536,9 +423,7 @@
           config = {
             colorMode = "default";
             customColor = "#ffffff";
-            displayPreferences = [
-              "all"
-            ];
+            displayPreferences = [ "all" ];
             format = "short";
             syncPositionAcrossScreens = true;
           };
@@ -548,9 +433,7 @@
         }
         {
           config = {
-            displayPreferences = [
-              "all"
-            ];
+            displayPreferences = [ "all" ];
             passwordVisibility = "always";
             profileVisibility = "always";
             style = "expressive";
@@ -562,9 +445,7 @@
         }
         {
           config = {
-            displayPreferences = [
-              "all"
-            ];
+            displayPreferences = [ "all" ];
             mode = 1;
             syncPositionAcrossScreens = true;
           };
@@ -575,9 +456,7 @@
         {
           config = {
             background = false;
-            displayPreferences = [
-              "all"
-            ];
+            displayPreferences = [ "all" ];
             showMediaPlayer = true;
             showWeather = true;
             syncPositionAcrossScreens = true;
@@ -588,9 +467,7 @@
         }
         {
           config = {
-            displayPreferences = [
-              "all"
-            ];
+            displayPreferences = [ "all" ];
             shape = "round";
             syncPositionAcrossScreens = true;
           };
@@ -600,9 +477,7 @@
         }
         {
           config = {
-            displayPreferences = [
-              "all"
-            ];
+            displayPreferences = [ "all" ];
             shape = "round";
             syncPositionAcrossScreens = true;
           };
@@ -613,9 +488,7 @@
         }
         {
           config = {
-            displayPreferences = [
-              "all"
-            ];
+            displayPreferences = [ "all" ];
             syncPositionAcrossScreens = true;
           };
           enabled = true;
@@ -632,9 +505,7 @@
             dayFontFamily = "Gochi Hand";
             dayFontSize = 50;
             dayLetterSpacing = 9;
-            displayPreferences = [
-              "all"
-            ];
+            displayPreferences = [ "all" ];
             scaleWithWidget = false;
             showSeconds = false;
             showTime = false;
@@ -648,6 +519,90 @@
           widgetType = "modernClock";
         }
       ];
+      m3ElevationEnabled = false;
+      m3ElevationIntensity = 0;
+      m3ElevationOpacity = 0;
+      mangoLayoutRadiusOverride = -1;
+      matugenScheme = "scheme-tonal-spot";
+      matugenSpec = "dms";
+      mediaLyricsProviders = [
+        {
+          enabled = true;
+          id = "betterlyrics";
+        }
+        {
+          enabled = true;
+          id = "unison";
+        }
+        {
+          enabled = true;
+          id = "lyricsplus";
+        }
+        {
+          enabled = true;
+          id = "kugou";
+        }
+        {
+          enabled = true;
+          id = "lrclib";
+        }
+        {
+          enabled = true;
+          id = "youtubemusic";
+        }
+      ];
+      modalDarkenBackground = false;
+      modalElevationEnabled = false;
+      monoFontFamily = "DejaVu Sans Mono";
+      motionEffect = 1;
+      muxType = "zellij";
+      notificationAnimationDuration = 400;
+      notificationPopupShadowEnabled = false;
+      notificationShowTimeoutBar = true;
+      osdAlwaysShowValue = true;
+      osdInputMethodEnabled = true;
+      osdKeyboardLayoutEnabled = true;
+      osdMediaPlaybackEnabled = true;
+      osdNumLockEnabled = true;
+      osdPosition = 0;
+      osdPowerProfileEnabled = true;
+      osdVolumeEnabled = true;
+      osdWorkspaceEnabled = true;
+      popoutElevationEnabled = false;
+      popupTransparency = 0.5;
+      powerMenuActions = [ "reboot" "logout" "poweroff" "lock" "suspend" "restart" "switchuser" "hibernate" "softreboot" ];
+      powerMenuFirmwareSetup = true;
+      powerMenuGridLayout = true;
+      radiusMode = "scale";
+      radiusStrength = 50;
+      reduceMotion = false;
+      rememberLastQuery = true;
+      runDmsMatugenTemplates = false;
+      runUserMatugenTemplates = false;
+      screenPreferences = {
+        wallpaper = [ "all" ];
+      };
+      sectionDividerOpacity = 0.1;
+      showWeekNumber = true;
+      soundLogin = true;
+      spotlightBarShowModeChips = true;
+      springBounce = 1;
+      textRenderType = 0;
+      useAutoLocation = true;
+      useFahrenheit = false;
+      weatherProviders = [
+        {
+          enabled = true;
+          id = "openmeteo";
+        }
+        {
+          enabled = true;
+          id = "metno";
+        }
+      ];
+      widgetBackgroundColor = "sc";
+      widgetColorMode = "default";
+      windSpeedUnit = "ms";
     };
   };
 }

@@ -1,5 +1,9 @@
 _: {
-  flake.homeModules.nonDroid.dms-control-center = {config, ...}: let
+  flake.homeModules.nonDroid.dms-control-center = {
+    config,
+    lib,
+    ...
+  }: let
     baseControlCenterWidgets = [
       # Row 0: User & System Buttons
       {
@@ -176,6 +180,8 @@ _: {
     ];
   in {
     programs.dank-material-shell.settings.controlCenterWidgets =
-      baseControlCenterWidgets ++ config.dms.extraControlCenterWidgets;
+      lib.sort (a: b: if a.row == b.row then a.col < b.col else a.row < b.row) (
+        baseControlCenterWidgets ++ config.dms.extraControlCenterWidgets
+      );
   };
 }

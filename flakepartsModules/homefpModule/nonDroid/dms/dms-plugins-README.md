@@ -2,6 +2,12 @@
 
 This directory houses the declarative configuration for **DankMaterialShell (DMS)**, custom bars, and modular DMS plugins within the MangoWM Wayland desktop environment.
 
+> [!IMPORTANT]
+> **Schema Versioning (`configVersion`) Rules**:
+> - **Settings Schema (`dms-settings-fp.nix`)**: Must stay locked to **`42`** (`SettingsData.settingsConfigVersion`).
+> - **Session Schema (`dms-session.json`)**: Must stay locked to **`7`** (`SessionData.sessionConfigVersion`).
+> - **Do not manually edit or increment `configVersion`**: Upstream DMS runs destructive migration routines on startup if `configVersion` is lower than expected (e.g. Migration 27 doubles all control center grid cell widths). Only update these version numbers when upstream DMS officially bumps its schema version after a `flake.lock` update.
+
 ---
 
 ## ⌨️ DMS & Plugin Keybindings

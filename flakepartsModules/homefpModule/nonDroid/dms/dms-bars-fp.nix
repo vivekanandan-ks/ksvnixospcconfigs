@@ -198,7 +198,9 @@ _: {
         gothCornerRadiusOverride = false;
         gothCornerRadiusValue = 12;
         gothCornersEnabled = false;
+        hoverPopoutDelay = 150;
         hoverPopouts = false;
+        iconScale = 1;
         id = "bar1788526942115";
         innerPadding = -4;
         leftWidgets = [];
@@ -206,7 +208,7 @@ _: {
         maximizeWidgetIcons = false;
         maximizeWidgetText = false;
         name = "Bar 2";
-        noBackground = false;
+        noBackground = true;
         openOnOverview = false;
         popupGapsAuto = true;
         popupGapsManual = 4;
@@ -218,12 +220,21 @@ _: {
           "all"
         ];
         scrollEnabled = true;
+        scrollXBehavior = "focusWindow";
+        scrollYBehavior = "workspace";
+        shadowColorMode = "default";
+        shadowCustomColor = "#000000";
+        shadowDirection = "top";
+        shadowDirectionMode = "inherit";
         shadowIntensity = 0;
         shadowOpacity = 0;
+        showOnLastDisplay = false;
+        showOnWindowsOpen = false;
         spacing = 0;
         squareCorners = false;
         transparency = 0.5;
         useOverlayLayer = false;
+        visible = true;
         widgetFollowInterfaceStyle = false;
         widgetOutlineColor = "primary";
         widgetOutlineEnabled = false;
