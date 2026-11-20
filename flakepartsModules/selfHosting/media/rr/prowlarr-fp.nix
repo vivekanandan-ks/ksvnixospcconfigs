@@ -29,8 +29,24 @@
             enable = true;
             appProfileId = 1;
           }
+          # Tokyo Toshokan origin web server is returning Cloudflare Error 522 timeouts
+          # {
+          #   name = "Tokyo Toshokan";
+          #   enable = true;
+          #   appProfileId = 1;
+          # }
           {
-            name = "Tokyo Toshokan";
+            name = "Shana Project";
+            enable = true;
+            appProfileId = 1;
+          }
+          {
+            name = "Mikan";
+            enable = true;
+            appProfileId = 1;
+          }
+          {
+            name = "Bangumi Moe";
             enable = true;
             appProfileId = 1;
           }
