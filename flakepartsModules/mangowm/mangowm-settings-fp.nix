@@ -83,6 +83,10 @@ _: {
         # --- Window Rules ---
         window_rule = [
           "focused_opacity:0.90,unfocused_opacity:0.75,app_id:.*dolphin.*"
+
+          # Authentication & Pinentry: prevent background windows from stealing focus
+          "stay_focused:1,app_id:.*polkit.*"
+          "stay_focused:1,app_id:pinentry.*"
         ];
       };
     };

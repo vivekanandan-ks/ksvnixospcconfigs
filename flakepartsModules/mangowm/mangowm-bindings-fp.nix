@@ -14,6 +14,21 @@ _: {
           "SUPER+SHIFT, Escape, wakeup_monitor, eDP-1"
         ];
 
+        # Single-fire bindings (prevent keyboard repeat spam when held)
+        bindn = [
+          # Shell / Spotlight launcher
+          "SUPER, Space, spawn, dms ipc call spotlight toggle"
+
+          # Wallpaper Carousel
+          "SUPER, w, spawn, dms ipc wallpaperCarousel toggle"
+
+          # Power menu (Ctrl + Alt + Del)
+          "CTRL+ALT, Delete, spawn, dms ipc call powermenu toggle"
+
+          # Layout cycling (Super + \)
+          "SUPER, backslash, switch_layout"
+        ];
+
         bind =
           [
             # Layout switching (Direct: Alt + Shift + 1-9 & symbols)
@@ -32,20 +47,16 @@ _: {
             "ALT+SHIFT, bracketleft, setlayout, fair"
             "ALT+SHIFT, bracketright, setlayout, vertical_fair"
 
-            # Layout cycling (Super + \)
-            "SUPER, backslash, switch_layout"
-
             # Close window
             "ALT, F4, killclient"
 
-            # Shell / Spotlight launcher
-            "SUPER, Space, spawn, dms ipc call spotlight toggle"
-
-            # Wallpaper Carousel
-            "SUPER, w, spawn, dms ipc wallpaperCarousel toggle"
-
-            # Power menu (Ctrl + Alt + Del)
-            "CTRL+ALT, Delete, spawn, dms ipc call powermenu toggle"
+            # =========================================================================
+            # Workspace Overview (All 4 Modes Mapped to 'O')
+            # =========================================================================
+            "SUPER, o, toggleworkspaceoverview, all" # Grid: All workspaces (1-9)
+            "SUPER+SHIFT, o, toggleworkspaceoverview, scroll_all" # Scrolling Strip: All workspaces
+            "SUPER+CTRL, o, toggleworkspaceoverview, occupied" # Grid: Occupied workspaces only
+            "SUPER+ALT, o, toggleworkspaceoverview, scroll_occupied" # Scrolling Strip: Occupied workspaces only
 
             # Window overview (Mission control with hold Super to cycle)
             "SUPER, Tab, overcircle, next"
