@@ -40,6 +40,7 @@
     avatar = ./shoyohinata.png;
     wallpapers = "${inputs.ksv-personal-artifacts}/wallpapers"; # Root directory containing all wallpaper sets
     currentWallpaperSet = "${inputs.ksv-personal-artifacts}/wallpapers/andreasrochaWallpapers"; # Active wallpaper set
+    currentVideoWallpaperSet = "${inputs.ksv-personal-artifacts}/wallpapers/videowallCompressed30fps";
 
     # --- Theming (Single Source of Truth) ---
     theme_polarity = "dark"; # "dark" | "light"
