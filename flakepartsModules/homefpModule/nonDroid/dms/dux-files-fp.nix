@@ -25,6 +25,7 @@
       };
 
       settings = {
+        terminal = "kitty";
         defaultView = "grid";
         showHidden = true;
         foldersFirst = true;
