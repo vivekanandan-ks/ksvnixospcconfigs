@@ -36,8 +36,8 @@ Declarative [Mango](https://github.com/mangowm/mango) Wayland compositor configu
 | Shortcut              | Action                   | Description                                               |
 | :-------------------- | :----------------------- | :-------------------------------------------------------- |
 | `SUPER + Space`       | DMS Spotlight toggle     | Open quick application launcher.                          |
-| `SUPER + w`           | DMS Wallpaper Carousel   | Toggle wallpaper selector.                                |
-| `SUPER + ALT + w`     | DMS Inbuilt Wallpaper    | Toggle native DMS wallpaper tab browser.                  |
+| `SUPER + w`           | DMS Inbuilt Wallpaper    | Toggle native DMS wallpaper tab browser.                  |
+| `SUPER + ALT + w`     | DMS Wallpaper Carousel   | Toggle wallpaper selector.                                |
 | `CTRL + ALT + Delete` | DMS Powermenu            | Open power & session menu.                                |
 | `SUPER + SHIFT + Esc` | `wakeup_monitor, eDP-1`  | Force wake internal display (`bindl`, works when locked). |
 | `ALT + F4`            | `killclient`             | Close active window.                                      |
