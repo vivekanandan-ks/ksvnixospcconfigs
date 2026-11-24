@@ -22,6 +22,9 @@ _: {
           # Wallpaper Carousel
           "SUPER, w, spawn, dms ipc wallpaperCarousel toggle"
 
+          # DMS Inbuilt Wallpaper Changer
+          "SUPER+ALT, w, spawn, dms ipc call dash toggle wallpaper"
+
           # Power menu (Ctrl + Alt + Del)
           "CTRL+ALT, Delete, spawn, dms ipc call powermenu toggle"
 
