@@ -134,9 +134,12 @@
     };
 
     wayland.windowManager.mango.settings = {
-      # MangoWM Keybinding: Ctrl + Alt + E
-      bind = lib.mkAfter [
-        "CTRL+ALT, e, spawn, dfiles show"
+      # Single-fire bindings (prevents rapid-fire spawning when keys are held)
+      #   Ctrl + Alt + E         -> Spawn a new window (-n)
+      #   Ctrl + Shift + Alt + E -> Focus / unhide existing window (show)
+      bindn = [
+        "CTRL+ALT, e, spawn, dfiles -n"
+        "CTRL+SHIFT+ALT, e, spawn, dfiles show"
       ];
 
       # Translucency + Frosted Blur matching the rest of the desktop (uncomment to enable)
