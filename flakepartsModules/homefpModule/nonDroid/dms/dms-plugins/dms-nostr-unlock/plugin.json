@@ -1,0 +1,13 @@
+{
+  "id": "nostrUnlock",
+  "name": "Nostr Unlock",
+  "description": "Unlock screen via NIP-46 Nostr Signer (parallel with password)",
+  "version": "1.0.0",
+  "author": "ksvnixospc",
+  "type": "desktop",
+  "capabilities": ["lock-screen"],
+  "component": "./NostrUnlockLockWidget.qml",
+  "daemon": "./NostrUnlockDaemon.qml",
+  "settings": "./NostrUnlockSettings.qml",
+  "permissions": ["process", "settings_read", "settings_write"]
+}

@@ -77,6 +77,42 @@
 
     # Convenience alias for `nix run .#amethyst`
     packages.amethyst = self.packages.${pkgs.stdenv.hostPlatform.system}.amethyst-desktop;
+
+    # Headless Nostr CLI (amy) packaged from the same Amethyst release
+    packages.amy = pkgs.stdenv.mkDerivation rec {
+      pname = "amy";
+      inherit version;
+
+      src = pkgs.fetchurl {
+        url = "https://github.com/vitorpamplona/amethyst/releases/download/v${version}/amy-${version}-jvm.tar.gz";
+        hash = "sha256-VB4qTCGsQ5Ay9lpeXGxf3/O4chduHBqyGs3FiUqrR3k=";
+      };
+
+      # Tarball unpacks bin/ and lib/ without a single top-level directory
+      sourceRoot = ".";
+
+      nativeBuildInputs = [pkgs.makeWrapper];
+
+      installPhase = ''
+        runHook preInstall
+        mkdir -p "$out/bin" "$out/libexec/amy"
+        cp -r bin lib "$out/libexec/amy/"
+        chmod +x "$out/libexec/amy/bin/amy"
+        # Execute via store path so bin/amy resolves APP_HOME correctly even when invoked bare via PATH
+        makeWrapper "$out/libexec/amy/bin/amy" "$out/bin/amy" \
+          --set JAVA_HOME "${pkgs.openjdk21_headless}" \
+          --prefix PATH : "${lib.makeBinPath [pkgs.openjdk21_headless pkgs.coreutils pkgs.findutils pkgs.gnused]}"
+        runHook postInstall
+      '';
+
+      meta = with lib; {
+        description = "Amethyst headless Nostr CLI";
+        homepage = "https://github.com/vitorpamplona/amethyst";
+        license = licenses.mit;
+        platforms = ["x86_64-linux"];
+        mainProgram = "amy";
+      };
+    };
   };
 
   # ---------------------------------------------------------------------------

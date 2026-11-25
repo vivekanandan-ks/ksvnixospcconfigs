@@ -518,6 +518,16 @@ _: {
           name = "Modern Clock";
           widgetType = "modernClock";
         }
+        {
+          config = {
+            displayPreferences = [ "all" ];
+            syncPositionAcrossScreens = true;
+          };
+          enabled = true;
+          id = "lw_nostr_unlock";
+          name = "Nostr Unlock";
+          widgetType = "nostrUnlock";
+        }
       ];
       m3ElevationEnabled = false;
       m3ElevationIntensity = 0;
