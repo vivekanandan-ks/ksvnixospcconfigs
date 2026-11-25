@@ -178,16 +178,6 @@ _: {
         }
         {
           config = {
-            displayPreferences = ["all"];
-            syncPositionAcrossScreens = true;
-          };
-          enabled = true;
-          id = "dw_sticky_notes";
-          name = "Sticky Notes";
-          widgetType = "stickyNotes";
-        }
-        {
-          config = {
             colorMode = "primary";
             customColor = "#ffffff";
             displayPreferences = ["all"];

@@ -39,16 +39,6 @@
         "y": 0.004460652669270833
       }
     },
-    "dw_sticky_notes": {
-      "_synced": {
-        "anchorX": "center",
-        "anchorY": "end",
-        "height": 220,
-        "width": 220,
-        "x": 0,
-        "y": 0.03125
-      }
-    },
     "dw_1793825465292_7h0wdwsa2": {
       "_synced": {
         "anchorX": "end",
@@ -82,6 +72,14 @@
         "width": 433.31640625,
         "x": 0.017569546120058566,
         "y": 0.07172393798828125
+      }
+    },
+    "lw_nostr_unlock": {
+      "_synced": {
+        "anchorX": "center",
+        "anchorY": "center",
+        "x": 0.022433771046852125,
+        "y": -0.09438069661458333
       }
     },
     "gw_1793862806299_dvk5d3xxz": {
