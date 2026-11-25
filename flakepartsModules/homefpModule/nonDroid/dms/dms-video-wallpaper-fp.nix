@@ -1,7 +1,4 @@
-{
-  self,
-  ...
-}: {
+{self, ...}: {
   flake.homeModules.nonDroid.dms-video-wallpaper = {
     lib,
     pkgs,
@@ -18,7 +15,7 @@
     # - USB-C MST Hubs / Docks: DP-1-1..DP-4-5
     # - Projectors / Adapters: DVI-D-1..4, VGA-1..4
     physicalDisplayKeys =
-      [ "eDP-1" "eDP-2" ]
+      ["eDP-1" "eDP-2"]
       ++ (map (i: "HDMI-A-${toString i}") (lib.range 1 10))
       ++ (map (i: "HDMI-${toString i}") (lib.range 1 10))
       ++ (map (i: "DP-${toString i}") (lib.range 1 10))
@@ -36,14 +33,15 @@
         videoEnd = false; # loops seamlessly until 5-min timer
       });
 
-    physicalFillModes = lib.genAttrs physicalDisplayKeys (_:
-      lib.mkForce "PreserveAspectCrop");
+    physicalFillModes =
+      lib.genAttrs physicalDisplayKeys (_:
+        lib.mkForce "PreserveAspectCrop");
   in {
     # 1. Symlink into ~/Pictures for easy user access
     home.file."Pictures/VideoWallpapers".source = videoFolder;
 
     # 2. Add ffmpeg to DMS PATH for lockscreen poster extraction & Matugen dynamic theming
-    dmsExtraPackages = [ pkgs.ffmpeg-headless ];
+    dmsExtraPackages = [pkgs.ffmpeg-headless];
 
     # 3. DMS session overrides
     programs.dank-material-shell.session = {

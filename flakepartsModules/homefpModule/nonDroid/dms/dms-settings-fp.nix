@@ -1,8 +1,8 @@
 _: {
   flake.homeModules.nonDroid.dms-settings = {lib, ...}: {
     programs.dank-material-shell.settings = lib.mapAttrs (_: lib.mkForce) {
-      acLockTimeout = 180;
-      acMonitorTimeout = 180;
+      acLockTimeout = 300;
+      acMonitorTimeout = 300;
       acPostLockMonitorTimeout = 60;
       animationDuration = 750;
       audioShowStreamDevices = true;
@@ -29,11 +29,11 @@ _: {
           trigger = "?";
         };
       };
-      clipboardVisibleEntryActions = [ "pin" "edit" "delete" "copy" "paste" ];
+      clipboardVisibleEntryActions = ["pin" "edit" "delete" "copy" "paste"];
       clockDateFormat = "ddd MMM d";
       clockFormat = "24h";
       configVersion = 42;
-      connectedFrameBarStyleBackups = { };
+      connectedFrameBarStyleBackups = {};
       currentThemeCategory = "dynamic";
       currentThemeName = "dynamic";
       cursorSettings = {
@@ -127,7 +127,7 @@ _: {
             dayFontFamily = "Gochi Hand";
             dayFontSize = 40;
             dayLetterSpacing = 6;
-            displayPreferences = [ "all" ];
+            displayPreferences = ["all"];
             scaleWithWidget = false;
             shadowStrength = 50;
             showDate = true;
@@ -146,7 +146,7 @@ _: {
         {
           config = {
             borderOpacity = 0;
-            displayPreferences = [ "all" ];
+            displayPreferences = ["all"];
             fontSize = 22;
             showOnOverlay = false;
             syncPositionAcrossScreens = true;
@@ -158,7 +158,7 @@ _: {
         }
         {
           config = {
-            displayPreferences = [ "all" ];
+            displayPreferences = ["all"];
             syncPositionAcrossScreens = true;
           };
           enabled = true;
@@ -168,7 +168,7 @@ _: {
         }
         {
           config = {
-            displayPreferences = [ "all" ];
+            displayPreferences = ["all"];
             syncPositionAcrossScreens = true;
           };
           enabled = true;
@@ -178,7 +178,7 @@ _: {
         }
         {
           config = {
-            displayPreferences = [ "all" ];
+            displayPreferences = ["all"];
             syncPositionAcrossScreens = true;
           };
           enabled = true;
@@ -190,7 +190,7 @@ _: {
           config = {
             colorMode = "primary";
             customColor = "#ffffff";
-            displayPreferences = [ "all" ];
+            displayPreferences = ["all"];
             fontFamily = "";
             showAnalogNumbers = false;
             showAnalogSeconds = true;
@@ -206,7 +206,7 @@ _: {
           widgetType = "desktopClock";
         }
       ];
-      dmsWindowsFloatingSeeded = [ "mango" ];
+      dmsWindowsFloatingSeeded = ["mango"];
       dockConfigs = [
         {
           autoHide = true;
@@ -242,10 +242,10 @@ _: {
           mode = "compact";
           name = "Right Dock";
           openOnOverview = false;
-          order = [ ];
+          order = [];
           position = 3;
           restoreSpecialWorkspaceOnClick = false;
-          screenPreferences = [ "all" ];
+          screenPreferences = ["all"];
           separatePinnedAndRunningApps = true;
           showOnFullscreen = false;
           showOnLastDisplay = true;
@@ -281,6 +281,7 @@ _: {
       ];
       enableRippleEffects = true;
       fadeToDpmsEnabled = false;
+      fadeToLockEnabled = false;
       firstDayOfWeek = 1;
       floatingWindowSyncGlobal = true;
       floatingWindowTitleBars = true;
@@ -299,7 +300,7 @@ _: {
             autoPosition = false;
             colorMode = "default";
             customColor = "#ffffff";
-            displayPreferences = [ "all" ];
+            displayPreferences = ["all"];
             showAnalogNumbers = false;
             showAnalogSeconds = true;
             showDate = true;
@@ -318,7 +319,7 @@ _: {
           config = {
             colorMode = "default";
             customColor = "#ffffff";
-            displayPreferences = [ "all" ];
+            displayPreferences = ["all"];
             format = "short";
             syncPositionAcrossScreens = true;
           };
@@ -328,7 +329,7 @@ _: {
         }
         {
           config = {
-            displayPreferences = [ "all" ];
+            displayPreferences = ["all"];
             passwordVisibility = "always";
             profileVisibility = "always";
             style = "expressive";
@@ -341,7 +342,7 @@ _: {
         {
           config = {
             background = false;
-            displayPreferences = [ "all" ];
+            displayPreferences = ["all"];
             showMediaPlayer = false;
             showWeather = true;
             syncPositionAcrossScreens = true;
@@ -352,7 +353,7 @@ _: {
         }
         {
           config = {
-            displayPreferences = [ "all" ];
+            displayPreferences = ["all"];
             shape = "round";
             syncPositionAcrossScreens = true;
           };
@@ -362,7 +363,7 @@ _: {
         }
         {
           config = {
-            displayPreferences = [ "all" ];
+            displayPreferences = ["all"];
             shape = "round";
             syncPositionAcrossScreens = true;
           };
@@ -373,7 +374,7 @@ _: {
         }
         {
           config = {
-            displayPreferences = [ "all" ];
+            displayPreferences = ["all"];
             syncPositionAcrossScreens = true;
           };
           enabled = true;
@@ -384,7 +385,7 @@ _: {
           config = {
             colorMode = "secondary";
             customColor = "#ffffff";
-            displayPreferences = [ "all" ];
+            displayPreferences = ["all"];
             format = "long";
             syncPositionAcrossScreens = true;
           };
@@ -404,7 +405,7 @@ _: {
             autoPosition = false;
             colorMode = "default";
             customColor = "#ffffff";
-            displayPreferences = [ "all" ];
+            displayPreferences = ["all"];
             showAnalogNumbers = false;
             showAnalogSeconds = true;
             showDate = true;
@@ -423,7 +424,7 @@ _: {
           config = {
             colorMode = "default";
             customColor = "#ffffff";
-            displayPreferences = [ "all" ];
+            displayPreferences = ["all"];
             format = "short";
             syncPositionAcrossScreens = true;
           };
@@ -433,7 +434,7 @@ _: {
         }
         {
           config = {
-            displayPreferences = [ "all" ];
+            displayPreferences = ["all"];
             passwordVisibility = "always";
             profileVisibility = "always";
             style = "expressive";
@@ -445,7 +446,7 @@ _: {
         }
         {
           config = {
-            displayPreferences = [ "all" ];
+            displayPreferences = ["all"];
             mode = 1;
             syncPositionAcrossScreens = true;
           };
@@ -456,7 +457,7 @@ _: {
         {
           config = {
             background = false;
-            displayPreferences = [ "all" ];
+            displayPreferences = ["all"];
             showMediaPlayer = true;
             showWeather = true;
             syncPositionAcrossScreens = true;
@@ -467,7 +468,7 @@ _: {
         }
         {
           config = {
-            displayPreferences = [ "all" ];
+            displayPreferences = ["all"];
             shape = "round";
             syncPositionAcrossScreens = true;
           };
@@ -477,7 +478,7 @@ _: {
         }
         {
           config = {
-            displayPreferences = [ "all" ];
+            displayPreferences = ["all"];
             shape = "round";
             syncPositionAcrossScreens = true;
           };
@@ -488,7 +489,7 @@ _: {
         }
         {
           config = {
-            displayPreferences = [ "all" ];
+            displayPreferences = ["all"];
             syncPositionAcrossScreens = true;
           };
           enabled = true;
@@ -505,7 +506,7 @@ _: {
             dayFontFamily = "Gochi Hand";
             dayFontSize = 50;
             dayLetterSpacing = 9;
-            displayPreferences = [ "all" ];
+            displayPreferences = ["all"];
             scaleWithWidget = false;
             showSeconds = false;
             showTime = false;
@@ -520,7 +521,7 @@ _: {
         }
         {
           config = {
-            displayPreferences = [ "all" ];
+            displayPreferences = ["all"];
             syncPositionAcrossScreens = true;
           };
           enabled = true;
@@ -580,7 +581,7 @@ _: {
       osdWorkspaceEnabled = true;
       popoutElevationEnabled = false;
       popupTransparency = 0.5;
-      powerMenuActions = [ "reboot" "logout" "poweroff" "lock" "suspend" "restart" "switchuser" "hibernate" "softreboot" ];
+      powerMenuActions = ["reboot" "logout" "poweroff" "lock" "suspend" "restart" "switchuser" "hibernate" "softreboot"];
       powerMenuFirmwareSetup = true;
       powerMenuGridLayout = true;
       radiusMode = "scale";
@@ -590,7 +591,7 @@ _: {
       runDmsMatugenTemplates = false;
       runUserMatugenTemplates = false;
       screenPreferences = {
-        wallpaper = [ "all" ];
+        wallpaper = ["all"];
       };
       sectionDividerOpacity = 0.1;
       showWeekNumber = true;

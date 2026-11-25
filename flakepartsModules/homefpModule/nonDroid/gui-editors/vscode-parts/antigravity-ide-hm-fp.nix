@@ -42,7 +42,7 @@
             "antigravity.agent.toolPermission" = "always-proceed";
 
             "antigravity.agent.rulesFiles" =
-              lib.mapAttrsToList (_name: path: toString path) self.aiContext;
+              lib.mapAttrsToList (_name: toString) self.aiContext;
           };
       };
     };

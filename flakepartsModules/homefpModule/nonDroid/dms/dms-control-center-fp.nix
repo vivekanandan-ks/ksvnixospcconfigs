@@ -179,9 +179,11 @@ _: {
       }
     ];
   in {
-    programs.dank-material-shell.settings.controlCenterWidgets =
-      lib.sort (a: b: if a.row == b.row then a.col < b.col else a.row < b.row) (
-        baseControlCenterWidgets ++ config.dms.extraControlCenterWidgets
-      );
+    programs.dank-material-shell.settings.controlCenterWidgets = lib.sort (a: b:
+      if a.row == b.row
+      then a.col < b.col
+      else a.row < b.row) (
+      baseControlCenterWidgets ++ config.dms.extraControlCenterWidgets
+    );
   };
 }
