@@ -42,8 +42,8 @@
     currentWallpaperSet = "${inputs.ksv-personal-artifacts}/wallpapers/andreasrochaWallpapers"; # Active wallpaper set
 
     # --- Video Wallpaper Set ---
-    currentVideoWallpaperSet = "${inputs.ksv-personal-artifacts}/wallpapers/videowallCompressed30fps/aot"; # AoT 30fps capped
-    # currentVideoWallpaperSet = "${inputs.ksv-personal-artifacts}/wallpapers/videoWallCompressed/aot"; # AoT 60fps mixed
+    # currentVideoWallpaperSet = "${inputs.ksv-personal-artifacts}/wallpapers/videowallCompressed30fps/aot"; # AoT 30fps capped
+    currentVideoWallpaperSet = "${inputs.ksv-personal-artifacts}/wallpapers/videowallCompressed30fps/frierenVW"; # Frieren 30fps capped
 
     # --- Theming (Single Source of Truth) ---
     theme_polarity = "dark"; # "dark" | "light"
