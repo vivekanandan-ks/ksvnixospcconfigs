@@ -84,13 +84,13 @@
           # Automatically fetch from both Nostr (origin) and GitHub in parallel
           fetch = ["origin" "github"];
 
-          # Automatically push to both Nostr (origin) and GitHub in parallel on bare `jj git push`
-          push = ["origin" "github"];
+          # Default bare `jj git push` to Nostr (`origin`) to avoid the jj 0.46.0 multi-remote empty-push bug; use `jj push-all` for dual-push
+          push = "origin";
         };
 
         aliases = {
           # 1. Primary Dual-Push: Pushes to both Nostr & GitHub
-          push-all = ["git" "push" "--remote" "origin" "--remote" "github"];
+          push-all = ["util" "exec" "--" "sh" "-c" ''jj git push --remote origin "$@" && jj git push --remote github "$@"'' ""];
 
           # 2. Targeted Pushes:
           # Push to Nostr only (primary decentralized forge)
