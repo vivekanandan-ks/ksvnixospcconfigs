@@ -1,13 +1,13 @@
 _: {
   flake.homeModules.nonDroid.dms-settings = {lib, ...}: {
     programs.dank-material-shell.settings = lib.mapAttrs (_: lib.mkForce) {
-      acLockTimeout = 300;
+      acLockTimeout = 1800;
       acMonitorTimeout = 300;
       acPostLockMonitorTimeout = 60;
       animationDuration = 750;
       audioShowStreamDevices = true;
       barElevationEnabled = false;
-      batteryLockTimeout = 180;
+      batteryLockTimeout = 1800;
       batteryMonitorTimeout = 180;
       batteryPostLockMonitorTimeout = 60;
       bluetoothMprisEnabled = true;

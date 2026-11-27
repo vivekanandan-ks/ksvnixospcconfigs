@@ -9,6 +9,7 @@ PluginComponent {
     readonly property string anchorPath: UserInfoService.username
         ? ("/var/lib/dms-nostr-unlock/" + UserInfoService.username + "/trusted_pubkey")
         : ""
+    onAnchorPathChanged: refreshTrustState()
 
     property bool cancelling: false
 

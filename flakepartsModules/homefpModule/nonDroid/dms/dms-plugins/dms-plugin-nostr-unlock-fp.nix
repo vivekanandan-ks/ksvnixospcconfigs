@@ -114,12 +114,16 @@
 
         got_kind="$(printf '%s\n' "$event_json" | jq -r '.kind')"
         got_pubkey="$(printf '%s\n' "$event_json" | jq -r '.pubkey' | tr 'A-F' 'a-f')"
+        got_host="$(printf '%s\n' "$event_json" | jq -r '([.tags[] | select(.[0]=="host") | .[1]] | first) // ""')"
         got_nonce="$(printf '%s\n' "$event_json" | jq -r '([.tags[] | select(.[0]=="challenge") | .[1]] | first) // ""')"
+        got_content="$(printf '%s\n' "$event_json" | jq -r '.content')"
         got_created="$(printf '%s\n' "$event_json" | jq -r '.created_at')"
 
         [[ "$got_kind" == "27235" ]]
         [[ "$got_pubkey" == "$trusted_pubkey" ]]
+        [[ "$got_host" == "$host" ]]
         [[ "$got_nonce" == "$nonce" ]]
+        [[ "$got_content" == "DMS unlock $host ($nonce)" ]]
         [[ "$got_created" =~ ^[0-9]+$ ]]
         verify_now="$(date +%s)"
         (( got_created >= now - 15 && got_created <= verify_now + 15 ))
@@ -153,7 +157,6 @@ in {
     dms.extraPackages = [
       (mkSignHelper pkgs amyPkg)
       amyPkg
-      pkgs.nak
     ];
   };
 
@@ -168,14 +171,21 @@ in {
           pkgs.bash
           pkgs.coreutils
           pkgs.getent
+          pkgs.gnugrep
           pkgs.jq
           pkgs.nak
+          pkgs.qt6.qtdeclarative
         ];
       } ''
         set -euo pipefail
         export HOME="$TMPDIR/home"
         u="$(id -un)"
         my_uid="$(id -u)"
+
+        # Validate plugin manifest, 2-arg globalVarChanged usage, and QML syntax
+        jq -e '.components.desktop and .components.daemon' ${./dms-nostr-unlock}/plugin.json >/dev/null
+        ! grep -rnE 'onGlobalVarChanged\([^)]*,[^)]*,[^)]*\)' ${./dms-nostr-unlock}/*.qml
+        qmllint ${./dms-nostr-unlock}/*.qml >/dev/null
 
         mkdir -p "$HOME" "$TMPDIR/bin" "$TMPDIR/stub-amy" "$TMPDIR/state"
 
@@ -190,6 +200,10 @@ in {
           --replace-fail 'anchor_file="/var/lib/dms-nostr-unlock/$user/trusted_pubkey"' "anchor_file=\"$TMPDIR/state/\$user/trusted_pubkey\"" \
           --replace-fail "${amyPkg}/bin" "$TMPDIR/stub-amy"
         chmod +x "$TMPDIR/bin/sign"
+
+        substitute "${signHelper}/bin/dms-nostr-unlock-sign" "$TMPDIR/bin/sign-real-amy" \
+          --replace-fail 'anchor_file="/var/lib/dms-nostr-unlock/$user/trusted_pubkey"' "anchor_file=\"$TMPDIR/state/\$user/trusted_pubkey\""
+        chmod +x "$TMPDIR/bin/sign-real-amy"
 
         # Admin validation checks
         ! "$TMPDIR/bin/admin" authorize "../root"
@@ -220,33 +234,42 @@ in {
         #!${pkgs.bash}/bin/bash
         set -euo pipefail
         tags=""
+        content=""
         while [[ $# -gt 0 ]]; do
           case "$1" in
             --tags) tags="$2"; shift 2 ;;
+            --content) content="$2"; shift 2 ;;
             *) shift ;;
           esac
         done
+        host="$(printf '%s' "$tags" | jq -r '([.[] | select(.[0]=="host") | .[1]] | first) // ""')"
         nonce="$(printf '%s' "$tags" | jq -r '([.[] | select(.[0]=="challenge") | .[1]] | first) // ""')"
         case "''${STUB_MODE:-valid}" in
           valid)
-            ev="$(nak event --sec "$STUB_SEC" -k 27235 -c "unlock" -t "challenge=$nonce" </dev/null)"
+            ev="$(nak event --sec "$STUB_SEC" -k 27235 -c "$content" -t "host=$host" -t "challenge=$nonce" </dev/null)"
             ;;
           wrong_nonce)
-            ev="$(nak event --sec "$STUB_SEC" -k 27235 -c "unlock" -t "challenge=00000000000000000000000000000000" </dev/null)"
+            ev="$(nak event --sec "$STUB_SEC" -k 27235 -c "$content" -t "host=$host" -t "challenge=00000000000000000000000000000000" </dev/null)"
+            ;;
+          wrong_host)
+            ev="$(nak event --sec "$STUB_SEC" -k 27235 -c "$content" -t "host=other-host" -t "challenge=$nonce" </dev/null)"
+            ;;
+          wrong_content)
+            ev="$(nak event --sec "$STUB_SEC" -k 27235 -c "tampered" -t "host=$host" -t "challenge=$nonce" </dev/null)"
             ;;
           bad_sig)
-            ev="$(nak event --sec "$STUB_SEC" -k 27235 -c "unlock" -t "challenge=$nonce" </dev/null | jq -c '.sig = ("0" * 128)')"
+            ev="$(nak event --sec "$STUB_SEC" -k 27235 -c "$content" -t "host=$host" -t "challenge=$nonce" </dev/null | jq -c '.sig = ("0" * 128)')"
             ;;
           stale)
-            ev="$(nak event --sec "$STUB_SEC" -k 27235 --ts "$(( $(date +%s) - 600 ))" -c "unlock" -t "challenge=$nonce" </dev/null)"
+            ev="$(nak event --sec "$STUB_SEC" -k 27235 --ts "$(( $(date +%s) - 600 ))" -c "$content" -t "host=$host" -t "challenge=$nonce" </dev/null)"
             ;;
           revoke_midflight)
-            ev="$(nak event --sec "$STUB_SEC" -k 27235 -c "unlock" -t "challenge=$nonce" </dev/null)"
+            ev="$(nak event --sec "$STUB_SEC" -k 27235 -c "$content" -t "host=$host" -t "challenge=$nonce" </dev/null)"
             PKEXEC_UID="$STUB_UID" "$STUB_ADMIN" revoke "$STUB_USER"
             ;;
           slow)
             sleep 2
-            ev="$(nak event --sec "$STUB_SEC" -k 27235 -c "unlock" -t "challenge=$nonce" </dev/null)"
+            ev="$(nak event --sec "$STUB_SEC" -k 27235 -c "$content" -t "host=$host" -t "challenge=$nonce" </dev/null)"
             ;;
         esac
         jq -nc --argjson e "$ev" '{event: $e, published: false}'
@@ -261,8 +284,10 @@ in {
         # Untrusted signer pubkey fails
         ! STUB_MODE=valid STUB_SEC="$other_sec" "$TMPDIR/bin/sign"
 
-        # Replayed / mismatched challenge fails
+        # Replayed / mismatched challenge, host, or content fails
         ! STUB_MODE=wrong_nonce STUB_SEC="$trusted_sec" "$TMPDIR/bin/sign"
+        ! STUB_MODE=wrong_host STUB_SEC="$trusted_sec" "$TMPDIR/bin/sign"
+        ! STUB_MODE=wrong_content STUB_SEC="$trusted_sec" "$TMPDIR/bin/sign"
 
         # Tampered BIP-340 signature caught by nak verify
         ! STUB_MODE=bad_sig STUB_SEC="$trusted_sec" "$TMPDIR/bin/sign"
@@ -280,6 +305,11 @@ in {
           --replace-fail 'timeout 75s' 'timeout 1s'
         chmod +x "$TMPDIR/bin/sign-fast-timeout"
         ! STUB_MODE=slow STUB_SEC="$trusted_sec" "$TMPDIR/bin/sign-fast-timeout"
+
+        # Verify real offline amy event JSON matches dms-nostr-unlock-sign expectations
+        amy_pub="$(${amyPkg}/bin/amy --account dms-unlock --secret-backend plaintext --json init | jq -r '.hex')"
+        PKEXEC_UID="$my_uid" "$TMPDIR/bin/admin" register "$u" "$amy_pub"
+        "$TMPDIR/bin/sign-real-amy"
 
         touch "$out"
       '';

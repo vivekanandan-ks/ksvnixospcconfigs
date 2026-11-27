@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
+import Quickshell
 import Quickshell.Io
 import qs.Common
 import qs.Services
@@ -11,20 +12,23 @@ PluginSettings {
     pluginId: "nostrUnlock"
 
     readonly property string adminBin: "/run/current-system/sw/bin/dms-nostr-unlock-admin"
+    readonly property string stagingCleanupCmd: "amy --account dms-unlock-staging logoff --yes --offline >/dev/null 2>&1 || true; rm -rf \"$HOME/.amy/dms-unlock-staging\""
     readonly property string currentUser: UserInfoService.username || ""
     readonly property string hostName: UserInfoService.hostname || "localhost"
     readonly property string appLabel: currentUser
-        ? ("DMS Lock (" + currentUser + "@" + hostName + ")")
-        : "DMS Lock"
+        ? (hostName + " DMS Lock (" + currentUser + ")")
+        : (hostName + " DMS Lock")
 
     property bool paired: false
     property string pairedHex: ""
+    property string pairedNpub: ""
+    property string _npubHex: ""
+    onPairedHexChanged: updatePairedNpub()
     property string relays: ""
     property string bunkerUri: ""
 
     property string busyPhase: ""
     property string pendingMode: ""
-    property string pendingHex: ""
     property string statusMessage: ""
     property bool statusIsError: false
 
@@ -35,6 +39,11 @@ PluginSettings {
     property int pairExitCode: -1
     property bool pairCancelled: false
 
+    property string adminAction: ""
+    property bool adminExited: false
+    property bool adminErrDone: false
+    property int adminExitCode: -1
+
     function syncTrustVars() {
         paired = Boolean(PluginService.getGlobalVar(root.pluginId, "paired", false));
         pairedHex = PluginService.getGlobalVar(root.pluginId, "pairedHex", "") || "";
@@ -43,6 +52,24 @@ PluginSettings {
     function refreshDaemon() {
         PluginService.pluginDaemonInstances[root.pluginId]?.refreshTrustState?.();
         syncTrustVars();
+        updatePairedNpub();
+    }
+
+    function updatePairedNpub() {
+        const hex = pairedHex.trim().toLowerCase();
+        if (!/^[0-9a-f]{64}$/.test(hex)) {
+            pairedNpub = "";
+            _npubHex = "";
+            return;
+        }
+        if (hex === _npubHex && (pairedNpub !== "" || npubProc.running))
+            return;
+        _npubHex = hex;
+        pairedNpub = "";
+        if (npubProc.running)
+            npubProc.running = false;
+        npubProc.command = ["amy", "--json", "encode", "npub", hex];
+        npubProc.running = true;
     }
 
     function setStatus(msg, isErr) {
@@ -72,9 +99,65 @@ PluginSettings {
             cleanupProc.running = true;
     }
 
+    function formatAdminError(rawErr, fallback) {
+        const lines = (rawErr || "")
+            .split(/\r?\n/)
+            .map(s => s.trim())
+            .filter(s => s.length > 0 && s !== "This incident has been reported.");
+        return lines.length > 0 ? (fallback + " (" + lines[0] + ")") : fallback;
+    }
+
+    function runAdmin(action, busy, statusMsg, extraArg) {
+        adminAction = action;
+        adminExited = false;
+        adminErrDone = false;
+        adminExitCode = -1;
+        busyPhase = busy;
+        setStatus(statusMsg, false);
+        const cmd = ["pkexec", adminBin, action, currentUser];
+        if (extraArg !== undefined && extraArg !== "")
+            cmd.push(extraArg);
+        adminProc.command = cmd;
+        adminProc.running = true;
+    }
+
+    function tryFinishAdmin() {
+        if (!adminExited || !adminErrDone)
+            return;
+
+        const action = adminAction;
+        const code = adminExitCode;
+        const errText = adminErrCollector.text || "";
+
+        if (code === 0) {
+            if (action === "authorize")
+                launchPairCommand();
+            else if (action === "register")
+                promoteProc.running = true;
+            else if (action === "revoke")
+                logoffProc.running = true;
+            return;
+        }
+
+        busyPhase = "";
+        if (action === "register")
+            cleanupStaging();
+
+        const fallbacks = {
+            authorize: "Authorization cancelled or failed.",
+            register: "Registration cancelled — existing configuration unchanged.",
+            revoke: "Revoke cancelled or failed."
+        };
+        setStatus(formatAdminError(errText, fallbacks[action] || "Action failed."), true);
+    }
+
     function startPairFlow(mode) {
         if (busyPhase !== "")
             return;
+        if (paired) {
+            setStatus("Revoke the current signer before pairing a new one.", true);
+            return;
+        }
         if (!currentUser) {
             setStatus("Cannot determine current Linux user.", true);
             return;
@@ -90,11 +173,7 @@ PluginSettings {
 
         clearQr();
         pendingMode = mode;
-        pendingHex = "";
-        busyPhase = "authorizing";
-        setStatus("Confirm administrator prompt to authorize pairing...", false);
-        authProc.command = ["pkexec", adminBin, "authorize", currentUser];
-        authProc.running = true;
+        runAdmin("authorize", "authorizing", "Confirm administrator prompt to authorize pairing...");
     }
 
     function launchPairCommand() {
@@ -106,7 +185,7 @@ PluginSettings {
             "login"
         ];
         if (pendingMode === "qr") {
-            args.push("--nostrconnect", "--timeout", "120", "--name", appLabel);
+            args.push("--nostrconnect", "--timeout", "120", "--perms", "sign_event:27235", "--name", appLabel);
             const parsed = parseRelays();
             if (parsed && parsed.length > 0)
                 args.push("--relay", parsed.join(","));
@@ -126,7 +205,8 @@ PluginSettings {
                 : "Approve the connection in your remote Nostr Signer...",
             false
         );
-        pairProc.command = args;
+        // Clear any leftover staging state synchronously so amy login cannot fail with "identity already exists"
+        pairProc.command = ["sh", "-c", "rm -rf \"$HOME/.amy/dms-unlock-staging\" && exec \"$@\"", "sh"].concat(args);
         pairProc.running = true;
     }
 
@@ -146,8 +226,10 @@ PluginSettings {
 
         clearQr();
         if (pairCancelled) {
-            busyPhase = "";
-            cleanupStaging();
+            if (busyPhase === "waiting")
+                busyPhase = "";
+            if (busyPhase === "")
+                cleanupStaging();
             return;
         }
 
@@ -173,43 +255,38 @@ PluginSettings {
             return;
         }
 
-        pendingHex = hex;
-        busyPhase = "registering";
-        setStatus("Confirm administrator prompt to register trusted signer key...", false);
-        registerProc.command = ["pkexec", adminBin, "register", currentUser, hex];
-        registerProc.running = true;
+        runAdmin("register", "registering", "Confirm administrator prompt to register trusted signer key...", hex);
     }
 
     function startRevoke() {
         if (busyPhase !== "" || !currentUser)
             return;
-        busyPhase = "revoking";
-        setStatus("Confirm administrator prompt to revoke trusted signer...", false);
-        revokeProc.command = ["pkexec", adminBin, "revoke", currentUser];
-        revokeProc.running = true;
+        runAdmin("revoke", "revoking", "Confirm administrator prompt to revoke trusted signer...");
     }
 
     Connections {
         target: PluginService
-        function onGlobalVarChanged(changedPluginId, key, val) {
-            if (changedPluginId !== root.pluginId)
-                return;
-            if (key === "paired")
-                root.paired = Boolean(val);
-            else if (key === "pairedHex")
-                root.pairedHex = val || "";
+        function onGlobalVarChanged(changedPluginId, key) {
+            if (changedPluginId === root.pluginId)
+                root.syncTrustVars();
         }
     }
 
     Process {
-        id: authProc
-        onExited: (code, _) => {
-            if (code !== 0) {
-                root.busyPhase = "";
-                root.setStatus("Authorization cancelled or failed.", true);
-                return;
+        id: adminProc
+
+        stderr: StdioCollector {
+            id: adminErrCollector
+            onStreamFinished: {
+                root.adminErrDone = true;
+                root.tryFinishAdmin();
             }
-            root.launchPairCommand();
+        }
+
+        onExited: (code, _) => {
+            root.adminExitCode = code;
+            root.adminExited = true;
+            root.tryFinishAdmin();
         }
     }
 
@@ -254,28 +331,15 @@ PluginSettings {
     }
 
     Process {
-        id: registerProc
-        onExited: (code, _) => {
-            if (code !== 0) {
-                root.busyPhase = "";
-                root.cleanupStaging();
-                root.setStatus("Registration cancelled — existing configuration unchanged.", true);
-                return;
-            }
-            promoteProc.running = true;
-        }
-    }
-
-    Process {
         id: promoteProc
         command: [
             "sh", "-c",
-            "set -eu; d=\"$HOME/.amy\"; mkdir -p \"$d\"; rm -rf \"$d/dms-unlock.old\"; if [ -d \"$d/dms-unlock\" ]; then mv \"$d/dms-unlock\" \"$d/dms-unlock.old\"; fi; mv \"$d/dms-unlock-staging\" \"$d/dms-unlock\"; rm -rf \"$d/dms-unlock.old\""
+            "set -eu; d=\"$HOME/.amy\"; mkdir -p \"$d\"; rm -rf \"$d/dms-unlock.old\"; had_old=0; if [ -d \"$d/dms-unlock\" ]; then mv \"$d/dms-unlock\" \"$d/dms-unlock.old\"; had_old=1; fi; if ! mv \"$d/dms-unlock-staging\" \"$d/dms-unlock\"; then if [ \"$had_old\" -eq 1 ] && [ -d \"$d/dms-unlock.old\" ] && [ ! -e \"$d/dms-unlock\" ]; then mv \"$d/dms-unlock.old\" \"$d/dms-unlock\" || true; fi; rm -rf \"$d/dms-unlock-staging\"; exit 1; fi; rm -rf \"$d/dms-unlock.old\""
         ]
         onExited: (code, _) => {
             root.busyPhase = "";
             if (code !== 0) {
-                root.setStatus("Trusted key saved, but moving signer state failed.", true);
+                root.setStatus("Trusted key saved, but moving signer state failed; restored previous signer state.", true);
                 return;
             }
             root.bunkerUri = "";
@@ -285,22 +349,10 @@ PluginSettings {
     }
 
     Process {
-        id: revokeProc
-        onExited: (code, _) => {
-            if (code !== 0) {
-                root.busyPhase = "";
-                root.setStatus("Revoke cancelled or failed.", true);
-                return;
-            }
-            logoffProc.running = true;
-        }
-    }
-
-    Process {
         id: logoffProc
         command: [
             "sh", "-c",
-            "amy --account dms-unlock logoff --yes --offline >/dev/null 2>&1 || true; amy --account dms-unlock-staging logoff --yes --offline >/dev/null 2>&1 || true"
+            "amy --account dms-unlock logoff --yes --offline >/dev/null 2>&1 || true; amy --account dms-unlock-staging logoff --yes --offline >/dev/null 2>&1 || true; rm -rf \"$HOME/.amy/dms-unlock\" \"$HOME/.amy/dms-unlock-staging\""
         ]
         onExited: (code, _) => {
             root.busyPhase = "";
@@ -311,7 +363,22 @@ PluginSettings {
 
     Process {
         id: cleanupProc
-        command: ["amy", "--account", "dms-unlock-staging", "logoff", "--yes", "--offline"]
+        command: ["sh", "-c", root.stagingCleanupCmd]
+    }
+
+    Process {
+        id: npubProc
+        stdout: StdioCollector {
+            onStreamFinished: {
+                try {
+                    const parsed = JSON.parse(text || "{}");
+                    if (root._npubHex === root.pairedHex.trim().toLowerCase())
+                        root.pairedNpub = parsed.npub || "";
+                } catch (e) {
+                    root.pairedNpub = "";
+                }
+            }
+        }
     }
 
     ColumnLayout {
@@ -328,9 +395,9 @@ PluginSettings {
 
         StyledText {
             Layout.fillWidth: true
-            wrapMode: Text.WordWrap
+            wrapMode: Text.Wrap
             text: root.paired
-                ? ("Paired trusted key: " + root.pairedHex.slice(0, 12) + "…" + root.pairedHex.slice(-8))
+                ? ("Paired trusted key: " + (root.pairedNpub || root.pairedHex))
                 : "Not paired. Pairing stores the trusted public key root-owned so local processes cannot swap unlock keys silently."
             color: root.paired ? Theme.primary : Theme.onSurfaceVariant
             font.pixelSize: Theme.fontSizeMedium
@@ -345,7 +412,7 @@ PluginSettings {
             enabled: root.busyPhase === ""
             onTextEdited: {
                 root.relays = text;
-                root.saveState("relays", text.trim());
+                PluginService.savePluginState(root.pluginId, "relays", text.trim());
             }
         }
 
@@ -361,7 +428,7 @@ PluginSettings {
                     ? "close"
                     : "qr_code_2"
                 variant: "filled"
-                enabled: root.busyPhase === "" || (root.busyPhase === "waiting" && root.pendingMode === "qr")
+                enabled: (!root.paired && root.busyPhase === "") || (root.busyPhase === "waiting" && root.pendingMode === "qr")
                 onClicked: {
                     if (root.busyPhase === "waiting" && root.pendingMode === "qr")
                         root.cancelPairing();
@@ -396,16 +463,26 @@ PluginSettings {
             labelText: "Or connect using bunker:// URI"
             placeholderText: "bunker://<pubkey>?relay=wss://..."
             text: root.bunkerUri
-            enabled: root.busyPhase === ""
+            enabled: !root.paired && root.busyPhase === ""
             onTextEdited: root.bunkerUri = text
         }
 
         DButton {
-            text: "Pair with Bunker URI"
-            iconName: "link"
+            text: root.busyPhase === "waiting" && root.pendingMode === "bunker"
+                ? "Cancel Pairing"
+                : "Pair with Bunker URI"
+            iconName: root.busyPhase === "waiting" && root.pendingMode === "bunker"
+                ? "close"
+                : "link"
             variant: "outlined"
-            enabled: root.busyPhase === "" && root.bunkerUri.trim().startsWith("bunker://")
-            onClicked: root.startPairFlow("bunker")
+            enabled: (!root.paired && root.busyPhase === "" && root.bunkerUri.trim().startsWith("bunker://"))
+                || (root.busyPhase === "waiting" && root.pendingMode === "bunker")
+            onClicked: {
+                if (root.busyPhase === "waiting" && root.pendingMode === "bunker")
+                    root.cancelPairing();
+                else
+                    root.startPairFlow("bunker");
+            }
         }
 
         StyledText {
@@ -419,14 +496,18 @@ PluginSettings {
     }
 
     Component.onCompleted: {
-        relays = root.loadState("relays", "");
+        relays = PluginService.loadPluginState(root.pluginId, "relays", "") || "";
         refreshDaemon();
     }
 
     Component.onDestruction: {
-        if (busyPhase === "waiting")
-            cancelPairing();
-        else
-            clearQr();
+        if (busyPhase === "waiting") {
+            pairCancelled = true;
+            if (pairProc.running)
+                pairProc.running = false;
+        }
+        clearQr();
+        if (busyPhase === "waiting" || busyPhase === "registering")
+            Quickshell.execDetached(["sh", "-c", stagingCleanupCmd]);
     }
 }

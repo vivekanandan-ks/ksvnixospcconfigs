@@ -5,9 +5,11 @@
   "version": "1.0.0",
   "author": "ksvnixospc",
   "type": "desktop",
-  "capabilities": ["lock-screen"],
-  "component": "./NostrUnlockLockWidget.qml",
-  "daemon": "./NostrUnlockDaemon.qml",
+  "capabilities": ["lock-screen", "daemon"],
+  "components": {
+    "desktop": "./NostrUnlockLockWidget.qml",
+    "daemon": "./NostrUnlockDaemon.qml"
+  },
   "settings": "./NostrUnlockSettings.qml",
   "permissions": ["process", "settings_read", "settings_write"]
 }

@@ -51,15 +51,9 @@ DesktopPluginComponent {
 
     Connections {
         target: PluginService
-        function onGlobalVarChanged(changedPluginId, key, val) {
-            if (changedPluginId !== root.pluginId)
-                return;
-            if (key === "paired")
-                root.paired = Boolean(val);
-            else if (key === "unlockState")
-                root.unlockState = val || "idle";
-            else if (key === "errorMessage")
-                root.errorMessage = val || "";
+        function onGlobalVarChanged(changedPluginId, key) {
+            if (changedPluginId === root.pluginId)
+                root.syncFromDaemon();
         }
     }
 
