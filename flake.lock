@@ -1289,11 +1289,11 @@
     "ksv-personal-artifacts": {
       "flake": false,
       "locked": {
-        "lastModified": 1795685046,
-        "narHash": "sha256-gYQYPHwurfxcZbQRB7FTi6zjNtQ0v8HvdI6T9meAaUo=",
+        "lastModified": 1795786962,
+        "narHash": "sha256-L/7ffYxDoykIBJzIEPgzT2zcLQ/Vfug8JsVx2nOHTzw=",
         "owner": "vivekanandan-ks",
         "repo": "ksv-personal-artifacts",
-        "rev": "9c77c178e4aca608fb9a4e213b0a079389e0e7ff",
+        "rev": "a526a661ea1a07e02c7ee2c6c3e0e629df77b468",
         "type": "github"
       },
       "original": {
